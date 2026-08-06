@@ -1,0 +1,27 @@
+{
+  "created_at": "2026-08-06T08:32:23.939877+00:00",
+  "source": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.pt",
+    "sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+    "size_bytes": 5394821
+  },
+  "onnx": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.onnx",
+    "sha256": "048b9050caa2db6389881865fe16818968e75d3f11fd288d4fa6a88181a258e2",
+    "size_bytes": 10591452
+  },
+  "configuration": {
+    "image_size": 640,
+    "device": "0",
+    "opset": 19,
+    "dynamic": true,
+    "simplify": true,
+    "half": false
+  },
+  "environment": {
+    "python": "3.12.3",
+    "ultralytics": "8.4.115",
+    "torch": "2.8.0+cu128",
+    "onnx": "1.22.0"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "image_id": "p57_train_054_70637cab0ee3",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/054.jpg",
+  "source_size": {
+    "width": 3872,
+    "height": 2592
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1714
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 14,
+      "confidence": 0.857659,
+      "bbox": [
+        0.3565768,
+        0.2966211808634773,
+        0.1430516,
+        0.46233921120186694
+      ],
+      "source": "tile:0,434,1280,1280"
+    },
+    {
+      "class_id": 14,
+      "confidence": 0.605925,
+      "bbox": [
+        0.4011888,
+        0.29534274912485414,
+        0.3534061,
+        0.5420873185530921
+      ],
+      "source": "tile:1024,434,1280,1280"
+    },
+    {
+      "class_id": 12,
+      "confidence": 0.267162,
+      "bbox": [
+        0.5,
+        0.2399497409568261,
+        0.2681713,
+        0.4957692415402567
+      ],
+      "source": "tile:1280,0,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.857659,
+      "bbox": [
+        0.3565768,
+        0.2966211808634773,
+        0.1430516,
+        0.46233921120186694
+      ],
+      "source": "tile:0,434,1280,1280",
+      "original_class_id": 14,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.605925,
+      "bbox": [
+        0.4011888,
+        0.29534274912485414,
+        0.3534061,
+        0.5420873185530921
+      ],
+      "source": "tile:1024,434,1280,1280",
+      "original_class_id": 14,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.267162,
+      "bbox": [
+        0.5,
+        0.2399497409568261,
+        0.2681713,
+        0.4957692415402567
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "original_class_id": 12,
+      "prelabel_method": "folder_label_remap"
+    }
+  ],
+  "other_class_detections": []
+}

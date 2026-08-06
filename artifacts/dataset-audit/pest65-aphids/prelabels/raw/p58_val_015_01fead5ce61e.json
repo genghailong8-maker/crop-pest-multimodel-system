@@ -1,0 +1,16 @@
+{
+  "image_id": "p58_val_015_01fead5ce61e",
+  "source_relative_path": "val_images/58.Aphis gossypii Glover/015.jpg",
+  "source_size": {
+    "width": 512,
+    "height": 384
+  },
+  "working_size": {
+    "width": 512,
+    "height": 384
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [],
+  "target_detections": [],
+  "other_class_detections": []
+}

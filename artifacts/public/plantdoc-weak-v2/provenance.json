@@ -1,0 +1,14 @@
+{
+  "dataset": "PlantDoc Object Detection Dataset",
+  "repository": "https://github.com/pratikkayal/PlantDoc-Object-Detection-Dataset",
+  "commit": "4730a233a555b30ee98e0879c63ad25d82407455",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "mapping": {
+    "Potato leaf early blight": 3,
+    "Tomato leaf bacterial spot": 5,
+    "Potato leaf late blight": 7
+  },
+  "duplicate_policy": "exact SHA-256 duplicates removed in train-first order",
+  "training_policy": "candidate remains isolated until smoke-train comparison passes"
+}

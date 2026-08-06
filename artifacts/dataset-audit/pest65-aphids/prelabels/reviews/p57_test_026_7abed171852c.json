@@ -1,0 +1,93 @@
+{
+  "image_id": "p57_test_026_7abed171852c",
+  "source_relative_path": "test_images/57.Myzus persicae Sulzer/026.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.3526565806451613,
+        0.3773021,
+        0.16193051612903225,
+        0.2008357
+      ],
+      "confidence": 0.299466,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6878698224852071,
+        0.5172994740302432,
+        0.08431952662721887,
+        0.13412228796844183
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.5547337278106509,
+        0.4804815910585141,
+        0.04881656804733725,
+        0.09730440499671272
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.17751479289940827,
+        0.4489234056541749,
+        0.1331360946745562,
+        0.1867192636423406
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6449704142011834,
+        0.6593113083497699,
+        0.09319526627218944,
+        0.1393819855358317
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.8150887573964497,
+        0.6303829717291256,
+        0.10207100591715978,
+        0.11308349769888226
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.7795857988165681,
+        0.4962606837606838,
+        0.0902366863905325,
+        0.10519395134779752
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-06T02:28:56.384340+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "completed_at_utc": "2026-08-05T02:59:25.484633+00:00",
+  "best_weights": "/root/autodl-tmp/crop-pest-system/runs/detect/official-baseline-yolo26n-e120-b64/weights/best.pt",
+  "dataset_yaml": "/root/autodl-tmp/crop-pest-system/data/official/dataset-training.yaml",
+  "dataset_yaml_sha256": "e2e1e2cd5687c13e7ac8606e1fcc9f63aaae7846a26a01d83fd25d4e71edf7ff",
+  "training_arguments": {
+    "model": "/root/autodl-tmp/crop-pest-system/yolo26n.pt",
+    "epochs": 120,
+    "image_size": 640,
+    "batch": 64,
+    "device": "0",
+    "workers": 8,
+    "seed": 20260729,
+    "patience": 30,
+    "cache": false
+  },
+  "environment": {
+    "python": "3.12.3 | packaged by Anaconda, Inc. | (main, May  6 2024, 19:46:43) [GCC 11.2.0]",
+    "platform": "Linux-5.15.0-119-generic-x86_64-with-glibc2.35",
+    "torch": "2.8.0+cu128",
+    "torch_cuda_build": "12.8",
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "cuda_devices": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce RTX 5090",
+        "total_memory_gb": 31.36
+      }
+    ],
+    "ultralytics": "8.4.115"
+  },
+  "map50": 0.7050301328986397,
+  "map50_95": 0.4253364369541191,
+  "precision_mean": 0.7339061288462574,
+  "recall_mean": 0.6833099326261041,
+  "class_map50_95": [
+    0.47077754097641256,
+    0.3748567718058418,
+    0.4923474607686291,
+    0.23487543164964655,
+    0.8119440985485105,
+    0.09676106699460565,
+    0.5712274575504884,
+    0.2875617831828894,
+    0.30911551895614664,
+    0.42638658385259165,
+    0.3366370259789175,
+    0.4378434895431388,
+    0.6394830121925558,
+    0.3754219595204495,
+    0.529089124904837,
+    0.411054664840245
+  ]
+}

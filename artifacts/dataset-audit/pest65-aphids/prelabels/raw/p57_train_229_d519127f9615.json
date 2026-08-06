@@ -1,0 +1,16 @@
+{
+  "image_id": "p57_train_229_d519127f9615",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/229.jpg",
+  "source_size": {
+    "width": 1152,
+    "height": 768
+  },
+  "working_size": {
+    "width": 1152,
+    "height": 768
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [],
+  "target_detections": [],
+  "other_class_detections": []
+}

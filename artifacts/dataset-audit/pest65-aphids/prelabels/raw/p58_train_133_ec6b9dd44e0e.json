@@ -1,0 +1,16 @@
+{
+  "image_id": "p58_train_133_ec6b9dd44e0e",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/133.jpg",
+  "source_size": {
+    "width": 968,
+    "height": 648
+  },
+  "working_size": {
+    "width": 968,
+    "height": 648
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [],
+  "target_detections": [],
+  "other_class_detections": []
+}

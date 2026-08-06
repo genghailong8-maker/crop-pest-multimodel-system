@@ -1,0 +1,965 @@
+{
+  "source": "GreenFlyDB",
+  "source_split": "test",
+  "source_audit": "/root/autodl-tmp/crop-pest-system/artifacts/public/greenflydb/audit.json",
+  "target_class_id": 9,
+  "selected_image_count": 119,
+  "selected_box_count": 122,
+  "excluded_counts": {
+    "not_greenfly_or_mixed": 123
+  },
+  "images": [
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00009_jpg.rf.323ab5efc9cfb836b3ad4d053c9df86b.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00009_jpg.rf.323ab5efc9cfb836b3ad4d053c9df86b.txt",
+      "image": "test/images/greenfly_00000.jpg",
+      "label": "test/labels/greenfly_00000.txt",
+      "source_sha256": "796654242bd035b040b48c08baf69195d13bb0388a1bfd4d2c4bd6db503817fa",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00013_jpg.rf.92a6e7e62057b1c734449f5a5405b19d.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00013_jpg.rf.92a6e7e62057b1c734449f5a5405b19d.txt",
+      "image": "test/images/greenfly_00001.jpg",
+      "label": "test/labels/greenfly_00001.txt",
+      "source_sha256": "baf8f4d81ec4ee9bd3160d591c6c77e0400fd0d8b2b43665bfabea10dd5a1ef3",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00031_jpg.rf.deb03fa1da1c18d32aad819319c48ad0.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00031_jpg.rf.deb03fa1da1c18d32aad819319c48ad0.txt",
+      "image": "test/images/greenfly_00002.jpg",
+      "label": "test/labels/greenfly_00002.txt",
+      "source_sha256": "69a659ad56267b9b0644099e4265c47a3959727c90845343ca5cf11ffcd96dd9",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00043_jpg.rf.121ec11435043062c84b3abe183c7ab6.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00043_jpg.rf.121ec11435043062c84b3abe183c7ab6.txt",
+      "image": "test/images/greenfly_00003.jpg",
+      "label": "test/labels/greenfly_00003.txt",
+      "source_sha256": "90294fb1f1831e4763ffe07621ba2dfac303ef6b135202203f309f04f39cebf1",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00046_jpg.rf.83e963cbf4e71e1a6466a95e5669fa11.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00046_jpg.rf.83e963cbf4e71e1a6466a95e5669fa11.txt",
+      "image": "test/images/greenfly_00004.jpg",
+      "label": "test/labels/greenfly_00004.txt",
+      "source_sha256": "f426b75a1dfd50e0edfcddd0714531d37507f1864a67f1b5ffe73e57f278e58a",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00051_jpg.rf.bbd1cdde83f07b24bc4342a48b1c4c98.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00051_jpg.rf.bbd1cdde83f07b24bc4342a48b1c4c98.txt",
+      "image": "test/images/greenfly_00005.jpg",
+      "label": "test/labels/greenfly_00005.txt",
+      "source_sha256": "d09122b584debde6b4bdf7fe586a87f4eaa6a1d92cfedcf5fed866e7b91887a7",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00071_jpg.rf.ad78db8895f86d589008edb66f210b28.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00071_jpg.rf.ad78db8895f86d589008edb66f210b28.txt",
+      "image": "test/images/greenfly_00006.jpg",
+      "label": "test/labels/greenfly_00006.txt",
+      "source_sha256": "aaa032c44fd3d86b14a20d7123e36109b229d3980c32cfe349a0ec16d4cb4427",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00079_jpg.rf.a6c1792eff9ee307d9721564f8cc04d2.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00079_jpg.rf.a6c1792eff9ee307d9721564f8cc04d2.txt",
+      "image": "test/images/greenfly_00007.jpg",
+      "label": "test/labels/greenfly_00007.txt",
+      "source_sha256": "ce79c005e8acabdae5496b795e5c26e5d0155cea4dd47655f79fcf8a30218e0b",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00091_jpg.rf.d879ba67cd263e3af990fc3a882657bc.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00091_jpg.rf.d879ba67cd263e3af990fc3a882657bc.txt",
+      "image": "test/images/greenfly_00008.jpg",
+      "label": "test/labels/greenfly_00008.txt",
+      "source_sha256": "f40364e886407a75b7f3e86dc9e796fd9a63ff751aae39845cb8165bd3fba421",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00098_jpg.rf.0250e7f24a630e11eba84b1bc78dce28.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00098_jpg.rf.0250e7f24a630e11eba84b1bc78dce28.txt",
+      "image": "test/images/greenfly_00009.jpg",
+      "label": "test/labels/greenfly_00009.txt",
+      "source_sha256": "707ed7e48ae7cb24127691390c3575621b6948bc68739697878526962c1b19a0",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00107_jpg.rf.654e37cb3d6e2a08af0e2a61abd555e9.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00107_jpg.rf.654e37cb3d6e2a08af0e2a61abd555e9.txt",
+      "image": "test/images/greenfly_00010.jpg",
+      "label": "test/labels/greenfly_00010.txt",
+      "source_sha256": "c8c99ec5b1ae7f79833faeca114abf6844ef683c0e6e4c5a56ea6975972b76d4",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00110_jpg.rf.fa39d430d39b3e588d0e0e13459389d6.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00110_jpg.rf.fa39d430d39b3e588d0e0e13459389d6.txt",
+      "image": "test/images/greenfly_00011.jpg",
+      "label": "test/labels/greenfly_00011.txt",
+      "source_sha256": "94ff48e09ffd01c6d7b21292dbe2c378e5d2443cda4cd012f903e3f39777129e",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00116_jpg.rf.491e25d80140da7ad0ed321af0bd8320.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00116_jpg.rf.491e25d80140da7ad0ed321af0bd8320.txt",
+      "image": "test/images/greenfly_00012.jpg",
+      "label": "test/labels/greenfly_00012.txt",
+      "source_sha256": "eda81deca68d8b435efdd539af3c72b3b86555ec642514c66b3073255c402192",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00171_jpg.rf.d0ae2a277dedebd179603042d27f27be.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00171_jpg.rf.d0ae2a277dedebd179603042d27f27be.txt",
+      "image": "test/images/greenfly_00013.jpg",
+      "label": "test/labels/greenfly_00013.txt",
+      "source_sha256": "6c32282f234fbb53c6f68e00f75da6c0d90c09fb3df7def71f74e2f01e748e71",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00181_jpg.rf.661c6a8ae1e76b9a4223f43914420680.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00181_jpg.rf.661c6a8ae1e76b9a4223f43914420680.txt",
+      "image": "test/images/greenfly_00014.jpg",
+      "label": "test/labels/greenfly_00014.txt",
+      "source_sha256": "bb76f0f5b432ad3c4233c691e0ef9e4c38b09b8bc38d959f20f568ee071c1ec3",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00188_jpg.rf.6aace0d9f046bb0294a573f43a70b2dc.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00188_jpg.rf.6aace0d9f046bb0294a573f43a70b2dc.txt",
+      "image": "test/images/greenfly_00015.jpg",
+      "label": "test/labels/greenfly_00015.txt",
+      "source_sha256": "3f6d9c9a767b8c95dd7f7fd465a868710dd8911a19db05bd1531ee90f6ade6fd",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00199_jpg.rf.dddb8840ee20dc9f1bc2f8cda550aca1.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00199_jpg.rf.dddb8840ee20dc9f1bc2f8cda550aca1.txt",
+      "image": "test/images/greenfly_00016.jpg",
+      "label": "test/labels/greenfly_00016.txt",
+      "source_sha256": "3bd29781dd4e3fcac7ed6a397a5d7c31d53b8ecc06aace890197e6ed9be04346",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00205_jpg.rf.ab1d31408932d408719e333cf7eddac0.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00205_jpg.rf.ab1d31408932d408719e333cf7eddac0.txt",
+      "image": "test/images/greenfly_00017.jpg",
+      "label": "test/labels/greenfly_00017.txt",
+      "source_sha256": "2f915edcb51cf8f53b6638d99c202d5f21e02b7fefc01c73ad65bd09d9c5ae87",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00212_jpg.rf.1642cc003d8a4e3756ba972422e87de9.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00212_jpg.rf.1642cc003d8a4e3756ba972422e87de9.txt",
+      "image": "test/images/greenfly_00018.jpg",
+      "label": "test/labels/greenfly_00018.txt",
+      "source_sha256": "b585605cebf4189a1f24c2f644563e7a8250f933d51fb8f12116422531723bbc",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00217_jpg.rf.ca5ec89b9109197672570d827fe37634.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00217_jpg.rf.ca5ec89b9109197672570d827fe37634.txt",
+      "image": "test/images/greenfly_00019.jpg",
+      "label": "test/labels/greenfly_00019.txt",
+      "source_sha256": "6a8181cde8caa5364b0a3969f084af3b0a10153cae1d6fd35cf28780f5d3bd5c",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00219_jpg.rf.143b31dca8096edd6697fa863aa14d7e.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00219_jpg.rf.143b31dca8096edd6697fa863aa14d7e.txt",
+      "image": "test/images/greenfly_00020.jpg",
+      "label": "test/labels/greenfly_00020.txt",
+      "source_sha256": "04368c92527f3c9715de7cd4413f1d10980cd731015f337c6034e9ab15c9113e",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00226_jpg.rf.dc95f83ac1a17d95d4398dc21c75b5c8.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00226_jpg.rf.dc95f83ac1a17d95d4398dc21c75b5c8.txt",
+      "image": "test/images/greenfly_00021.jpg",
+      "label": "test/labels/greenfly_00021.txt",
+      "source_sha256": "bc3369fdd05019216a84936f78309ab5fd226f57c078bcdfcc307384d0ffe265",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00232_jpg.rf.326dc5a381cf95cf2c1076446fcbd711.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00232_jpg.rf.326dc5a381cf95cf2c1076446fcbd711.txt",
+      "image": "test/images/greenfly_00022.jpg",
+      "label": "test/labels/greenfly_00022.txt",
+      "source_sha256": "83dbc9c39c00e0946700aa1a2458327d847eefeafd1bdc295f0a9568ceb576ad",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00247_jpg.rf.72ac75e3634c36016f5c664eaf2c6a93.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00247_jpg.rf.72ac75e3634c36016f5c664eaf2c6a93.txt",
+      "image": "test/images/greenfly_00023.jpg",
+      "label": "test/labels/greenfly_00023.txt",
+      "source_sha256": "7a096732d25a113bea422ee7dbc7e25fd4c23c0dca03a0cc9c874ddda411b294",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00249_jpg.rf.d15082501d4a986c30872bf125d2850b.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00249_jpg.rf.d15082501d4a986c30872bf125d2850b.txt",
+      "image": "test/images/greenfly_00024.jpg",
+      "label": "test/labels/greenfly_00024.txt",
+      "source_sha256": "c596c07ba012ab6c6ac7502ffed7e703c61d503381ffb2535614eac471e4b467",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00271_jpg.rf.c82b3cb0d30ef82f0279d8dcf78bb775.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00271_jpg.rf.c82b3cb0d30ef82f0279d8dcf78bb775.txt",
+      "image": "test/images/greenfly_00025.jpg",
+      "label": "test/labels/greenfly_00025.txt",
+      "source_sha256": "20a521e68823f55eba834a41440c2e9becb4713d09560b94e95a3df118ebb8e8",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00281_jpg.rf.6ab474d510519209c893e39f7527d20a.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00281_jpg.rf.6ab474d510519209c893e39f7527d20a.txt",
+      "image": "test/images/greenfly_00026.jpg",
+      "label": "test/labels/greenfly_00026.txt",
+      "source_sha256": "6e0bd879db1828ed60b54f189b5dfe6a3779185a7f12ef2edbab1f9b2a6df64f",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00294_jpg.rf.78cd8f2c653513f02b501fc09cc54d71.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00294_jpg.rf.78cd8f2c653513f02b501fc09cc54d71.txt",
+      "image": "test/images/greenfly_00027.jpg",
+      "label": "test/labels/greenfly_00027.txt",
+      "source_sha256": "e9d55d9d5333f2e7b3dd435ffad88a3cc170a488fbc5b3a605e06a6085dc8115",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00295_jpg.rf.1f2eaddd083329a5ab829d4febb8cafc.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00295_jpg.rf.1f2eaddd083329a5ab829d4febb8cafc.txt",
+      "image": "test/images/greenfly_00028.jpg",
+      "label": "test/labels/greenfly_00028.txt",
+      "source_sha256": "2257ec4dc199551959858571efdec3e745a8b4e3c72fc0b19af6aab1c447176c",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00298_jpg.rf.caec75b7906b1bda9e57d9c487000073.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00298_jpg.rf.caec75b7906b1bda9e57d9c487000073.txt",
+      "image": "test/images/greenfly_00029.jpg",
+      "label": "test/labels/greenfly_00029.txt",
+      "source_sha256": "d017a3457be17715181eb7125fac64286e02c177471f308e35a8233612411161",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00315_jpg.rf.9dfd68c335e5dd3dac5837f3e6f2254a.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00315_jpg.rf.9dfd68c335e5dd3dac5837f3e6f2254a.txt",
+      "image": "test/images/greenfly_00030.jpg",
+      "label": "test/labels/greenfly_00030.txt",
+      "source_sha256": "d521a1e77d298087d2b46056f85ec7f001f3da2cec8647addac97fe94cdc8863",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00317_jpg.rf.b4df0175124571c42b3b9df098836225.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00317_jpg.rf.b4df0175124571c42b3b9df098836225.txt",
+      "image": "test/images/greenfly_00031.jpg",
+      "label": "test/labels/greenfly_00031.txt",
+      "source_sha256": "ee1d27de6951a26f0788896b006b418f54646ce6aa96f09d33b0ed18490f7a2a",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00318_jpg.rf.ccf251da114a1bf9a593e6cdbaf33c46.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00318_jpg.rf.ccf251da114a1bf9a593e6cdbaf33c46.txt",
+      "image": "test/images/greenfly_00032.jpg",
+      "label": "test/labels/greenfly_00032.txt",
+      "source_sha256": "03c023b35bdbaf7d8a25710cb6b07aff07daf315dbe5b6e04e4e0d9338c915f2",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00322_jpg.rf.2359246ad6872f78b96f54c34ec544de.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00322_jpg.rf.2359246ad6872f78b96f54c34ec544de.txt",
+      "image": "test/images/greenfly_00033.jpg",
+      "label": "test/labels/greenfly_00033.txt",
+      "source_sha256": "ff2ca028eb389ddd2f378b054ffec80096c21b231d674b2c8483fca7cfb5a85d",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00333_jpg.rf.e776d0be5f2ae339da1694cde4a718a3.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00333_jpg.rf.e776d0be5f2ae339da1694cde4a718a3.txt",
+      "image": "test/images/greenfly_00034.jpg",
+      "label": "test/labels/greenfly_00034.txt",
+      "source_sha256": "5d391e41a65a32c4a4a602da3b6545d39144294fe13bfeed92c5ba1bc6bf82c3",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00336_jpg.rf.af64dd94b393970747c4aab11bd3d1e1.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00336_jpg.rf.af64dd94b393970747c4aab11bd3d1e1.txt",
+      "image": "test/images/greenfly_00035.jpg",
+      "label": "test/labels/greenfly_00035.txt",
+      "source_sha256": "22da898b149449c7d39392491bae5b6de0f3efd2c2fb40d954338a8449eea351",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00353_jpg.rf.32e73baca818cdc3dfeae37beb4a5729.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00353_jpg.rf.32e73baca818cdc3dfeae37beb4a5729.txt",
+      "image": "test/images/greenfly_00036.jpg",
+      "label": "test/labels/greenfly_00036.txt",
+      "source_sha256": "1220528d98ae8c0b34942171518a6646b0236cfcd9198f50df4a175a9f408468",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00356_jpg.rf.9fbcbc72195bb9eee4b959a1226cc204.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00356_jpg.rf.9fbcbc72195bb9eee4b959a1226cc204.txt",
+      "image": "test/images/greenfly_00037.jpg",
+      "label": "test/labels/greenfly_00037.txt",
+      "source_sha256": "37a7f752cb6ee5a9955f94bd5755c7e7671627d370e10b817ac41838507ac5c3",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00365_jpg.rf.13855a2edbd2c83fb4664b68126afdb6.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00365_jpg.rf.13855a2edbd2c83fb4664b68126afdb6.txt",
+      "image": "test/images/greenfly_00038.jpg",
+      "label": "test/labels/greenfly_00038.txt",
+      "source_sha256": "dc33c32c362292d8113560d2c96c5ec14a3e7712cbb4da9a51929008d55c9647",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00384_jpg.rf.1f4a45dc5d13d8e92f4371d257cea407.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00384_jpg.rf.1f4a45dc5d13d8e92f4371d257cea407.txt",
+      "image": "test/images/greenfly_00039.jpg",
+      "label": "test/labels/greenfly_00039.txt",
+      "source_sha256": "d439c1a70648eea8ebbea97e767e553c71dd6e6229bfd822265696237413f283",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00389_jpg.rf.0f92af4145141409a8b29ea16f146510.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00389_jpg.rf.0f92af4145141409a8b29ea16f146510.txt",
+      "image": "test/images/greenfly_00040.jpg",
+      "label": "test/labels/greenfly_00040.txt",
+      "source_sha256": "700b3b9ef9aa7c0a0174be801a027e878b36688db727d1bc927a99482e30cbf6",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00408_jpg.rf.7c50420ebbbfd5201a7cce240a285129.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00408_jpg.rf.7c50420ebbbfd5201a7cce240a285129.txt",
+      "image": "test/images/greenfly_00041.jpg",
+      "label": "test/labels/greenfly_00041.txt",
+      "source_sha256": "082cb8f1b98beb59c3a0c7e0b08e3602d56ab0ee7bd609ab907a50a0491ca009",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00424_jpg.rf.475102fc8ef79ceb455bee8cc950fbee.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00424_jpg.rf.475102fc8ef79ceb455bee8cc950fbee.txt",
+      "image": "test/images/greenfly_00042.jpg",
+      "label": "test/labels/greenfly_00042.txt",
+      "source_sha256": "3ed543d7a1d8fc45b01ec9f743b9fa90102041bc6ea9eec03513d63b1605f83f",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00455_jpg.rf.860fe2d027c11180f2036e6645723c0a.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00455_jpg.rf.860fe2d027c11180f2036e6645723c0a.txt",
+      "image": "test/images/greenfly_00043.jpg",
+      "label": "test/labels/greenfly_00043.txt",
+      "source_sha256": "75fb8a4ea5b6a4362f2ec0818da4813fb75006c9ca23697296403f2a5b16c6c7",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00462_jpg.rf.154797e39ab119b7baace625fcca3f7e.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00462_jpg.rf.154797e39ab119b7baace625fcca3f7e.txt",
+      "image": "test/images/greenfly_00044.jpg",
+      "label": "test/labels/greenfly_00044.txt",
+      "source_sha256": "667b61ba083880b1c4da445db9da51a476c972b508f946a8db28ee6bc4e8a43f",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00465_jpg.rf.7f4363bef17fd19170c11d6a94399b23.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00465_jpg.rf.7f4363bef17fd19170c11d6a94399b23.txt",
+      "image": "test/images/greenfly_00045.jpg",
+      "label": "test/labels/greenfly_00045.txt",
+      "source_sha256": "76e3e397d0997e445321b57efaf874f7e3e463c64b3b267c38d09b7340ac7bb7",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00466_jpg.rf.a10ac08d62b0d0e41e857779854947e5.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00466_jpg.rf.a10ac08d62b0d0e41e857779854947e5.txt",
+      "image": "test/images/greenfly_00046.jpg",
+      "label": "test/labels/greenfly_00046.txt",
+      "source_sha256": "9a7b2037f80bcd85105ab1802f182a32a5cf0a3e60e34eac235f8978356777b3",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00471_jpg.rf.5992ef05672446cf12abb581d8d81244.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00471_jpg.rf.5992ef05672446cf12abb581d8d81244.txt",
+      "image": "test/images/greenfly_00047.jpg",
+      "label": "test/labels/greenfly_00047.txt",
+      "source_sha256": "09a787ff49322ca569223dd46751f3864e74cfb0d2cade4b759b2186eb689f39",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00496_jpg.rf.b22f3f7ee0135eda982a563d296a502d.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00496_jpg.rf.b22f3f7ee0135eda982a563d296a502d.txt",
+      "image": "test/images/greenfly_00048.jpg",
+      "label": "test/labels/greenfly_00048.txt",
+      "source_sha256": "3a87f052aa55c5e91306c7a78a2cf083e4c3073f7c897aa5aa60e6a3ab0d02c2",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00507_jpg.rf.8c25d867083629607dbd1b3d5c9b61d3.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00507_jpg.rf.8c25d867083629607dbd1b3d5c9b61d3.txt",
+      "image": "test/images/greenfly_00049.jpg",
+      "label": "test/labels/greenfly_00049.txt",
+      "source_sha256": "67934492eb170b4be0d34e0ac3eedf6bf04d0d8d20da611a4731a28e1e11611d",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00517_jpg.rf.b4a11371e8e834140ae0d8694e4e69dc.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00517_jpg.rf.b4a11371e8e834140ae0d8694e4e69dc.txt",
+      "image": "test/images/greenfly_00050.jpg",
+      "label": "test/labels/greenfly_00050.txt",
+      "source_sha256": "54a8811bbe45cf8b97c22000f1864cb1b85d3ba1ef5f7f0923406201cb89ad75",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00549_jpg.rf.eb4e6bd851a2872be181d27ebd3f08ff.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00549_jpg.rf.eb4e6bd851a2872be181d27ebd3f08ff.txt",
+      "image": "test/images/greenfly_00051.jpg",
+      "label": "test/labels/greenfly_00051.txt",
+      "source_sha256": "c99888b952495ae1e2edbf873a7f73bd53657e4e3e5d55cd49673b7f631d59ef",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00551_jpg.rf.cf937f88c3aa24176991c75328f71dcc.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00551_jpg.rf.cf937f88c3aa24176991c75328f71dcc.txt",
+      "image": "test/images/greenfly_00052.jpg",
+      "label": "test/labels/greenfly_00052.txt",
+      "source_sha256": "2765839729ca63389ba4ffd3849bd9b51eba483caa04389b38fed532a770309f",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00557_jpg.rf.39cac26545582453d79daecc6a6b33a4.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00557_jpg.rf.39cac26545582453d79daecc6a6b33a4.txt",
+      "image": "test/images/greenfly_00053.jpg",
+      "label": "test/labels/greenfly_00053.txt",
+      "source_sha256": "354336453bd3573461c9f7095a6787ce8c4a3e629ba1f045cc08755af4e9ca4a",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00567_jpg.rf.8aba85307a0777248c819d5e398a3e36.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00567_jpg.rf.8aba85307a0777248c819d5e398a3e36.txt",
+      "image": "test/images/greenfly_00054.jpg",
+      "label": "test/labels/greenfly_00054.txt",
+      "source_sha256": "f7dff845631b328f19ee727715b34cf582c70442c71d06e1a0cf46719144e31b",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00593_jpg.rf.6ff08568f8f85468ddf2c41057707bad.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00593_jpg.rf.6ff08568f8f85468ddf2c41057707bad.txt",
+      "image": "test/images/greenfly_00055.jpg",
+      "label": "test/labels/greenfly_00055.txt",
+      "source_sha256": "f82a4783c4c9ea08079448d48373b26ce6daeb28cb82d5459d79056947ceffc9",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00609_jpg.rf.7b7e3b8bc18c141e3d8ccae16b8d5679.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00609_jpg.rf.7b7e3b8bc18c141e3d8ccae16b8d5679.txt",
+      "image": "test/images/greenfly_00056.jpg",
+      "label": "test/labels/greenfly_00056.txt",
+      "source_sha256": "dac254ea11c91d66b1f37adcddda3dc63e1f885ee13de889d067d70e36108a90",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00626_jpg.rf.9123c5a54f4b381216414b13b09f1732.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00626_jpg.rf.9123c5a54f4b381216414b13b09f1732.txt",
+      "image": "test/images/greenfly_00057.jpg",
+      "label": "test/labels/greenfly_00057.txt",
+      "source_sha256": "7f68a7cc8ef6464b4b40c2f2d88e0e3998e3a6522e5b6f7350d29b314eb130b9",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00627_jpg.rf.cab7c478b364bd533c61531ae33c50a6.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00627_jpg.rf.cab7c478b364bd533c61531ae33c50a6.txt",
+      "image": "test/images/greenfly_00058.jpg",
+      "label": "test/labels/greenfly_00058.txt",
+      "source_sha256": "698f55c31e8b16c2cf0c07e7584481941d5c81ecef8e79ffa0d6b10a4ccf660d",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00630_jpg.rf.6c30305762930433e75f2633887d5b7d.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00630_jpg.rf.6c30305762930433e75f2633887d5b7d.txt",
+      "image": "test/images/greenfly_00059.jpg",
+      "label": "test/labels/greenfly_00059.txt",
+      "source_sha256": "e190307184edce749c7e961bde65a72569958ed75ceadc366a892fb0dfdeb4e9",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00680_jpg.rf.4c8daa07fcac10b599272f8114916be0.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00680_jpg.rf.4c8daa07fcac10b599272f8114916be0.txt",
+      "image": "test/images/greenfly_00060.jpg",
+      "label": "test/labels/greenfly_00060.txt",
+      "source_sha256": "f7b24d744a3f2512336a9f09689f68748c7e0794770eefca6988cec1fff4ace5",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00682_jpg.rf.67e19d03d791e55ae4bc124d7dd635dd.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00682_jpg.rf.67e19d03d791e55ae4bc124d7dd635dd.txt",
+      "image": "test/images/greenfly_00061.jpg",
+      "label": "test/labels/greenfly_00061.txt",
+      "source_sha256": "f57dc5e76f4dfecc78437da8dd35e01b6ffdc92d47bd312c14a3562750a3f26c",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00741_jpg.rf.d212b69d37ebf0aa688abcf7b6112f53.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00741_jpg.rf.d212b69d37ebf0aa688abcf7b6112f53.txt",
+      "image": "test/images/greenfly_00062.jpg",
+      "label": "test/labels/greenfly_00062.txt",
+      "source_sha256": "cdfdc4e1699d446b22a776bb3c16130f2010aaa1f44779af21c785833843042c",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00749_jpg.rf.dd86db11b862bc33c95c6e85d84b33e4.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00749_jpg.rf.dd86db11b862bc33c95c6e85d84b33e4.txt",
+      "image": "test/images/greenfly_00063.jpg",
+      "label": "test/labels/greenfly_00063.txt",
+      "source_sha256": "8ff25dfd5a94fd36572ad6271215ca85a931875343f97ad1cfe938e5e5794a23",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00776_jpg.rf.845d985e9423ae50f619efd57b23618f.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00776_jpg.rf.845d985e9423ae50f619efd57b23618f.txt",
+      "image": "test/images/greenfly_00064.jpg",
+      "label": "test/labels/greenfly_00064.txt",
+      "source_sha256": "088bfea2e86e692bbd50d9240f541cb96e48021965d9c50a44309d6a0ba4823a",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00777_jpg.rf.bcceafe18ae45ab263d0c2eee719be5b.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00777_jpg.rf.bcceafe18ae45ab263d0c2eee719be5b.txt",
+      "image": "test/images/greenfly_00065.jpg",
+      "label": "test/labels/greenfly_00065.txt",
+      "source_sha256": "c41af25841acaaec76ca45cb84cef0ec9a4406a6e59acdfa4c62ea6216247db5",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00779_jpg.rf.71798292e2306dc444e10f981f1336b2.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00779_jpg.rf.71798292e2306dc444e10f981f1336b2.txt",
+      "image": "test/images/greenfly_00066.jpg",
+      "label": "test/labels/greenfly_00066.txt",
+      "source_sha256": "1e873fa0ab1953d8c856943ea185fa121330120b910ce11e853b6cff0c750cde",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00783_jpg.rf.a99afff510f4ca959215dedc70ed6233.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00783_jpg.rf.a99afff510f4ca959215dedc70ed6233.txt",
+      "image": "test/images/greenfly_00067.jpg",
+      "label": "test/labels/greenfly_00067.txt",
+      "source_sha256": "6b522a6cba479cc77a5a5a732412e9dae0a33676dc30c9147a6d4cdab2d8136c",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00786_jpg.rf.dc72f922334d986a827718acb2f94e17.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00786_jpg.rf.dc72f922334d986a827718acb2f94e17.txt",
+      "image": "test/images/greenfly_00068.jpg",
+      "label": "test/labels/greenfly_00068.txt",
+      "source_sha256": "99640c0c28e34b41d756b3d5802d84c020ef6aee0fef58bd5de062c32170faaf",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00787_jpg.rf.6e237e0d6db497a917223b270423f8a1.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00787_jpg.rf.6e237e0d6db497a917223b270423f8a1.txt",
+      "image": "test/images/greenfly_00069.jpg",
+      "label": "test/labels/greenfly_00069.txt",
+      "source_sha256": "098d8060fd90ff891d9f104061ad0739ec269728aae7163a9018d78a1723ee55",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00792_jpg.rf.8e97a805ad53b51957e04f220b6c2287.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00792_jpg.rf.8e97a805ad53b51957e04f220b6c2287.txt",
+      "image": "test/images/greenfly_00070.jpg",
+      "label": "test/labels/greenfly_00070.txt",
+      "source_sha256": "3d8fb4f9f5189a225460165161531217057612a28e313a7253599e03361530f3",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00820_jpg.rf.b2c801cb5b9faa7a936f255f755399da.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00820_jpg.rf.b2c801cb5b9faa7a936f255f755399da.txt",
+      "image": "test/images/greenfly_00071.jpg",
+      "label": "test/labels/greenfly_00071.txt",
+      "source_sha256": "cc4a726550fb76c92ddda98649b3faf8fc9b1f28d1cf3a4059b58710c76bcbef",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00821_jpg.rf.6c469d4345b44c02f719f454dbce5f3c.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00821_jpg.rf.6c469d4345b44c02f719f454dbce5f3c.txt",
+      "image": "test/images/greenfly_00072.jpg",
+      "label": "test/labels/greenfly_00072.txt",
+      "source_sha256": "f7efb1d25fefd4ef9b3c510d4be2db59746dc6b082b41d78b7d01416727d9de7",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00827_jpg.rf.f6aa737f944e39d0cce53ae2b3227d7a.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00827_jpg.rf.f6aa737f944e39d0cce53ae2b3227d7a.txt",
+      "image": "test/images/greenfly_00073.jpg",
+      "label": "test/labels/greenfly_00073.txt",
+      "source_sha256": "422d1c921743eaaf62cac2c99a66c33e0f6f15b5ff63e57e21974e2935008110",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00838_jpg.rf.b462f34bb266f06ed3fb840793e01c31.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00838_jpg.rf.b462f34bb266f06ed3fb840793e01c31.txt",
+      "image": "test/images/greenfly_00074.jpg",
+      "label": "test/labels/greenfly_00074.txt",
+      "source_sha256": "52b9ef30958aa70c63ea08e19811cb35973bbc1d8af181e665ca38deaa61269d",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00843_jpg.rf.61957dceb94fe906fa8b07c59144491b.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00843_jpg.rf.61957dceb94fe906fa8b07c59144491b.txt",
+      "image": "test/images/greenfly_00075.jpg",
+      "label": "test/labels/greenfly_00075.txt",
+      "source_sha256": "3248abeb80aface24792da9f2ec710fadcbd4777651de9895002a73e4c8626f5",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00860_jpg.rf.cc550e2b37b766ba75b17a5f5da88d6e.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00860_jpg.rf.cc550e2b37b766ba75b17a5f5da88d6e.txt",
+      "image": "test/images/greenfly_00076.jpg",
+      "label": "test/labels/greenfly_00076.txt",
+      "source_sha256": "005b32d427d3598d57921339a1385ca434fac9cdbc343e82fb30772385c9f365",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00862_jpg.rf.7793049d3348b09c3082b3fd81e49334.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00862_jpg.rf.7793049d3348b09c3082b3fd81e49334.txt",
+      "image": "test/images/greenfly_00077.jpg",
+      "label": "test/labels/greenfly_00077.txt",
+      "source_sha256": "b001565ebac2cfb6ade56b04ea338bc3d62e89ba192da83962334db71d282072",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00867_jpg.rf.72a761918034f82453bd977a346d9981.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00867_jpg.rf.72a761918034f82453bd977a346d9981.txt",
+      "image": "test/images/greenfly_00078.jpg",
+      "label": "test/labels/greenfly_00078.txt",
+      "source_sha256": "e83e1c0e62c50879249e31ff4f8b76b2504d0ab0bdc0afcecddb6a0af786dd57",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00869_jpg.rf.10b90027180d77286d1c52f01b44fb37.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00869_jpg.rf.10b90027180d77286d1c52f01b44fb37.txt",
+      "image": "test/images/greenfly_00079.jpg",
+      "label": "test/labels/greenfly_00079.txt",
+      "source_sha256": "f4d11a74b2393530c64c2f9e9ac2facee024574db180899c1b6552b8172b08a7",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00875_jpg.rf.5faf3e5ec512237da9c2afd25169ddef.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00875_jpg.rf.5faf3e5ec512237da9c2afd25169ddef.txt",
+      "image": "test/images/greenfly_00080.jpg",
+      "label": "test/labels/greenfly_00080.txt",
+      "source_sha256": "11e6193ebcbf9f0aee02e0d4d9ef92893f87a02519fdedaa2c25faab4a68b883",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00879_jpg.rf.47069d79948f5e19554a970596c6be28.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00879_jpg.rf.47069d79948f5e19554a970596c6be28.txt",
+      "image": "test/images/greenfly_00081.jpg",
+      "label": "test/labels/greenfly_00081.txt",
+      "source_sha256": "21fbeddd4d4193fd667e81e5583c5e9627e804e927a4502a8805e73fbd8c43eb",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00882_jpg.rf.fc512aea68ef31f284de825a1215da25.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00882_jpg.rf.fc512aea68ef31f284de825a1215da25.txt",
+      "image": "test/images/greenfly_00082.jpg",
+      "label": "test/labels/greenfly_00082.txt",
+      "source_sha256": "8f1a08058bb445eae17fdaa60e1899b02d2ded3b3aed0f13a56fcb2adbe04168",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00887_jpg.rf.888814f23e4982bd782d491cdcd5a7b5.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00887_jpg.rf.888814f23e4982bd782d491cdcd5a7b5.txt",
+      "image": "test/images/greenfly_00083.jpg",
+      "label": "test/labels/greenfly_00083.txt",
+      "source_sha256": "a35591c8427300fcce38aa907a91790b28bcfe5b729f48a4580adc023280137c",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00891_jpg.rf.d2e1701acd76f52fc77edf0532a93d33.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00891_jpg.rf.d2e1701acd76f52fc77edf0532a93d33.txt",
+      "image": "test/images/greenfly_00084.jpg",
+      "label": "test/labels/greenfly_00084.txt",
+      "source_sha256": "dd94aa636c0cc4f759005ad08c233e86f454f88e590282f291f2ee424d66f1a6",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00895_jpg.rf.e07b29aa09c7e59a1bff0c5d2a1c0394.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00895_jpg.rf.e07b29aa09c7e59a1bff0c5d2a1c0394.txt",
+      "image": "test/images/greenfly_00085.jpg",
+      "label": "test/labels/greenfly_00085.txt",
+      "source_sha256": "170ef036f225413f13f5f46048d279edaa44284804daab6b489ff0dcab399142",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00900_jpg.rf.d0b39e96bc9972d7f9a3e38780f84ea4.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00900_jpg.rf.d0b39e96bc9972d7f9a3e38780f84ea4.txt",
+      "image": "test/images/greenfly_00086.jpg",
+      "label": "test/labels/greenfly_00086.txt",
+      "source_sha256": "924716bbc079f43de32208a455f893b06f41a2195258d1fd70213db9d1809809",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00909_jpg.rf.1e706be09c7a5f6293e38d5081f0b72d.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00909_jpg.rf.1e706be09c7a5f6293e38d5081f0b72d.txt",
+      "image": "test/images/greenfly_00087.jpg",
+      "label": "test/labels/greenfly_00087.txt",
+      "source_sha256": "308268fc64ebab12a2334d40a4979242da9fb9537eaa899e94c19a0e54c24b09",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00932_jpg.rf.7201aec243c70152cba1722f8391cf90.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00932_jpg.rf.7201aec243c70152cba1722f8391cf90.txt",
+      "image": "test/images/greenfly_00088.jpg",
+      "label": "test/labels/greenfly_00088.txt",
+      "source_sha256": "51b304e94dbe19a0dca275e9ee752372af181908bf8cb831afc4d13d3f0dbc23",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00935_jpg.rf.678fd2737bcf8c30a8c94ca85a312863.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00935_jpg.rf.678fd2737bcf8c30a8c94ca85a312863.txt",
+      "image": "test/images/greenfly_00089.jpg",
+      "label": "test/labels/greenfly_00089.txt",
+      "source_sha256": "3a40a44a17f8dd6f65ddf8a54fcdf16879a88c33e5818fdbdac5cfdad907d1bd",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00940_jpg.rf.1d79f5bbcf52aacd9fd2151f36c8eb6b.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00940_jpg.rf.1d79f5bbcf52aacd9fd2151f36c8eb6b.txt",
+      "image": "test/images/greenfly_00090.jpg",
+      "label": "test/labels/greenfly_00090.txt",
+      "source_sha256": "90365ed2c71c8e1af2bd62b0ce28650a6c86fb72ce6b9a3e45cab3a5908c16c4",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00943_jpg.rf.a834a6a8cd11ae88c397b377a65a87b8.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00943_jpg.rf.a834a6a8cd11ae88c397b377a65a87b8.txt",
+      "image": "test/images/greenfly_00091.jpg",
+      "label": "test/labels/greenfly_00091.txt",
+      "source_sha256": "519234c1822a68af960de8da01a67176cb5365537e653501b1f50523ae7eb845",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00954_jpg.rf.160f3f449c895f8e27f7cf7db16ad8bc.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00954_jpg.rf.160f3f449c895f8e27f7cf7db16ad8bc.txt",
+      "image": "test/images/greenfly_00092.jpg",
+      "label": "test/labels/greenfly_00092.txt",
+      "source_sha256": "8a8676b5ea6a94e791e06105d01e8672c9ca0772048694451c981980dec83234",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00967_jpg.rf.f2c4bdd66f59925b92fe158d84883203.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00967_jpg.rf.f2c4bdd66f59925b92fe158d84883203.txt",
+      "image": "test/images/greenfly_00093.jpg",
+      "label": "test/labels/greenfly_00093.txt",
+      "source_sha256": "b6a2a64d34f3fcf1bb6df988b33bac949e59c1701a515346b16b4d65b1ee8477",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00979_jpg.rf.16fc673118961b3e4e92b855a47e2f54.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00979_jpg.rf.16fc673118961b3e4e92b855a47e2f54.txt",
+      "image": "test/images/greenfly_00094.jpg",
+      "label": "test/labels/greenfly_00094.txt",
+      "source_sha256": "c9ae8410cd596e6b57cdb5619dd865ed70f1bb14093b18331aba2f7636a34178",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00982_jpg.rf.24f7e93f569a4bf0c2c1d00a87bb90b5.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00982_jpg.rf.24f7e93f569a4bf0c2c1d00a87bb90b5.txt",
+      "image": "test/images/greenfly_00095.jpg",
+      "label": "test/labels/greenfly_00095.txt",
+      "source_sha256": "9c5d5ba65357a724749e99f783ee44cd8aed3e2bf7b736d022877fcc08e96bb0",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-00993_jpg.rf.3cc564caad025939888fa86363607d6f.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-00993_jpg.rf.3cc564caad025939888fa86363607d6f.txt",
+      "image": "test/images/greenfly_00096.jpg",
+      "label": "test/labels/greenfly_00096.txt",
+      "source_sha256": "891adf691f13edeca121fae901528eb13e0c61830b68353e992884cabdd815fb",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01007_jpg.rf.412d4188303d7cab97620c042c8c285a.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01007_jpg.rf.412d4188303d7cab97620c042c8c285a.txt",
+      "image": "test/images/greenfly_00097.jpg",
+      "label": "test/labels/greenfly_00097.txt",
+      "source_sha256": "dffea3f585b0d9d3cc006f53a19168f3ddc5a696f607ec0f4f560e3398a68e5c",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01028_jpg.rf.772fe94e51733a28f5b4ba53b5cdeade.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01028_jpg.rf.772fe94e51733a28f5b4ba53b5cdeade.txt",
+      "image": "test/images/greenfly_00098.jpg",
+      "label": "test/labels/greenfly_00098.txt",
+      "source_sha256": "d66e459edf4cb6966052d640e6fcace0803631cb35db09c471a26c80428cb7f5",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01039_jpg.rf.d1367dffd2819f7b907fa3dff8deb994.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01039_jpg.rf.d1367dffd2819f7b907fa3dff8deb994.txt",
+      "image": "test/images/greenfly_00099.jpg",
+      "label": "test/labels/greenfly_00099.txt",
+      "source_sha256": "99b258289db0c735bf6604fd31039d144569b4f14973779b0ca2671bbcdf7507",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01047_jpg.rf.a069142387a4720b712e2a45432e086b.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01047_jpg.rf.a069142387a4720b712e2a45432e086b.txt",
+      "image": "test/images/greenfly_00100.jpg",
+      "label": "test/labels/greenfly_00100.txt",
+      "source_sha256": "cecb5b3860a4fe32aba52b0935cedcc07b97249c03a2f71fb31f156060f1f282",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01058_jpg.rf.243831c3747c28991c58a4971ff07ad6.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01058_jpg.rf.243831c3747c28991c58a4971ff07ad6.txt",
+      "image": "test/images/greenfly_00101.jpg",
+      "label": "test/labels/greenfly_00101.txt",
+      "source_sha256": "24412b831661e4908d08dc80f5af548b3ceaeef0675c1f7db1aa39b340d60f32",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01092_jpg.rf.ca2684c9db59d705608c94c3819eb9a8.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01092_jpg.rf.ca2684c9db59d705608c94c3819eb9a8.txt",
+      "image": "test/images/greenfly_00102.jpg",
+      "label": "test/labels/greenfly_00102.txt",
+      "source_sha256": "5a028b4ef3ab4ac5121c748c803a563123ed8fe70e4fd89e706ea34edfec6d0d",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01104_jpg.rf.4a776761f36a45f553497ae3a6210b85.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01104_jpg.rf.4a776761f36a45f553497ae3a6210b85.txt",
+      "image": "test/images/greenfly_00103.jpg",
+      "label": "test/labels/greenfly_00103.txt",
+      "source_sha256": "4a5bc86e9a3dcc6c31219dc8c20a149626ce152d0ad00f80f9d661d5d9784d5e",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01110_jpg.rf.c77722b6cde6c3283f3c46f235b5c53b.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01110_jpg.rf.c77722b6cde6c3283f3c46f235b5c53b.txt",
+      "image": "test/images/greenfly_00104.jpg",
+      "label": "test/labels/greenfly_00104.txt",
+      "source_sha256": "4361ae7385a08d2b89171d76fbc3066e47d9c415258bbe23b09880c25f65b1b2",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01123_jpg.rf.ffd7bc9ffe8e64d4a88d06df712b424f.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01123_jpg.rf.ffd7bc9ffe8e64d4a88d06df712b424f.txt",
+      "image": "test/images/greenfly_00105.jpg",
+      "label": "test/labels/greenfly_00105.txt",
+      "source_sha256": "46bd026886d75ae0cdae47e21888d43c0a502bb60e186caef297986e65070b9e",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01125_jpg.rf.8e27028f1dd66f357cb9e4bdeee4d928.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01125_jpg.rf.8e27028f1dd66f357cb9e4bdeee4d928.txt",
+      "image": "test/images/greenfly_00106.jpg",
+      "label": "test/labels/greenfly_00106.txt",
+      "source_sha256": "d6b05a8c52ccbff73b4729eb36bf954b979ca6565697996f9ae64fddea129225",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01136_jpg.rf.b87875dc670e1a79d9019eecd8a14408.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01136_jpg.rf.b87875dc670e1a79d9019eecd8a14408.txt",
+      "image": "test/images/greenfly_00107.jpg",
+      "label": "test/labels/greenfly_00107.txt",
+      "source_sha256": "45c903c5d2718e9ac93b74d20533a2c36d18f6f9db364132da53271045183c5c",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01146_jpg.rf.beaf2ccacc76b95ea380313039744bbc.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01146_jpg.rf.beaf2ccacc76b95ea380313039744bbc.txt",
+      "image": "test/images/greenfly_00108.jpg",
+      "label": "test/labels/greenfly_00108.txt",
+      "source_sha256": "f42403b8d5d74c0543eacd909f42c71b761a6c913f732063a524db7855146309",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01152_jpg.rf.65177fc9635ea9303eddfa1fafe8ba9c.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01152_jpg.rf.65177fc9635ea9303eddfa1fafe8ba9c.txt",
+      "image": "test/images/greenfly_00109.jpg",
+      "label": "test/labels/greenfly_00109.txt",
+      "source_sha256": "9add3a12a0e6a28906acfa009cad6ad3a1890c0ce3b58070ca23486b9474d8af",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01154_jpg.rf.680991deed21fa5dc8facb4aec894d88.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01154_jpg.rf.680991deed21fa5dc8facb4aec894d88.txt",
+      "image": "test/images/greenfly_00110.jpg",
+      "label": "test/labels/greenfly_00110.txt",
+      "source_sha256": "c04518034a4aaf8d7093a8437ec48bc859fe7f39e2150cdac2394c1e99b26ae7",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01156_jpg.rf.2c093f01f34b9a330429e75bbb17dfb2.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01156_jpg.rf.2c093f01f34b9a330429e75bbb17dfb2.txt",
+      "image": "test/images/greenfly_00111.jpg",
+      "label": "test/labels/greenfly_00111.txt",
+      "source_sha256": "a73a256f8e99b642a746f32d7cd42b8ca3b8637ff80295b247e8d27c3806b232",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01165_jpg.rf.963b7bd30c7eeb02477be529aed0586d.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01165_jpg.rf.963b7bd30c7eeb02477be529aed0586d.txt",
+      "image": "test/images/greenfly_00112.jpg",
+      "label": "test/labels/greenfly_00112.txt",
+      "source_sha256": "6b7e0fbf12632dd54682889212f29d8107e31eb51975b352a7515029a8c62560",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01170_jpg.rf.a2b6b5f0e8fdf1f9eff697b15ee95d67.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01170_jpg.rf.a2b6b5f0e8fdf1f9eff697b15ee95d67.txt",
+      "image": "test/images/greenfly_00113.jpg",
+      "label": "test/labels/greenfly_00113.txt",
+      "source_sha256": "be55a4c82891b12ee0f308bcd1dc346228e5ef4b09732cdbfcb9069a7596d635",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01183_jpg.rf.a413c64b47246c717ed94ab76dd12bf1.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01183_jpg.rf.a413c64b47246c717ed94ab76dd12bf1.txt",
+      "image": "test/images/greenfly_00114.jpg",
+      "label": "test/labels/greenfly_00114.txt",
+      "source_sha256": "3cb5a2f9ae5a10a65ec987f0bb97f8a6e60b753925bb2f7e124216c6031e54fa",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01186_jpg.rf.c475c1c31908b292c060915574d6455e.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01186_jpg.rf.c475c1c31908b292c060915574d6455e.txt",
+      "image": "test/images/greenfly_00115.jpg",
+      "label": "test/labels/greenfly_00115.txt",
+      "source_sha256": "d7df942f6b933012a55b80214ef195ecfe11cf860e971186be28cf8f6f433dd2",
+      "box_count": 4
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01204_jpg.rf.9a757d9962a0cbf8d46098693de425e0.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01204_jpg.rf.9a757d9962a0cbf8d46098693de425e0.txt",
+      "image": "test/images/greenfly_00116.jpg",
+      "label": "test/labels/greenfly_00116.txt",
+      "source_sha256": "134166fab5afedcbf903748b6a8decb46bd1860602835b2f288a201d04ef10ed",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01214_jpg.rf.411f36cfe48b9dcb9c32215ba09df6a0.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01214_jpg.rf.411f36cfe48b9dcb9c32215ba09df6a0.txt",
+      "image": "test/images/greenfly_00117.jpg",
+      "label": "test/labels/greenfly_00117.txt",
+      "source_sha256": "33633cf9d47e6f675bf1a4f2133107ba543ed098181d6786493342de11cb35d4",
+      "box_count": 1
+    },
+    {
+      "source_image": "GreenflyDB_YOLO_test_and_config/test/images/green_fly-01224_jpg.rf.655eef6a6480e532520b18ab9e866037.jpg",
+      "source_label": "GreenflyDB_YOLO_test_and_config/test/labels/green_fly-01224_jpg.rf.655eef6a6480e532520b18ab9e866037.txt",
+      "image": "test/images/greenfly_00118.jpg",
+      "label": "test/labels/greenfly_00118.txt",
+      "source_sha256": "528f24a7939f9dfcd08fb7216768589eadca8ff0a7815f015d99e864cfd1299e",
+      "box_count": 1
+    }
+  ]
+}

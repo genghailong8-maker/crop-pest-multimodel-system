@@ -1,0 +1,27 @@
+{
+  "created_at": "2026-08-06T03:42:37.722316+00:00",
+  "source": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-pest65-aphids-v1-ft-freeze10-lr1e4-e80-b64/weights/best.pt",
+    "sha256": "b726b3c41ddfc0fe30953e83d9197c8857874c858666ea2a3afbbc39139007d9",
+    "size_bytes": 5382597
+  },
+  "onnx": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-pest65-aphids-v1-ft-freeze10-lr1e4-e80-b64/weights/best.onnx",
+    "sha256": "8c1048aa2de67ef33048374257e88243a73e5e771ea8cdaa68d2c853f2a6d010",
+    "size_bytes": 10078263
+  },
+  "configuration": {
+    "image_size": 640,
+    "device": "0",
+    "opset": 19,
+    "dynamic": true,
+    "simplify": true,
+    "half": false
+  },
+  "environment": {
+    "python": "3.12.3",
+    "ultralytics": "8.4.115",
+    "torch": "2.8.0+cu128",
+    "onnx": "1.22.0"
+  }
+}

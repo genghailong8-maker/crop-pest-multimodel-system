@@ -1,0 +1,173 @@
+{
+  "completed_at_utc": "2026-08-06T10:20:39.807176+00:00",
+  "task": "crop_classification",
+  "best_weights": "/root/autodl-tmp/crop-pest-system/runs/detect/weak-crop-cls-v1-e30-b128/weights/best.pt",
+  "best_weights_sha256": "c4e6ac584cc465c2afe7d9b01782a09eb842312b86651c25f2bb5ea8764b8119",
+  "dataset_root": "/root/autodl-tmp/crop-pest-system/data/experiments/weak-crop-cls-v1",
+  "dataset_manifest_sha256": "6b10e7c8c51d39f7f69703686747ad444c68322514ac5f4cb9f039f328d62cc4",
+  "pretrained_detector": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.pt",
+  "pretrained_detector_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+  "arguments": {
+    "data": "/root/autodl-tmp/crop-pest-system/data/experiments/weak-crop-cls-v1",
+    "pretrained_detector": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.pt",
+    "model": "yolo26n-cls.yaml",
+    "epochs": 30,
+    "image_size": 224,
+    "batch": 128,
+    "device": "0",
+    "workers": 8,
+    "seed": 20260729,
+    "patience": 8,
+    "project": "/root/autodl-tmp/crop-pest-system/runs/detect",
+    "name": "weak-crop-cls-v1-e30-b128"
+  },
+  "internal_validation": {
+    "image_count": 205,
+    "accuracy": 0.8,
+    "macro_f1": 0.8003432107475674,
+    "class_names": [
+      "08_blister_beetle",
+      "10_mirid_bugs",
+      "13_grasshoppers",
+      "15_legume_blister_beetle"
+    ],
+    "confusion_matrix_actual_rows_predicted_columns": [
+      [
+        46,
+        4,
+        2,
+        10
+      ],
+      [
+        1,
+        40,
+        7,
+        0
+      ],
+      [
+        0,
+        7,
+        37,
+        0
+      ],
+      [
+        7,
+        1,
+        2,
+        41
+      ]
+    ],
+    "per_class": [
+      {
+        "index": 0,
+        "name": "08_blister_beetle",
+        "support": 62,
+        "precision": 0.8518518518518519,
+        "recall": 0.7419354838709677,
+        "f1": 0.7931034482758621
+      },
+      {
+        "index": 1,
+        "name": "10_mirid_bugs",
+        "support": 48,
+        "precision": 0.7692307692307693,
+        "recall": 0.8333333333333334,
+        "f1": 0.8
+      },
+      {
+        "index": 2,
+        "name": "13_grasshoppers",
+        "support": 44,
+        "precision": 0.7708333333333334,
+        "recall": 0.8409090909090909,
+        "f1": 0.8043478260869567
+      },
+      {
+        "index": 3,
+        "name": "15_legume_blister_beetle",
+        "support": 51,
+        "precision": 0.803921568627451,
+        "recall": 0.803921568627451,
+        "f1": 0.8039215686274509
+      }
+    ]
+  },
+  "frozen_official_validation": {
+    "image_count": 357,
+    "accuracy": 0.7254901960784313,
+    "macro_f1": 0.723780647957412,
+    "class_names": [
+      "08_blister_beetle",
+      "10_mirid_bugs",
+      "13_grasshoppers",
+      "15_legume_blister_beetle"
+    ],
+    "confusion_matrix_actual_rows_predicted_columns": [
+      [
+        66,
+        3,
+        6,
+        23
+      ],
+      [
+        1,
+        73,
+        12,
+        1
+      ],
+      [
+        2,
+        31,
+        54,
+        2
+      ],
+      [
+        16,
+        1,
+        0,
+        66
+      ]
+    ],
+    "per_class": [
+      {
+        "index": 0,
+        "name": "08_blister_beetle",
+        "support": 98,
+        "precision": 0.7764705882352941,
+        "recall": 0.673469387755102,
+        "f1": 0.7213114754098361
+      },
+      {
+        "index": 1,
+        "name": "10_mirid_bugs",
+        "support": 87,
+        "precision": 0.6759259259259259,
+        "recall": 0.8390804597701149,
+        "f1": 0.7487179487179486
+      },
+      {
+        "index": 2,
+        "name": "13_grasshoppers",
+        "support": 89,
+        "precision": 0.75,
+        "recall": 0.6067415730337079,
+        "f1": 0.670807453416149
+      },
+      {
+        "index": 3,
+        "name": "15_legume_blister_beetle",
+        "support": 83,
+        "precision": 0.717391304347826,
+        "recall": 0.7951807228915663,
+        "f1": 0.7542857142857142
+      }
+    ]
+  },
+  "environment": {
+    "python": "3.12.3 | packaged by Anaconda, Inc. | (main, May  6 2024, 19:46:43) [GCC 11.2.0]",
+    "platform": "Linux-5.15.0-119-generic-x86_64-with-glibc2.35",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "ultralytics": "8.4.115"
+  }
+}

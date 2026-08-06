@@ -1,0 +1,2 @@
+"""Crop pest diagnosis API."""
+

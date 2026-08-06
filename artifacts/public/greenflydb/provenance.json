@@ -1,0 +1,35 @@
+{
+  "dataset": "GreenFlyDB",
+  "doi": "10.17632/rty8hdb2xm.1",
+  "homepage": "https://data.mendeley.com/datasets/rty8hdb2xm/1",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "description": "Aphid/greenfly YOLO detection data with Green Fly and Not Green Fly classes.",
+  "downloaded_files": [
+    {
+      "split": "train",
+      "filename": "GreenflyDB_YOLO_train.zip",
+      "url": "https://data.mendeley.com/public-files/datasets/rty8hdb2xm/files/3ad6494e-de7d-4b12-8a73-e2f1cbed61a4/file_downloaded",
+      "sha256": "117a9936ff6c2cfb86b586b8cfa04a61fdf9c2ab710afd20572e23df9f17c9fe",
+      "size": 127933287,
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/public/greenflydb/GreenflyDB_YOLO_train.zip"
+    },
+    {
+      "split": "valid",
+      "filename": "GreenflyDB_YOLO_valid.zip",
+      "url": "https://data.mendeley.com/public-files/datasets/rty8hdb2xm/files/b677306b-2a34-45d9-906b-413055cfb9ef/file_downloaded",
+      "sha256": "0179b734f289595d0638a2f63f44fb9c18bb990ded308b30b1ac0b276b45e32b",
+      "size": 35244616,
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/public/greenflydb/GreenflyDB_YOLO_valid.zip"
+    },
+    {
+      "split": "test",
+      "filename": "GreenflyDB_YOLO_test_and_config.zip",
+      "url": "https://data.mendeley.com/public-files/datasets/rty8hdb2xm/files/7774a603-9cde-420a-800a-dc560559648b/file_downloaded",
+      "sha256": "d3ecfe92d0036568383c06fe7ab098da7cc252fcb57692b8d1b118cddf273030",
+      "size": 17858267,
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/public/greenflydb/GreenflyDB_YOLO_test_and_config.zip"
+    }
+  ],
+  "usage_note": "Green Fly can be mapped to official class 9 after audit; Not Green Fly is a hard-negative candidate and is not automatically converted to a 16-class label."
+}

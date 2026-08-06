@@ -1,0 +1,109 @@
+{
+  "image_id": "p58_test_013_ad055c0b6b30",
+  "source_relative_path": "test_images/58.Aphis gossypii Glover/013.jpg",
+  "source_size": {
+    "width": 7360,
+    "height": 4912
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1709
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 7,
+      "confidence": 0.311289,
+      "bbox": [
+        0.3225556,
+        0.35900499999999996,
+        0.5403395,
+        0.4569419
+      ],
+      "source": "full"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.304393,
+      "bbox": [
+        0.28304135,
+        0.2510239906377999,
+        0.0893018,
+        0.09028493856056174
+      ],
+      "source": "tile:0,429,1280,1280"
+    },
+    {
+      "class_id": 6,
+      "confidence": 0.188429,
+      "bbox": [
+        0.3225556,
+        0.35900499999999996,
+        0.5403395,
+        0.4569419
+      ],
+      "source": "full"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.149718,
+      "bbox": [
+        0.4436215499999999,
+        0.49163927442949096,
+        0.04551725,
+        0.06706608308952604
+      ],
+      "source": "tile:0,429,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.304393,
+      "bbox": [
+        0.28304135,
+        0.2510239906377999,
+        0.0893018,
+        0.09028493856056174
+      ],
+      "source": "tile:0,429,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.149718,
+      "bbox": [
+        0.4436215499999999,
+        0.49163927442949096,
+        0.04551725,
+        0.06706608308952604
+      ],
+      "source": "tile:0,429,1280,1280",
+      "prelabel_method": "native"
+    }
+  ],
+  "other_class_detections": [
+    {
+      "class_id": 7,
+      "confidence": 0.311289,
+      "bbox": [
+        0.3225556,
+        0.35900499999999996,
+        0.5403395,
+        0.4569419
+      ],
+      "source": "full"
+    },
+    {
+      "class_id": 6,
+      "confidence": 0.188429,
+      "bbox": [
+        0.3225556,
+        0.35900499999999996,
+        0.5403395,
+        0.4569419
+      ],
+      "source": "full"
+    }
+  ]
+}

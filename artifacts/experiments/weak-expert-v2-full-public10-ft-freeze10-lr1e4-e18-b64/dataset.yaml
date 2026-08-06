@@ -1,0 +1,6 @@
+path: /
+train: /root/autodl-tmp/crop-pest-system/data/experiments/weak-expert-v2-full-public10/train.txt
+val: /root/autodl-tmp/crop-pest-system/data/experiments/weak-expert-v2-full-public10/val.txt
+names:
+  0: "Blister beetle"
+  1: "Mirid bugs (Miridae)"

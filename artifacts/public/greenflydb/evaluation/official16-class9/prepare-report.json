@@ -1,0 +1,26 @@
+{
+  "source_audit": "/root/autodl-tmp/crop-pest-system/artifacts/public/greenflydb/audit.json",
+  "output_root": "/root/autodl-tmp/crop-pest-system/artifacts/public/greenflydb/evaluation/official16-class9",
+  "target_class_id": 9,
+  "training_merge": false,
+  "splits": [
+    {
+      "split": "valid",
+      "selected_image_count": 258,
+      "selected_box_count": 258,
+      "excluded_counts": {
+        "not_greenfly_or_mixed": 221
+      },
+      "dataset_yaml": "/root/autodl-tmp/crop-pest-system/artifacts/public/greenflydb/evaluation/official16-class9/dataset-valid.yaml"
+    },
+    {
+      "split": "test",
+      "selected_image_count": 119,
+      "selected_box_count": 122,
+      "excluded_counts": {
+        "not_greenfly_or_mixed": 123
+      },
+      "dataset_yaml": "/root/autodl-tmp/crop-pest-system/artifacts/public/greenflydb/evaluation/official16-class9/dataset-test.yaml"
+    }
+  ]
+}

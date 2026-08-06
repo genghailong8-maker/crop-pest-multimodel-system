@@ -1,0 +1,20 @@
+path: "C:\\Users\\genghailong\\.codex\\.chatgpt-projects\\g-p-6a714881c00c819189be0174298837d5\\crop-pest-system\\data\\official"
+train: splits/train.txt
+val: splits/val.txt
+names:
+  0: "玉米叶枯病"
+  1: "番茄斑枯病"
+  2: "南瓜白粉病"
+  3: "马铃薯早疫病"
+  4: "玉米锈病"
+  5: "番茄细菌性斑点病"
+  6: "番茄晚疫病"
+  7: "马铃薯晚疫病"
+  8: "芫菁"
+  9: "蚜虫"
+  10: "盲蝽科"
+  11: "蝼蛄"
+  12: "叶蝉科"
+  13: "蝗总科"
+  14: "蛴螬"
+  15: "豆芫菁"

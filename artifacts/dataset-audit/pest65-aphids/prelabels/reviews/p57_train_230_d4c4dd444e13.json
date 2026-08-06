@@ -1,0 +1,93 @@
+{
+  "image_id": "p57_train_230_d4c4dd444e13",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/230.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.1849112426035503,
+        0.6747103057199211,
+        0.08284023668639051,
+        0.09072978303747536
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.39497041420118345,
+        0.28615014792899407,
+        0.06952662721893488,
+        0.10256410256410259
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4245562130177515,
+        0.1599174063116371,
+        0.1375739644970414,
+        0.1124260355029586
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.7707100591715976,
+        0.39463141025641024,
+        0.10207100591715978,
+        0.19723865877712032
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.8047337278106509,
+        0.8423631656804734,
+        0.0724852071005917,
+        0.0966469428007889
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6686390532544378,
+        0.848280325443787,
+        0.0650887573964497,
+        0.09467455621301779
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.3698224852071006,
+        0.7457162228796844,
+        0.06804733727810652,
+        0.07889546351084809
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-05T09:45:21.647029+00:00"
+}

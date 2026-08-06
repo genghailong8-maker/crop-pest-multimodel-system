@@ -1,0 +1,27 @@
+{
+  "created_at": "2026-08-06T03:26:41.393854+00:00",
+  "source": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-pest65-aphids-v1-e120-b64/weights/best.pt",
+    "sha256": "16afb4c9a4a99c551f4261699587bdd8480362de74160783dfaf89f39844f092",
+    "size_bytes": 5383493
+  },
+  "onnx": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-pest65-aphids-v1-e120-b64/weights/best.onnx",
+    "sha256": "20418f13533b8ba81553dcd2604e2f3d64d4f20b5d652575fdc5ad3a68207fb5",
+    "size_bytes": 9898691
+  },
+  "configuration": {
+    "image_size": 640,
+    "device": "0",
+    "opset": 19,
+    "dynamic": true,
+    "simplify": true,
+    "half": false
+  },
+  "environment": {
+    "python": "3.12.3",
+    "ultralytics": "8.4.115",
+    "torch": "2.8.0+cu128",
+    "onnx": "1.22.0"
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "image_id": "p57_train_077_d6ffde9777c1",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/077.jpg",
+  "source_size": {
+    "width": 7360,
+    "height": 4912
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1709
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 13,
+      "confidence": 0.64198,
+      "bbox": [
+        0.46387685,
+        0.43291165359859574,
+        0.1577116,
+        0.1488164400234055
+      ],
+      "source": "tile:1024,0,1280,1280"
+    },
+    {
+      "class_id": 12,
+      "confidence": 0.556444,
+      "bbox": [
+        0.4578825,
+        0.43923087653598597,
+        0.17258415,
+        0.14728882855471037
+      ],
+      "source": "tile:1024,429,1280,1280"
+    },
+    {
+      "class_id": 12,
+      "confidence": 0.265699,
+      "bbox": [
+        0.44323435,
+        0.35827465886483323,
+        0.05676565,
+        0.22346897600936222
+      ],
+      "source": "tile:0,429,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.64198,
+      "bbox": [
+        0.46387685,
+        0.43291165359859574,
+        0.1577116,
+        0.1488164400234055
+      ],
+      "source": "tile:1024,0,1280,1280",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.556444,
+      "bbox": [
+        0.4578825,
+        0.43923087653598597,
+        0.17258415,
+        0.14728882855471037
+      ],
+      "source": "tile:1024,429,1280,1280",
+      "original_class_id": 12,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.265699,
+      "bbox": [
+        0.44323435,
+        0.35827465886483323,
+        0.05676565,
+        0.22346897600936222
+      ],
+      "source": "tile:0,429,1280,1280",
+      "original_class_id": 12,
+      "prelabel_method": "folder_label_remap"
+    }
+  ],
+  "other_class_detections": []
+}

@@ -1,0 +1,7 @@
+split,class_id,box_count
+train,0,814
+train,1,882
+valid,0,258
+valid,1,233
+test,0,122
+test,1,122

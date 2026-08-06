@@ -1,0 +1,16 @@
+{
+  "image_id": "p57_val_001_2028426a9047",
+  "source_relative_path": "val_images/57.Myzus persicae Sulzer/001.jpg",
+  "source_size": {
+    "width": 2272,
+    "height": 1704
+  },
+  "working_size": {
+    "width": 2272,
+    "height": 1704
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [],
+  "target_detections": [],
+  "other_class_detections": []
+}

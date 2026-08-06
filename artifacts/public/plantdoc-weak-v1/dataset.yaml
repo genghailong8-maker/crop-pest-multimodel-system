@@ -1,0 +1,20 @@
+path: "C:\\Users\\genghailong\\Documents\\编程大赛\\artifacts\\public\\plantdoc-weak-v1"
+train: train.txt
+val: test.txt
+names:
+  0: "Corn leaf blight"
+  1: "Tomato Septoria leaf spot"
+  2: "Squash powdery mildew"
+  3: "Potato early blight"
+  4: "Corn rust"
+  5: "Tomato bacterial spot"
+  6: "Tomato late blight"
+  7: "Potato late blight"
+  8: "Blister beetle"
+  9: "Aphids"
+  10: "Mirid bugs (Miridae)"
+  11: "Mole cricket"
+  12: "Leafhoppers (Cicadellidae)"
+  13: "Grasshoppers (Locustoidea)"
+  14: "White grub"
+  15: "Legume blister beetle"

@@ -1,0 +1,117 @@
+{
+  "image_id": "p57_train_162_f406d375b49c",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/162.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.23520710059171598,
+        0.5839805226824457,
+        0.09763313609467453,
+        0.10453648915187386
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.3624260355029586,
+        0.5879252958579881,
+        0.09171597633136092,
+        0.10256410256410264
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.47041420118343197,
+        0.017905571992110455,
+        0.07100591715976329,
+        0.13214990138067062
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.3668639053254438,
+        0.07707716962524655,
+        0.09911242603550297,
+        0.08284023668639054
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.17455621301775148,
+        0.14808308678500987,
+        0.10798816568047337,
+        0.07889546351084811
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.0014792899408284023,
+        0.1717517258382643,
+        0.08284023668639054,
+        0.09861932938856016
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.029585798816568046,
+        0.40449334319526625,
+        0.08579881656804735,
+        0.11242603550295865
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.3505917159763314,
+        0.2940396942800789,
+        0.10650887573964496,
+        0.0729783037475345
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.04437869822485207,
+        0.6865446252465484,
+        0.09763313609467456,
+        0.08481262327416172
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-06T01:30:37.868848+00:00"
+}

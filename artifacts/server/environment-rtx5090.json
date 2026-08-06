@@ -1,0 +1,18 @@
+{
+  "python": "3.12.3 | packaged by Anaconda, Inc. | (main, May  6 2024, 19:46:43) [GCC 11.2.0]",
+  "platform": "Linux-5.15.0-78-generic-x86_64-with-glibc2.35",
+  "torch": "2.8.0+cu128",
+  "torch_cuda_build": "12.8",
+  "cuda_available": true,
+  "cuda_device_count": 1,
+  "cuda_devices": [
+    {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 5090",
+      "total_memory_gb": 31.36,
+      "compute_capability": "12.0"
+    }
+  ],
+  "nvidia_smi": "NVIDIA GeForce RTX 5090, 580.76.05, 32607 MiB",
+  "ultralytics": "8.4.115"
+}

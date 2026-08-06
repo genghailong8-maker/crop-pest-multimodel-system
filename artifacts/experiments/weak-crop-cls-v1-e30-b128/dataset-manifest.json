@@ -1,0 +1,49 @@
+{
+  "created_at_utc": "2026-08-06T10:16:41.738213+00:00",
+  "policy": "official train only for fitting; official validation is frozen under official_eval",
+  "seed": 20260729,
+  "crop_expand": 0.5,
+  "internal_val_percent": 15,
+  "class_names": {
+    "8": "08_blister_beetle",
+    "10": "10_mirid_bugs",
+    "13": "13_grasshoppers",
+    "15": "15_legume_blister_beetle"
+  },
+  "sources": {
+    "official_train": "/root/autodl-tmp/crop-pest-system/data/official/splits/train.txt",
+    "official_train_sha256": "0b454f3c54f23832de9433e2cfcc55bc574f931a9ed4ca703772105697a04b0d",
+    "official_val": "/root/autodl-tmp/crop-pest-system/data/official/splits/val.txt",
+    "official_val_sha256": "91a777a8818b8766f49f67891562d1cd808198a89586ec370b49a9e56d7096a4"
+  },
+  "source_image_counts": {
+    "train": 1119,
+    "val": 193,
+    "official_eval": 333
+  },
+  "crop_counts": {
+    "train": {
+      "8": 311,
+      "10": 292,
+      "13": 308,
+      "15": 271
+    },
+    "val": {
+      "8": 62,
+      "10": 48,
+      "13": 44,
+      "15": 51
+    },
+    "official_eval": {
+      "8": 98,
+      "10": 87,
+      "13": 89,
+      "15": 83
+    }
+  },
+  "cross_split_exact_duplicates": {
+    "group_count": 0,
+    "file_count": 0,
+    "examples": []
+  }
+}

@@ -1,0 +1,678 @@
+{
+  "dataset_root": "E:\\第三届“农信杯”编程大赛\\基于多模型协同的农作物病虫害识别与防治系统开发",
+  "seed": 20260729,
+  "image_count": 4164,
+  "label_count": 4164,
+  "class_count": 16,
+  "box_count": 5920,
+  "missing_labels": [],
+  "missing_images": [],
+  "empty_label_count": 0,
+  "empty_labels": [],
+  "multi_class_image_count": 4,
+  "corrupt_images": [],
+  "invalid_record_count": 0,
+  "source_prefix_counts": {
+    "ip": 3291,
+    "pd": 873
+  },
+  "image_width_summary": {
+    "count": 4164,
+    "min": 120.0,
+    "p05": 250.15,
+    "p25": 366.0,
+    "median": 500.0,
+    "p75": 800.0,
+    "p95": 1300.0,
+    "max": 6000.0,
+    "mean": 654.3061959654178
+  },
+  "image_height_summary": {
+    "count": 4164,
+    "min": 81.0,
+    "p05": 192.15,
+    "p25": 296.75,
+    "median": 439.0,
+    "p75": 600.0,
+    "p95": 1148.9999999999982,
+    "max": 5184.0,
+    "mean": 523.5895773294909
+  },
+  "boxes_per_image_summary": {
+    "count": 4164,
+    "min": 1.0,
+    "p05": 1.0,
+    "p25": 1.0,
+    "median": 1.0,
+    "p75": 1.0,
+    "p95": 4.0,
+    "max": 18.0,
+    "mean": 1.4217098943323727
+  },
+  "box_area_ratio_summary": {
+    "count": 5920,
+    "min": 0.0009981125232288,
+    "p05": 0.03032289924711934,
+    "p25": 0.12245050365,
+    "median": 0.2759741717663693,
+    "p75": 0.45449296071308093,
+    "p95": 0.7814610174096847,
+    "max": 0.9990887534466145,
+    "mean": 0.31575163734077705
+  },
+  "box_width_pixels_summary": {
+    "count": 5920,
+    "min": 15.99999964,
+    "p05": 75.00000022799999,
+    "p25": 159.0,
+    "median": 270.49999985,
+    "p75": 441.25000244,
+    "p95": 846.1000000000005,
+    "max": 4566.99999744,
+    "mean": 355.5128378492213
+  },
+  "box_height_pixels_summary": {
+    "count": 5920,
+    "min": 1.99999968,
+    "p05": 68.000000792,
+    "p25": 133.99999942000002,
+    "median": 224.00000001,
+    "p75": 355.0,
+    "p95": 760.0999974560004,
+    "max": 5127.99999552,
+    "mean": 298.38243247940545
+  },
+  "boxes_with_min_side_under_16px": 3,
+  "boxes_with_min_side_under_32px": 27,
+  "top_image_dimensions": [
+    {
+      "size": "800x600",
+      "count": 125
+    },
+    {
+      "size": "500x375",
+      "count": 114
+    },
+    {
+      "size": "800x534",
+      "count": 99
+    },
+    {
+      "size": "500x333",
+      "count": 89
+    },
+    {
+      "size": "800x533",
+      "count": 69
+    },
+    {
+      "size": "295x221",
+      "count": 65
+    },
+    {
+      "size": "1024x768",
+      "count": 34
+    },
+    {
+      "size": "800x800",
+      "count": 30
+    },
+    {
+      "size": "640x480",
+      "count": 28
+    },
+    {
+      "size": "312x208",
+      "count": 24
+    },
+    {
+      "size": "253x190",
+      "count": 22
+    },
+    {
+      "size": "325x201",
+      "count": 21
+    },
+    {
+      "size": "313x209",
+      "count": 21
+    },
+    {
+      "size": "500x500",
+      "count": 19
+    },
+    {
+      "size": "500x400",
+      "count": 19
+    },
+    {
+      "size": "300x225",
+      "count": 19
+    },
+    {
+      "size": "600x800",
+      "count": 19
+    },
+    {
+      "size": "269x179",
+      "count": 18
+    },
+    {
+      "size": "600x400",
+      "count": 17
+    },
+    {
+      "size": "800x450",
+      "count": 16
+    }
+  ],
+  "exact_duplicate_group_count": 8,
+  "exact_duplicate_groups": [
+    [
+      "pd_dfd1544709012a1c.jpg",
+      "pd_90a2d8b734802871.jpg"
+    ],
+    [
+      "pd_a16f74121d32bd5b.jpg",
+      "pd_c5be590260fcf61c.jpg"
+    ],
+    [
+      "pd_1e2deb994ba0972f.jpg",
+      "pd_bdc238df6f1cdeb4.jpg"
+    ],
+    [
+      "pd_73b8a8495ff242da.jpg",
+      "pd_3beb202f14ee4f79.jpg"
+    ],
+    [
+      "pd_126d67a051e16765.jpg",
+      "pd_36cba2156d8e3328.jpg"
+    ],
+    [
+      "pd_87798f4c50c3ba4b.jpg",
+      "pd_54b46a498bd7b1bd.jpg"
+    ],
+    [
+      "pd_0662709e0502f383.jpg",
+      "pd_89717143e7febb72.jpg"
+    ],
+    [
+      "pd_c466e22330df7b25.jpg",
+      "pd_7daa85f59e337332.jpg"
+    ]
+  ],
+  "difference_hash_group_count": 153,
+  "difference_hash_groups_sample": [
+    [
+      "ip_80944fe8bb68d5e7.jpg",
+      "ip_7d139ab1ff5e354d.jpg"
+    ],
+    [
+      "pd_d9543186500d8410.jpg",
+      "pd_eadec882c4b718cd.jpg"
+    ],
+    [
+      "pd_fb17981d5485fe29.jpg",
+      "pd_fa0fc5ee782a8803.jpg"
+    ],
+    [
+      "ip_379c23710ec8a470.jpg",
+      "ip_d1a577ade9239d66.jpg"
+    ],
+    [
+      "ip_e534c2f2ced25303.jpg",
+      "ip_edc53b14498da740.jpg"
+    ],
+    [
+      "ip_8639fd61c332e065.jpg",
+      "ip_48da9125ab443d0c.jpg",
+      "ip_d2778ba6ff7365f0.jpg"
+    ],
+    [
+      "ip_d64560d9d6cde686.jpg",
+      "ip_c05fba3510b2dbba.jpg"
+    ],
+    [
+      "ip_1b26ebf5d5597883.jpg",
+      "ip_32835ab5740f29d7.jpg",
+      "ip_be1f8781f97e503f.jpg"
+    ],
+    [
+      "ip_e8a9fb9343e8522a.jpg",
+      "ip_6be0bf6ab52d1c3e.jpg"
+    ],
+    [
+      "pd_a7cd76133472a5ca.jpg",
+      "pd_e4e73232fa0b01f3.jpg"
+    ],
+    [
+      "ip_1bb87e5e2e93c4c9.jpg",
+      "ip_a02dbcb94baf4fd7.jpg"
+    ],
+    [
+      "ip_1de94effb1019e1b.jpg",
+      "ip_62c32d24549ca92e.jpg",
+      "ip_aef9af9564af659b.jpg"
+    ],
+    [
+      "ip_6cc6ac60c67097cb.jpg",
+      "ip_1c645690e47e0aaf.jpg",
+      "ip_277e7109a0bccc59.jpg"
+    ],
+    [
+      "ip_3df056c7ff5398ae.jpg",
+      "ip_0cb77c9f7ca3e713.jpg"
+    ],
+    [
+      "ip_de72634f7c5b2d61.jpg",
+      "ip_072d0b2fe329fa9c.jpg"
+    ],
+    [
+      "ip_7c8af788f2df69ff.jpg",
+      "ip_49350e97b913312d.jpg"
+    ],
+    [
+      "ip_753d47d6518e7410.jpg",
+      "ip_f12e344c2dcff19f.jpg"
+    ],
+    [
+      "pd_dfd1544709012a1c.jpg",
+      "pd_90a2d8b734802871.jpg"
+    ],
+    [
+      "ip_cbe5ca7e88e0fdb3.jpg",
+      "ip_97d568cb5efd362c.jpg",
+      "ip_97e7204a0adaa40c.jpg",
+      "ip_7ea090c5bda410e6.jpg"
+    ],
+    [
+      "ip_9fb2e5539748c41c.jpg",
+      "ip_9b892027c1b2aea6.jpg",
+      "ip_0540c74759ae687a.jpg"
+    ],
+    [
+      "ip_7cabb077ac8bb05a.jpg",
+      "ip_351bd9eefc5192b9.jpg",
+      "ip_3875046fa08ed445.jpg",
+      "ip_8119d9523c6cfbc8.jpg",
+      "ip_aee9528e1921a56c.jpg",
+      "ip_93228b623414cbc7.jpg",
+      "ip_95aeeabca89358f2.jpg"
+    ],
+    [
+      "ip_ea54ae0c22da80ce.jpg",
+      "ip_8eee95768690b878.jpg",
+      "ip_a7524fc308fbd218.jpg",
+      "ip_de7656292f229aba.jpg",
+      "ip_8e017e9322e84f1b.jpg",
+      "ip_1a56a192ff040b03.jpg",
+      "ip_0c1a341c626ab8a7.jpg",
+      "ip_772811e257021a06.jpg",
+      "ip_782d377bf0f7f6ce.jpg"
+    ],
+    [
+      "ip_f45d586dc2add575.jpg",
+      "ip_c48f1efddccd96a1.jpg"
+    ],
+    [
+      "ip_81133b52d25aeecd.jpg",
+      "ip_2ecd626e06aa4075.jpg"
+    ],
+    [
+      "ip_03c36c3314117282.jpg",
+      "ip_2f983045761ed076.jpg",
+      "ip_d0407ba10f416ff3.jpg",
+      "ip_bba6558869377c69.jpg"
+    ],
+    [
+      "ip_278a60a3b9ede9c4.jpg",
+      "ip_1f2a2c80a5a6a4f0.jpg"
+    ],
+    [
+      "ip_ef596507c746bd20.jpg",
+      "ip_7666d51e625fe904.jpg"
+    ],
+    [
+      "ip_7fbbc402766768f1.jpg",
+      "ip_e14d3c5d58419f3c.jpg"
+    ],
+    [
+      "ip_99d197f382890c80.jpg",
+      "ip_99daa7d7420fa115.jpg"
+    ],
+    [
+      "ip_07448806cd74e2c9.jpg",
+      "ip_80865b214afa1673.jpg",
+      "ip_1f8646afbbe80ccf.jpg"
+    ],
+    [
+      "ip_f3e9b30261260676.jpg",
+      "ip_77537facbcff9f80.jpg"
+    ],
+    [
+      "ip_252a2eaa28699e19.jpg",
+      "ip_808a7a3dbfcd6bc1.jpg"
+    ],
+    [
+      "ip_08d10c5c74e20915.jpg",
+      "ip_a5a35f3c866f84e7.jpg"
+    ],
+    [
+      "pd_a16f74121d32bd5b.jpg",
+      "pd_c5be590260fcf61c.jpg"
+    ],
+    [
+      "ip_78fe7cc0c4a5fd78.jpg",
+      "ip_857f656d22435f2e.jpg",
+      "ip_cce17381c9e8e6a9.jpg"
+    ],
+    [
+      "ip_81777da247709948.jpg",
+      "ip_677043db5e4d356a.jpg"
+    ],
+    [
+      "ip_d77914ec8b4cd384.jpg",
+      "ip_5c1d14c8c3a2b0f2.jpg"
+    ],
+    [
+      "ip_b9e37f77ecae2802.jpg",
+      "ip_f0918951e7c3cfb8.jpg"
+    ],
+    [
+      "ip_6565fc339387d032.jpg",
+      "ip_cb6f3e367a305ed4.jpg"
+    ],
+    [
+      "ip_bfc9a730c61ac4d1.jpg",
+      "ip_c129af1ac544ad81.jpg"
+    ],
+    [
+      "ip_8c1a854ca985c068.jpg",
+      "ip_0694a67180747a02.jpg"
+    ],
+    [
+      "ip_0bda008da701e853.jpg",
+      "ip_b8de18ace5ec25d5.jpg"
+    ],
+    [
+      "ip_eeb9ae98f2d6b712.jpg",
+      "ip_5ee4423d3a3141fe.jpg",
+      "ip_ec9e04ba9dedb342.jpg",
+      "ip_31b9fae1d5bb1e4c.jpg",
+      "ip_e1de4d44661cc20b.jpg",
+      "ip_a57237cd04008f51.jpg"
+    ],
+    [
+      "pd_1e2deb994ba0972f.jpg",
+      "pd_bdc238df6f1cdeb4.jpg"
+    ],
+    [
+      "ip_528acdfd3ebd7dd3.jpg",
+      "ip_e1f73e1850de90e3.jpg",
+      "ip_16cdd956dd938128.jpg"
+    ],
+    [
+      "ip_d724133b43da6111.jpg",
+      "ip_bb0d5a23785c6817.jpg"
+    ],
+    [
+      "pd_5d2dd5735ed7b156.jpg",
+      "pd_1c23f6704c9a1446.jpg"
+    ],
+    [
+      "ip_5e25038790f1e558.jpg",
+      "ip_b05c893750d5a21c.jpg"
+    ],
+    [
+      "ip_6e709fb008e37a66.jpg",
+      "ip_f9784e70d97dc5a4.jpg",
+      "ip_23bf5921863cadf2.jpg"
+    ],
+    [
+      "ip_d91c680b49f5b24d.jpg",
+      "ip_8097d1f93a347054.jpg"
+    ]
+  ],
+  "class_stats": [
+    {
+      "class_id": 0,
+      "name_zh": "玉米叶枯病",
+      "name_en": "Corn leaf blight",
+      "crop": "玉米",
+      "category_type": "病害",
+      "source_dataset": "PlantDoc-detection",
+      "image_count": 163,
+      "box_count": 332,
+      "median_area_ratio": 0.2620211700533881,
+      "p05_area_ratio": 0.034496341456414906,
+      "median_box_width_pixels": 321.499998375,
+      "median_box_height_pixels": 349.99999844999996,
+      "boxes_under_32px": 1
+    },
+    {
+      "class_id": 1,
+      "name_zh": "番茄斑枯病",
+      "name_en": "Tomato Septoria leaf spot",
+      "crop": "番茄",
+      "category_type": "病害",
+      "source_dataset": "PlantDoc-detection",
+      "image_count": 127,
+      "box_count": 380,
+      "median_area_ratio": 0.091923635281837,
+      "p05_area_ratio": 0.02040412985909018,
+      "median_box_width_pixels": 193.50000062499998,
+      "median_box_height_pixels": 215.500000685,
+      "boxes_under_32px": 4
+    },
+    {
+      "class_id": 2,
+      "name_zh": "南瓜白粉病",
+      "name_en": "Squash powdery mildew",
+      "crop": "南瓜",
+      "category_type": "病害",
+      "source_dataset": "PlantDoc-detection",
+      "image_count": 111,
+      "box_count": 224,
+      "median_area_ratio": 0.20391478955812503,
+      "p05_area_ratio": 0.04569858369983153,
+      "median_box_width_pixels": 411.49999812,
+      "median_box_height_pixels": 348.00000001499996,
+      "boxes_under_32px": 0
+    },
+    {
+      "class_id": 3,
+      "name_zh": "马铃薯早疫病",
+      "name_en": "Potato early blight",
+      "crop": "马铃薯",
+      "category_type": "病害",
+      "source_dataset": "PlantDoc-detection",
+      "image_count": 98,
+      "box_count": 272,
+      "median_area_ratio": 0.09325766216911369,
+      "p05_area_ratio": 0.0088067531327949,
+      "median_box_width_pixels": 219.00000075,
+      "median_box_height_pixels": 211.000002,
+      "boxes_under_32px": 2
+    },
+    {
+      "class_id": 4,
+      "name_zh": "玉米锈病",
+      "name_en": "Corn rust",
+      "crop": "玉米",
+      "category_type": "病害",
+      "source_dataset": "PlantDoc-detection",
+      "image_count": 99,
+      "box_count": 110,
+      "median_area_ratio": 0.7707167502310487,
+      "p05_area_ratio": 0.2796109121063035,
+      "median_box_width_pixels": 569.50000032,
+      "median_box_height_pixels": 476.49999913,
+      "boxes_under_32px": 0
+    },
+    {
+      "class_id": 5,
+      "name_zh": "番茄细菌性斑点病",
+      "name_en": "Tomato bacterial spot",
+      "crop": "番茄",
+      "category_type": "病害",
+      "source_dataset": "PlantDoc-detection",
+      "image_count": 93,
+      "box_count": 219,
+      "median_area_ratio": 0.1224777761,
+      "p05_area_ratio": 0.00872175423125,
+      "median_box_width_pixels": 206.0000005,
+      "median_box_height_pixels": 200.9999992,
+      "boxes_under_32px": 13
+    },
+    {
+      "class_id": 6,
+      "name_zh": "番茄晚疫病",
+      "name_en": "Tomato late blight",
+      "crop": "番茄",
+      "category_type": "病害",
+      "source_dataset": "PlantDoc-detection",
+      "image_count": 94,
+      "box_count": 195,
+      "median_area_ratio": 0.17988266576000003,
+      "p05_area_ratio": 0.03029088483337448,
+      "median_box_width_pixels": 311.000004,
+      "median_box_height_pixels": 308.00000088,
+      "boxes_under_32px": 0
+    },
+    {
+      "class_id": 7,
+      "name_zh": "马铃薯晚疫病",
+      "name_en": "Potato late blight",
+      "crop": "马铃薯",
+      "category_type": "病害",
+      "source_dataset": "PlantDoc-detection",
+      "image_count": 90,
+      "box_count": 218,
+      "median_area_ratio": 0.1102495620758576,
+      "p05_area_ratio": 0.0203109736875,
+      "median_box_width_pixels": 239.4999972,
+      "median_box_height_pixels": 241.500000365,
+      "boxes_under_32px": 1
+    },
+    {
+      "class_id": 8,
+      "name_zh": "芫菁",
+      "name_en": "Blister beetle",
+      "crop": "苜蓿及豆科作物",
+      "category_type": "害虫",
+      "source_dataset": "IP102-detection",
+      "image_count": 425,
+      "box_count": 471,
+      "median_area_ratio": 0.2921321344,
+      "p05_area_ratio": 0.09730186368265076,
+      "median_box_width_pixels": 323.00000207,
+      "median_box_height_pixels": 238.99999725,
+      "boxes_under_32px": 0
+    },
+    {
+      "class_id": 9,
+      "name_zh": "蚜虫",
+      "name_en": "Aphids",
+      "crop": "玉米",
+      "category_type": "害虫",
+      "source_dataset": "IP102-detection",
+      "image_count": 425,
+      "box_count": 787,
+      "median_area_ratio": 0.13763033151999998,
+      "p05_area_ratio": 0.021914895099375,
+      "median_box_width_pixels": 167.99999832,
+      "median_box_height_pixels": 133.0,
+      "boxes_under_32px": 4
+    },
+    {
+      "class_id": 10,
+      "name_zh": "盲蝽科",
+      "name_en": "Mirid bugs (Miridae)",
+      "crop": "葡萄",
+      "category_type": "害虫",
+      "source_dataset": "IP102-detection",
+      "image_count": 425,
+      "box_count": 427,
+      "median_area_ratio": 0.45379213425,
+      "p05_area_ratio": 0.24754444674500004,
+      "median_box_width_pixels": 387.9999984,
+      "median_box_height_pixels": 334.00000176,
+      "boxes_under_32px": 0
+    },
+    {
+      "class_id": 11,
+      "name_zh": "蝼蛄",
+      "name_en": "Mole cricket",
+      "crop": "玉米",
+      "category_type": "害虫",
+      "source_dataset": "IP102-detection",
+      "image_count": 425,
+      "box_count": 431,
+      "median_area_ratio": 0.40669999754999997,
+      "p05_area_ratio": 0.2178366073702767,
+      "median_box_width_pixels": 368.0,
+      "median_box_height_pixels": 205.99999820999997,
+      "boxes_under_32px": 0
+    },
+    {
+      "class_id": 12,
+      "name_zh": "叶蝉科",
+      "name_en": "Leafhoppers (Cicadellidae)",
+      "crop": "芒果",
+      "category_type": "害虫",
+      "source_dataset": "IP102-detection",
+      "image_count": 427,
+      "box_count": 430,
+      "median_area_ratio": 0.4868703702462963,
+      "p05_area_ratio": 0.207743104273,
+      "median_box_width_pixels": 408.00000117,
+      "median_box_height_pixels": 288.000000805,
+      "boxes_under_32px": 0
+    },
+    {
+      "class_id": 13,
+      "name_zh": "蝗总科",
+      "name_en": "Grasshoppers (Locustoidea)",
+      "crop": "苜蓿",
+      "category_type": "害虫",
+      "source_dataset": "IP102-detection",
+      "image_count": 425,
+      "box_count": 441,
+      "median_area_ratio": 0.234071479477467,
+      "p05_area_ratio": 0.11363733234000001,
+      "median_box_width_pixels": 278.00000172,
+      "median_box_height_pixels": 215.00000164000002,
+      "boxes_under_32px": 0
+    },
+    {
+      "class_id": 14,
+      "name_zh": "蛴螬",
+      "name_en": "White grub",
+      "crop": "玉米",
+      "category_type": "害虫",
+      "source_dataset": "IP102-detection",
+      "image_count": 371,
+      "box_count": 578,
+      "median_area_ratio": 0.22575851830370372,
+      "p05_area_ratio": 0.05424697013355373,
+      "median_box_width_pixels": 207.5000007,
+      "median_box_height_pixels": 164.999997,
+      "boxes_under_32px": 1
+    },
+    {
+      "class_id": 15,
+      "name_zh": "豆芫菁",
+      "name_en": "Legume blister beetle",
+      "crop": "苜蓿及豆科作物",
+      "category_type": "害虫",
+      "source_dataset": "IP102-detection",
+      "image_count": 370,
+      "box_count": 405,
+      "median_area_ratio": 0.3289467624212963,
+      "p05_area_ratio": 0.12847573492362813,
+      "median_box_width_pixels": 186.9999996,
+      "median_box_height_pixels": 145.99999986,
+      "boxes_under_32px": 1
+    }
+  ]
+}

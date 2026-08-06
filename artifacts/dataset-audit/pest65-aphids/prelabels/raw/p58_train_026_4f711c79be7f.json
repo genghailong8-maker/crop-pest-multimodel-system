@@ -1,0 +1,89 @@
+{
+  "image_id": "p58_train_026_4f711c79be7f",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/026.jpg",
+  "source_size": {
+    "width": 7360,
+    "height": 4912
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1709
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.738385,
+      "bbox": [
+        0.3800842,
+        0.2475324,
+        0.2251393,
+        0.4019201
+      ],
+      "source": "full"
+    },
+    {
+      "class_id": 13,
+      "confidence": 0.558116,
+      "bbox": [
+        0.5,
+        0.2554172966647162,
+        0.0949413,
+        0.3601125336454067
+      ],
+      "source": "tile:1280,0,1280,1280"
+    },
+    {
+      "class_id": 13,
+      "confidence": 0.233327,
+      "bbox": [
+        0.40218775000000007,
+        0.2451357284961966,
+        0.1912972,
+        0.3399249338794617
+      ],
+      "source": "tile:1024,0,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.738385,
+      "bbox": [
+        0.3800842,
+        0.2475324,
+        0.2251393,
+        0.4019201
+      ],
+      "source": "full",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.558116,
+      "bbox": [
+        0.5,
+        0.2554172966647162,
+        0.0949413,
+        0.3601125336454067
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.233327,
+      "bbox": [
+        0.40218775000000007,
+        0.2451357284961966,
+        0.1912972,
+        0.3399249338794617
+      ],
+      "source": "tile:1024,0,1280,1280",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    }
+  ],
+  "other_class_detections": []
+}

@@ -1,0 +1,30 @@
+{
+  "source_root": "C:\\编程大赛数据\\Dataset\\pest65",
+  "source_is_read_only": true,
+  "class_prefixes": [
+    "57.",
+    "58."
+  ],
+  "target_mapping": {
+    "class_id": 9,
+    "class_name": "蚜虫"
+  },
+  "raw_file_count": 485,
+  "status_counts": {
+    "candidate": 397,
+    "reject": 88
+  },
+  "reason_counts": {
+    "duplicate_or_near_duplicate": 29,
+    "unreadable": 59
+  },
+  "duplicate_or_near_duplicate_extra_count": 29,
+  "near_duplicate_hamming_threshold": 3,
+  "reference": {
+    "root": "E:\\第三届“农信杯”编程大赛\\基于多模型协同的农作物病虫害识别与防治系统开发\\训练数据\\图片",
+    "file_list": "C:\\Users\\genghailong\\Documents\\编程大赛\\data\\official\\splits\\val-files.txt",
+    "image_count": 833,
+    "near_overlap_count": 0
+  },
+  "provenance_and_license": "missing; must be supplied before competition submission or redistribution"
+}

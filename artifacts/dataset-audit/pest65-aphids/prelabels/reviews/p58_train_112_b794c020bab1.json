@@ -1,0 +1,93 @@
+{
+  "image_id": "p58_train_112_b794c020bab1",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/112.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.66469275,
+        0.5375662211819777,
+        0.04618895,
+        0.058634635459332944
+      ],
+      "confidence": 0.555653,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.5958859999999999,
+        0.4839927536571094,
+        0.0664745,
+        0.07573046225863078
+      ],
+      "confidence": 0.434216,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.46005917159763315,
+        0.42545791925102405,
+        0.06611072840236681,
+        0.08247309134674552
+      ],
+      "confidence": 0.185234,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.53684685,
+        0.4840888098303101,
+        0.0532133,
+        0.06492932943241662
+      ],
+      "confidence": 0.165004,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.8136397488165681,
+        0.5949470605503632,
+        0.0773505,
+        0.06093481568168519
+      ],
+      "confidence": 0.153436,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.25443786982248523,
+        0.2618965158966544,
+        0.06952662721893488,
+        0.08644455219228375
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.08727810650887574,
+        0.5456119692456881,
+        0.05769230769230768,
+        0.08644455219228375
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-06T02:10:05.418140+00:00"
+}

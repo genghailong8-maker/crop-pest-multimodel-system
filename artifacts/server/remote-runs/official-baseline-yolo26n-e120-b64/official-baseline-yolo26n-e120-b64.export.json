@@ -1,0 +1,27 @@
+{
+  "created_at": "2026-08-06T03:16:43.249558+00:00",
+  "source": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-baseline-yolo26n-e120-b64/weights/best.pt",
+    "sha256": "0443b179564564fce071b7595e1c4a68484a339230951c5e8cefe279af066192",
+    "size_bytes": 5392837
+  },
+  "onnx": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-baseline-yolo26n-e120-b64/weights/best.onnx",
+    "sha256": "1ef159f4e5ca32bcbdcf62938dede3a2ce9fffe992bd39e78ecc277cc22988b5",
+    "size_bytes": 10509465
+  },
+  "configuration": {
+    "image_size": 640,
+    "device": "0",
+    "opset": 19,
+    "dynamic": true,
+    "simplify": true,
+    "half": false
+  },
+  "environment": {
+    "python": "3.12.3",
+    "ultralytics": "8.4.115",
+    "torch": "2.8.0+cu128",
+    "onnx": "1.22.0"
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "image_id": "p57_train_163_ef2a3574ff1d",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/163.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.0744192676056338,
+        0.09391391549295774,
+        0.06216969014084507,
+        0.1316283192488263
+      ],
+      "confidence": 0.351917,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.7189349112426036,
+        0.5326984714003945,
+        0.0976331360946745,
+        0.08481262327416172
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.8535502958579881,
+        0.19739275147928995,
+        0.06656804733727817,
+        0.10650887573964499
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.01775147928994083,
+        0.2960120808678501,
+        0.062130177514792904,
+        0.12623274161735704
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.1863905325443787,
+        0.5839805226824457,
+        0.09023668639053256,
+        0.11045364891518739
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.31952662721893493,
+        0.5879252958579881,
+        0.09171597633136092,
+        0.12623274161735698
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4452662721893491,
+        0.4932507396449704,
+        0.06065088757396453,
+        0.0887573964497042
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6109467455621301,
+        0.05340853057199211,
+        0.08431952662721898,
+        0.13609467455621302
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.33875739644970415,
+        0.09680103550295859,
+        0.11242603550295854,
+        0.08875739644970414
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6494082840236687,
+        0.2526195759368836,
+        0.06804733727810641,
+        0.14201183431952663
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.34763313609467456,
+        0.3453217455621302,
+        0.10502958579881655,
+        0.10059171597633138
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-06T01:31:12.184210+00:00"
+}

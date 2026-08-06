@@ -1,0 +1,79 @@
+{
+  "created_at": "2026-08-06T09:16:33.495929+00:00",
+  "model": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/weak-expert-v2-full-public10-ft-freeze10-lr1e4-e18-b64/weights/best.pt",
+    "format": "pt",
+    "sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49",
+    "size_bytes": 5383365
+  },
+  "data": "/root/autodl-tmp/crop-pest-system/data/experiments/weak-expert-v2-full-public10/scidb_test_eval.yaml",
+  "configuration": {
+    "device": "0",
+    "image_size": 640,
+    "batch": 64,
+    "workers": 8
+  },
+  "overall": {
+    "precision": 0.9622769968162758,
+    "recall": 0.9230769230769231,
+    "map50": 0.9896428571428573,
+    "map50_95": 0.5498113553113553
+  },
+  "per_class": [
+    {
+      "class_id": 0,
+      "class_name": "Blister beetle",
+      "precision": 0.9271947309534304,
+      "recall": 1.0,
+      "f1": 0.9622221522935822,
+      "map50": 0.995,
+      "map50_95": 0.564
+    },
+    {
+      "class_id": 1,
+      "class_name": "Mirid bugs (Miridae)",
+      "precision": 0.9973592626791211,
+      "recall": 0.8461538461538461,
+      "f1": 0.9155556009551179,
+      "map50": 0.9842857142857144,
+      "map50_95": 0.5356227106227107
+    }
+  ],
+  "confusion_matrix": {
+    "axis": "rows=predicted, columns=actual; final index=background",
+    "labels": [
+      "Blister beetle",
+      "Mirid bugs (Miridae)",
+      "background"
+    ],
+    "matrix": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ]
+  },
+  "speed_ms_per_image": {
+    "preprocess": 0.20546326413750648,
+    "inference": 3.0786426505073905,
+    "loss": 0.00031245872378349304,
+    "postprocess": 0.05253986455500126
+  },
+  "environment": {
+    "python": "3.12.3",
+    "ultralytics": "8.4.115",
+    "torch": "2.8.0+cu128",
+    "onnxruntime_gpu": "1.26.0"
+  }
+}

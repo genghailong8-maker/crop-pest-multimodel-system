@@ -1,0 +1,41 @@
+{
+  "image_id": "p58_train_003_2e1ddc765f8f",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/003.jpg",
+  "source_size": {
+    "width": 2272,
+    "height": 1704
+  },
+  "working_size": {
+    "width": 2272,
+    "height": 1704
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.127686,
+      "bbox": [
+        0.5779292394366197,
+        0.8599888075117371,
+        0.39407188732394366,
+        0.1400111924882629
+      ],
+      "source": "tile:992,424,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.127686,
+      "bbox": [
+        0.5779292394366197,
+        0.8599888075117371,
+        0.39407188732394366,
+        0.1400111924882629
+      ],
+      "source": "tile:992,424,1280,1280",
+      "prelabel_method": "native"
+    }
+  ],
+  "other_class_detections": []
+}

@@ -1,0 +1,88 @@
+{
+  "image_id": "p57_train_096_d030605bc117",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/096.jpg",
+  "source_size": {
+    "width": 7360,
+    "height": 4912
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1709
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.823236,
+      "bbox": [
+        0.6201059499999999,
+        0.3354474803978935,
+        0.0814855,
+        0.11974943007606788
+      ],
+      "source": "tile:1280,0,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.270987,
+      "bbox": [
+        0.5552416499999999,
+        0.44234058747805727,
+        0.07854225,
+        0.11200307080163839
+      ],
+      "source": "tile:1280,0,1280,1280"
+    },
+    {
+      "class_id": 13,
+      "confidence": 0.101776,
+      "bbox": [
+        0.36605785,
+        0.5577155108250439,
+        0.13383435,
+        0.27069093973083674
+      ],
+      "source": "tile:0,429,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.823236,
+      "bbox": [
+        0.6201059499999999,
+        0.3354474803978935,
+        0.0814855,
+        0.11974943007606788
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.270987,
+      "bbox": [
+        0.5552416499999999,
+        0.44234058747805727,
+        0.07854225,
+        0.11200307080163839
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.101776,
+      "bbox": [
+        0.36605785,
+        0.5577155108250439,
+        0.13383435,
+        0.27069093973083674
+      ],
+      "source": "tile:0,429,1280,1280",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    }
+  ],
+  "other_class_detections": []
+}

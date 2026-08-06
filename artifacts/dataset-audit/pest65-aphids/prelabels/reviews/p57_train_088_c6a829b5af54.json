@@ -1,0 +1,93 @@
+{
+  "image_id": "p57_train_088_c6a829b5af54",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/088.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4539503,
+        0.40270560093622,
+        0.0460497,
+        0.12470443066120539
+      ],
+      "confidence": 0.869471,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.15693955,
+        0.6601245359859567,
+        0.07093825,
+        0.07988690462258631
+      ],
+      "confidence": 0.824107,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.40919620000000007,
+        0.4822443815096547,
+        0.0637761,
+        0.07769262960795786
+      ],
+      "confidence": 0.668459,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.20195825000000003,
+        0.646095279110591,
+        0.0657629,
+        0.10140228905792861
+      ],
+      "confidence": 0.610314,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.5233488,
+        0.3256066097132826,
+        0.09046955,
+        0.1203311597425395
+      ],
+      "confidence": 0.504705,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.09641965,
+        0.7008493575190169,
+        0.0788903,
+        0.04812665184318315
+      ],
+      "confidence": 0.337435,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6464497041420119,
+        0.1555032208907668,
+        0.07988165680473369,
+        0.10860982198517699
+      ],
+      "confidence": 0.217505,
+      "prelabel_method": "native",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-06T01:21:02.821086+00:00"
+}

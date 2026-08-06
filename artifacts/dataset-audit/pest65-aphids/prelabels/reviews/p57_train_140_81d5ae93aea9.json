@@ -1,0 +1,93 @@
+{
+  "image_id": "p57_train_140_81d5ae93aea9",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/140.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4475928450704226,
+        0.5257923004694837,
+        0.11427583098591548,
+        0.10878625352112677
+      ],
+      "confidence": 0.843171,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.44611284507042254,
+        0.4488692582159624,
+        0.11415019718309859,
+        0.09996589671361501
+      ],
+      "confidence": 0.8429,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.0740505352112676,
+        0.4054892018779343,
+        0.09759898591549296,
+        0.16766092018779344
+      ],
+      "confidence": 0.561698,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.18735340845070425,
+        0.46972341784037563,
+        0.1062970704225352,
+        0.1273401690140845
+      ],
+      "confidence": 0.280867,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.589353690140845,
+        0.3966152863849765,
+        0.08546039436619719,
+        0.12334264788732396
+      ],
+      "confidence": 0.234604,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.48776005633802816,
+        0.35548905164319244,
+        0.06555521126760563,
+        0.1248678309859155
+      ],
+      "confidence": 0.204767,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.13800552112676057,
+        0.5476247887323944,
+        0.15528935211267605,
+        0.13035725821596245
+      ],
+      "confidence": 0.189794,
+      "prelabel_method": "native",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-06T01:27:53.225925+00:00"
+}

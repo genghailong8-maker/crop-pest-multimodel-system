@@ -1,0 +1,38 @@
+{
+  "source": "PlantDoc-Object-Detection-Dataset",
+  "source_repository": "https://github.com/pratikkayal/PlantDoc-Object-Detection-Dataset",
+  "source_commit": "4730a233a555b30ee98e0879c63ad25d82407455",
+  "source_license": "CC BY 4.0",
+  "source_license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "target_mapping": {
+    "Potato leaf early blight": 3,
+    "Tomato leaf bacterial spot": 5,
+    "Potato leaf late blight": 7
+  },
+  "training_merge": false,
+  "selected_source_image_counts": {
+    "TRAIN": 312,
+    "TEST": 25
+  },
+  "split_summaries": [
+    {
+      "split": "train",
+      "image_count": 0,
+      "box_count": 0,
+      "image_list": "C:\\Users\\genghailong\\Documents\\编程大赛\\artifacts\\public\\plantdoc-weak-v1\\train.txt"
+    },
+    {
+      "split": "test",
+      "image_count": 0,
+      "box_count": 0,
+      "image_list": "C:\\Users\\genghailong\\Documents\\编程大赛\\artifacts\\public\\plantdoc-weak-v1\\test.txt"
+    }
+  ],
+  "excluded_counts": {
+    "invalid_or_download_error:RuntimeError": 337
+  },
+  "official_class_image_counts": {},
+  "official_class_box_counts": {},
+  "exact_duplicate_group_count": 0,
+  "images": []
+}

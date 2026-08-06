@@ -1,0 +1,89 @@
+{
+  "image_id": "p58_train_125_539cd9f4acce",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/125.jpg",
+  "source_size": {
+    "width": 2272,
+    "height": 1704
+  },
+  "working_size": {
+    "width": 2272,
+    "height": 1704
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 13,
+      "confidence": 0.214059,
+      "bbox": [
+        0.30264354929577464,
+        0.13543774647887324,
+        0.26043059154929576,
+        0.3881089953051643
+      ],
+      "source": "tile:0,0,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.184141,
+      "bbox": [
+        0.43842484507042256,
+        0.41680999061032864,
+        0.33596045070422537,
+        0.3981298779342723
+      ],
+      "source": "tile:992,424,1280,1280"
+    },
+    {
+      "class_id": 13,
+      "confidence": 0.155069,
+      "bbox": [
+        0.2504761,
+        0.1332886,
+        0.5444291,
+        0.6750787
+      ],
+      "source": "full"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.214059,
+      "bbox": [
+        0.30264354929577464,
+        0.13543774647887324,
+        0.26043059154929576,
+        0.3881089953051643
+      ],
+      "source": "tile:0,0,1280,1280",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.184141,
+      "bbox": [
+        0.43842484507042256,
+        0.41680999061032864,
+        0.33596045070422537,
+        0.3981298779342723
+      ],
+      "source": "tile:992,424,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.155069,
+      "bbox": [
+        0.2504761,
+        0.1332886,
+        0.5444291,
+        0.6750787
+      ],
+      "source": "full",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    }
+  ],
+  "other_class_detections": []
+}

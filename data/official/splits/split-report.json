@@ -1,0 +1,235 @@
+{
+  "seed": 20260729,
+  "val_fraction_requested": 0.2,
+  "image_count_original": 4164,
+  "image_count_clean": 4154,
+  "train_image_count": 3321,
+  "val_image_count": 833,
+  "val_fraction_actual": 0.20052961001444392,
+  "quarantined_image_count": 10,
+  "conflicting_exact_duplicate_groups": [
+    {
+      "sha256": "a1b090f56531b957c635467b77e4f5a343cfa7a520485b1882e03d56d923bcca",
+      "files": [
+        "pd_0662709e0502f383.jpg",
+        "pd_89717143e7febb72.jpg"
+      ],
+      "classes": {
+        "pd_0662709e0502f383.jpg": [
+          7
+        ],
+        "pd_89717143e7febb72.jpg": [
+          3
+        ]
+      }
+    },
+    {
+      "sha256": "ccfd45a3da0808b154e18888fb04c4afd941cc29c2721ae9bc284cc19770771c",
+      "files": [
+        "pd_1e2deb994ba0972f.jpg",
+        "pd_bdc238df6f1cdeb4.jpg"
+      ],
+      "classes": {
+        "pd_1e2deb994ba0972f.jpg": [
+          5
+        ],
+        "pd_bdc238df6f1cdeb4.jpg": [
+          1
+        ]
+      }
+    },
+    {
+      "sha256": "f2cd010bca162c082bd48d22e5c5eb5ade99b210ca4d8b924c5cff0f70823d4b",
+      "files": [
+        "pd_54b46a498bd7b1bd.jpg",
+        "pd_87798f4c50c3ba4b.jpg"
+      ],
+      "classes": {
+        "pd_54b46a498bd7b1bd.jpg": [
+          3
+        ],
+        "pd_87798f4c50c3ba4b.jpg": [
+          7
+        ]
+      }
+    },
+    {
+      "sha256": "6708d97db32ce94182ec1d62b6684ec7877a3a145b7b4cc4c771be8d290437b0",
+      "files": [
+        "pd_90a2d8b734802871.jpg",
+        "pd_dfd1544709012a1c.jpg"
+      ],
+      "classes": {
+        "pd_90a2d8b734802871.jpg": [
+          7
+        ],
+        "pd_dfd1544709012a1c.jpg": [
+          3
+        ]
+      }
+    },
+    {
+      "sha256": "ccfd10d60d0198692ac16fdc11d7b8aec1311bd90df2a95e7809039305d89c73",
+      "files": [
+        "pd_a16f74121d32bd5b.jpg",
+        "pd_c5be590260fcf61c.jpg"
+      ],
+      "classes": {
+        "pd_a16f74121d32bd5b.jpg": [
+          3
+        ],
+        "pd_c5be590260fcf61c.jpg": [
+          7
+        ]
+      }
+    }
+  ],
+  "perceptual_group_count": 3963,
+  "multi_image_perceptual_group_count": 148,
+  "class_counts": [
+    {
+      "class_id": 0,
+      "name_zh": "玉米叶枯病",
+      "clean_total": 163,
+      "train": 130,
+      "val": 33,
+      "val_fraction": 0.20245398773006135,
+      "target_val": 33
+    },
+    {
+      "class_id": 1,
+      "name_zh": "番茄斑枯病",
+      "clean_total": 126,
+      "train": 101,
+      "val": 25,
+      "val_fraction": 0.1984126984126984,
+      "target_val": 25
+    },
+    {
+      "class_id": 2,
+      "name_zh": "南瓜白粉病",
+      "clean_total": 111,
+      "train": 89,
+      "val": 22,
+      "val_fraction": 0.1981981981981982,
+      "target_val": 22
+    },
+    {
+      "class_id": 3,
+      "name_zh": "马铃薯早疫病",
+      "clean_total": 94,
+      "train": 75,
+      "val": 19,
+      "val_fraction": 0.20212765957446807,
+      "target_val": 19
+    },
+    {
+      "class_id": 4,
+      "name_zh": "玉米锈病",
+      "clean_total": 99,
+      "train": 79,
+      "val": 20,
+      "val_fraction": 0.20202020202020202,
+      "target_val": 20
+    },
+    {
+      "class_id": 5,
+      "name_zh": "番茄细菌性斑点病",
+      "clean_total": 92,
+      "train": 74,
+      "val": 18,
+      "val_fraction": 0.1956521739130435,
+      "target_val": 18
+    },
+    {
+      "class_id": 6,
+      "name_zh": "番茄晚疫病",
+      "clean_total": 94,
+      "train": 75,
+      "val": 19,
+      "val_fraction": 0.20212765957446807,
+      "target_val": 19
+    },
+    {
+      "class_id": 7,
+      "name_zh": "马铃薯晚疫病",
+      "clean_total": 86,
+      "train": 69,
+      "val": 17,
+      "val_fraction": 0.19767441860465115,
+      "target_val": 17
+    },
+    {
+      "class_id": 8,
+      "name_zh": "芫菁",
+      "clean_total": 425,
+      "train": 340,
+      "val": 85,
+      "val_fraction": 0.2,
+      "target_val": 85
+    },
+    {
+      "class_id": 9,
+      "name_zh": "蚜虫",
+      "clean_total": 425,
+      "train": 339,
+      "val": 86,
+      "val_fraction": 0.2023529411764706,
+      "target_val": 85
+    },
+    {
+      "class_id": 10,
+      "name_zh": "盲蝽科",
+      "clean_total": 425,
+      "train": 339,
+      "val": 86,
+      "val_fraction": 0.2023529411764706,
+      "target_val": 85
+    },
+    {
+      "class_id": 11,
+      "name_zh": "蝼蛄",
+      "clean_total": 425,
+      "train": 340,
+      "val": 85,
+      "val_fraction": 0.2,
+      "target_val": 85
+    },
+    {
+      "class_id": 12,
+      "name_zh": "叶蝉科",
+      "clean_total": 427,
+      "train": 342,
+      "val": 85,
+      "val_fraction": 0.1990632318501171,
+      "target_val": 85
+    },
+    {
+      "class_id": 13,
+      "name_zh": "蝗总科",
+      "clean_total": 425,
+      "train": 340,
+      "val": 85,
+      "val_fraction": 0.2,
+      "target_val": 85
+    },
+    {
+      "class_id": 14,
+      "name_zh": "蛴螬",
+      "clean_total": 371,
+      "train": 297,
+      "val": 74,
+      "val_fraction": 0.19946091644204852,
+      "target_val": 74
+    },
+    {
+      "class_id": 15,
+      "name_zh": "豆芫菁",
+      "clean_total": 370,
+      "train": 293,
+      "val": 77,
+      "val_fraction": 0.20810810810810812,
+      "target_val": 74
+    }
+  ]
+}

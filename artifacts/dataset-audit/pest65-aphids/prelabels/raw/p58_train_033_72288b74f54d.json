@@ -1,0 +1,137 @@
+{
+  "image_id": "p58_train_033_72288b74f54d",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/033.jpg",
+  "source_size": {
+    "width": 7360,
+    "height": 4912
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1709
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 4,
+      "confidence": 0.68735,
+      "bbox": [
+        0.50465145,
+        0.26573215681685197,
+        0.49534855,
+        0.4154274078408426
+      ],
+      "source": "tile:1280,429,1280,1280"
+    },
+    {
+      "class_id": 14,
+      "confidence": 0.17823,
+      "bbox": [
+        0.2563338,
+        0.0095716,
+        0.3882498,
+        0.6479625000000001
+      ],
+      "source": "full"
+    },
+    {
+      "class_id": 12,
+      "confidence": 0.177031,
+      "bbox": [
+        0.40033445,
+        0.0031552112346401404,
+        0.23364615,
+        0.6329131889994148
+      ],
+      "source": "tile:1024,0,1280,1280"
+    },
+    {
+      "class_id": 14,
+      "confidence": 0.15759,
+      "bbox": [
+        0.4,
+        0.2510239906377999,
+        0.1614863,
+        0.48031232299590404
+      ],
+      "source": "tile:1024,429,1280,1280"
+    },
+    {
+      "class_id": 12,
+      "confidence": 0.10603,
+      "bbox": [
+        0.5,
+        0.032284910473961384,
+        0.13259235,
+        0.45737201170275016
+      ],
+      "source": "tile:1280,0,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.17823,
+      "bbox": [
+        0.2563338,
+        0.0095716,
+        0.3882498,
+        0.6479625000000001
+      ],
+      "source": "full",
+      "original_class_id": 14,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.177031,
+      "bbox": [
+        0.40033445,
+        0.0031552112346401404,
+        0.23364615,
+        0.6329131889994148
+      ],
+      "source": "tile:1024,0,1280,1280",
+      "original_class_id": 12,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.15759,
+      "bbox": [
+        0.4,
+        0.2510239906377999,
+        0.1614863,
+        0.48031232299590404
+      ],
+      "source": "tile:1024,429,1280,1280",
+      "original_class_id": 14,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.10603,
+      "bbox": [
+        0.5,
+        0.032284910473961384,
+        0.13259235,
+        0.45737201170275016
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "original_class_id": 12,
+      "prelabel_method": "folder_label_remap"
+    }
+  ],
+  "other_class_detections": [
+    {
+      "class_id": 4,
+      "confidence": 0.68735,
+      "bbox": [
+        0.50465145,
+        0.26573215681685197,
+        0.49534855,
+        0.4154274078408426
+      ],
+      "source": "tile:1280,429,1280,1280"
+    }
+  ]
+}

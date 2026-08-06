@@ -1,0 +1,13 @@
+{
+  "dataset": "PlantDoc Object Detection",
+  "repository": "https://github.com/pratikkayal/PlantDoc-Object-Detection-Dataset",
+  "commit": "4730a233a555b30ee98e0879c63ad25d82407455",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "selection": "Only complete XML images whose objects are Potato leaf early blight, Tomato leaf bacterial spot, or Potato leaf late blight.",
+  "official_mapping": {
+    "Potato leaf early blight": 3,
+    "Tomato leaf bacterial spot": 5,
+    "Potato leaf late blight": 7
+  }
+}

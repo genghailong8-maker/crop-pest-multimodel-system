@@ -1,0 +1,93 @@
+{
+  "image_id": "p57_train_146_df29406f4c9a",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/146.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4402414647887324,
+        0.41078858215962444,
+        0.12313408450704226,
+        0.17329442253521127
+      ],
+      "confidence": 0.882532,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.26091994366197185,
+        0.35769089201877935,
+        0.153071661971831,
+        0.15794321126760563
+      ],
+      "confidence": 0.847235,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.5134521126760564,
+        0.24896826291079813,
+        0.0819474366197183,
+        0.07271616901408451
+      ],
+      "confidence": 0.627887,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.536281014084507,
+        0.3307717558685446,
+        0.1382345915492958,
+        0.19181596244131455
+      ],
+      "confidence": 0.363388,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.2642205633802817,
+        0.5417929765258216,
+        0.13172732394366196,
+        0.16461799061032864
+      ],
+      "confidence": 0.256917,
+      "prelabel_method": "native",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4881656804733728,
+        0.6549864398422091,
+        0.13017751479289946,
+        0.08284023668639051
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.378698224852071,
+        0.5741185897435898,
+        0.09763313609467456,
+        0.13214990138067062
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-06T02:31:13.830313+00:00"
+}

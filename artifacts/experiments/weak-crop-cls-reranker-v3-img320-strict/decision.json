@@ -1,0 +1,27 @@
+{
+  "decision": "keep_current_main_model",
+  "production_changed": false,
+  "candidate_role": "offline_high_recall_candidate",
+  "main_model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+  "classifier_sha256": "f133b680b9e041d00a8ca79b45c2ed64b3d81087cfeacbda4925258ecbd1ad05",
+  "frozen_official_validation": {
+    "image_count": 833,
+    "candidate_crop_count": 437,
+    "fusion": "class 10 confidence only; geometric mean of detector and classifier scores; no relabeling",
+    "baseline_overall_map50_95": 0.5322847796034746,
+    "candidate_overall_map50_95": 0.5340772991669755,
+    "baseline_class10_map50_95": 0.3169448782251999,
+    "candidate_class10_map50_95": 0.34562519124121394,
+    "baseline_class10_best_f1": 0.7344632768361581,
+    "candidate_class10_best_f1": 0.7301587301587301,
+    "baseline_class10_recall_at_best_f1": 0.7471264367816092,
+    "candidate_class10_recall_at_best_f1": 0.7931034482758621
+  },
+  "gate": {
+    "passed_map": true,
+    "passed_target_f1_non_regression": false,
+    "strict_gate_passed": false
+  },
+  "reason": "The classifier substantially improves class-10 ranking and recall, but adds false positives and misses the pre-registered F1 non-regression gate.",
+  "next_step": "Mine class 10 versus 13 hard examples from official training images and newly reviewed field data, then retrain a calibrated pairwise crop classifier and repeat the leakage-safe tune/frozen-evaluation protocol."
+}

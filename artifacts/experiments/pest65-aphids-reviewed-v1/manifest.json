@@ -1,0 +1,3283 @@
+{
+  "source": "pest65",
+  "source_manifest": "C:\\Users\\genghailong\\Documents\\编程大赛\\artifacts\\dataset-audit\\pest65-aphids\\manifest.json",
+  "source_splits_used": [
+    "train_images"
+  ],
+  "accepted_review_count": 397,
+  "copied_train_image_count": 327,
+  "excluded_non_train_count": 70,
+  "reviewed_box_count": 1168,
+  "images": [
+    {
+      "image_id": "p57_train_000_55a21224956f",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/000.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_000_55a21224956f.jpg",
+      "label": "labels/p57_train_000_55a21224956f.txt",
+      "review": "reviews/p57_train_000_55a21224956f.json",
+      "source_sha256": "25141dfd05aad4ee03d76bb461f6815299167a9294e1344891c1786879025557",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_002_53e3ff3b5acc",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/002.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_002_53e3ff3b5acc.jpg",
+      "label": "labels/p57_train_002_53e3ff3b5acc.txt",
+      "review": "reviews/p57_train_002_53e3ff3b5acc.json",
+      "source_sha256": "75c86186eae2f1b336e3ae89e7e5f1005ea2cee661a76ffcf2787db7b9dfad1b",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_003_ffff9ee8981c",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/003.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_003_ffff9ee8981c.jpg",
+      "label": "labels/p57_train_003_ffff9ee8981c.txt",
+      "review": "reviews/p57_train_003_ffff9ee8981c.json",
+      "source_sha256": "b49edca9ad73051bacc95a6d6b1b7f2590e14df9ba32e354b55108e6a2e48a8b",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_004_b349b6195973",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/004.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_004_b349b6195973.jpg",
+      "label": "labels/p57_train_004_b349b6195973.txt",
+      "review": "reviews/p57_train_004_b349b6195973.json",
+      "source_sha256": "7cd89631b0b12f6542c4a0020f6f2270100fe3cd38733e595cc1c359fc456a79",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_005_ada751551a55",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/005.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_005_ada751551a55.jpg",
+      "label": "labels/p57_train_005_ada751551a55.txt",
+      "review": "reviews/p57_train_005_ada751551a55.json",
+      "source_sha256": "3baabcdfd60481e48ef12e5bdaca0ff3553eb77f9b692642ff626243a180cf4b",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_006_0ca3a4362ae3",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/006.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_006_0ca3a4362ae3.jpg",
+      "label": "labels/p57_train_006_0ca3a4362ae3.txt",
+      "review": "reviews/p57_train_006_0ca3a4362ae3.json",
+      "source_sha256": "022582b981f44db3b57dc34fe2fff763b99fa8ca463688a1445ddbee5d191350",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_007_2b5031434dab",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/007.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_007_2b5031434dab.jpg",
+      "label": "labels/p57_train_007_2b5031434dab.txt",
+      "review": "reviews/p57_train_007_2b5031434dab.json",
+      "source_sha256": "358a9ebe8cee440eefbc2c4af063e37fc47afcf3f418b4290138c449484a4293",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_008_eb01b74fded8",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/008.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_008_eb01b74fded8.jpg",
+      "label": "labels/p57_train_008_eb01b74fded8.txt",
+      "review": "reviews/p57_train_008_eb01b74fded8.json",
+      "source_sha256": "43265aecceca1827f60f9ff35b901eb09f865c70fd75719ccd70b35181964f42",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p57_train_009_520ee2b82ee3",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/009.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_009_520ee2b82ee3.jpg",
+      "label": "labels/p57_train_009_520ee2b82ee3.txt",
+      "review": "reviews/p57_train_009_520ee2b82ee3.json",
+      "source_sha256": "7fe8bf0f9f4cef6bceebd41696bf7dacde87c6c4bacc64051406c5ca604baec1",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_010_77fdb3b3a522",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/010.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_010_77fdb3b3a522.jpg",
+      "label": "labels/p57_train_010_77fdb3b3a522.txt",
+      "review": "reviews/p57_train_010_77fdb3b3a522.json",
+      "source_sha256": "b4259f91e46ccced5867449c55e5a0e16905003619e8a904010d35bf3bf2e6ae",
+      "reviewed_box_count": 11
+    },
+    {
+      "image_id": "p57_train_011_fa7fa5b13ff2",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/011.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_011_fa7fa5b13ff2.jpg",
+      "label": "labels/p57_train_011_fa7fa5b13ff2.txt",
+      "review": "reviews/p57_train_011_fa7fa5b13ff2.json",
+      "source_sha256": "df3ce4a9883b0fb9a1a9316105225b860a7f9a43c93e8e78b37758308f8db39e",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p57_train_012_f34e0b5c3029",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/012.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_012_f34e0b5c3029.jpg",
+      "label": "labels/p57_train_012_f34e0b5c3029.txt",
+      "review": "reviews/p57_train_012_f34e0b5c3029.json",
+      "source_sha256": "18abf4fbfdab58bd1306396aa60c49d846be96b11eee66d26c59199a7a0c708e",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_013_649e4a04c177",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/013.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_013_649e4a04c177.jpg",
+      "label": "labels/p57_train_013_649e4a04c177.txt",
+      "review": "reviews/p57_train_013_649e4a04c177.json",
+      "source_sha256": "62a73e186f98317fe4bc7b38eb626fc991247f5700d2df3b20aa832f0fb34d09",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_014_81cddda8e6e4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/014.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_014_81cddda8e6e4.jpg",
+      "label": "labels/p57_train_014_81cddda8e6e4.txt",
+      "review": "reviews/p57_train_014_81cddda8e6e4.json",
+      "source_sha256": "6843d8fa1a4c2a313ad197cd808fa7c41f4568ac864c15dbfdac13db284aab8d",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_018_5d195145b191",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/018.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_018_5d195145b191.jpg",
+      "label": "labels/p57_train_018_5d195145b191.txt",
+      "review": "reviews/p57_train_018_5d195145b191.json",
+      "source_sha256": "5bd91f281a3db2d23ff6eabbc2571addc924f639e2d9e687c47adf2dff2722e9",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p57_train_019_523d7e9f0cc2",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/019.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_019_523d7e9f0cc2.jpg",
+      "label": "labels/p57_train_019_523d7e9f0cc2.txt",
+      "review": "reviews/p57_train_019_523d7e9f0cc2.json",
+      "source_sha256": "170b8777773aaeffaecfd1b5cf7dce21a91927eab12f9a5126f4c168f173f76a",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_022_e20854e98803",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/022.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_022_e20854e98803.jpg",
+      "label": "labels/p57_train_022_e20854e98803.txt",
+      "review": "reviews/p57_train_022_e20854e98803.json",
+      "source_sha256": "44fa771fb9b09f86216a759deb70e2c62bcd29e15f999c80ab263728eb187e23",
+      "reviewed_box_count": 10
+    },
+    {
+      "image_id": "p57_train_023_4fe056149633",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/023.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_023_4fe056149633.jpg",
+      "label": "labels/p57_train_023_4fe056149633.txt",
+      "review": "reviews/p57_train_023_4fe056149633.json",
+      "source_sha256": "f433099bb533fa922688eff265d6d7970463baac440bff38d86717e2313adbd0",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_024_568eb86bac2d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/024.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_024_568eb86bac2d.jpg",
+      "label": "labels/p57_train_024_568eb86bac2d.txt",
+      "review": "reviews/p57_train_024_568eb86bac2d.json",
+      "source_sha256": "fd71550232de7f9ca4d01738b412bfd6ded9c8fda7c06b9077a150dc4b1d3ab4",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p57_train_025_5b49a9cfb0b0",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/025.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_025_5b49a9cfb0b0.jpg",
+      "label": "labels/p57_train_025_5b49a9cfb0b0.txt",
+      "review": "reviews/p57_train_025_5b49a9cfb0b0.json",
+      "source_sha256": "eacf6d91d61b0d6eeff81365aa2c54395970687185c60b3e79bef7cc459d9790",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_026_9f094847bbf6",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/026.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_026_9f094847bbf6.jpg",
+      "label": "labels/p57_train_026_9f094847bbf6.txt",
+      "review": "reviews/p57_train_026_9f094847bbf6.json",
+      "source_sha256": "e246d0cd0c8053907c27004b4d2c902d5fae0335501fae98d66c88fe4c52e0b8",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_027_170f971dce62",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/027.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_027_170f971dce62.jpg",
+      "label": "labels/p57_train_027_170f971dce62.txt",
+      "review": "reviews/p57_train_027_170f971dce62.json",
+      "source_sha256": "7185e439691d5801676c234495094017993812364a87c78272c08fa3a42e953e",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_029_db146d401826",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/029.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_029_db146d401826.jpg",
+      "label": "labels/p57_train_029_db146d401826.txt",
+      "review": "reviews/p57_train_029_db146d401826.json",
+      "source_sha256": "1ad0fc69620ce9a0154b23962396bbaddbeac37ff2479d5ad941125f439cc721",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_030_39ed54fb4945",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/030.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_030_39ed54fb4945.jpg",
+      "label": "labels/p57_train_030_39ed54fb4945.txt",
+      "review": "reviews/p57_train_030_39ed54fb4945.json",
+      "source_sha256": "f74ef1b219c3864887d53463162dc5df5fdb69a5f4b95486d6bdb35334bb49b5",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_031_584fd7630b3d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/031.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_031_584fd7630b3d.jpg",
+      "label": "labels/p57_train_031_584fd7630b3d.txt",
+      "review": "reviews/p57_train_031_584fd7630b3d.json",
+      "source_sha256": "37e43247abe66ea63c079698e8ff0d433c3ece4411c08f88f2871b0ecede8922",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_032_8980c3fe0075",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/032.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_032_8980c3fe0075.jpg",
+      "label": "labels/p57_train_032_8980c3fe0075.txt",
+      "review": "reviews/p57_train_032_8980c3fe0075.json",
+      "source_sha256": "0ec3c38f0a780ef47efc9f3c09a12a3f8c03081d114ebb82375364c36d87bb38",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_033_fa271404b5f6",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/033.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_033_fa271404b5f6.jpg",
+      "label": "labels/p57_train_033_fa271404b5f6.txt",
+      "review": "reviews/p57_train_033_fa271404b5f6.json",
+      "source_sha256": "2f0414301dfb0ebb62d3fd5a23f6953aab83f36812f97a0ef07e157c3fd04475",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_034_d4439e1402ed",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/034.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_034_d4439e1402ed.jpg",
+      "label": "labels/p57_train_034_d4439e1402ed.txt",
+      "review": "reviews/p57_train_034_d4439e1402ed.json",
+      "source_sha256": "a85ce7ed6b958806adb10d5605d7f72c0ad90ae3ecab58970673f205dae72f1e",
+      "reviewed_box_count": 10
+    },
+    {
+      "image_id": "p57_train_035_22c2e0cf3dd2",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/035.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_035_22c2e0cf3dd2.jpg",
+      "label": "labels/p57_train_035_22c2e0cf3dd2.txt",
+      "review": "reviews/p57_train_035_22c2e0cf3dd2.json",
+      "source_sha256": "d55e4e135f442f06c56b243e8cc7fa7d7480cc3f2d55057bfe382e0906b0687e",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_036_9aaa56d6d7db",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/036.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_036_9aaa56d6d7db.jpg",
+      "label": "labels/p57_train_036_9aaa56d6d7db.txt",
+      "review": "reviews/p57_train_036_9aaa56d6d7db.json",
+      "source_sha256": "499fe60a75bb2b581f90b2a636c88e44d11c3ac713bcb327058f55c49eb194ea",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p57_train_037_b152f19eca80",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/037.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_037_b152f19eca80.jpg",
+      "label": "labels/p57_train_037_b152f19eca80.txt",
+      "review": "reviews/p57_train_037_b152f19eca80.json",
+      "source_sha256": "43cc9fefe79b34a7a0dd033c91f45a8b2e8ea37fe5f5959ab94dc3efe5171b50",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_039_a6334b23f9a7",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/039.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_039_a6334b23f9a7.jpg",
+      "label": "labels/p57_train_039_a6334b23f9a7.txt",
+      "review": "reviews/p57_train_039_a6334b23f9a7.json",
+      "source_sha256": "69bc168b5f48144b8a61a7a6c7fcf88da6ab35c582c340527dcb61cde0f22910",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_040_deaab0c952e5",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/040.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_040_deaab0c952e5.jpg",
+      "label": "labels/p57_train_040_deaab0c952e5.txt",
+      "review": "reviews/p57_train_040_deaab0c952e5.json",
+      "source_sha256": "6aa7ee3ec73b537bf34e0fd8961ec484df59b5e22bea17e613ee98d51e71558e",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_041_07f3f7a57239",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/041.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_041_07f3f7a57239.jpg",
+      "label": "labels/p57_train_041_07f3f7a57239.txt",
+      "review": "reviews/p57_train_041_07f3f7a57239.json",
+      "source_sha256": "6b6a5cbec0be09e1aafb4c7830d660be7de27b08ae83ea2a89fb2c26b5540cbc",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_042_056e30eb11bd",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/042.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_042_056e30eb11bd.jpg",
+      "label": "labels/p57_train_042_056e30eb11bd.txt",
+      "review": "reviews/p57_train_042_056e30eb11bd.json",
+      "source_sha256": "d69c87881574c98bdc57c7bee5c63e7fc59d1dff00d6e14dd2e273e391a17fdf",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_043_b77b15a5b791",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/043.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_043_b77b15a5b791.jpg",
+      "label": "labels/p57_train_043_b77b15a5b791.txt",
+      "review": "reviews/p57_train_043_b77b15a5b791.json",
+      "source_sha256": "0970bcb7b7f5bb6ee4b1d0f823802edf9defa66c35fc119e3903c5ae04c9a44f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_044_630a9699c2d7",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/044.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_044_630a9699c2d7.jpg",
+      "label": "labels/p57_train_044_630a9699c2d7.txt",
+      "review": "reviews/p57_train_044_630a9699c2d7.json",
+      "source_sha256": "44211980ada13a86ec4223b4f70d6d7387dbf8c0baf5e1620077680168582063",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_045_e9835860cd43",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/045.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_045_e9835860cd43.jpg",
+      "label": "labels/p57_train_045_e9835860cd43.txt",
+      "review": "reviews/p57_train_045_e9835860cd43.json",
+      "source_sha256": "7e7447e1008a6554394161b39b189eadac5f8f1670bdf2349ae45a4c4de93f7b",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_046_b25dd1df7e65",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/046.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_046_b25dd1df7e65.jpg",
+      "label": "labels/p57_train_046_b25dd1df7e65.txt",
+      "review": "reviews/p57_train_046_b25dd1df7e65.json",
+      "source_sha256": "f52fcec03d41f20ecf85b8329c64f447659cdd26e5348d85f73ca19bf2592cef",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_047_156b56a6af82",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/047.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_047_156b56a6af82.jpg",
+      "label": "labels/p57_train_047_156b56a6af82.txt",
+      "review": "reviews/p57_train_047_156b56a6af82.json",
+      "source_sha256": "50c50534bdb49dbc68091ef55b574c8d87b55bb7b527d848b96ba4fd57456a9f",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_048_c86310658f4b",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/048.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_048_c86310658f4b.jpg",
+      "label": "labels/p57_train_048_c86310658f4b.txt",
+      "review": "reviews/p57_train_048_c86310658f4b.json",
+      "source_sha256": "824d17ceb8a0cce178688b86608754657269473f48c39878eab4a19a3878cb0b",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_049_83b46389e652",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/049.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_049_83b46389e652.jpg",
+      "label": "labels/p57_train_049_83b46389e652.txt",
+      "review": "reviews/p57_train_049_83b46389e652.json",
+      "source_sha256": "a44b3cf916a8c5d292747895a71452133f56a9ac08350bb71d528d73b3326d55",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_051_1b1f0effba1e",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/051.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_051_1b1f0effba1e.jpg",
+      "label": "labels/p57_train_051_1b1f0effba1e.txt",
+      "review": "reviews/p57_train_051_1b1f0effba1e.json",
+      "source_sha256": "2063c28c55f23bbd4425d15c35b153372f1fd56df8a5ba280418e92d58647b29",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_052_1d8416b9a04c",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/052.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_052_1d8416b9a04c.jpg",
+      "label": "labels/p57_train_052_1d8416b9a04c.txt",
+      "review": "reviews/p57_train_052_1d8416b9a04c.json",
+      "source_sha256": "69af0b71039cf22886c2514dd885338deb0e951083c73de91e6fa11008c9a088",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_053_979566bc11ed",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/053.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_053_979566bc11ed.jpg",
+      "label": "labels/p57_train_053_979566bc11ed.txt",
+      "review": "reviews/p57_train_053_979566bc11ed.json",
+      "source_sha256": "e295369d3ef627f2d7be052fdb5a3362daf658959fe325f18ff1e47bb6d41019",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_054_70637cab0ee3",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/054.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_054_70637cab0ee3.jpg",
+      "label": "labels/p57_train_054_70637cab0ee3.txt",
+      "review": "reviews/p57_train_054_70637cab0ee3.json",
+      "source_sha256": "00612a8ed0af9512a2a34416e70128f281168a2026bb70048bd7d0054e3c8cfe",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_055_43f4a06daf44",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/055.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_055_43f4a06daf44.jpg",
+      "label": "labels/p57_train_055_43f4a06daf44.txt",
+      "review": "reviews/p57_train_055_43f4a06daf44.json",
+      "source_sha256": "d42278206fd6a7bf065492d9b3086b899c04ef7cc720df6bb8b19dd4c105fb1f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_056_bffff2b52a99",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/056.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_056_bffff2b52a99.jpg",
+      "label": "labels/p57_train_056_bffff2b52a99.txt",
+      "review": "reviews/p57_train_056_bffff2b52a99.json",
+      "source_sha256": "10548b1b27272d416461fa76d0827826882a96b6d6796661a555b4c6c78f26fd",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_058_11bdc77aa868",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/058.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_058_11bdc77aa868.jpg",
+      "label": "labels/p57_train_058_11bdc77aa868.txt",
+      "review": "reviews/p57_train_058_11bdc77aa868.json",
+      "source_sha256": "53ef56ffa08103243e46994dfe41fcc4cd919518253617fc01f87a7639f1dfdc",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_059_a18878531230",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/059.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_059_a18878531230.jpg",
+      "label": "labels/p57_train_059_a18878531230.txt",
+      "review": "reviews/p57_train_059_a18878531230.json",
+      "source_sha256": "09bb66ca984cd2cdc1db7b5e0eb2180ff06895e1174d1147b39823b8a12bf984",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_060_2892ac578bda",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/060.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_060_2892ac578bda.jpg",
+      "label": "labels/p57_train_060_2892ac578bda.txt",
+      "review": "reviews/p57_train_060_2892ac578bda.json",
+      "source_sha256": "3abfa82332a2eb83bd079cf00ca8ac965209484746fda080c423a759ee550942",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_062_db42fb1982a4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/062.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_062_db42fb1982a4.jpg",
+      "label": "labels/p57_train_062_db42fb1982a4.txt",
+      "review": "reviews/p57_train_062_db42fb1982a4.json",
+      "source_sha256": "24222a9e30cdf8f3deb3c5842d2ebddbf4bcf83e5169d4d5ecb32dc1429f2a24",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_064_6b0bc6d6737f",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/064.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_064_6b0bc6d6737f.jpg",
+      "label": "labels/p57_train_064_6b0bc6d6737f.txt",
+      "review": "reviews/p57_train_064_6b0bc6d6737f.json",
+      "source_sha256": "0f3bedb6829a2bcafe25be4c5f818b6f4cad417b821acecaa8a75bf427908b57",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_065_b74a530c96d0",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/065.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_065_b74a530c96d0.jpg",
+      "label": "labels/p57_train_065_b74a530c96d0.txt",
+      "review": "reviews/p57_train_065_b74a530c96d0.json",
+      "source_sha256": "1810c47239dce1d70d349b98feab545e6449ab8a4144199dca9fd001b1a0e31f",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_066_2c031fdc55ef",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/066.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_066_2c031fdc55ef.jpg",
+      "label": "labels/p57_train_066_2c031fdc55ef.txt",
+      "review": "reviews/p57_train_066_2c031fdc55ef.json",
+      "source_sha256": "78a7d592c1f9dd2ce03a4bbb12e57f5e0d827dfda8cf11b05e4cf1c6c8fa040e",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_067_3351622812fd",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/067.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_067_3351622812fd.jpg",
+      "label": "labels/p57_train_067_3351622812fd.txt",
+      "review": "reviews/p57_train_067_3351622812fd.json",
+      "source_sha256": "fe6f94b7f4d1d833ca7e434ae12059b079b453b2f3b6e631c5de7de3c7f8a03c",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_069_622d96ab7f00",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/069.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_069_622d96ab7f00.jpg",
+      "label": "labels/p57_train_069_622d96ab7f00.txt",
+      "review": "reviews/p57_train_069_622d96ab7f00.json",
+      "source_sha256": "6c12cdb4f7222581baf01cb30a020796e17f68e63fa8b7f3660f6114acaf133c",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_070_cfbf21647712",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/070.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_070_cfbf21647712.jpg",
+      "label": "labels/p57_train_070_cfbf21647712.txt",
+      "review": "reviews/p57_train_070_cfbf21647712.json",
+      "source_sha256": "73d68fcf9d1b67ec513b5e6802686ccd6f8c319945eb50f87bd981c6436f57f6",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_073_981895a5b823",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/073.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_073_981895a5b823.jpg",
+      "label": "labels/p57_train_073_981895a5b823.txt",
+      "review": "reviews/p57_train_073_981895a5b823.json",
+      "source_sha256": "9442226766fc4609bd1750635afe2f0d7b2fd8d731073e3436501c3af58d04ae",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_074_b5b3194a4430",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/074.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_074_b5b3194a4430.jpg",
+      "label": "labels/p57_train_074_b5b3194a4430.txt",
+      "review": "reviews/p57_train_074_b5b3194a4430.json",
+      "source_sha256": "b5ab6398723530b8156e1bbdfee85b3187249c80c1644ea0263862d811a2ac39",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_076_92c8115f05d7",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/076.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_076_92c8115f05d7.jpg",
+      "label": "labels/p57_train_076_92c8115f05d7.txt",
+      "review": "reviews/p57_train_076_92c8115f05d7.json",
+      "source_sha256": "fb49dc3aad11837bac17d2a01376d89cac5d333e39f40e919b007ec9a35caa55",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_077_d6ffde9777c1",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/077.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_077_d6ffde9777c1.jpg",
+      "label": "labels/p57_train_077_d6ffde9777c1.txt",
+      "review": "reviews/p57_train_077_d6ffde9777c1.json",
+      "source_sha256": "338182437bcd4149becdc70577e5ba1ab75c8b46bc141c547a55726335674252",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_079_33aef5422f0f",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/079.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_079_33aef5422f0f.jpg",
+      "label": "labels/p57_train_079_33aef5422f0f.txt",
+      "review": "reviews/p57_train_079_33aef5422f0f.json",
+      "source_sha256": "0c8e8b3a2f757de399f438d9401b22dcb3145dfc244b1859d895ca36302c69a9",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_080_3c9033def136",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/080.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_080_3c9033def136.jpg",
+      "label": "labels/p57_train_080_3c9033def136.txt",
+      "review": "reviews/p57_train_080_3c9033def136.json",
+      "source_sha256": "e10744c30f16a24e521c7ed75224617e7a9afe6206b912e774dc6821d18722f9",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_081_f530066b45f4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/081.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_081_f530066b45f4.jpg",
+      "label": "labels/p57_train_081_f530066b45f4.txt",
+      "review": "reviews/p57_train_081_f530066b45f4.json",
+      "source_sha256": "d1e9fd2872f247e67a5ae9d4cd0f23f7c67ac1bb464932da4444dd20b4d14caa",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_082_8314e421b497",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/082.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_082_8314e421b497.jpg",
+      "label": "labels/p57_train_082_8314e421b497.txt",
+      "review": "reviews/p57_train_082_8314e421b497.json",
+      "source_sha256": "15bee070dd9a3be3be791079e7eb711dd015167c01861f85001974d61cdf2100",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_083_5c2b6078375b",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/083.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_083_5c2b6078375b.jpg",
+      "label": "labels/p57_train_083_5c2b6078375b.txt",
+      "review": "reviews/p57_train_083_5c2b6078375b.json",
+      "source_sha256": "966e3f9b8a13fa9217b5d9bb1bdca84c3b2990f474a7902c6885b927cfd8bb87",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_084_fc6a1b3c0df5",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/084.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_084_fc6a1b3c0df5.jpg",
+      "label": "labels/p57_train_084_fc6a1b3c0df5.txt",
+      "review": "reviews/p57_train_084_fc6a1b3c0df5.json",
+      "source_sha256": "5dbdf727eb7add4a8cc59a02369ec1eeb8ffe190a35e0c8c80cf34921901a340",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_085_98ed4672db73",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/085.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_085_98ed4672db73.jpg",
+      "label": "labels/p57_train_085_98ed4672db73.txt",
+      "review": "reviews/p57_train_085_98ed4672db73.json",
+      "source_sha256": "98ad0a48f8b0cf99c3852c9a4516d50bb49ab48fa98a2d588070273f0eb3d83f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_086_8cb573ba41b2",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/086.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_086_8cb573ba41b2.jpg",
+      "label": "labels/p57_train_086_8cb573ba41b2.txt",
+      "review": "reviews/p57_train_086_8cb573ba41b2.json",
+      "source_sha256": "e619c9658c264788c3161ae32ea748724445fe8e59ad1f7ecd469e68eccfa72e",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_087_6cc0ba2541d5",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/087.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_087_6cc0ba2541d5.jpg",
+      "label": "labels/p57_train_087_6cc0ba2541d5.txt",
+      "review": "reviews/p57_train_087_6cc0ba2541d5.json",
+      "source_sha256": "932c806b2adde10541e4e94dac1619d550e2cff9d9c931b63f388eff675fdd39",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_088_c6a829b5af54",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/088.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_088_c6a829b5af54.jpg",
+      "label": "labels/p57_train_088_c6a829b5af54.txt",
+      "review": "reviews/p57_train_088_c6a829b5af54.json",
+      "source_sha256": "23369e89f329c4e5f5c5ebd0fcbe8093d7c3476713707ac4fdc760ab7f9a11a0",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p57_train_089_e7f1bf2e639f",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/089.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_089_e7f1bf2e639f.jpg",
+      "label": "labels/p57_train_089_e7f1bf2e639f.txt",
+      "review": "reviews/p57_train_089_e7f1bf2e639f.json",
+      "source_sha256": "9d602cf4b5ae2a3be541f90cd673906e5e27172e6a8aedf772a1f2728bbc3404",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_090_0270235245c9",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/090.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_090_0270235245c9.jpg",
+      "label": "labels/p57_train_090_0270235245c9.txt",
+      "review": "reviews/p57_train_090_0270235245c9.json",
+      "source_sha256": "e94b8302bcfaf8178275b745dd844a7ec59908359d06bc6553be2c306c0507c1",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_091_a355f097f643",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/091.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_091_a355f097f643.jpg",
+      "label": "labels/p57_train_091_a355f097f643.txt",
+      "review": "reviews/p57_train_091_a355f097f643.json",
+      "source_sha256": "85c13ce8a585eb06c7c39bb685b81f24652f37aaa502dd8e55a776219929e1b4",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_092_a4dd51b96060",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/092.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_092_a4dd51b96060.jpg",
+      "label": "labels/p57_train_092_a4dd51b96060.txt",
+      "review": "reviews/p57_train_092_a4dd51b96060.json",
+      "source_sha256": "b223f4782f94b70561725b4e0e8e6c0e6801eebdef9ee903914a7c2e4cca83e2",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p57_train_093_efee0b6646c1",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/093.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_093_efee0b6646c1.jpg",
+      "label": "labels/p57_train_093_efee0b6646c1.txt",
+      "review": "reviews/p57_train_093_efee0b6646c1.json",
+      "source_sha256": "77d29f4e0429d612eb250dcca558f95b2089a88cc174fa77c2d5c89257f4358c",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_094_fa4c15f85141",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/094.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_094_fa4c15f85141.jpg",
+      "label": "labels/p57_train_094_fa4c15f85141.txt",
+      "review": "reviews/p57_train_094_fa4c15f85141.json",
+      "source_sha256": "5c6043bba34af945694ed6d7e5b3d5018e3bce89f2e11428a9630a4355133077",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_095_09af71c1af9e",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/095.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_095_09af71c1af9e.jpg",
+      "label": "labels/p57_train_095_09af71c1af9e.txt",
+      "review": "reviews/p57_train_095_09af71c1af9e.json",
+      "source_sha256": "6922850c33786c9445d9130a8c3d9cc9e8c85f0f83aef89d4212295ea1298978",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_096_d030605bc117",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/096.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_096_d030605bc117.jpg",
+      "label": "labels/p57_train_096_d030605bc117.txt",
+      "review": "reviews/p57_train_096_d030605bc117.json",
+      "source_sha256": "80124858efc0ad84e4ad7f707fac1cf86e9edc504d8582928fb04c8ee92529e1",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_097_b98779190a57",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/097.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_097_b98779190a57.jpg",
+      "label": "labels/p57_train_097_b98779190a57.txt",
+      "review": "reviews/p57_train_097_b98779190a57.json",
+      "source_sha256": "50fc3539048ed2f60a5df14f6356edecbf829fe181ef751cb9be69b0da08c10c",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_098_bba92404c5c3",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/098.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_098_bba92404c5c3.jpg",
+      "label": "labels/p57_train_098_bba92404c5c3.txt",
+      "review": "reviews/p57_train_098_bba92404c5c3.json",
+      "source_sha256": "bbb4516a0b7cbd8f44729de2aa3776ccc5e1629c52d3e776745b00ad5b615b7d",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_099_c884d7e5d642",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/099.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_099_c884d7e5d642.jpg",
+      "label": "labels/p57_train_099_c884d7e5d642.txt",
+      "review": "reviews/p57_train_099_c884d7e5d642.json",
+      "source_sha256": "f8b8f890506789bf1e26faee1bb1e20ccf54024e019909e723e993d65cf3ddfb",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_100_5345576d3143",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/100.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_100_5345576d3143.jpg",
+      "label": "labels/p57_train_100_5345576d3143.txt",
+      "review": "reviews/p57_train_100_5345576d3143.json",
+      "source_sha256": "d5e92e1572326ef8cda1ecc36fb946ddee3cc5f3abc62aa36da8e463f2b54807",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_102_02cbe0ec9512",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/102.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_102_02cbe0ec9512.jpg",
+      "label": "labels/p57_train_102_02cbe0ec9512.txt",
+      "review": "reviews/p57_train_102_02cbe0ec9512.json",
+      "source_sha256": "680c0f370baa512f2ea0490fc7dbfa761621204bb40120ad791ee2234216c686",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_104_3c77ac55e016",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/104.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_104_3c77ac55e016.jpg",
+      "label": "labels/p57_train_104_3c77ac55e016.txt",
+      "review": "reviews/p57_train_104_3c77ac55e016.json",
+      "source_sha256": "7d6864b3498d72b69bc9ff9c163c37e48687c240a6a8659cdf221af43d2aecfc",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_105_55abe1a6258a",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/105.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_105_55abe1a6258a.jpg",
+      "label": "labels/p57_train_105_55abe1a6258a.txt",
+      "review": "reviews/p57_train_105_55abe1a6258a.json",
+      "source_sha256": "daf7fa7052330c43c733d5aa97970875110657e92c1825a0e68b986a70c2f371",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_106_4e55120b89f7",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/106.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_106_4e55120b89f7.jpg",
+      "label": "labels/p57_train_106_4e55120b89f7.txt",
+      "review": "reviews/p57_train_106_4e55120b89f7.json",
+      "source_sha256": "87ddd0878bee39a4caee714e5870a8166a64f513e683a782b505dd116c02d64f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_107_e8be3726b6c5",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/107.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_107_e8be3726b6c5.jpg",
+      "label": "labels/p57_train_107_e8be3726b6c5.txt",
+      "review": "reviews/p57_train_107_e8be3726b6c5.json",
+      "source_sha256": "22048a848e67dd9cbde33cd238040f8407901ef16b1959f9e27990eaebe000dd",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_108_ab52a27f49fe",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/108.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_108_ab52a27f49fe.jpg",
+      "label": "labels/p57_train_108_ab52a27f49fe.txt",
+      "review": "reviews/p57_train_108_ab52a27f49fe.json",
+      "source_sha256": "03f15c5ac2dd40e854e6db9fb058cebae39ad3ff12ba03063920bfe986af7173",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_109_4035a66bdef4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/109.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_109_4035a66bdef4.jpg",
+      "label": "labels/p57_train_109_4035a66bdef4.txt",
+      "review": "reviews/p57_train_109_4035a66bdef4.json",
+      "source_sha256": "913756afd3191281fc83e0e8cebf4b8719ddf7e7f36cd8b81389c6681820a981",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_110_60595f164704",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/110.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_110_60595f164704.jpg",
+      "label": "labels/p57_train_110_60595f164704.txt",
+      "review": "reviews/p57_train_110_60595f164704.json",
+      "source_sha256": "8067573c940cd40f9b428a8644361a4e5c65a72ed643ccc9d7cc717bd879716a",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_111_0ee7cfce3522",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/111.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_111_0ee7cfce3522.jpg",
+      "label": "labels/p57_train_111_0ee7cfce3522.txt",
+      "review": "reviews/p57_train_111_0ee7cfce3522.json",
+      "source_sha256": "2d41244c0ff13a5100765e44e28eeb75033fb7f0fd03bdac5f35889f9d117fb5",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_112_3abcec37c3ad",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/112.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_112_3abcec37c3ad.jpg",
+      "label": "labels/p57_train_112_3abcec37c3ad.txt",
+      "review": "reviews/p57_train_112_3abcec37c3ad.json",
+      "source_sha256": "aedba67eb72682417f6bc051b3f05b7481fa78d9cf5142f3f04d20c45ea084dd",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p57_train_113_48a4d99697c3",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/113.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_113_48a4d99697c3.jpg",
+      "label": "labels/p57_train_113_48a4d99697c3.txt",
+      "review": "reviews/p57_train_113_48a4d99697c3.json",
+      "source_sha256": "4ef9977a221ccc5c5d103105b8341db679d8b10b6e497fb26773f0fe9b35627d",
+      "reviewed_box_count": 8
+    },
+    {
+      "image_id": "p57_train_114_ddad46474e6d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/114.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_114_ddad46474e6d.jpg",
+      "label": "labels/p57_train_114_ddad46474e6d.txt",
+      "review": "reviews/p57_train_114_ddad46474e6d.json",
+      "source_sha256": "185b80435de238a6b561333fea3e355a09f2530c1076b7d24a8f81ba9bfc2578",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_115_5ebeaad58d9c",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/115.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_115_5ebeaad58d9c.jpg",
+      "label": "labels/p57_train_115_5ebeaad58d9c.txt",
+      "review": "reviews/p57_train_115_5ebeaad58d9c.json",
+      "source_sha256": "1d82b35d9fa7ef3fa0aa5cbf260761a8b9223787fa8d10c6a65201475eaa4b82",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_116_2613cba4187d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/116.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_116_2613cba4187d.jpg",
+      "label": "labels/p57_train_116_2613cba4187d.txt",
+      "review": "reviews/p57_train_116_2613cba4187d.json",
+      "source_sha256": "b25f83579e4b33e48a097a3c2611b6443733010c6e9a352bc7723895625bf3b7",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_117_2e92fef08d79",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/117.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_117_2e92fef08d79.jpg",
+      "label": "labels/p57_train_117_2e92fef08d79.txt",
+      "review": "reviews/p57_train_117_2e92fef08d79.json",
+      "source_sha256": "72802f14685a851fcc85b56f9b698430ee932825bb6285103605056e75fca25e",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p57_train_118_beb8ba131bf9",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/118.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_118_beb8ba131bf9.jpg",
+      "label": "labels/p57_train_118_beb8ba131bf9.txt",
+      "review": "reviews/p57_train_118_beb8ba131bf9.json",
+      "source_sha256": "88e459aa75bc16c53d03ef01ffaa088f8fc24e0ef46ec2bb0e936caf3141724d",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_119_2f4ceb577e97",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/119.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_119_2f4ceb577e97.jpg",
+      "label": "labels/p57_train_119_2f4ceb577e97.txt",
+      "review": "reviews/p57_train_119_2f4ceb577e97.json",
+      "source_sha256": "7a14d1223ba43e3a2d46aab3a14c8f4a8b24e31786a8fe3ca9190b65d6c47527",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_120_d178bb1f5da8",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/120.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_120_d178bb1f5da8.jpg",
+      "label": "labels/p57_train_120_d178bb1f5da8.txt",
+      "review": "reviews/p57_train_120_d178bb1f5da8.json",
+      "source_sha256": "1b271098b1be9aedb8f0639708c00f9fc30cca542d21b617d3660d51aae4c74a",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p57_train_121_1f9920712348",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/121.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_121_1f9920712348.jpg",
+      "label": "labels/p57_train_121_1f9920712348.txt",
+      "review": "reviews/p57_train_121_1f9920712348.json",
+      "source_sha256": "76809e9f5fa13345748139c43727d45ad490663787e3606b1cdcb8f06a3fdbaf",
+      "reviewed_box_count": 8
+    },
+    {
+      "image_id": "p57_train_122_8cc74b72786b",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/122.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_122_8cc74b72786b.jpg",
+      "label": "labels/p57_train_122_8cc74b72786b.txt",
+      "review": "reviews/p57_train_122_8cc74b72786b.json",
+      "source_sha256": "38b9b73f336d5133d6450091bfcb1c2b4f0d82267b1c28f7ded72c83cf826fe7",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_123_fa0ecb7f3ab5",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/123.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_123_fa0ecb7f3ab5.jpg",
+      "label": "labels/p57_train_123_fa0ecb7f3ab5.txt",
+      "review": "reviews/p57_train_123_fa0ecb7f3ab5.json",
+      "source_sha256": "d6cb91baa3729df124843bc76d81b1d06eaa4144c5edfe21f93ad67eb66b17b1",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_124_602aa12ac323",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/124.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_124_602aa12ac323.jpg",
+      "label": "labels/p57_train_124_602aa12ac323.txt",
+      "review": "reviews/p57_train_124_602aa12ac323.json",
+      "source_sha256": "635da6019bbec20803c4b7620c77cdab10cae23b16e88aacd68b7163d689aa01",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_125_fd1fcf92b803",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/125.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_125_fd1fcf92b803.jpg",
+      "label": "labels/p57_train_125_fd1fcf92b803.txt",
+      "review": "reviews/p57_train_125_fd1fcf92b803.json",
+      "source_sha256": "157b641deb460d7a605196c3b2f035fac94924dc40cf33358dc2eea8e5d6883f",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_126_796c09bbcc01",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/126.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_126_796c09bbcc01.jpg",
+      "label": "labels/p57_train_126_796c09bbcc01.txt",
+      "review": "reviews/p57_train_126_796c09bbcc01.json",
+      "source_sha256": "5ff987aeb53e772706fde63db86aeebe0b9aeecda599018a3abf1af922d67307",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_128_b3d8ad19cc62",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/128.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_128_b3d8ad19cc62.jpg",
+      "label": "labels/p57_train_128_b3d8ad19cc62.txt",
+      "review": "reviews/p57_train_128_b3d8ad19cc62.json",
+      "source_sha256": "614aeb5f86826b82c6ddf4f41479edecc1552d78c5cde1b759c813bf3b50be28",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_129_9d7e553db56a",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/129.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_129_9d7e553db56a.jpg",
+      "label": "labels/p57_train_129_9d7e553db56a.txt",
+      "review": "reviews/p57_train_129_9d7e553db56a.json",
+      "source_sha256": "d6374c2804173e959584c59704b604465ca4b1123cb62cb91dbf336a12449c30",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_130_2d26145303b3",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/130.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_130_2d26145303b3.jpg",
+      "label": "labels/p57_train_130_2d26145303b3.txt",
+      "review": "reviews/p57_train_130_2d26145303b3.json",
+      "source_sha256": "e31c05aaf5f07ed2eec86d74469b24ef75dd4cee752c8039d71d0a4f89cf6d47",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p57_train_131_7b4177cdd0a6",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/131.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_131_7b4177cdd0a6.jpg",
+      "label": "labels/p57_train_131_7b4177cdd0a6.txt",
+      "review": "reviews/p57_train_131_7b4177cdd0a6.json",
+      "source_sha256": "6e11f940052022bd99944405bb06a9535b9746e4bddc5f1cba2595e79a0083d4",
+      "reviewed_box_count": 8
+    },
+    {
+      "image_id": "p57_train_132_01171300b1d5",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/132.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_132_01171300b1d5.jpg",
+      "label": "labels/p57_train_132_01171300b1d5.txt",
+      "review": "reviews/p57_train_132_01171300b1d5.json",
+      "source_sha256": "08a8c8bc1470c7f7761d684f68fe445c8f17be6590bae5cc27b3a94cd889178a",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_133_b561de823129",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/133.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_133_b561de823129.jpg",
+      "label": "labels/p57_train_133_b561de823129.txt",
+      "review": "reviews/p57_train_133_b561de823129.json",
+      "source_sha256": "3c0b30a419e950bb4497f18e39c211dec288218e5bae5c1d773833ce05131f1a",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_134_dc03897f1c24",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/134.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_134_dc03897f1c24.jpg",
+      "label": "labels/p57_train_134_dc03897f1c24.txt",
+      "review": "reviews/p57_train_134_dc03897f1c24.json",
+      "source_sha256": "cc77fc70e4d71166e65acc43f4ad5023f945270b01de17259d860ce5e869f6d4",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_135_6498f2d7d119",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/135.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_135_6498f2d7d119.jpg",
+      "label": "labels/p57_train_135_6498f2d7d119.txt",
+      "review": "reviews/p57_train_135_6498f2d7d119.json",
+      "source_sha256": "645ca8f6c8eb6c61884dfb8c3c96554699541bfc74d21e8fef5a209c690f240f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_136_01a078ff150d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/136.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_136_01a078ff150d.jpg",
+      "label": "labels/p57_train_136_01a078ff150d.txt",
+      "review": "reviews/p57_train_136_01a078ff150d.json",
+      "source_sha256": "28ecd54b4c58de60f05b532a5209c85c0ae1082e610a097631db151bac89a566",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_137_c921148dba6c",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/137.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_137_c921148dba6c.jpg",
+      "label": "labels/p57_train_137_c921148dba6c.txt",
+      "review": "reviews/p57_train_137_c921148dba6c.json",
+      "source_sha256": "6f586fbf4b171c17b317ab99844f8b393552cc6740713d0047372c41de560ed2",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_139_d6c2fca1dcbb",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/139.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_139_d6c2fca1dcbb.jpg",
+      "label": "labels/p57_train_139_d6c2fca1dcbb.txt",
+      "review": "reviews/p57_train_139_d6c2fca1dcbb.json",
+      "source_sha256": "aad4b6b290e39d709748a88f51202dac8714fb237f8f3fb56ee9dd2dd13d84e3",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p57_train_140_81d5ae93aea9",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/140.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_140_81d5ae93aea9.jpg",
+      "label": "labels/p57_train_140_81d5ae93aea9.txt",
+      "review": "reviews/p57_train_140_81d5ae93aea9.json",
+      "source_sha256": "80eb9e7e7b51a13d34fd8d700de69373c1fe9297b6e2f4403939a3924b62a266",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p57_train_141_1a53fcd83e24",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/141.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_141_1a53fcd83e24.jpg",
+      "label": "labels/p57_train_141_1a53fcd83e24.txt",
+      "review": "reviews/p57_train_141_1a53fcd83e24.json",
+      "source_sha256": "bd6c9aa6f7e286bae7208206327fad3892ad2a1aa9fdc4ebf7746b13dbf5ca13",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_142_0a8272d249f4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/142.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_142_0a8272d249f4.jpg",
+      "label": "labels/p57_train_142_0a8272d249f4.txt",
+      "review": "reviews/p57_train_142_0a8272d249f4.json",
+      "source_sha256": "78a582444dab3f5ea30e031703852b084c6e38aef18479f47ef8b8a3bc8dadf2",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_143_120a76ad26f2",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/143.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_143_120a76ad26f2.jpg",
+      "label": "labels/p57_train_143_120a76ad26f2.txt",
+      "review": "reviews/p57_train_143_120a76ad26f2.json",
+      "source_sha256": "4079d7b9817ee9258a9ec93fb77de7d123096ea846086d4cf5081c54c8917378",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_144_91f59c4bc5ad",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/144.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_144_91f59c4bc5ad.jpg",
+      "label": "labels/p57_train_144_91f59c4bc5ad.txt",
+      "review": "reviews/p57_train_144_91f59c4bc5ad.json",
+      "source_sha256": "2459a75fcff4b39a19986237cc41e6ee00917bea7948388345e5bb27116d0e7c",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_146_df29406f4c9a",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/146.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_146_df29406f4c9a.jpg",
+      "label": "labels/p57_train_146_df29406f4c9a.txt",
+      "review": "reviews/p57_train_146_df29406f4c9a.json",
+      "source_sha256": "7f51e131f97dc4c05ae40f7525264494dcbe06dae0751ba108265611eb782892",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p57_train_147_dc6eb20586c6",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/147.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_147_dc6eb20586c6.jpg",
+      "label": "labels/p57_train_147_dc6eb20586c6.txt",
+      "review": "reviews/p57_train_147_dc6eb20586c6.json",
+      "source_sha256": "92abbd5c55465a7306eecaf8b0f0156287f8acc13d87c618b10e2cc4ad6b5b22",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p57_train_148_5e46c158e754",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/148.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_148_5e46c158e754.jpg",
+      "label": "labels/p57_train_148_5e46c158e754.txt",
+      "review": "reviews/p57_train_148_5e46c158e754.json",
+      "source_sha256": "b3ddc3fdab396f3290e627997c686d54e076e9c3179c9e1f1364c22cf6deec64",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p57_train_149_be5b0b9799f5",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/149.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_149_be5b0b9799f5.jpg",
+      "label": "labels/p57_train_149_be5b0b9799f5.txt",
+      "review": "reviews/p57_train_149_be5b0b9799f5.json",
+      "source_sha256": "85ec6ee90f4b78d3acfbfeaf4cb668dd4cc106bbeba41137c3317328368c16ff",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_150_a8e30633ef26",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/150.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_150_a8e30633ef26.jpg",
+      "label": "labels/p57_train_150_a8e30633ef26.txt",
+      "review": "reviews/p57_train_150_a8e30633ef26.json",
+      "source_sha256": "e1b868c4cd159a49317bf0f7d436b81fecfd8246a6da5876a5e3c457792f68fe",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_151_0fa6d8826bb8",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/151.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_151_0fa6d8826bb8.jpg",
+      "label": "labels/p57_train_151_0fa6d8826bb8.txt",
+      "review": "reviews/p57_train_151_0fa6d8826bb8.json",
+      "source_sha256": "52da2ef43c1fd663adfb3891b86ed8ba3fb72bb45c3f6c79dafe68f549a1ed78",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_152_cbfe89fe6b74",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/152.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_152_cbfe89fe6b74.jpg",
+      "label": "labels/p57_train_152_cbfe89fe6b74.txt",
+      "review": "reviews/p57_train_152_cbfe89fe6b74.json",
+      "source_sha256": "be98c39a388f38d1e86b6eb5b0b219816b37dc8f61aed78c7f5105f199aa1dc5",
+      "reviewed_box_count": 11
+    },
+    {
+      "image_id": "p57_train_153_81431650d508",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/153.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_153_81431650d508.jpg",
+      "label": "labels/p57_train_153_81431650d508.txt",
+      "review": "reviews/p57_train_153_81431650d508.json",
+      "source_sha256": "7d8d08b29aa599accb81181528c59bb64c14f7ccc49ea48c180b6ca52903f330",
+      "reviewed_box_count": 23
+    },
+    {
+      "image_id": "p57_train_154_95801b97bd95",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/154.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_154_95801b97bd95.jpg",
+      "label": "labels/p57_train_154_95801b97bd95.txt",
+      "review": "reviews/p57_train_154_95801b97bd95.json",
+      "source_sha256": "acaf7d56725fd7aef0feaafac8e0fbd7d5b9f1f867f78a588a703068ad510715",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_155_904cc40b5c84",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/155.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_155_904cc40b5c84.jpg",
+      "label": "labels/p57_train_155_904cc40b5c84.txt",
+      "review": "reviews/p57_train_155_904cc40b5c84.json",
+      "source_sha256": "e50b0cb93ded30bb478f8a02435ab7560551630f11d0ea01ebd0d240e8a81e4e",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_156_b84c9598c067",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/156.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_156_b84c9598c067.jpg",
+      "label": "labels/p57_train_156_b84c9598c067.txt",
+      "review": "reviews/p57_train_156_b84c9598c067.json",
+      "source_sha256": "82229917772533f790b66dd0da628616b7bdc8c229937d828d5f676e735b6aea",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_157_a1557099e476",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/157.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_157_a1557099e476.jpg",
+      "label": "labels/p57_train_157_a1557099e476.txt",
+      "review": "reviews/p57_train_157_a1557099e476.json",
+      "source_sha256": "1fdd5acc4516cd818678b13fc5fd532a014a9d2b069244d9de89cd31025e3f74",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p57_train_158_46955ff4ce0a",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/158.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_158_46955ff4ce0a.jpg",
+      "label": "labels/p57_train_158_46955ff4ce0a.txt",
+      "review": "reviews/p57_train_158_46955ff4ce0a.json",
+      "source_sha256": "d6d962d54509eca7d3475be337c0aaa5e188727b68871d9e4b292a929ff489af",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_159_57eafc93721d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/159.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_159_57eafc93721d.jpg",
+      "label": "labels/p57_train_159_57eafc93721d.txt",
+      "review": "reviews/p57_train_159_57eafc93721d.json",
+      "source_sha256": "6711cad346bb171812c7584b6705663f9f666b56ca0857edd337fd84fd09b1e7",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p57_train_160_ed24fd582502",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/160.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_160_ed24fd582502.jpg",
+      "label": "labels/p57_train_160_ed24fd582502.txt",
+      "review": "reviews/p57_train_160_ed24fd582502.json",
+      "source_sha256": "231833a33354f51ed182a78a8bb65bd3c832c4c4fe74d497e064be19c3ae356f",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_161_89637166596e",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/161.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_161_89637166596e.jpg",
+      "label": "labels/p57_train_161_89637166596e.txt",
+      "review": "reviews/p57_train_161_89637166596e.json",
+      "source_sha256": "3f9deb9dc7c64adbc1e3ac334ac1ca9b0588b46b4df92b3a2a3dbaf7d930da82",
+      "reviewed_box_count": 11
+    },
+    {
+      "image_id": "p57_train_162_f406d375b49c",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/162.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_162_f406d375b49c.jpg",
+      "label": "labels/p57_train_162_f406d375b49c.txt",
+      "review": "reviews/p57_train_162_f406d375b49c.json",
+      "source_sha256": "0f28fc183bf79de825e0fb4774c52d8481c4ea145720f454c92745b2c1be3bd3",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p57_train_163_ef2a3574ff1d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/163.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_163_ef2a3574ff1d.jpg",
+      "label": "labels/p57_train_163_ef2a3574ff1d.txt",
+      "review": "reviews/p57_train_163_ef2a3574ff1d.json",
+      "source_sha256": "040d7676801717b190d46dace9b146e1331b9f981450148e23ed56289f03ed62",
+      "reviewed_box_count": 11
+    },
+    {
+      "image_id": "p57_train_164_1647474828c2",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/164.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_164_1647474828c2.jpg",
+      "label": "labels/p57_train_164_1647474828c2.txt",
+      "review": "reviews/p57_train_164_1647474828c2.json",
+      "source_sha256": "33f719f1b21d3c7ed49c0fddf8f95f5a8a8842833b80cf7a77ad5011e1cc9c3d",
+      "reviewed_box_count": 10
+    },
+    {
+      "image_id": "p57_train_165_113498125919",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/165.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_165_113498125919.jpg",
+      "label": "labels/p57_train_165_113498125919.txt",
+      "review": "reviews/p57_train_165_113498125919.json",
+      "source_sha256": "408b07e46b2a25a647500208cf6b827488528048f6ce14ce8c915a78f995f610",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_166_0e5259b9c4b7",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/166.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_166_0e5259b9c4b7.jpg",
+      "label": "labels/p57_train_166_0e5259b9c4b7.txt",
+      "review": "reviews/p57_train_166_0e5259b9c4b7.json",
+      "source_sha256": "6b51208e00e42583d24db9f5032f2d4ec549854577c33ba40356fb0b11a4c29e",
+      "reviewed_box_count": 17
+    },
+    {
+      "image_id": "p57_train_167_13df62477649",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/167.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_167_13df62477649.jpg",
+      "label": "labels/p57_train_167_13df62477649.txt",
+      "review": "reviews/p57_train_167_13df62477649.json",
+      "source_sha256": "fd693587ffefb27e9782dcb5ca5d6424d1160433eea003b7411c920cd679a9b6",
+      "reviewed_box_count": 17
+    },
+    {
+      "image_id": "p57_train_168_17391fd7dd92",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/168.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_168_17391fd7dd92.jpg",
+      "label": "labels/p57_train_168_17391fd7dd92.txt",
+      "review": "reviews/p57_train_168_17391fd7dd92.json",
+      "source_sha256": "6c837d3546f4807c14f70f2ea9e1aa97b1ddea1501232515c10c4837dd7af734",
+      "reviewed_box_count": 15
+    },
+    {
+      "image_id": "p57_train_169_5212b06865b5",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/169.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_169_5212b06865b5.jpg",
+      "label": "labels/p57_train_169_5212b06865b5.txt",
+      "review": "reviews/p57_train_169_5212b06865b5.json",
+      "source_sha256": "3f7d6555323e8c84d7004cbeca1b4739bfbf7a2948c542736d5eaf421b0dccbe",
+      "reviewed_box_count": 10
+    },
+    {
+      "image_id": "p57_train_170_521f778319e8",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/170.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_170_521f778319e8.jpg",
+      "label": "labels/p57_train_170_521f778319e8.txt",
+      "review": "reviews/p57_train_170_521f778319e8.json",
+      "source_sha256": "2f95f2a721a7ac5ab8c0bb369379babd56d5434eeea90557ece68e0a8e689d62",
+      "reviewed_box_count": 11
+    },
+    {
+      "image_id": "p57_train_171_397ad4dd93e8",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/171.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_171_397ad4dd93e8.jpg",
+      "label": "labels/p57_train_171_397ad4dd93e8.txt",
+      "review": "reviews/p57_train_171_397ad4dd93e8.json",
+      "source_sha256": "eda81c36f9d5ab73a14f088457b4ba4795e117a98cb9e7cbe5820b9d4a410434",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_172_24662b18dda9",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/172.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_172_24662b18dda9.jpg",
+      "label": "labels/p57_train_172_24662b18dda9.txt",
+      "review": "reviews/p57_train_172_24662b18dda9.json",
+      "source_sha256": "b9aefd2414882cfbb8d13d62af56f1adb081f896d2c4aa80a4fe018e84e55dec",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_173_a133598196d6",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/173.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_173_a133598196d6.jpg",
+      "label": "labels/p57_train_173_a133598196d6.txt",
+      "review": "reviews/p57_train_173_a133598196d6.json",
+      "source_sha256": "734040bdccd63361ec2c3517ca37c7ecf750d68530e7903ad7a38a4d7d180b05",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_174_5c9f46493fbd",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/174.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_174_5c9f46493fbd.jpg",
+      "label": "labels/p57_train_174_5c9f46493fbd.txt",
+      "review": "reviews/p57_train_174_5c9f46493fbd.json",
+      "source_sha256": "b82a16f15e6ca624334a77f6f25e23623c161dac1fdcf3a970b749d080960ffb",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p57_train_175_ad6971b17f9d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/175.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_175_ad6971b17f9d.jpg",
+      "label": "labels/p57_train_175_ad6971b17f9d.txt",
+      "review": "reviews/p57_train_175_ad6971b17f9d.json",
+      "source_sha256": "8fe2010107606b2a5e68aab97bc9918f70a7713a4801b90ea145d8c96c2bcc41",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_176_02d8be5b89d1",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/176.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_176_02d8be5b89d1.jpg",
+      "label": "labels/p57_train_176_02d8be5b89d1.txt",
+      "review": "reviews/p57_train_176_02d8be5b89d1.json",
+      "source_sha256": "a84f97657128a7cff14ed49d62b060453f55333e43eebb7842afee0d1e7aae72",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_177_8a1c46fd55ed",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/177.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_177_8a1c46fd55ed.jpg",
+      "label": "labels/p57_train_177_8a1c46fd55ed.txt",
+      "review": "reviews/p57_train_177_8a1c46fd55ed.json",
+      "source_sha256": "7fb200024f773244856ba368dbf25daef2516d70bdd17003ce43a79f7f8709b7",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_178_4ab32007077a",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/178.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_178_4ab32007077a.jpg",
+      "label": "labels/p57_train_178_4ab32007077a.txt",
+      "review": "reviews/p57_train_178_4ab32007077a.json",
+      "source_sha256": "a2b9d1346390bf8c216f0872eabe88013e6b46a8ac0029bf6188459d74ddbeee",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_181_d2fc9f93fdb1",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/181.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_181_d2fc9f93fdb1.jpg",
+      "label": "labels/p57_train_181_d2fc9f93fdb1.txt",
+      "review": "reviews/p57_train_181_d2fc9f93fdb1.json",
+      "source_sha256": "1ce0aaee0e3ba33ade77bf05e7fa7d71452c304789ca3060077bf4d8864c678d",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_182_71bf722e9ba9",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/182.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_182_71bf722e9ba9.jpg",
+      "label": "labels/p57_train_182_71bf722e9ba9.txt",
+      "review": "reviews/p57_train_182_71bf722e9ba9.json",
+      "source_sha256": "4e07a4c38823321be282c5c184d5cfaf94042b0c18acc40b0a7dea0ac1b9ab41",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_183_84916ba195a6",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/183.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_183_84916ba195a6.jpg",
+      "label": "labels/p57_train_183_84916ba195a6.txt",
+      "review": "reviews/p57_train_183_84916ba195a6.json",
+      "source_sha256": "13fda4bc56749fe6c28096b1081c27adf496d68db0871bce45e3072131aca186",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_184_30bab8b794c8",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/184.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_184_30bab8b794c8.jpg",
+      "label": "labels/p57_train_184_30bab8b794c8.txt",
+      "review": "reviews/p57_train_184_30bab8b794c8.json",
+      "source_sha256": "60bf72ddb01cbe4b8c101c01d8471ad754092f6ecd46c4bdabad3040f14ebc5c",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_185_2833537aaa72",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/185.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_185_2833537aaa72.jpg",
+      "label": "labels/p57_train_185_2833537aaa72.txt",
+      "review": "reviews/p57_train_185_2833537aaa72.json",
+      "source_sha256": "aecfa2cc78ac5eaeefab14b81aff8e91c94b0d39a07459a7f1b3ff500f6a9010",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_186_7547e5f8bbc9",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/186.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_186_7547e5f8bbc9.jpg",
+      "label": "labels/p57_train_186_7547e5f8bbc9.txt",
+      "review": "reviews/p57_train_186_7547e5f8bbc9.json",
+      "source_sha256": "ea4c0a8c5861e78ec3c09fdf6d6bcdce09a9252e3e6680a8e8b8b48d0f8cc12b",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_187_096d4184631b",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/187.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_187_096d4184631b.jpg",
+      "label": "labels/p57_train_187_096d4184631b.txt",
+      "review": "reviews/p57_train_187_096d4184631b.json",
+      "source_sha256": "af89f9e30c5ae34033794ed0012ce63d012b55c7b64fcc40a817811055887d3b",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_188_3a2515fae4d9",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/188.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_188_3a2515fae4d9.jpg",
+      "label": "labels/p57_train_188_3a2515fae4d9.txt",
+      "review": "reviews/p57_train_188_3a2515fae4d9.json",
+      "source_sha256": "4e5c40cb2dee8c79b742402ed2bc2b0d2f7bd6ef7a538c32409191fd82922b51",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_189_b71e40d3a8e1",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/189.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_189_b71e40d3a8e1.jpg",
+      "label": "labels/p57_train_189_b71e40d3a8e1.txt",
+      "review": "reviews/p57_train_189_b71e40d3a8e1.json",
+      "source_sha256": "c88fbfcae8b459d9eccb215e18517362ed8209a95975a38a536e8f62f9728f1e",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_190_2241b9b83f07",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/190.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_190_2241b9b83f07.jpg",
+      "label": "labels/p57_train_190_2241b9b83f07.txt",
+      "review": "reviews/p57_train_190_2241b9b83f07.json",
+      "source_sha256": "4eead50530fb6b5e4974d5bf98051de949fbcf5fab8b92a0822be5fe2314e562",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_191_2814f89ea203",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/191.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_191_2814f89ea203.jpg",
+      "label": "labels/p57_train_191_2814f89ea203.txt",
+      "review": "reviews/p57_train_191_2814f89ea203.json",
+      "source_sha256": "ce5582558a1d85d1c7e1c27468c6bf5a9ff7eaad98aefb9cca2301126c76f1c6",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_192_fb741f5d892a",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/192.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_192_fb741f5d892a.jpg",
+      "label": "labels/p57_train_192_fb741f5d892a.txt",
+      "review": "reviews/p57_train_192_fb741f5d892a.json",
+      "source_sha256": "f2162ea215714374ba0ba3b4cbec8910d8c79d004ae6575868558b03914b4a1b",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_193_9690270f9732",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/193.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_193_9690270f9732.jpg",
+      "label": "labels/p57_train_193_9690270f9732.txt",
+      "review": "reviews/p57_train_193_9690270f9732.json",
+      "source_sha256": "f9ec8cbe7269317f516f66e68564ff87c2806c1c01e6e08bda398383b2613445",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_194_ce426bffb9b4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/194.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_194_ce426bffb9b4.jpg",
+      "label": "labels/p57_train_194_ce426bffb9b4.txt",
+      "review": "reviews/p57_train_194_ce426bffb9b4.json",
+      "source_sha256": "c6e9e12774ef5fa7fb8562bd2233a83c9f8096316392d049d0ed5352ed5b83e0",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_195_f94061c2c636",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/195.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_195_f94061c2c636.jpg",
+      "label": "labels/p57_train_195_f94061c2c636.txt",
+      "review": "reviews/p57_train_195_f94061c2c636.json",
+      "source_sha256": "37b5c385ceaacf2c66e5f4706fe6d2e721f1c58a9189c90b7d047d6fef126a53",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_196_c88037cf829a",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/196.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_196_c88037cf829a.jpg",
+      "label": "labels/p57_train_196_c88037cf829a.txt",
+      "review": "reviews/p57_train_196_c88037cf829a.json",
+      "source_sha256": "95cd8f8a79d0e3ed83f71cd4602e3d80c8b68bee1a38da04ceac143f8340298f",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_197_9280d8bf29d4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/197.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_197_9280d8bf29d4.jpg",
+      "label": "labels/p57_train_197_9280d8bf29d4.txt",
+      "review": "reviews/p57_train_197_9280d8bf29d4.json",
+      "source_sha256": "8318f69c52de14316e3609b7bd9e854ed65e06daea95f5c74cb608e4a22b23fd",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_198_90cc65002bf1",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/198.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_198_90cc65002bf1.jpg",
+      "label": "labels/p57_train_198_90cc65002bf1.txt",
+      "review": "reviews/p57_train_198_90cc65002bf1.json",
+      "source_sha256": "5c8d5e7896240cde4532f82dba856b12f242212d13b4a5d3fcebf485dcc25039",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_199_a20edc9872ab",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/199.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_199_a20edc9872ab.jpg",
+      "label": "labels/p57_train_199_a20edc9872ab.txt",
+      "review": "reviews/p57_train_199_a20edc9872ab.json",
+      "source_sha256": "1d43adea24312c523a2d1c0a316e9124d8c5c6606939823bd5753d1254f6959e",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_200_cab83c666b9c",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/200.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_200_cab83c666b9c.jpg",
+      "label": "labels/p57_train_200_cab83c666b9c.txt",
+      "review": "reviews/p57_train_200_cab83c666b9c.json",
+      "source_sha256": "516d38564811456ba28f679e2ba4771fd79b1941b23c7c0af2c5c1ca84cfa33c",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_202_44fde3db36bf",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/202.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_202_44fde3db36bf.jpg",
+      "label": "labels/p57_train_202_44fde3db36bf.txt",
+      "review": "reviews/p57_train_202_44fde3db36bf.json",
+      "source_sha256": "82ecdd24dfd9576590597a98670d2233ac5671ead6357e38800d818d311cd087",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_203_e10e4347573b",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/203.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_203_e10e4347573b.jpg",
+      "label": "labels/p57_train_203_e10e4347573b.txt",
+      "review": "reviews/p57_train_203_e10e4347573b.json",
+      "source_sha256": "458aaf17525003769265310b3661c33dc0f471e6849a0e517591fe8e25397008",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p57_train_204_e33283fd5b56",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/204.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_204_e33283fd5b56.jpg",
+      "label": "labels/p57_train_204_e33283fd5b56.txt",
+      "review": "reviews/p57_train_204_e33283fd5b56.json",
+      "source_sha256": "5c9d5b2b38f22271228256efb51b369f546ebb709e895a1f78e1f9e9c619f9c4",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_206_946017bd6912",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/206.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_206_946017bd6912.jpg",
+      "label": "labels/p57_train_206_946017bd6912.txt",
+      "review": "reviews/p57_train_206_946017bd6912.json",
+      "source_sha256": "4290b1f5c0719d8ab9425d83d25cfe3ffb62f392d9559f769301f09ce2aacf66",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_207_314dd194df75",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/207.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_207_314dd194df75.jpg",
+      "label": "labels/p57_train_207_314dd194df75.txt",
+      "review": "reviews/p57_train_207_314dd194df75.json",
+      "source_sha256": "2f0b772b5c25ae0d24a8e08709bebd85bcaf3f004e89af418593578cbd0a5a1b",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_208_7e389c6fb1f4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/208.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_208_7e389c6fb1f4.jpg",
+      "label": "labels/p57_train_208_7e389c6fb1f4.txt",
+      "review": "reviews/p57_train_208_7e389c6fb1f4.json",
+      "source_sha256": "2a1a4f80d7f72b2269342ca14f3363be07b5b7b84e80bfa2cced0270ff4abcfa",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_209_a18566940a05",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/209.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_209_a18566940a05.jpg",
+      "label": "labels/p57_train_209_a18566940a05.txt",
+      "review": "reviews/p57_train_209_a18566940a05.json",
+      "source_sha256": "4f2b11d07fcdbcfee9ac07456504ab36b6f018fa7f04ade6c591f5a767c4f551",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_210_1d8c2e615b20",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/210.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_210_1d8c2e615b20.jpg",
+      "label": "labels/p57_train_210_1d8c2e615b20.txt",
+      "review": "reviews/p57_train_210_1d8c2e615b20.json",
+      "source_sha256": "706ea291080b944a55b0d74d5385680ed0937f03b36c2e1ad24fdd5cc62eaf6b",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_213_a72aac227402",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/213.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_213_a72aac227402.jpg",
+      "label": "labels/p57_train_213_a72aac227402.txt",
+      "review": "reviews/p57_train_213_a72aac227402.json",
+      "source_sha256": "7538276485c7d065651bd91e0b6fa539cb658a6bee91fe14f976dcda1263ba0f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_214_6fae5b079527",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/214.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_214_6fae5b079527.jpg",
+      "label": "labels/p57_train_214_6fae5b079527.txt",
+      "review": "reviews/p57_train_214_6fae5b079527.json",
+      "source_sha256": "f9105e743d3af630514ac34caae418b52414d9792cdb87ab0e6d3ff6df084358",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_215_a6272f92f3ce",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/215.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_215_a6272f92f3ce.jpg",
+      "label": "labels/p57_train_215_a6272f92f3ce.txt",
+      "review": "reviews/p57_train_215_a6272f92f3ce.json",
+      "source_sha256": "b7a04151fae322f54692fb53eef5e2cb9f3152393e8a4c4db9a775f342e1f8ec",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_216_c4589dafa8e4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/216.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_216_c4589dafa8e4.jpg",
+      "label": "labels/p57_train_216_c4589dafa8e4.txt",
+      "review": "reviews/p57_train_216_c4589dafa8e4.json",
+      "source_sha256": "c062c7a242ef7e512cf891ecf9e1b86c058f723550e6f65b2c7ebdc7de86a4d1",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_217_a8f62fb537d3",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/217.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_217_a8f62fb537d3.jpg",
+      "label": "labels/p57_train_217_a8f62fb537d3.txt",
+      "review": "reviews/p57_train_217_a8f62fb537d3.json",
+      "source_sha256": "325dc6de8189b54acc9dd6de91d578e27632e02a69047b2a228f7232fa6d1d06",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_218_38380a90c3be",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/218.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_218_38380a90c3be.jpg",
+      "label": "labels/p57_train_218_38380a90c3be.txt",
+      "review": "reviews/p57_train_218_38380a90c3be.json",
+      "source_sha256": "ec51d090a308a2ee0bcd0e7b519d04249737511308b152f67e961d3b82f00fd2",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_219_a6c2b8af7a1b",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/219.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_219_a6c2b8af7a1b.jpg",
+      "label": "labels/p57_train_219_a6c2b8af7a1b.txt",
+      "review": "reviews/p57_train_219_a6c2b8af7a1b.json",
+      "source_sha256": "81a8fe2fbd9c94e108e8e4528fa05ce66224802238294e17c1ab30477e2e7d3f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_220_934d035ee230",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/220.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_220_934d035ee230.jpg",
+      "label": "labels/p57_train_220_934d035ee230.txt",
+      "review": "reviews/p57_train_220_934d035ee230.json",
+      "source_sha256": "3a50b0d406b8121a76bddda51987addb9e720aa678c3921ea9cf76397441a16f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_222_bfb5b1d33583",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/222.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_222_bfb5b1d33583.jpg",
+      "label": "labels/p57_train_222_bfb5b1d33583.txt",
+      "review": "reviews/p57_train_222_bfb5b1d33583.json",
+      "source_sha256": "cc26ce60c5093b3347891081ca7db5eee885ed8e1026b9572ff22db8282277de",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_223_ce35b38aa3d1",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/223.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_223_ce35b38aa3d1.jpg",
+      "label": "labels/p57_train_223_ce35b38aa3d1.txt",
+      "review": "reviews/p57_train_223_ce35b38aa3d1.json",
+      "source_sha256": "91583af5ac43ab51cf0dd0fd080897ac1b68ffd362f0ea649012b86b8976d651",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_224_d8aac4a88716",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/224.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_224_d8aac4a88716.jpg",
+      "label": "labels/p57_train_224_d8aac4a88716.txt",
+      "review": "reviews/p57_train_224_d8aac4a88716.json",
+      "source_sha256": "001365e19ca410c88088d1c87f3542dfda4ec67297f93c6a1a093d257dba7b05",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_225_30479c6376f7",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/225.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_225_30479c6376f7.jpg",
+      "label": "labels/p57_train_225_30479c6376f7.txt",
+      "review": "reviews/p57_train_225_30479c6376f7.json",
+      "source_sha256": "da2525265cf86b52dd646edfc9641a17d9b5b6df32379bb04301139320a689bd",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_226_e7425ac570ae",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/226.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_226_e7425ac570ae.jpg",
+      "label": "labels/p57_train_226_e7425ac570ae.txt",
+      "review": "reviews/p57_train_226_e7425ac570ae.json",
+      "source_sha256": "3d46c7f824dd68bffc3ba8ac1d2d11e44ecbc2019a8170ff54bfeb9245b52ef3",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p57_train_227_1cde222e4dec",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/227.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_227_1cde222e4dec.jpg",
+      "label": "labels/p57_train_227_1cde222e4dec.txt",
+      "review": "reviews/p57_train_227_1cde222e4dec.json",
+      "source_sha256": "831bdf2300ee1fc4e16990368b4adddaa7cd20320412f8a98c5887aa85d2b0c9",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_228_16d1dfc6e3d4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/228.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_228_16d1dfc6e3d4.jpg",
+      "label": "labels/p57_train_228_16d1dfc6e3d4.txt",
+      "review": "reviews/p57_train_228_16d1dfc6e3d4.json",
+      "source_sha256": "f4ec0a311543014b09ca77e485c22c550b63b4f50862ef54043a2e822192ebc1",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_229_d519127f9615",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/229.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_229_d519127f9615.jpg",
+      "label": "labels/p57_train_229_d519127f9615.txt",
+      "review": "reviews/p57_train_229_d519127f9615.json",
+      "source_sha256": "b62545a1c0f700c7c1762e9decb0eae1cde16f3feaa44dcd7d1f55b615264330",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_230_d4c4dd444e13",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/230.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_230_d4c4dd444e13.jpg",
+      "label": "labels/p57_train_230_d4c4dd444e13.txt",
+      "review": "reviews/p57_train_230_d4c4dd444e13.json",
+      "source_sha256": "2e40b374f5efc8b239da39351efa20ed8da222dbb840b27069b2b69e2454aece",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p57_train_231_46a768a1b442",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/231.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_231_46a768a1b442.jpg",
+      "label": "labels/p57_train_231_46a768a1b442.txt",
+      "review": "reviews/p57_train_231_46a768a1b442.json",
+      "source_sha256": "2c79586fe6488dc5f9994b16db7781982dbd93e792c8ddb711be99faa9fff065",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p57_train_232_bccb0a21dec4",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/232.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_232_bccb0a21dec4.jpg",
+      "label": "labels/p57_train_232_bccb0a21dec4.txt",
+      "review": "reviews/p57_train_232_bccb0a21dec4.json",
+      "source_sha256": "b072034462a3ed6f1f38d7afa28b83d7359890e2951db26e8a65639ea28bb54b",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_233_de5003f343be",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/233.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_233_de5003f343be.jpg",
+      "label": "labels/p57_train_233_de5003f343be.txt",
+      "review": "reviews/p57_train_233_de5003f343be.json",
+      "source_sha256": "3548e77fc93f2c40e65b147ce07855af644690f42af5ba3906144da70cb65462",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_234_3eb48065978d",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/234.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_234_3eb48065978d.jpg",
+      "label": "labels/p57_train_234_3eb48065978d.txt",
+      "review": "reviews/p57_train_234_3eb48065978d.json",
+      "source_sha256": "09ca9ff3e5260bb39d63b17477286bc6eb4c658564606451d6e335586b955d70",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_235_14b5bb648bee",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/235.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_235_14b5bb648bee.jpg",
+      "label": "labels/p57_train_235_14b5bb648bee.txt",
+      "review": "reviews/p57_train_235_14b5bb648bee.json",
+      "source_sha256": "24c1020673bd3b042ca19eb6c782eab5ee8cd7faa9fd4afd0c9bcd43f3c05579",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_237_93a73b2d271e",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/237.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_237_93a73b2d271e.jpg",
+      "label": "labels/p57_train_237_93a73b2d271e.txt",
+      "review": "reviews/p57_train_237_93a73b2d271e.json",
+      "source_sha256": "b0deb39be6baf872a8ec44d09a1b7acc44920e765da8fb18de4eb63958d6e8cf",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_239_be54924853bb",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/239.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_239_be54924853bb.jpg",
+      "label": "labels/p57_train_239_be54924853bb.txt",
+      "review": "reviews/p57_train_239_be54924853bb.json",
+      "source_sha256": "86245ef83ae7217a5947bcd61eed7118db9dd0c8e3e4dcfb0f7fb3c86d45e541",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_240_8209bf48d025",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/240.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_240_8209bf48d025.jpg",
+      "label": "labels/p57_train_240_8209bf48d025.txt",
+      "review": "reviews/p57_train_240_8209bf48d025.json",
+      "source_sha256": "ab0b9914fa6923826206982f4573a03c1c68ed236dc7c34f883475c1361d428a",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_241_25abfa9a95c6",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/241.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_241_25abfa9a95c6.jpg",
+      "label": "labels/p57_train_241_25abfa9a95c6.txt",
+      "review": "reviews/p57_train_241_25abfa9a95c6.json",
+      "source_sha256": "c30c2085ef3776ec78517c2aa84c9e91c273a6d23b38e9b380fd49952c548fa6",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_242_ef0f7130d626",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/242.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_242_ef0f7130d626.jpg",
+      "label": "labels/p57_train_242_ef0f7130d626.txt",
+      "review": "reviews/p57_train_242_ef0f7130d626.json",
+      "source_sha256": "8a055977a29b60ab35147dc7d9a19118ab8b9d82b280df5624ce9f302871a6b6",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_243_a718757c9897",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/243.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_243_a718757c9897.jpg",
+      "label": "labels/p57_train_243_a718757c9897.txt",
+      "review": "reviews/p57_train_243_a718757c9897.json",
+      "source_sha256": "2ad92b725573d2191a88a86b6b37617ec98a95e7f4848c1b6af003efcaa6a811",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_245_4e1dd828d755",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/245.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_245_4e1dd828d755.jpg",
+      "label": "labels/p57_train_245_4e1dd828d755.txt",
+      "review": "reviews/p57_train_245_4e1dd828d755.json",
+      "source_sha256": "d65779388054716d51fb26b041ef843eb8cc83d763fff91ec056e1c994c63d07",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_246_91fa677d6097",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/246.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_246_91fa677d6097.jpg",
+      "label": "labels/p57_train_246_91fa677d6097.txt",
+      "review": "reviews/p57_train_246_91fa677d6097.json",
+      "source_sha256": "1907aa7968cc7e4650cea99d8ebe113a58c328b874b7058352005e886a0ee6e0",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_247_b3d0076a1822",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/247.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_247_b3d0076a1822.jpg",
+      "label": "labels/p57_train_247_b3d0076a1822.txt",
+      "review": "reviews/p57_train_247_b3d0076a1822.json",
+      "source_sha256": "7a24ded3bd09d94cad861ebb9e57861ddd26a75107f854af75d9ea75d56c8ff1",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p57_train_248_338e160f3015",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/248.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_248_338e160f3015.jpg",
+      "label": "labels/p57_train_248_338e160f3015.txt",
+      "review": "reviews/p57_train_248_338e160f3015.json",
+      "source_sha256": "72f42841c368862752aeeb7cdc18820267919e05d8e8027934a13cc19b97e38c",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p57_train_249_a2d6be17a133",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/249.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_249_a2d6be17a133.jpg",
+      "label": "labels/p57_train_249_a2d6be17a133.txt",
+      "review": "reviews/p57_train_249_a2d6be17a133.json",
+      "source_sha256": "d74368d5c093bfd873b5b1210d99539de0dd3c71087481017dd555718f94405f",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_250_d24760f35a98",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/250.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_250_d24760f35a98.jpg",
+      "label": "labels/p57_train_250_d24760f35a98.txt",
+      "review": "reviews/p57_train_250_d24760f35a98.json",
+      "source_sha256": "294b90eabebbdd55fd4126dd67f3f12128cb5dc2263a4c5af02aa746774242f4",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p57_train_251_baa60500bdfc",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/251.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_251_baa60500bdfc.jpg",
+      "label": "labels/p57_train_251_baa60500bdfc.txt",
+      "review": "reviews/p57_train_251_baa60500bdfc.json",
+      "source_sha256": "d3da5831bbb7bdcb284ac741f9c8e564df16e81b937a9a5916446e26abe43f0c",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p57_train_252_1c70878dd005",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/252.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_252_1c70878dd005.jpg",
+      "label": "labels/p57_train_252_1c70878dd005.txt",
+      "review": "reviews/p57_train_252_1c70878dd005.json",
+      "source_sha256": "da6af4c7352ccf0072887d56a264f7830320675ba501da8431be3545db55cb05",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p57_train_253_c24ddd07947a",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/253.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_253_c24ddd07947a.jpg",
+      "label": "labels/p57_train_253_c24ddd07947a.txt",
+      "review": "reviews/p57_train_253_c24ddd07947a.json",
+      "source_sha256": "ee358b96d456ac21ea7ce3729f17c183e1eabb074f55bd96a17e478a5a64ee7c",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p57_train_254_7289cc18081b",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/254.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_254_7289cc18081b.jpg",
+      "label": "labels/p57_train_254_7289cc18081b.txt",
+      "review": "reviews/p57_train_254_7289cc18081b.json",
+      "source_sha256": "3828c9e02e459a8028039ed0be95b9724e12caf49619e05b469a11a569735cfa",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p57_train_255_1e192aa40365",
+      "source_relative_path": "train_images/57.Myzus persicae Sulzer/255.jpg",
+      "source_split": "train_images",
+      "image": "images/p57_train_255_1e192aa40365.jpg",
+      "label": "labels/p57_train_255_1e192aa40365.txt",
+      "review": "reviews/p57_train_255_1e192aa40365.json",
+      "source_sha256": "53c4ca3a6d05803b87d8fec34afc19c527601eff39f7250029d1108630ef3bb3",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_000_32fd46fc0112",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/000.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_000_32fd46fc0112.jpg",
+      "label": "labels/p58_train_000_32fd46fc0112.txt",
+      "review": "reviews/p58_train_000_32fd46fc0112.json",
+      "source_sha256": "5636b774df25d72a3ad0d12d0b0d413d348f3c7b991e20942cb880403ceb4383",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p58_train_003_2e1ddc765f8f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/003.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_003_2e1ddc765f8f.jpg",
+      "label": "labels/p58_train_003_2e1ddc765f8f.txt",
+      "review": "reviews/p58_train_003_2e1ddc765f8f.json",
+      "source_sha256": "4b59b42edb990bbbaab582e7cceb85861d48bdee591f1d2bb1163af4965d05a5",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_004_63eb849f7a93",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/004.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_004_63eb849f7a93.jpg",
+      "label": "labels/p58_train_004_63eb849f7a93.txt",
+      "review": "reviews/p58_train_004_63eb849f7a93.json",
+      "source_sha256": "e66461483f1232c233ceb7d496aaf0f6ea630418a2fe004c558388a69c9279e8",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_005_88a64dc79e0f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/005.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_005_88a64dc79e0f.jpg",
+      "label": "labels/p58_train_005_88a64dc79e0f.txt",
+      "review": "reviews/p58_train_005_88a64dc79e0f.json",
+      "source_sha256": "f0dc658d9a5eb01fdc486e42d16c977e2fbeff81d46b52eb0df84974ed7bbf32",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_006_29e518b60f43",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/006.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_006_29e518b60f43.jpg",
+      "label": "labels/p58_train_006_29e518b60f43.txt",
+      "review": "reviews/p58_train_006_29e518b60f43.json",
+      "source_sha256": "5d74dcf6885e7e52c83ae8124cee2bad6b9542b7683afb11e14ea4cce1d97148",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p58_train_008_1eda61276023",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/008.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_008_1eda61276023.jpg",
+      "label": "labels/p58_train_008_1eda61276023.txt",
+      "review": "reviews/p58_train_008_1eda61276023.json",
+      "source_sha256": "ee526f4a1eeefa9644c0f578723977157b883e0835f4a5110fa4d0cd7ecb084e",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_010_4c91221feb4f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/010.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_010_4c91221feb4f.jpg",
+      "label": "labels/p58_train_010_4c91221feb4f.txt",
+      "review": "reviews/p58_train_010_4c91221feb4f.json",
+      "source_sha256": "b48c283300b8b8509c9687e0fedabad84f4bfdc9b14f224d48713e4bc110e3a8",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_011_9ae8b3084f30",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/011.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_011_9ae8b3084f30.jpg",
+      "label": "labels/p58_train_011_9ae8b3084f30.txt",
+      "review": "reviews/p58_train_011_9ae8b3084f30.json",
+      "source_sha256": "dc021f55dd77e49db2d66ea934c7d9e14c2286f63b9982ee732ca2b6c24049fb",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_012_d73fc891158b",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/012.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_012_d73fc891158b.jpg",
+      "label": "labels/p58_train_012_d73fc891158b.txt",
+      "review": "reviews/p58_train_012_d73fc891158b.json",
+      "source_sha256": "4dc5b397239dff10ca0cfde9457aa61dea4b4635d877d6268d29fccf4f1bce04",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_013_6fc7d57e6454",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/013.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_013_6fc7d57e6454.jpg",
+      "label": "labels/p58_train_013_6fc7d57e6454.txt",
+      "review": "reviews/p58_train_013_6fc7d57e6454.json",
+      "source_sha256": "4a2be1b94d0d437921d7bd045b90aa2a2a217308509aae1cf5e2060d36c3467e",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_014_e03f3fd67ea5",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/014.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_014_e03f3fd67ea5.jpg",
+      "label": "labels/p58_train_014_e03f3fd67ea5.txt",
+      "review": "reviews/p58_train_014_e03f3fd67ea5.json",
+      "source_sha256": "b0f46760a4d5cc722c2be5f80d4710df5244bb4d0a22ad448e8ec597c2462208",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p58_train_015_80583b6910a1",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/015.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_015_80583b6910a1.jpg",
+      "label": "labels/p58_train_015_80583b6910a1.txt",
+      "review": "reviews/p58_train_015_80583b6910a1.json",
+      "source_sha256": "709f15c4e178c90331d0ed45a7dadb0af8598532f7f788e21787ae4d12552323",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_016_497ceba7571f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/016.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_016_497ceba7571f.jpg",
+      "label": "labels/p58_train_016_497ceba7571f.txt",
+      "review": "reviews/p58_train_016_497ceba7571f.json",
+      "source_sha256": "232aa48122268fc469c1416965febef5347640fecff037ecf5908ec74f9c9945",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p58_train_018_18bc06363ada",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/018.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_018_18bc06363ada.jpg",
+      "label": "labels/p58_train_018_18bc06363ada.txt",
+      "review": "reviews/p58_train_018_18bc06363ada.json",
+      "source_sha256": "13b3932e38751ff712294d28c390bee7ef6807bbcec613eaf6e83fa02171c03d",
+      "reviewed_box_count": 8
+    },
+    {
+      "image_id": "p58_train_020_fdebdc807500",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/020.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_020_fdebdc807500.jpg",
+      "label": "labels/p58_train_020_fdebdc807500.txt",
+      "review": "reviews/p58_train_020_fdebdc807500.json",
+      "source_sha256": "f24fb22a89104306c665967c4864f74e4dafd2fe32c0ab57e5c30c54b02d5d2e",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_021_f80b76f588d0",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/021.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_021_f80b76f588d0.jpg",
+      "label": "labels/p58_train_021_f80b76f588d0.txt",
+      "review": "reviews/p58_train_021_f80b76f588d0.json",
+      "source_sha256": "e5fe9d315fccd5dbacfd15023e0bdaf37dec82287261767c958c97ac55baebe7",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_022_1be20af68348",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/022.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_022_1be20af68348.jpg",
+      "label": "labels/p58_train_022_1be20af68348.txt",
+      "review": "reviews/p58_train_022_1be20af68348.json",
+      "source_sha256": "f878feedef32e3c62c4ce0af4e9f1722ffcaffe77e39a4110dad52c399b1cc94",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_023_338698c7e8ba",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/023.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_023_338698c7e8ba.jpg",
+      "label": "labels/p58_train_023_338698c7e8ba.txt",
+      "review": "reviews/p58_train_023_338698c7e8ba.json",
+      "source_sha256": "10bd9ccb64b0d2ab126e6536d7422f382854255a28b443257fbd063b6ca91d69",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_024_97b4b3429d29",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/024.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_024_97b4b3429d29.jpg",
+      "label": "labels/p58_train_024_97b4b3429d29.txt",
+      "review": "reviews/p58_train_024_97b4b3429d29.json",
+      "source_sha256": "b57db0b42eb06a33cc02bc5bc2d47943247cb949d74570a98210b3f68cd13e9c",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_025_18d8aa995733",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/025.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_025_18d8aa995733.jpg",
+      "label": "labels/p58_train_025_18d8aa995733.txt",
+      "review": "reviews/p58_train_025_18d8aa995733.json",
+      "source_sha256": "280c5969d141aa0de1a3bc87e9aa3dbd26463916c95de7d5aacc52b3ac990f32",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_026_4f711c79be7f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/026.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_026_4f711c79be7f.jpg",
+      "label": "labels/p58_train_026_4f711c79be7f.txt",
+      "review": "reviews/p58_train_026_4f711c79be7f.json",
+      "source_sha256": "bc7ba4ed4a49f35b5dbe120ec2cc484f77ff1d27b4bb376732a0d42468c6b6d3",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_027_3bc5c4d080fc",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/027.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_027_3bc5c4d080fc.jpg",
+      "label": "labels/p58_train_027_3bc5c4d080fc.txt",
+      "review": "reviews/p58_train_027_3bc5c4d080fc.json",
+      "source_sha256": "83b1b2be89158fcba8df498f5f844befeb09fbf9e5eafedd2314dca69f678769",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_029_49b596d27556",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/029.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_029_49b596d27556.jpg",
+      "label": "labels/p58_train_029_49b596d27556.txt",
+      "review": "reviews/p58_train_029_49b596d27556.json",
+      "source_sha256": "af87c347ed7a8234cc052ef8f60b35dec2ae9109e551450491bd03743fc0558b",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_030_9274d7cbd4e4",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/030.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_030_9274d7cbd4e4.jpg",
+      "label": "labels/p58_train_030_9274d7cbd4e4.txt",
+      "review": "reviews/p58_train_030_9274d7cbd4e4.json",
+      "source_sha256": "d631d48126b28034a3b4bfbd7f618f326a74a2430452371a98ac1c5e01ebaca7",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_031_e1a91bbab51a",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/031.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_031_e1a91bbab51a.jpg",
+      "label": "labels/p58_train_031_e1a91bbab51a.txt",
+      "review": "reviews/p58_train_031_e1a91bbab51a.json",
+      "source_sha256": "23e8ded3d1bac6e6de87cdc884b5bf5119a4e6957ee2b5058125da8e1d0800f5",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_032_eb92ce849c06",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/032.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_032_eb92ce849c06.jpg",
+      "label": "labels/p58_train_032_eb92ce849c06.txt",
+      "review": "reviews/p58_train_032_eb92ce849c06.json",
+      "source_sha256": "01be0c1113cdde8dcba94d20c74ecddbf5c8bc7880fccace7f8fcf25a3a6caa0",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p58_train_033_72288b74f54d",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/033.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_033_72288b74f54d.jpg",
+      "label": "labels/p58_train_033_72288b74f54d.txt",
+      "review": "reviews/p58_train_033_72288b74f54d.json",
+      "source_sha256": "54e2fd391e70d529c62e936b57d61eed4883f1d187848dc75dc94d64d974b0fb",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_034_b3f398a4997e",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/034.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_034_b3f398a4997e.jpg",
+      "label": "labels/p58_train_034_b3f398a4997e.txt",
+      "review": "reviews/p58_train_034_b3f398a4997e.json",
+      "source_sha256": "c7cda555016f9582dfef9ef4cdf71ecf61573afc9c9a4139f2c027e65868708b",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_035_fccc250de311",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/035.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_035_fccc250de311.jpg",
+      "label": "labels/p58_train_035_fccc250de311.txt",
+      "review": "reviews/p58_train_035_fccc250de311.json",
+      "source_sha256": "482f225c3b4ba2eab5ae2412ca41ed446ea2919e9b11c69c1ad14f4628785243",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p58_train_036_d6160bafe6ed",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/036.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_036_d6160bafe6ed.jpg",
+      "label": "labels/p58_train_036_d6160bafe6ed.txt",
+      "review": "reviews/p58_train_036_d6160bafe6ed.json",
+      "source_sha256": "8ae52ca44eb5c8b5e160b60adf68c94b5de6e54d1de0269fe348bfd86772102b",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_037_8d60de79acd6",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/037.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_037_8d60de79acd6.jpg",
+      "label": "labels/p58_train_037_8d60de79acd6.txt",
+      "review": "reviews/p58_train_037_8d60de79acd6.json",
+      "source_sha256": "da5cc002df00005692bb260e3c54c79500f1756d6336bcf87cebd994f9a7b530",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_038_4de9651f2f93",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/038.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_038_4de9651f2f93.jpg",
+      "label": "labels/p58_train_038_4de9651f2f93.txt",
+      "review": "reviews/p58_train_038_4de9651f2f93.json",
+      "source_sha256": "1f6ae04630c56ae83b9ee8382e11227817af6ff98adcb5dce03f93234483cf6d",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_039_1ec9acb0a260",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/039.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_039_1ec9acb0a260.jpg",
+      "label": "labels/p58_train_039_1ec9acb0a260.txt",
+      "review": "reviews/p58_train_039_1ec9acb0a260.json",
+      "source_sha256": "f5e29fb295a45e9de2593badd5c90e3f62e4476580cfb7690c30bf9972ffba4b",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_040_cd3c5a4eb0ad",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/040.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_040_cd3c5a4eb0ad.jpg",
+      "label": "labels/p58_train_040_cd3c5a4eb0ad.txt",
+      "review": "reviews/p58_train_040_cd3c5a4eb0ad.json",
+      "source_sha256": "da36e11e0e90178909a4449d57230256e3c9241b009f2faf8e11bd7871710fc9",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_041_947477647c71",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/041.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_041_947477647c71.jpg",
+      "label": "labels/p58_train_041_947477647c71.txt",
+      "review": "reviews/p58_train_041_947477647c71.json",
+      "source_sha256": "01ec43463541093dcec8a61c959e03693f8d1577504e51a299b1ea9d14aa8f52",
+      "reviewed_box_count": 8
+    },
+    {
+      "image_id": "p58_train_042_f94aaee1fe9c",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/042.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_042_f94aaee1fe9c.jpg",
+      "label": "labels/p58_train_042_f94aaee1fe9c.txt",
+      "review": "reviews/p58_train_042_f94aaee1fe9c.json",
+      "source_sha256": "60151ff671c3ff412e8d602fec3dd401b48420f9c7ac211210598ac25ff764a9",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p58_train_044_7747ead87e2c",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/044.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_044_7747ead87e2c.jpg",
+      "label": "labels/p58_train_044_7747ead87e2c.txt",
+      "review": "reviews/p58_train_044_7747ead87e2c.json",
+      "source_sha256": "02d2536b903d2a0e522cde32c227acb2b0218dbcdac770bdf9792f57f5032e1b",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_046_4b7c1c1eb352",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/046.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_046_4b7c1c1eb352.jpg",
+      "label": "labels/p58_train_046_4b7c1c1eb352.txt",
+      "review": "reviews/p58_train_046_4b7c1c1eb352.json",
+      "source_sha256": "c043fbbb0ea1f9d265ea83d0c6a992876bc5c7590994f6db56d9f7f0dbba4782",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_047_103879ed6953",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/047.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_047_103879ed6953.jpg",
+      "label": "labels/p58_train_047_103879ed6953.txt",
+      "review": "reviews/p58_train_047_103879ed6953.json",
+      "source_sha256": "2dc5c4f1a62f8b8778e0ea06f76e27b8cc1640e9e11c33a1d30cc19d2ea5d1a9",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p58_train_048_951aa179c4c8",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/048.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_048_951aa179c4c8.jpg",
+      "label": "labels/p58_train_048_951aa179c4c8.txt",
+      "review": "reviews/p58_train_048_951aa179c4c8.json",
+      "source_sha256": "a6230e91feed333ed5549c20e47eba6ac32c35c3b21d75a098be15c36e53294b",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p58_train_051_d728dea74b8d",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/051.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_051_d728dea74b8d.jpg",
+      "label": "labels/p58_train_051_d728dea74b8d.txt",
+      "review": "reviews/p58_train_051_d728dea74b8d.json",
+      "source_sha256": "8d8451988d011a20e11553061ec640ffa75de4fe0904d145f614b1e5d7805a6e",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_053_5d75a4171afe",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/053.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_053_5d75a4171afe.jpg",
+      "label": "labels/p58_train_053_5d75a4171afe.txt",
+      "review": "reviews/p58_train_053_5d75a4171afe.json",
+      "source_sha256": "8565d7355e934aa9763a7825c7a2d99a19e9a92cea9beb82cfd4cde5ad7c403e",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_055_d1378d94b652",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/055.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_055_d1378d94b652.jpg",
+      "label": "labels/p58_train_055_d1378d94b652.txt",
+      "review": "reviews/p58_train_055_d1378d94b652.json",
+      "source_sha256": "ee33580636c093d015336de0d50c37bdced1ac3af5cce06cb3c9ce91762760bf",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p58_train_058_6b4f6e42cae4",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/058.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_058_6b4f6e42cae4.jpg",
+      "label": "labels/p58_train_058_6b4f6e42cae4.txt",
+      "review": "reviews/p58_train_058_6b4f6e42cae4.json",
+      "source_sha256": "e2e977cadb422157744d4e49b710078da6e89b55a6639091c4563b261dcedd61",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_060_e25a507afda3",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/060.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_060_e25a507afda3.jpg",
+      "label": "labels/p58_train_060_e25a507afda3.txt",
+      "review": "reviews/p58_train_060_e25a507afda3.json",
+      "source_sha256": "b5cb9245e955365f4757feafc54228a1b3dc90757f31247a9d4e4c946ae17de4",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_061_f3fcff599b6d",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/061.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_061_f3fcff599b6d.jpg",
+      "label": "labels/p58_train_061_f3fcff599b6d.txt",
+      "review": "reviews/p58_train_061_f3fcff599b6d.json",
+      "source_sha256": "312712cf540b8efd5b091936c55cd5bc54b4ad934a293b946fb28e0fece21474",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_062_c4b532c54889",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/062.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_062_c4b532c54889.jpg",
+      "label": "labels/p58_train_062_c4b532c54889.txt",
+      "review": "reviews/p58_train_062_c4b532c54889.json",
+      "source_sha256": "bc671e5deba9b3b5c4f291142d027668471224e527ffdcdcdad676b7fc0eb3d9",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_063_2562350ab106",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/063.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_063_2562350ab106.jpg",
+      "label": "labels/p58_train_063_2562350ab106.txt",
+      "review": "reviews/p58_train_063_2562350ab106.json",
+      "source_sha256": "0b3c0dc989eeeb09d5b11aa77bf13a59fcd8d58a0f0d9707c9bf51a2446e4147",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_064_025d69b72690",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/064.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_064_025d69b72690.jpg",
+      "label": "labels/p58_train_064_025d69b72690.txt",
+      "review": "reviews/p58_train_064_025d69b72690.json",
+      "source_sha256": "0cee739f80834ddece98a1f7d2e4b87afd72ce433a88eb21d05937e5c5b08137",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_066_bb48e8122152",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/066.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_066_bb48e8122152.jpg",
+      "label": "labels/p58_train_066_bb48e8122152.txt",
+      "review": "reviews/p58_train_066_bb48e8122152.json",
+      "source_sha256": "d1c56257b0c57a0b73c0ab2ab4c45f16b1fff54b5fbc9c6a36ff9d3b9b59af94",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_069_0baf7eeea9ce",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/069.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_069_0baf7eeea9ce.jpg",
+      "label": "labels/p58_train_069_0baf7eeea9ce.txt",
+      "review": "reviews/p58_train_069_0baf7eeea9ce.json",
+      "source_sha256": "a4c98f11aa81af529e2cd51eca0e99a928fe697800dd00caf2471a022770c797",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_070_7326c12dbe59",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/070.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_070_7326c12dbe59.jpg",
+      "label": "labels/p58_train_070_7326c12dbe59.txt",
+      "review": "reviews/p58_train_070_7326c12dbe59.json",
+      "source_sha256": "66e7ad0a0d6d3343bf2dd9456be9382f0901013215c534c5dc90305363cfba4a",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_071_713ab5cf5947",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/071.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_071_713ab5cf5947.jpg",
+      "label": "labels/p58_train_071_713ab5cf5947.txt",
+      "review": "reviews/p58_train_071_713ab5cf5947.json",
+      "source_sha256": "a1288c2ddf4e7a52d5dc5e0dd2aba07be1603f3f2defeec9466f38ebf11126eb",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_072_c819b863ddbb",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/072.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_072_c819b863ddbb.jpg",
+      "label": "labels/p58_train_072_c819b863ddbb.txt",
+      "review": "reviews/p58_train_072_c819b863ddbb.json",
+      "source_sha256": "fc88d82a41d016e4e8f6f1b29abfe13e974a5fb819e3d484bee94929691657e9",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_074_9bd3c52a76a1",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/074.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_074_9bd3c52a76a1.jpg",
+      "label": "labels/p58_train_074_9bd3c52a76a1.txt",
+      "review": "reviews/p58_train_074_9bd3c52a76a1.json",
+      "source_sha256": "7594124a6e2c8a0d7abbd732cc5b4ee9a63563d6e1db23c4ce25d90b215fdbac",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_075_d436b78724d7",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/075.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_075_d436b78724d7.jpg",
+      "label": "labels/p58_train_075_d436b78724d7.txt",
+      "review": "reviews/p58_train_075_d436b78724d7.json",
+      "source_sha256": "777dbaea53397e1c84f9802ec6ecb78e338495ebc2afd040eac0c895aca3473e",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_076_ad138ebed2f6",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/076.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_076_ad138ebed2f6.jpg",
+      "label": "labels/p58_train_076_ad138ebed2f6.txt",
+      "review": "reviews/p58_train_076_ad138ebed2f6.json",
+      "source_sha256": "51c5251c66f56f69ade9a0c775904769a9c855defc6ec865460c5d30afdee22d",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_077_2ca579cccd9d",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/077.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_077_2ca579cccd9d.jpg",
+      "label": "labels/p58_train_077_2ca579cccd9d.txt",
+      "review": "reviews/p58_train_077_2ca579cccd9d.json",
+      "source_sha256": "7b99b743e222f8a2d90c65de3ba09dca14029d9eeba83de71227b6e979ac1b6d",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_078_bb0fe68766d1",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/078.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_078_bb0fe68766d1.jpg",
+      "label": "labels/p58_train_078_bb0fe68766d1.txt",
+      "review": "reviews/p58_train_078_bb0fe68766d1.json",
+      "source_sha256": "ce7c1876f38acb2daa887f4b3ff9270a1b9e93dfcbad91808a5fb3b534075acb",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_080_d6aa6d2cf278",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/080.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_080_d6aa6d2cf278.jpg",
+      "label": "labels/p58_train_080_d6aa6d2cf278.txt",
+      "review": "reviews/p58_train_080_d6aa6d2cf278.json",
+      "source_sha256": "2a029e0604459020c1fec8866a4933bba74a1e4814cc408acc17db1d1a2b9152",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_081_0ce1597a0e12",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/081.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_081_0ce1597a0e12.jpg",
+      "label": "labels/p58_train_081_0ce1597a0e12.txt",
+      "review": "reviews/p58_train_081_0ce1597a0e12.json",
+      "source_sha256": "3dc25d53f148dc3578462874326ba7572ae64f672c525b7fee03232b927b0a89",
+      "reviewed_box_count": 9
+    },
+    {
+      "image_id": "p58_train_082_bfd36ff82e34",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/082.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_082_bfd36ff82e34.jpg",
+      "label": "labels/p58_train_082_bfd36ff82e34.txt",
+      "review": "reviews/p58_train_082_bfd36ff82e34.json",
+      "source_sha256": "3b543f800cbf6eb1950e936ba08a7771e2fa3a39093e0e85c37ed5cd26e4e485",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_083_a20bdfd8283c",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/083.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_083_a20bdfd8283c.jpg",
+      "label": "labels/p58_train_083_a20bdfd8283c.txt",
+      "review": "reviews/p58_train_083_a20bdfd8283c.json",
+      "source_sha256": "8ae8491b909fce88a7474cdc92e23215de50cbd6368f9f35daa0a231371a064b",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_084_fef40e0c346a",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/084.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_084_fef40e0c346a.jpg",
+      "label": "labels/p58_train_084_fef40e0c346a.txt",
+      "review": "reviews/p58_train_084_fef40e0c346a.json",
+      "source_sha256": "8b59150ce0b216a86e145e0365f45aacb15eb492f76aace9c6efd067d5aa273c",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_085_0312d02c442f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/085.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_085_0312d02c442f.jpg",
+      "label": "labels/p58_train_085_0312d02c442f.txt",
+      "review": "reviews/p58_train_085_0312d02c442f.json",
+      "source_sha256": "e0a120dca1bdcecc131ad926c8963d4f8235fc181600a731fff514e156c10f53",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_087_440194b3442d",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/087.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_087_440194b3442d.jpg",
+      "label": "labels/p58_train_087_440194b3442d.txt",
+      "review": "reviews/p58_train_087_440194b3442d.json",
+      "source_sha256": "a1e07b0623f5fb5b41b206cc01c53c81870855d4187c58fa71b3ec92e489a7f2",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_088_da7d24b26987",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/088.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_088_da7d24b26987.jpg",
+      "label": "labels/p58_train_088_da7d24b26987.txt",
+      "review": "reviews/p58_train_088_da7d24b26987.json",
+      "source_sha256": "d0cc2be04af34a91e40313844ef1ef015e18c40f6c1acef643dc6bb90cfef538",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_089_d88892284843",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/089.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_089_d88892284843.jpg",
+      "label": "labels/p58_train_089_d88892284843.txt",
+      "review": "reviews/p58_train_089_d88892284843.json",
+      "source_sha256": "ddf8c0fffbce81b44fcd8d2e4b138e4b481bb27eb440a7fba12ec401eacee8c3",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_091_8ae27b8e53ee",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/091.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_091_8ae27b8e53ee.jpg",
+      "label": "labels/p58_train_091_8ae27b8e53ee.txt",
+      "review": "reviews/p58_train_091_8ae27b8e53ee.json",
+      "source_sha256": "42385a3a542134101da39348ab7850480f6749307a66d4f9cbcf9ee20605545b",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_092_c134ea805b90",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/092.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_092_c134ea805b90.jpg",
+      "label": "labels/p58_train_092_c134ea805b90.txt",
+      "review": "reviews/p58_train_092_c134ea805b90.json",
+      "source_sha256": "bbd27ba39a329aa92b12266fcca60ffb637ab8820a25d76457512103f60b0531",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_093_54ae146011a1",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/093.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_093_54ae146011a1.jpg",
+      "label": "labels/p58_train_093_54ae146011a1.txt",
+      "review": "reviews/p58_train_093_54ae146011a1.json",
+      "source_sha256": "ebde0ef45f67e4b08a04e9972b3112f61cc0182f47f3de4ac4ec405e82bb7f24",
+      "reviewed_box_count": 10
+    },
+    {
+      "image_id": "p58_train_094_a941a353f69d",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/094.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_094_a941a353f69d.jpg",
+      "label": "labels/p58_train_094_a941a353f69d.txt",
+      "review": "reviews/p58_train_094_a941a353f69d.json",
+      "source_sha256": "99eeb41288f2ed64c22f951dab0e061117b2413748a5fe2ba2500a2731413ae5",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_095_37e6052c6c4f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/095.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_095_37e6052c6c4f.jpg",
+      "label": "labels/p58_train_095_37e6052c6c4f.txt",
+      "review": "reviews/p58_train_095_37e6052c6c4f.json",
+      "source_sha256": "5bdee1291a44870e726b21924ff6e32055aa93f796c44695f87f42fa72950421",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_096_e960630badd2",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/096.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_096_e960630badd2.jpg",
+      "label": "labels/p58_train_096_e960630badd2.txt",
+      "review": "reviews/p58_train_096_e960630badd2.json",
+      "source_sha256": "8feecc27db2fecd1956612358907f3454911dafe3bf6bdedf79d5f29de82ed1f",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_097_844be5f9a28f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/097.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_097_844be5f9a28f.jpg",
+      "label": "labels/p58_train_097_844be5f9a28f.txt",
+      "review": "reviews/p58_train_097_844be5f9a28f.json",
+      "source_sha256": "f790ac63477e78ed65b29b26600242323ff25b5677b0bdc4eedc038fe300792e",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_098_96ef1c12362f",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/098.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_098_96ef1c12362f.jpg",
+      "label": "labels/p58_train_098_96ef1c12362f.txt",
+      "review": "reviews/p58_train_098_96ef1c12362f.json",
+      "source_sha256": "a472ab15d5dc346d9f975ea86be544be0e95d0d93b394fbfdc1e986bdef927d8",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_100_e373795ecdec",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/100.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_100_e373795ecdec.jpg",
+      "label": "labels/p58_train_100_e373795ecdec.txt",
+      "review": "reviews/p58_train_100_e373795ecdec.json",
+      "source_sha256": "0c1e1e18e85531c5052e71d7c1a3bd4f24c99b912d79ec1eee29c64c118e6e3f",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_101_a709857815d5",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/101.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_101_a709857815d5.jpg",
+      "label": "labels/p58_train_101_a709857815d5.txt",
+      "review": "reviews/p58_train_101_a709857815d5.json",
+      "source_sha256": "6e39df99e2840a29d868135e58bd3020c91a0154a1c13d11c9529b0e65ac0591",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_102_acd9682743ea",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/102.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_102_acd9682743ea.jpg",
+      "label": "labels/p58_train_102_acd9682743ea.txt",
+      "review": "reviews/p58_train_102_acd9682743ea.json",
+      "source_sha256": "f56fd25b03bc8b2ce3a0c5dd7185ada0d7d9e25d3e2ac48152fed77044a37b5b",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_103_3dc8df6300fc",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/103.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_103_3dc8df6300fc.jpg",
+      "label": "labels/p58_train_103_3dc8df6300fc.txt",
+      "review": "reviews/p58_train_103_3dc8df6300fc.json",
+      "source_sha256": "a5ca253ce78db1a6bca824052d7389956c5eef06b659935e0f351cc41cd78b99",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_107_305a6da1deed",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/107.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_107_305a6da1deed.jpg",
+      "label": "labels/p58_train_107_305a6da1deed.txt",
+      "review": "reviews/p58_train_107_305a6da1deed.json",
+      "source_sha256": "7836e39dbae8f7cff790873c1061d70c8c888ba3b942e14748f5e54b36b38d6a",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_108_3a5906bbc070",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/108.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_108_3a5906bbc070.jpg",
+      "label": "labels/p58_train_108_3a5906bbc070.txt",
+      "review": "reviews/p58_train_108_3a5906bbc070.json",
+      "source_sha256": "c37c10774f418528156d380f2c6da95c1c66194b621a5020d35fc71a48db3554",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_111_86a36b6e558c",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/111.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_111_86a36b6e558c.jpg",
+      "label": "labels/p58_train_111_86a36b6e558c.txt",
+      "review": "reviews/p58_train_111_86a36b6e558c.json",
+      "source_sha256": "53b9ffe0f18433839dba0b4d658231100a9d36dc547900c9ec81fe863865195c",
+      "reviewed_box_count": 6
+    },
+    {
+      "image_id": "p58_train_112_b794c020bab1",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/112.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_112_b794c020bab1.jpg",
+      "label": "labels/p58_train_112_b794c020bab1.txt",
+      "review": "reviews/p58_train_112_b794c020bab1.json",
+      "source_sha256": "beb6a8adfd1302d580bd2884c5a3fb10c3c2a98ccc6ed367d5d5d48157e0b6e9",
+      "reviewed_box_count": 7
+    },
+    {
+      "image_id": "p58_train_115_bd76d590c353",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/115.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_115_bd76d590c353.jpg",
+      "label": "labels/p58_train_115_bd76d590c353.txt",
+      "review": "reviews/p58_train_115_bd76d590c353.json",
+      "source_sha256": "3ac702fa2b4eaddd41600fb8281202b60963a3865c97a0b2dd20443657e8978c",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_116_2a2eaec33177",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/116.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_116_2a2eaec33177.jpg",
+      "label": "labels/p58_train_116_2a2eaec33177.txt",
+      "review": "reviews/p58_train_116_2a2eaec33177.json",
+      "source_sha256": "4173e51272b9dbb5598336b8f8afffc3f90ecf7880f0494607cdb14f30f740ce",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_117_48bde4025e81",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/117.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_117_48bde4025e81.jpg",
+      "label": "labels/p58_train_117_48bde4025e81.txt",
+      "review": "reviews/p58_train_117_48bde4025e81.json",
+      "source_sha256": "de773d694c63b2bbc505965e75dc1580ef67f2370dcb29764bc7d67efdf2c964",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_119_5dcf418a4537",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/119.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_119_5dcf418a4537.jpg",
+      "label": "labels/p58_train_119_5dcf418a4537.txt",
+      "review": "reviews/p58_train_119_5dcf418a4537.json",
+      "source_sha256": "bb12417857e08ea0a94cea742408a132103e1721bee7ef05fc6f0cfc3bb04c3a",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_120_751456ba8157",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/120.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_120_751456ba8157.jpg",
+      "label": "labels/p58_train_120_751456ba8157.txt",
+      "review": "reviews/p58_train_120_751456ba8157.json",
+      "source_sha256": "6e6157737fa61f684e9b62dd21ede3f50b5eeb8e4cf92d00d0d6b6950d2178fd",
+      "reviewed_box_count": 0
+    },
+    {
+      "image_id": "p58_train_121_a0f293012c4b",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/121.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_121_a0f293012c4b.jpg",
+      "label": "labels/p58_train_121_a0f293012c4b.txt",
+      "review": "reviews/p58_train_121_a0f293012c4b.json",
+      "source_sha256": "b573e330fe4dc79fc89d35f19309ac268e8475918751860930e3bce72df86ae4",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_122_c609242e10c0",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/122.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_122_c609242e10c0.jpg",
+      "label": "labels/p58_train_122_c609242e10c0.txt",
+      "review": "reviews/p58_train_122_c609242e10c0.json",
+      "source_sha256": "824585e5fc0d7cc27c0bdde46f1ebefee50e9240d6a73a76fe35cda8cabea37e",
+      "reviewed_box_count": 5
+    },
+    {
+      "image_id": "p58_train_123_8af592fc34c4",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/123.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_123_8af592fc34c4.jpg",
+      "label": "labels/p58_train_123_8af592fc34c4.txt",
+      "review": "reviews/p58_train_123_8af592fc34c4.json",
+      "source_sha256": "fd6a8965ab62d3e86e3487624ca354fa7d509815a3a0ac6913aef1c5996dd898",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_124_363979d7013d",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/124.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_124_363979d7013d.jpg",
+      "label": "labels/p58_train_124_363979d7013d.txt",
+      "review": "reviews/p58_train_124_363979d7013d.json",
+      "source_sha256": "5de4212c126fbc1a99576fdc11f350494f3bd08f631cf2283442415b03b31adc",
+      "reviewed_box_count": 11
+    },
+    {
+      "image_id": "p58_train_125_539cd9f4acce",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/125.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_125_539cd9f4acce.jpg",
+      "label": "labels/p58_train_125_539cd9f4acce.txt",
+      "review": "reviews/p58_train_125_539cd9f4acce.json",
+      "source_sha256": "592bb6dc6bc9d9663ecab4a2ba1776a6bd9ff43448cf74223dcdf0767e5a87ab",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_126_b6d7bdf2c002",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/126.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_126_b6d7bdf2c002.jpg",
+      "label": "labels/p58_train_126_b6d7bdf2c002.txt",
+      "review": "reviews/p58_train_126_b6d7bdf2c002.json",
+      "source_sha256": "5153512accdb30ad36da72f154e7370a0f2f7edf0c689a5377bb814b26656582",
+      "reviewed_box_count": 8
+    },
+    {
+      "image_id": "p58_train_127_e960f9fa2fce",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/127.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_127_e960f9fa2fce.jpg",
+      "label": "labels/p58_train_127_e960f9fa2fce.txt",
+      "review": "reviews/p58_train_127_e960f9fa2fce.json",
+      "source_sha256": "b8667d9f1715b421dda269d70418ff058b7a001a06c30724972419bc420debcb",
+      "reviewed_box_count": 4
+    },
+    {
+      "image_id": "p58_train_128_bc583df158dd",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/128.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_128_bc583df158dd.jpg",
+      "label": "labels/p58_train_128_bc583df158dd.txt",
+      "review": "reviews/p58_train_128_bc583df158dd.json",
+      "source_sha256": "b14e77611538ae55981a40c115f850ab5482ade945c39efdf1f9ff734303ea92",
+      "reviewed_box_count": 3
+    },
+    {
+      "image_id": "p58_train_130_fea8583b2a5c",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/130.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_130_fea8583b2a5c.jpg",
+      "label": "labels/p58_train_130_fea8583b2a5c.txt",
+      "review": "reviews/p58_train_130_fea8583b2a5c.json",
+      "source_sha256": "073e4d3629fcbc812566962851eba6cd2458186e99ff6e28868284f471ddf643",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_132_648283f03b9e",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/132.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_132_648283f03b9e.jpg",
+      "label": "labels/p58_train_132_648283f03b9e.txt",
+      "review": "reviews/p58_train_132_648283f03b9e.json",
+      "source_sha256": "569bdc66bda599d153280fbc4d5ba1a0a2ab6e1c0044c924aba413766074e483",
+      "reviewed_box_count": 2
+    },
+    {
+      "image_id": "p58_train_133_ec6b9dd44e0e",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/133.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_133_ec6b9dd44e0e.jpg",
+      "label": "labels/p58_train_133_ec6b9dd44e0e.txt",
+      "review": "reviews/p58_train_133_ec6b9dd44e0e.json",
+      "source_sha256": "57bfe2d2badf3cb53015b0127852cab6694795ce70a77eb1124f5a0e8ab2bbf3",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_134_c9741aae8ca3",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/134.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_134_c9741aae8ca3.jpg",
+      "label": "labels/p58_train_134_c9741aae8ca3.txt",
+      "review": "reviews/p58_train_134_c9741aae8ca3.json",
+      "source_sha256": "32d5bb9eb0af71e7e393baf46bafab8d53ad64c6ae3b628831a42758ae1871e6",
+      "reviewed_box_count": 1
+    },
+    {
+      "image_id": "p58_train_135_13ec8d3a1ff6",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/135.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_135_13ec8d3a1ff6.jpg",
+      "label": "labels/p58_train_135_13ec8d3a1ff6.txt",
+      "review": "reviews/p58_train_135_13ec8d3a1ff6.json",
+      "source_sha256": "6b55e01dec529adcc7646fce67a794a43ebaaebff4ff9deddc0a1bc0f3ef0764",
+      "reviewed_box_count": 16
+    },
+    {
+      "image_id": "p58_train_136_8c7e581b6de2",
+      "source_relative_path": "train_images/58.Aphis gossypii Glover/136.jpg",
+      "source_split": "train_images",
+      "image": "images/p58_train_136_8c7e581b6de2.jpg",
+      "label": "labels/p58_train_136_8c7e581b6de2.txt",
+      "review": "reviews/p58_train_136_8c7e581b6de2.json",
+      "source_sha256": "96d38b7816ccc79338be15158f15de24fac0d5cf8bdae8d4aeb5fcc1cbcf54b7",
+      "reviewed_box_count": 19
+    }
+  ]
+}

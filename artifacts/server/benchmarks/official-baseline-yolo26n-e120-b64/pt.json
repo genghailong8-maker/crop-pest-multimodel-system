@@ -1,0 +1,108 @@
+{
+  "created_at": "2026-08-06T03:49:49.005388+00:00",
+  "model": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-baseline-yolo26n-e120-b64/weights/best.pt",
+    "format": "pt",
+    "sha256": "0443b179564564fce071b7595e1c4a68484a339230951c5e8cefe279af066192",
+    "size_bytes": 5392837
+  },
+  "configuration": {
+    "device": "0",
+    "image_size": 640,
+    "confidence": 0.25,
+    "warmup": 10,
+    "iterations": 30,
+    "preloaded_images": 64
+  },
+  "gpu_memory_idle_mib": 1217.9375,
+  "gpu_memory_global_peak_mib": 4907.25,
+  "gpu_memory_global_peak_delta_mib": 3689.3125,
+  "batches": [
+    {
+      "batch_size": 1,
+      "iterations": 30,
+      "latency_batch_ms": {
+        "mean": 4.657433306177457,
+        "p50": 4.645421169698238,
+        "p95": 4.758164100348949,
+        "p99": 5.135142132639885
+      },
+      "latency_per_image_ms": 4.657433306177457,
+      "throughput_images_per_second": 214.71053566642274,
+      "ultralytics_speed_ms_per_image": {
+        "preprocess": 0.6509448091189066,
+        "inference": 3.6356509973605475,
+        "postprocess": 0.1823311671614647
+      },
+      "gpu_memory_before_mib": 1915.25,
+      "gpu_memory_peak_mib": 1915.25,
+      "gpu_memory_peak_delta_from_idle_mib": 697.3125
+    },
+    {
+      "batch_size": 8,
+      "iterations": 30,
+      "latency_batch_ms": {
+        "mean": 20.31422182917595,
+        "p50": 19.931137561798096,
+        "p95": 23.283974267542362,
+        "p99": 28.641444575041536
+      },
+      "latency_per_image_ms": 2.5392777286469936,
+      "throughput_images_per_second": 393.8127715288675,
+      "ultralytics_speed_ms_per_image": {
+        "preprocess": 1.77177960673968,
+        "inference": 0.6043477915227413,
+        "postprocess": 0.12859561635802189
+      },
+      "gpu_memory_before_mib": 2253.25,
+      "gpu_memory_peak_mib": 2253.25,
+      "gpu_memory_peak_delta_from_idle_mib": 1035.3125
+    },
+    {
+      "batch_size": 32,
+      "iterations": 30,
+      "latency_batch_ms": {
+        "mean": 93.36081445217133,
+        "p50": 91.9096739962697,
+        "p95": 109.8916738294065,
+        "p99": 113.20781227201223
+      },
+      "latency_per_image_ms": 2.917525451630354,
+      "throughput_images_per_second": 342.7562215236841,
+      "ultralytics_speed_ms_per_image": {
+        "preprocess": 2.420621522469446,
+        "inference": 0.3451673954259604,
+        "postprocess": 0.13682380667887628
+      },
+      "gpu_memory_before_mib": 3305.25,
+      "gpu_memory_peak_mib": 3305.25,
+      "gpu_memory_peak_delta_from_idle_mib": 2087.3125
+    },
+    {
+      "batch_size": 64,
+      "iterations": 30,
+      "latency_batch_ms": {
+        "mean": 178.9093608657519,
+        "p50": 177.6746530085802,
+        "p95": 186.63011714816093,
+        "p99": 187.23699271678925
+      },
+      "latency_per_image_ms": 2.7954587635273733,
+      "throughput_images_per_second": 357.7230374660141,
+      "ultralytics_speed_ms_per_image": {
+        "preprocess": 2.3052562813973054,
+        "inference": 0.3596256351253639,
+        "postprocess": 0.12175238516647369
+      },
+      "gpu_memory_before_mib": 4907.25,
+      "gpu_memory_peak_mib": 4907.25,
+      "gpu_memory_peak_delta_from_idle_mib": 3689.3125
+    }
+  ],
+  "environment": {
+    "python": "3.12.3",
+    "ultralytics": "8.4.115",
+    "torch": "2.8.0+cu128",
+    "onnxruntime_gpu": "1.26.0"
+  }
+}

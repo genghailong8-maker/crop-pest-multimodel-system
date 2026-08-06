@@ -1,0 +1,68 @@
+{
+  "created_at": "2026-08-06T08:34:22.545396+00:00",
+  "model": {
+    "path": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.onnx",
+    "format": "onnx",
+    "sha256": "048b9050caa2db6389881865fe16818968e75d3f11fd288d4fa6a88181a258e2",
+    "size_bytes": 10591452
+  },
+  "configuration": {
+    "device": "0",
+    "image_size": 640,
+    "confidence": 0.25,
+    "warmup": 5,
+    "iterations": 10,
+    "preloaded_images": 64
+  },
+  "gpu_memory_idle_mib": 1217.9375,
+  "gpu_memory_global_peak_mib": 7467.25,
+  "gpu_memory_global_peak_delta_mib": 6249.3125,
+  "batches": [
+    {
+      "batch_size": 1,
+      "iterations": 10,
+      "latency_batch_ms": {
+        "mean": 3.856007382273674,
+        "p50": 3.850056789815426,
+        "p95": 3.913217131048441,
+        "p99": 3.9472939260303974
+      },
+      "latency_per_image_ms": 3.856007382273674,
+      "throughput_images_per_second": 259.33560308962774,
+      "ultralytics_speed_ms_per_image": {
+        "preprocess": 0.6560144945979118,
+        "inference": 2.7842119336128235,
+        "postprocess": 0.20722970366477966
+      },
+      "gpu_memory_before_mib": 1971.25,
+      "gpu_memory_peak_mib": 1971.25,
+      "gpu_memory_peak_delta_from_idle_mib": 753.3125
+    },
+    {
+      "batch_size": 64,
+      "iterations": 10,
+      "latency_batch_ms": {
+        "mean": 348.28224293887615,
+        "p50": 343.67757849395275,
+        "p95": 363.5502088814974,
+        "p99": 364.14020366966724
+      },
+      "latency_per_image_ms": 5.44191004591994,
+      "throughput_images_per_second": 183.75900953191018,
+      "ultralytics_speed_ms_per_image": {
+        "preprocess": 2.188839649898,
+        "inference": 3.1386931135784835,
+        "postprocess": 0.10567590943537652
+      },
+      "gpu_memory_before_mib": 7467.25,
+      "gpu_memory_peak_mib": 7467.25,
+      "gpu_memory_peak_delta_from_idle_mib": 6249.3125
+    }
+  ],
+  "environment": {
+    "python": "3.12.3",
+    "ultralytics": "8.4.115",
+    "torch": "2.8.0+cu128",
+    "onnxruntime_gpu": "1.26.0"
+  }
+}

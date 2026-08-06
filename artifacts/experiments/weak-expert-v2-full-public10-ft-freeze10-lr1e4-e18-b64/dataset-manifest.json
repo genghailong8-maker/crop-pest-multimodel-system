@@ -1,0 +1,39 @@
+{
+  "created_at": "2026-08-06T09:14:24.477106+00:00",
+  "seed": 20260729,
+  "policy": "classes 8/10 expert only; official validation remains frozen and is copied only for evaluation",
+  "source_license": {
+    "official": "competition-provided; source remains read-only",
+    "scidb": "archive README/data.yaml Public Domain; ScienceDB metadata MIT; discrepancy retained for provenance review"
+  },
+  "selection": {
+    "official_train_target_images": 679,
+    "official_internal_val_target_images": 68,
+    "scidb_class8_images": 105,
+    "scidb_class10_images_available": 450,
+    "scidb_class10_images_selected": 450,
+    "hard_negative_candidates_class13_or_15": 633,
+    "hard_negative_selected": 300,
+    "train_records": 1436,
+    "val_records": 98
+  },
+  "train_box_counts": {
+    "1": 764,
+    "0": 463
+  },
+  "val_box_counts": {
+    "1": 36,
+    "0": 35
+  },
+  "evaluation_records": {
+    "official_eval": 833,
+    "scidb_valid_eval": 32,
+    "scidb_test_eval": 16
+  },
+  "paths": {
+    "dataset_yaml": "/root/autodl-tmp/crop-pest-system/data/experiments/weak-expert-v2-full-public10/dataset.yaml",
+    "official_eval": "/root/autodl-tmp/crop-pest-system/data/experiments/weak-expert-v2-full-public10/eval/official_eval.txt",
+    "scidb_valid_eval": "/root/autodl-tmp/crop-pest-system/data/experiments/weak-expert-v2-full-public10/eval/scidb_valid_eval.txt",
+    "scidb_test_eval": "/root/autodl-tmp/crop-pest-system/data/experiments/weak-expert-v2-full-public10/eval/scidb_test_eval.txt"
+  }
+}

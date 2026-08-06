@@ -1,0 +1,49 @@
+{
+  "source_manifest": "C:\\Users\\genghailong\\Documents\\编程大赛\\artifacts\\dataset-audit\\pest65-aphids\\manifest.json",
+  "endpoint": "http://127.0.0.1:8870/v1/detect",
+  "model": {
+    "status": "ok",
+    "model": "best.onnx",
+    "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+    "device": "0",
+    "image_size": 640,
+    "class_count": 16
+  },
+  "configuration": {
+    "confidence": 0.1,
+    "target_class_id": 9,
+    "remap_class_ids": [
+      8,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "max_working_side": 2560,
+    "tile_size": 1280,
+    "tile_overlap": 0.2,
+    "nms_iou": 0.5,
+    "jpeg_quality": 90
+  },
+  "image_count": 397,
+  "image_with_target_boxes": 272,
+  "image_without_target_boxes": 125,
+  "target_box_count": 920,
+  "native_box_count": 777,
+  "remapped_box_count": 143,
+  "mean_target_boxes_per_image": 2.3173803526448364,
+  "flag_counts": {
+    "remapped_class_box": 93,
+    "no_target_box": 125,
+    "other_class_prediction": 53,
+    "low_confidence_box": 174,
+    "overlapping_boxes": 110,
+    "oversized_box": 59,
+    "many_boxes": 2
+  },
+  "detector_request_count_this_run": 0,
+  "elapsed_seconds": 0.17306919999828096,
+  "requires_human_review": true
+}

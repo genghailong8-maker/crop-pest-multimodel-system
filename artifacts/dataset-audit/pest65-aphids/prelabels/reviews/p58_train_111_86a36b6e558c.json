@@ -1,0 +1,81 @@
+{
+  "image_id": "p58_train_111_86a36b6e558c",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/111.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.3742603550295858,
+        0.3771559188196994,
+        0.057692307692307654,
+        0.05541317448223315
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.28254437869822485,
+        0.3350419062132022,
+        0.038461538461538436,
+        0.06427928239939046
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.7263313609467456,
+        0.5300962803906629,
+        0.059171597633136064,
+        0.06206275542010109
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.606508875739645,
+        0.5079310105977696,
+        0.03402366863905326,
+        0.048763593544365214
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.8106508875739645,
+        0.5367458613285309,
+        0.044378698224852076,
+        0.04433053958578648
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.643491124260355,
+        0.592159035810764,
+        0.047337278106508895,
+        0.05541317448223315
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-05T12:02:39.555509+00:00"
+}

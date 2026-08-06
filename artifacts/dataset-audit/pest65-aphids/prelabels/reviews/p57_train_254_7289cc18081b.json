@@ -1,0 +1,81 @@
+{
+  "image_id": "p57_train_254_7289cc18081b",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/254.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6849112426035503,
+        0.8407708744247205,
+        0.07692307692307687,
+        0.13149243918474696
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.20562130177514792,
+        0.5251890203813281,
+        0.0650887573964497,
+        0.057856673241288625
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.35207100591715973,
+        0.44629355687047995,
+        0.08284023668639057,
+        0.07363576594345822
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.9201183431952663,
+        0.3305802103879027,
+        0.0650887573964497,
+        0.06311637080867849
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6420118343195266,
+        0.4988905325443787,
+        0.07396449704142016,
+        0.07100591715976329
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4363905325443787,
+        0.45418310322156474,
+        0.08727810650887574,
+        0.11045364891518739
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-05T09:47:28.167696+00:00"
+}

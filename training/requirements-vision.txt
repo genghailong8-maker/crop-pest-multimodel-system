@@ -1,0 +1,2 @@
+# Install only after the NVIDIA driver and PyTorch CUDA build have been confirmed.
+ultralytics==8.4.115

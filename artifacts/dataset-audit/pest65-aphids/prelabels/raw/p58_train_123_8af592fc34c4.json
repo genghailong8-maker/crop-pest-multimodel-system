@@ -1,0 +1,110 @@
+{
+  "image_id": "p58_train_123_8af592fc34c4",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/123.jpg",
+  "source_size": {
+    "width": 7360,
+    "height": 4912
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1709
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.710632,
+      "bbox": [
+        0.43512304999999996,
+        0.46808098303101225,
+        0.06487695,
+        0.09884476067875952
+      ],
+      "source": "tile:0,429,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.668816,
+      "bbox": [
+        0.50002,
+        0.42029844821533063,
+        0.14882655,
+        0.1898836184903452
+      ],
+      "source": "tile:1280,0,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.414777,
+      "bbox": [
+        0.2609092,
+        0.16583332475131657,
+        0.0811278,
+        0.1039990637799883
+      ],
+      "source": "tile:0,0,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.235242,
+      "bbox": [
+        0.77899995,
+        0.7139433680514922,
+        0.0881014,
+        0.10297993212404916
+      ],
+      "source": "tile:1024,429,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.710632,
+      "bbox": [
+        0.43512304999999996,
+        0.46808098303101225,
+        0.06487695,
+        0.09884476067875952
+      ],
+      "source": "tile:0,429,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.668816,
+      "bbox": [
+        0.50002,
+        0.42029844821533063,
+        0.14882655,
+        0.1898836184903452
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.414777,
+      "bbox": [
+        0.2609092,
+        0.16583332475131657,
+        0.0811278,
+        0.1039990637799883
+      ],
+      "source": "tile:0,0,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.235242,
+      "bbox": [
+        0.77899995,
+        0.7139433680514922,
+        0.0881014,
+        0.10297993212404916
+      ],
+      "source": "tile:1024,429,1280,1280",
+      "prelabel_method": "native"
+    }
+  ],
+  "other_class_detections": []
+}

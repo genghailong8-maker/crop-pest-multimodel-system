@@ -1,0 +1,112 @@
+{
+  "image_id": "p58_train_121_a0f293012c4b",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/121.jpg",
+  "source_size": {
+    "width": 7360,
+    "height": 4912
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1709
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 13,
+      "confidence": 0.720653,
+      "bbox": [
+        0.39364225,
+        0.31414532943241663,
+        0.10635775,
+        0.2963856851960211
+      ],
+      "source": "tile:0,0,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.233216,
+      "bbox": [
+        0.6211618999999999,
+        0.7263976407255704,
+        0.1253006,
+        0.27331977062609714
+      ],
+      "source": "tile:1280,429,1280,1280"
+    },
+    {
+      "class_id": 13,
+      "confidence": 0.142605,
+      "bbox": [
+        0.5,
+        0.18338018490345234,
+        0.16904835,
+        0.5655958244587479
+      ],
+      "source": "tile:1280,0,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.102988,
+      "bbox": [
+        0.50858945,
+        0.6424225254534814,
+        0.062877,
+        0.15821279344645994
+      ],
+      "source": "tile:1024,429,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.720653,
+      "bbox": [
+        0.39364225,
+        0.31414532943241663,
+        0.10635775,
+        0.2963856851960211
+      ],
+      "source": "tile:0,0,1280,1280",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.233216,
+      "bbox": [
+        0.6211618999999999,
+        0.7263976407255704,
+        0.1253006,
+        0.27331977062609714
+      ],
+      "source": "tile:1280,429,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.142605,
+      "bbox": [
+        0.5,
+        0.18338018490345234,
+        0.16904835,
+        0.5655958244587479
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.102988,
+      "bbox": [
+        0.50858945,
+        0.6424225254534814,
+        0.062877,
+        0.15821279344645994
+      ],
+      "source": "tile:1024,429,1280,1280",
+      "prelabel_method": "native"
+    }
+  ],
+  "other_class_detections": []
+}

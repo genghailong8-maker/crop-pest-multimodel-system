@@ -1,0 +1,117 @@
+{
+  "image_id": "p58_train_000_32fd46fc0112",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/000.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.8047337278106509,
+        0.2979844674556213,
+        0.07544378698224852,
+        0.0650887573964497
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.8372781065088757,
+        0.1697793392504931,
+        0.0650887573964497,
+        0.05917159763313609
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.5103550295857988,
+        0.21514423076923078,
+        0.07396449704142016,
+        0.059171597633136064
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.5961538461538461,
+        0.2348680966469428,
+        0.03254437869822491,
+        0.05522682445759369
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.48668639053254437,
+        0.3512389053254438,
+        0.07100591715976334,
+        0.041420118343195256
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.2869822485207101,
+        0.2802329881656805,
+        0.05473372781065089,
+        0.03353057199211046
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4452662721893491,
+        0.556367110453649,
+        0.062130177514792884,
+        0.035502958579881616
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.7736686390532544,
+        0.5129746055226825,
+        0.059171597633136064,
+        0.06114398422090728
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.915680473372781,
+        0.47944403353057197,
+        0.0650887573964497,
+        0.05719921104536496
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-05T09:47:44.874417+00:00"
+}

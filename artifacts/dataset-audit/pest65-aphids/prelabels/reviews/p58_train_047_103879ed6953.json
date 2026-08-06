@@ -1,0 +1,93 @@
+{
+  "image_id": "p58_train_047_103879ed6953",
+  "source_relative_path": "train_images/58.Aphis gossypii Glover/047.jpg",
+  "decision": "accepted",
+  "boxes": [
+    {
+      "class_id": 9,
+      "bbox": [
+        0.28994082840236685,
+        0.5544780771628455,
+        0.06656804733727811,
+        0.05984622844081178
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.17159763313609466,
+        0.6497887372722865,
+        0.06804733727810652,
+        0.05319664750294384
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.3091715976331361,
+        0.6409226293551292,
+        0.042899408284023666,
+        0.050980120523654415
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.7529585798816568,
+        0.45916741705340447,
+        0.06360946745562124,
+        0.05984622844081178
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.7204142011834319,
+        0.5522615501835562,
+        0.053254437869822535,
+        0.050980120523654526
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.6005917159763313,
+        0.598808616748632,
+        0.059171597633136175,
+        0.03768095864791854
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    },
+    {
+      "class_id": 9,
+      "bbox": [
+        0.4970414201183432,
+        0.6165408325829466,
+        0.041420118343195256,
+        0.07092886333725845
+      ],
+      "confidence": 0.0,
+      "prelabel_method": "manual",
+      "original_class_id": null
+    }
+  ],
+  "notes": "",
+  "reviewed_at": "2026-08-05T11:54:44.153972+00:00"
+}

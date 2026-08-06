@@ -1,0 +1,111 @@
+{
+  "image_id": "p57_train_094_fa4c15f85141",
+  "source_relative_path": "train_images/57.Myzus persicae Sulzer/094.jpg",
+  "source_size": {
+    "width": 7360,
+    "height": 4912
+  },
+  "working_size": {
+    "width": 2560,
+    "height": 1709
+  },
+  "model_sha256": "48290737afa26b00a07c6de1a68c95fcdac0dce6af844163b2833048d1097217",
+  "detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.654962,
+      "bbox": [
+        0.9169117,
+        0.6027880257460503,
+        0.0796907,
+        0.094836241076653
+      ],
+      "source": "tile:1280,0,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.344479,
+      "bbox": [
+        0.52238625,
+        0.4967560912814512,
+        0.08996935,
+        0.09761262024575776
+      ],
+      "source": "tile:1024,0,1280,1280"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.15321,
+      "bbox": [
+        0.8732447499999999,
+        0.6458204423639555,
+        0.07422235,
+        0.08472806085430075
+      ],
+      "source": "tile:1280,0,1280,1280"
+    },
+    {
+      "class_id": 13,
+      "confidence": 0.149091,
+      "bbox": [
+        0.3552562,
+        0.0006507103569338795,
+        0.13526765,
+        0.2243130719719134
+      ],
+      "source": "tile:0,0,1280,1280"
+    }
+  ],
+  "target_detections": [
+    {
+      "class_id": 9,
+      "confidence": 0.654962,
+      "bbox": [
+        0.9169117,
+        0.6027880257460503,
+        0.0796907,
+        0.094836241076653
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.344479,
+      "bbox": [
+        0.52238625,
+        0.4967560912814512,
+        0.08996935,
+        0.09761262024575776
+      ],
+      "source": "tile:1024,0,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.15321,
+      "bbox": [
+        0.8732447499999999,
+        0.6458204423639555,
+        0.07422235,
+        0.08472806085430075
+      ],
+      "source": "tile:1280,0,1280,1280",
+      "prelabel_method": "native"
+    },
+    {
+      "class_id": 9,
+      "confidence": 0.149091,
+      "bbox": [
+        0.3552562,
+        0.0006507103569338795,
+        0.13526765,
+        0.2243130719719134
+      ],
+      "source": "tile:0,0,1280,1280",
+      "original_class_id": 13,
+      "prelabel_method": "folder_label_remap"
+    }
+  ],
+  "other_class_detections": []
+}
