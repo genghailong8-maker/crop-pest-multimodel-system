@@ -1,0 +1,74 @@
+{
+  "created_on": "2026-08-06",
+  "purpose": "Local shutdown checkpoint before the current GPU server may be released",
+  "git_checkpoint_before_manifest": "b8d19f4",
+  "production_changed": false,
+  "critical_local_backups": [
+    {
+      "role": "current 16-class production candidate PT",
+      "path": "artifacts/server/remote-runs/official-plus-public-weak-v1-e120-b64/weights/best.pt",
+      "size_bytes": 5394821,
+      "sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071"
+    },
+    {
+      "role": "current 16-class production candidate ONNX",
+      "path": "artifacts/server/remote-runs/official-plus-public-weak-v1-e120-b64/weights/best.onnx",
+      "size_bytes": 10591452,
+      "sha256": "048b9050caa2db6389881865fe16818968e75d3f11fd288d4fa6a88181a258e2"
+    },
+    {
+      "role": "320px crop classifier offline candidate",
+      "path": "artifacts/server/experiments/weak-crop-cls-v2-img320-e30-b128/best.pt",
+      "size_bytes": 3192386,
+      "sha256": "f133b680b9e041d00a8ca79b45c2ed64b3d81087cfeacbda4925258ecbd1ad05"
+    },
+    {
+      "role": "weak detector expert v1",
+      "path": "artifacts/server/experiments/weak-expert-v1-ft-freeze10-lr1e4-e18-b64/best.pt",
+      "size_bytes": 5383557,
+      "sha256": "6cc8cc62bebec2962667ca8dfe54092e2565273e474792e45bb12dcd877ce5d4"
+    },
+    {
+      "role": "weak detector expert v2",
+      "path": "artifacts/server/experiments/weak-expert-v2-full-public10-ft-freeze10-lr1e4-e18-b64/best.pt",
+      "size_bytes": 5383365,
+      "sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49"
+    },
+    {
+      "role": "exact crop classification dataset archive",
+      "path": "artifacts/server/weak-crop-cls-v1-dataset.tar.gz",
+      "size_bytes": 124053816,
+      "sha256": "70df98723fbdb1d8e7c4c383b61dd1a355d593246779e43474b26cad058852e8",
+      "contents": {
+        "train_crops": 1182,
+        "internal_validation_crops": 205,
+        "official_evaluation_crops": 357
+      }
+    }
+  ],
+  "source_list_backups": [
+    {
+      "path": "artifacts/experiments/weak-crop-cls-v2-img320-e30-b128/source-train.txt",
+      "sha256": "3aa05297d1ea7b5343cc8ce609eafecdb99e09b4c45b7773e8748e0f125937f3"
+    },
+    {
+      "path": "artifacts/experiments/weak-crop-cls-v2-img320-e30-b128/source-val.txt",
+      "sha256": "56dbf4bc17c1fc681230da7ae39822fe94583d766617442440697be96a85018a"
+    },
+    {
+      "path": "artifacts/experiments/weak-crop-cls-v2-img320-e30-b128/source-official_eval.txt",
+      "sha256": "91a777a8818b8766f49f67891562d1cd808198a89586ec370b49a9e56d7096a4"
+    }
+  ],
+  "local_official_source": {
+    "path": "E:/第三届“农信杯”编程大赛/基于多模型协同的农作物病虫害识别与防治系统开发",
+    "available": true,
+    "image_count": 4164
+  },
+  "verification": {
+    "backend_pytest": "5 passed",
+    "web_render_tests": "3 passed",
+    "server_training_processes_remaining": 0,
+    "binary_files_are_gitignored": true
+  }
+}
