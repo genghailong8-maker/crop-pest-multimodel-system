@@ -1,0 +1,138 @@
+{
+  "completed_at_utc": "2026-08-07T01:31:25.183459+00:00",
+  "task": "crop_classification",
+  "best_weights": "/root/autodl-tmp/crop-pest-system/runs/detect/pairwise-crop-cls-10-13-v5-e30-b128/weights/best.pt",
+  "best_weights_sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c",
+  "dataset_root": "/root/autodl-tmp/crop-pest-system/data/experiments/pairwise-hard-crops-10-13-v5",
+  "dataset_manifest_sha256": "6d55d9c110cbd8a1c6a292aa771a089f8921aa280676c6f687de5328a388c120",
+  "pretrained_detector": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.pt",
+  "pretrained_detector_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+  "arguments": {
+    "data": "data/experiments/pairwise-hard-crops-10-13-v5",
+    "pretrained_detector": "runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.pt",
+    "model": "yolo26n-cls.yaml",
+    "epochs": 30,
+    "image_size": 320,
+    "batch": 128,
+    "device": "0",
+    "workers": 4,
+    "seed": 20260729,
+    "patience": 8,
+    "project": "runs/detect",
+    "name": "pairwise-crop-cls-10-13-v5-e30-b128",
+    "frozen_eval": "/root/autodl-tmp/crop-pest-system/data/experiments/pairwise-hard-crops-10-13-v5/val"
+  },
+  "internal_validation": {
+    "image_count": 576,
+    "accuracy": 0.8541666666666666,
+    "macro_f1": 0.835511310682867,
+    "class_names": [
+      "10_mirid_bugs",
+      "13_grasshoppers",
+      "99_background"
+    ],
+    "confusion_matrix_actual_rows_predicted_columns": [
+      [
+        104,
+        14,
+        5
+      ],
+      [
+        37,
+        149,
+        14
+      ],
+      [
+        10,
+        4,
+        239
+      ]
+    ],
+    "per_class": [
+      {
+        "index": 0,
+        "name": "10_mirid_bugs",
+        "support": 123,
+        "precision": 0.6887417218543046,
+        "recall": 0.8455284552845529,
+        "f1": 0.7591240875912408
+      },
+      {
+        "index": 1,
+        "name": "13_grasshoppers",
+        "support": 200,
+        "precision": 0.8922155688622755,
+        "recall": 0.745,
+        "f1": 0.8119891008174387
+      },
+      {
+        "index": 2,
+        "name": "99_background",
+        "support": 253,
+        "precision": 0.9263565891472868,
+        "recall": 0.9446640316205533,
+        "f1": 0.9354207436399217
+      }
+    ]
+  },
+  "frozen_official_validation": {
+    "image_count": 576,
+    "accuracy": 0.8541666666666666,
+    "macro_f1": 0.835511310682867,
+    "class_names": [
+      "10_mirid_bugs",
+      "13_grasshoppers",
+      "99_background"
+    ],
+    "confusion_matrix_actual_rows_predicted_columns": [
+      [
+        104,
+        14,
+        5
+      ],
+      [
+        37,
+        149,
+        14
+      ],
+      [
+        10,
+        4,
+        239
+      ]
+    ],
+    "per_class": [
+      {
+        "index": 0,
+        "name": "10_mirid_bugs",
+        "support": 123,
+        "precision": 0.6887417218543046,
+        "recall": 0.8455284552845529,
+        "f1": 0.7591240875912408
+      },
+      {
+        "index": 1,
+        "name": "13_grasshoppers",
+        "support": 200,
+        "precision": 0.8922155688622755,
+        "recall": 0.745,
+        "f1": 0.8119891008174387
+      },
+      {
+        "index": 2,
+        "name": "99_background",
+        "support": 253,
+        "precision": 0.9263565891472868,
+        "recall": 0.9446640316205533,
+        "f1": 0.9354207436399217
+      }
+    ]
+  },
+  "environment": {
+    "python": "3.12.3 | packaged by Anaconda, Inc. | (main, May  6 2024, 19:46:43) [GCC 11.2.0]",
+    "platform": "Linux-5.15.0-119-generic-x86_64-with-glibc2.35",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "ultralytics": "8.4.115"
+  }
+}

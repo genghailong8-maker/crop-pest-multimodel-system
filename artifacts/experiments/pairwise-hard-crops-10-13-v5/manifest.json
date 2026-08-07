@@ -1,0 +1,66 @@
+{
+  "created_at_utc": "2026-08-07T01:27:37.833424+00:00",
+  "policy": "official train only; class 10/13 ground-truth crops plus main-model candidate hard negatives; official validation is untouched",
+  "seed": 20260729,
+  "class_names": {
+    "10": "10_mirid_bugs",
+    "13": "13_grasshoppers",
+    "99": "99_background"
+  },
+  "parameters": {
+    "device": "0",
+    "image_size": 640,
+    "batch": 4,
+    "prediction_confidence": 0.0001,
+    "candidate_confidence": 0.0001,
+    "crop_expand": 0.5,
+    "internal_val_percent": 15,
+    "background_ratio": 2.0
+  },
+  "sources": {
+    "official_train": "/root/autodl-tmp/crop-pest-system/data/official/splits/train.txt",
+    "official_train_sha256": "0b454f3c54f23832de9433e2cfcc55bc574f931a9ed4ca703772105697a04b0d",
+    "main_model": "/root/autodl-tmp/crop-pest-system/runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.pt",
+    "main_model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071"
+  },
+  "counts": {
+    "source_images/val": 477,
+    "candidate/val/10/99": 179,
+    "source_images/train": 2844,
+    "ground_truth/train/10": 292,
+    "candidate/train/10/10": 362,
+    "candidate/train/10/99": 1178,
+    "ground_truth/train/13": 308,
+    "candidate/train/13/13": 905,
+    "candidate/train/10/13": 281,
+    "candidate/train/13/99": 780,
+    "candidate/train/13/10": 123,
+    "ground_truth/val/13": 44,
+    "candidate/val/13/13": 117,
+    "candidate/val/10/13": 39,
+    "candidate/val/13/99": 86,
+    "ground_truth/val/10": 48,
+    "candidate/val/10/10": 55,
+    "candidate/val/13/10": 20,
+    "selected_crops/train/10": 777,
+    "selected_crops/train/99": 1843,
+    "selected_crops/train/13": 1494,
+    "dropped_tiny/train/99": 115,
+    "selected_crops/val/13": 200,
+    "selected_crops/val/10": 123,
+    "selected_crops/val/99": 253,
+    "dropped_tiny/val/99": 12
+  },
+  "raw_record_count": 4817,
+  "selected_record_count": 4690,
+  "source_lists": {
+    "train": {
+      "path": "/root/autodl-tmp/crop-pest-system/data/experiments/pairwise-hard-crops-10-13-v5/source-train.txt",
+      "sha256": "1ab90882fd567359e3cb11f8a4d6e22b5cb65a5a0234230b6022d64859566381"
+    },
+    "val": {
+      "path": "/root/autodl-tmp/crop-pest-system/data/experiments/pairwise-hard-crops-10-13-v5/source-val.txt",
+      "sha256": "181e93f3dc1147fce6b92b934f9043e226fb840596f9c83f654d10555287c7d2"
+    }
+  }
+}

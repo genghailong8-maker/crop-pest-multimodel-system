@@ -118,6 +118,12 @@ def main() -> None:
     parser.add_argument("--patience", type=int, default=8)
     parser.add_argument("--project", type=Path, default=Path("runs/detect"))
     parser.add_argument("--name", default="weak-crop-cls-v1")
+    parser.add_argument(
+        "--frozen-eval",
+        type=Path,
+        default=None,
+        help="Optional external frozen evaluation folder with class subdirectories.",
+    )
     args = parser.parse_args()
 
     import torch
@@ -154,12 +160,11 @@ def main() -> None:
     best_path = run_dir / "weights" / "best.pt"
     best_model = YOLO(str(best_path), task="classify")
     internal_val = classification_metrics(best_model, data_root / "val", args.image_size, args.batch, args.device)
-    official_eval = classification_metrics(
-        best_model,
-        data_root / "official_eval",
-        args.image_size,
-        args.batch,
-        args.device,
+    frozen_eval_root = args.frozen_eval.expanduser().resolve() if args.frozen_eval else data_root / "official_eval"
+    official_eval = (
+        classification_metrics(best_model, frozen_eval_root, args.image_size, args.batch, args.device)
+        if frozen_eval_root.is_dir()
+        else None
     )
     normalize_results_csv(run_dir / "results.csv")
     payload = {

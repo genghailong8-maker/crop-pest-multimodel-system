@@ -1,0 +1,46 @@
+{
+  "created_at": "2026-08-07T09:32:00+08:00",
+  "server": {
+    "ssh": "ssh -p 10373 root@connect.bjb2.seetacloud.com",
+    "project": "/root/autodl-tmp/crop-pest-system",
+    "gpu": "NVIDIA GeForce RTX 5090 32GB",
+    "status_at_checkpoint": "idle"
+  },
+  "policy": "official train only for mining; official validation remains frozen and is never used for training",
+  "dataset": {
+    "server_path": "/root/autodl-tmp/crop-pest-system/data/experiments/pairwise-hard-crops-10-13-v5",
+    "local_manifest": "artifacts/experiments/pairwise-hard-crops-10-13-v5/manifest.json",
+    "manifest_sha256": "6d55d9c110cbd8a1c6a292aa771a089f8921aa280676c6f687de5328a388c120",
+    "archive": "artifacts/server/pairwise-hard-crops-10-13-v5.tar.gz",
+    "archive_sha256": "31b0ff3435cb67af99d6dd2a661bff4d8d236639870c56cc008f49c67daaf009",
+    "selected_crops": {
+      "train": {"class10": 777, "class13": 1494, "background": 1843},
+      "val": {"class10": 123, "class13": 200, "background": 253}
+    },
+    "dropped_tiny_crops": {"train": 115, "val": 12}
+  },
+  "classifier": {
+    "server_run": "runs/detect/pairwise-crop-cls-10-13-v5-e30-b128",
+    "server_weights": "/root/autodl-tmp/crop-pest-system/runs/detect/pairwise-crop-cls-10-13-v5-e30-b128/weights/best.pt",
+    "local_weights": "artifacts/server/experiments/pairwise-crop-cls-10-13-v5-e30-b128/best.pt",
+    "weights_sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c",
+    "internal_accuracy": 0.8541666666666666,
+    "internal_macro_f1": 0.835511310682867,
+    "per_class_f1": {"10": 0.7591240875912408, "13": 0.8119891008174387, "99_background": 0.9354207436399217}
+  },
+  "reranker": {
+    "server_report": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pairwise-crop-reranker-v2/report.json",
+    "local_report": "artifacts/experiments/pairwise-crop-reranker-v2/report.json",
+    "tune_acceptable_count": 0,
+    "decision": "keep_current_main_model",
+    "best_unconstrained_frozen": {
+      "overall_map50_95": 0.5349874860512729,
+      "weak_map50_95": 0.3254087619989003,
+      "class10_map50_95_delta": 0.037155,
+      "class13_map50_95_delta": 0.003658,
+      "class10_best_f1": 0.7209302325581396,
+      "baseline_class10_best_f1": 0.7303370786516854,
+      "note": "mAP gains are rejected because class-10 best F1 regresses"
+    }
+  }
+}
