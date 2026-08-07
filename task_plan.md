@@ -121,6 +121,7 @@ Phase 4 — 弱类优化与独立校准（in_progress）
 | SSH here-string 的 CRLF 影响最后一条 Bash 命令 | 2 | 对关键检查改用单行远程命令或避免续行末尾参数 |
 | GHCID 类 13 全量数据约 31.2GB，当前服务器空间和选择性下载条件不合适 | 1 | 暂不下载，改为审计更小且有 CC BY 4.0 的检测数据候选 |
 | Windows PowerShell 默认 `Get-Content` 将无 BOM UTF-8 中文显示为乱码 | 1 | 后续读取规划文件显式使用 `-Encoding UTF8` |
+| 推送规划日志小修提交时 HTTPS 连接被重置 | 1 | 保留本地提交，先检查远程连通性，再使用 HTTP/1.1 推送 |
 
 ## Notes
 
