@@ -123,6 +123,7 @@
 | 2026-08-07 | CRLF affected final remote Bash argument | 2 | Used simpler single-line command for final sync check |
 | 2026-08-07 | Git push waited on hidden credential dialog | 1 | Explicitly ran GCM device authorization, then repeated push successfully |
 | 2026-08-07 | PowerShell default `Get-Content` rendered UTF-8 Chinese as mojibake | 1 | Read planning files with explicit `-Encoding UTF8` |
+| 2026-08-07 | Markdown diff check reported a trailing blank line in `findings.md` | 1 | Removed the extra EOF blank line and reran `git diff --check` |
 
 ## 5-Question Reboot Check
 
