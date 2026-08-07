@@ -1,0 +1,68 @@
+{
+  "created_at_utc": "2026-08-07T03:00:00Z",
+  "goal": "Build independently reviewed field-condition tune and frozen evaluation sets for class 10 and class 13 before the second calibration.",
+  "class_10": {
+    "official_class": 10,
+    "name": "Mirid bugs (Miridae)",
+    "source": "ScienceDB weak-class detection dataset already isolated on the training server",
+    "tune_images": 32,
+    "frozen_evaluation_images": 16,
+    "used_by_pairwise_classifier_v5_training": false,
+    "status": "ready",
+    "server_lists": {
+      "tune": "data/experiments/weak-expert-v2-full-public10/eval/scidb_valid_eval.txt",
+      "frozen_evaluation": "data/experiments/weak-expert-v2-full-public10/eval/scidb_test_eval.txt"
+    }
+  },
+  "class_13_candidates": [
+    {
+      "name": "GHCID",
+      "official_class": 13,
+      "source_url": "https://lcas.lincoln.ac.uk/nextcloud/index.php/s/gGiGUxhYTmPV1vK",
+      "paper_url": "https://www.nature.com/articles/s41598-020-57674-8",
+      "images": 3578,
+      "instances": 4406,
+      "annotation_format": "Pascal VOC bounding boxes",
+      "quality": "Expert annotated; all images inspected at least twice",
+      "license": "CC BY 4.0 for the article and included materials unless separately credited",
+      "download_size_bytes": 33464550586,
+      "status": "not_downloaded",
+      "reason": "The 31.2 GB folder plus extraction would exceed the safe margin on the 50 GB training volume, and selective public WebDAV access is disabled."
+    },
+    {
+      "name": "Roboflow grasshopper-qpkes-i1pbc v1",
+      "official_class": 13,
+      "source_url": "https://universe.roboflow.com/amiruls-workspace-wyolc/grasshopper-qpkes-i1pbc/dataset/1",
+      "images": 587,
+      "splits": {
+        "train": 445,
+        "valid": 70,
+        "test": 72
+      },
+      "annotation_format": "YOLO object detection",
+      "license": "CC BY 4.0",
+      "status": "selected_pending_download_and_human_review",
+      "reason": "Small enough for the server and already has fixed valid/test splits, but download requires a free Roboflow account login."
+    }
+  ],
+  "planned_second_calibration": {
+    "tune": {
+      "class_10_images": 32,
+      "class_13_images": 70,
+      "total_images": 102
+    },
+    "frozen_evaluation": {
+      "class_10_images": 16,
+      "class_13_images": 72,
+      "total_images": 88
+    },
+    "required_gates": [
+      "Map every grasshopper box to official class 13 and independently review the mapping",
+      "Reject invalid or incomplete boxes",
+      "Compute exact and perceptual hashes against official train/validation and public class-10 data",
+      "Keep valid and test splits frozen and never use them for detector or classifier training",
+      "Tune only on the 102-image tune set and accept only if the untouched 88-image evaluation and official validation both pass"
+    ]
+  },
+  "calibration_status": "not_started_until_class_13_review_gate_passes"
+}
