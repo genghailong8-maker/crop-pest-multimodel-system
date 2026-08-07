@@ -121,7 +121,7 @@ Phase 4 — 弱类优化与独立校准（in_progress）
 | SSH here-string 的 CRLF 影响最后一条 Bash 命令 | 2 | 对关键检查改用单行远程命令或避免续行末尾参数 |
 | GHCID 类 13 全量数据约 31.2GB，当前服务器空间和选择性下载条件不合适 | 1 | 暂不下载，改为审计更小且有 CC BY 4.0 的检测数据候选 |
 | Windows PowerShell 默认 `Get-Content` 将无 BOM UTF-8 中文显示为乱码 | 1 | 后续读取规划文件显式使用 `-Encoding UTF8` |
-| 推送规划日志小修提交时 HTTPS 连接被重置 | 1 | 保留本地提交，先检查远程连通性，再使用 HTTP/1.1 推送 |
+| 推送规划日志小修时 HTTPS 重置，随后 443 不可达 | 3 | DNS 正常但 HTTPS 超时；停止重复尝试，本地保留领先提交，网络恢复后补推 |
 
 ## Notes
 
@@ -129,4 +129,5 @@ Phase 4 — 弱类优化与独立校准（in_progress）
 - 公开仓库：`https://github.com/genghailong8-maker/crop-pest-multimodel-system`
 - 草稿 PR：`https://github.com/genghailong8-maker/crop-pest-multimodel-system/pull/1`
 - 关机检查点：`artifacts/server/shutdown-checkpoint-20260807.json`
+- 当前本地分支可能领先远程；恢复时由 `git status --short --branch` 判断并在网络可用后补推。
 - 规划文件是后续对话的首要上下文来源；任何关键发现应写入文件，而不是只保留在聊天中。

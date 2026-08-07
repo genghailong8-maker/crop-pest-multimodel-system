@@ -124,7 +124,7 @@
 | 2026-08-07 | Git push waited on hidden credential dialog | 1 | Explicitly ran GCM device authorization, then repeated push successfully |
 | 2026-08-07 | PowerShell default `Get-Content` rendered UTF-8 Chinese as mojibake | 1 | Read planning files with explicit `-Encoding UTF8` |
 | 2026-08-07 | Markdown diff check reported a trailing blank line in `findings.md` | 1 | Removed the extra EOF blank line and reran `git diff --check` |
-| 2026-08-07 | GitHub HTTPS connection reset while pushing planning-log refinement | 1 | Kept the local commit, checked remote connectivity, then retried with HTTP/1.1 |
+| 2026-08-07 | GitHub HTTPS reset, followed by repeated port 443 timeouts | 3 | DNS resolved correctly; stopped retrying, kept local commits, and deferred push until network recovery |
 
 ## 5-Question Reboot Check
 
@@ -139,6 +139,7 @@
 ## Immediate Resume Checklist
 
 - [ ] 读取三个规划文件并检查 Git 状态。
+- [ ] 若本地分支领先远程，在 GitHub HTTPS 恢复后补推提交。
 - [ ] 向用户确认可用服务器地址/GPU 状态。
 - [ ] 检查类 10 独立列表和本地关键备份是否仍可用。
 - [ ] 下载并人工复核类 13 合法检测样本。
