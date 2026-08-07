@@ -41,6 +41,7 @@
 
 - **Local commit:** `530b29f feat: persist phase5 multimodel inference integration` contains the relevant code, tests, reports, planning files, and server task-node checkpoints. No model weights, raw images, archives, secrets, or private keys were staged.
 - **Push status:** `git push origin codex/publish-audits-and-calibration-plan` was attempted once and failed because `github.com:443` was unreachable. DNS resolved, but TCP 443 was unavailable; the local branch is clean and ahead of origin by 4 commits. Resume by retrying the same push when network access returns.
+- **Connector fallback:** GitHub connector repository/branch reads succeeded, but `github_create_blob` returned `403 Resource not accessible by integration`; no partial remote tree or ref update occurred. The remote branch remains at `9cf96fe`; local commits `530b29f` and `93e1d1a` are intact.
 
 ## Session History
 
