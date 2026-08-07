@@ -37,6 +37,11 @@
 - **Task-node checkpoint:** `artifacts/server/phase5-shutdown-task-nodes-20260807.json` is saved locally and on the remote disk before power-off. SHA-256: `7095770760ea9f8007b4cc0bc376152cf0137b9c632db0631344479387b871e8`.
 - **Next resume:** boot/reconnect the same GPU server, verify the checkpoint and model hashes, then continue the existing local web E2E page and benchmark. Keep `shadow`; do not rerun completed calibration or promote `active`.
 
+### GitHub Publication Checkpoint — 2026-08-07
+
+- **Local commit:** `530b29f feat: persist phase5 multimodel inference integration` contains the relevant code, tests, reports, planning files, and server task-node checkpoints. No model weights, raw images, archives, secrets, or private keys were staged.
+- **Push status:** `git push origin codex/publish-audits-and-calibration-plan` was attempted once and failed because `github.com:443` was unreachable. DNS resolved, but TCP 443 was unavailable; the local branch is clean and ahead of origin by 4 commits. Resume by retrying the same push when network access returns.
+
 ## Session History
 
 ### Persistent Context-Capacity Reporting Protocol — 2026-08-07
