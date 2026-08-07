@@ -102,3 +102,32 @@ def test_remote_detection_payload_validation():
     assert parsed[0]["class_id"] == 0
     assert parsed[0]["confidence"] == 0.91
     assert parsed[0]["class_name"]
+
+
+def test_remote_detector_preserves_routing_metadata(tmp_path, monkeypatch):
+    image_path = tmp_path / "leaf.jpg"
+    image_path.write_bytes(image_bytes())
+
+    class FakeResponse:
+        def raise_for_status(self):
+            return None
+
+        def json(self):
+            return {
+                "detections": [],
+                "model_sha256": "main-sha",
+                "speed_ms": {"request_model_ms": 12.3},
+                "routing": {"mode": "shadow", "candidate_count": 1},
+            }
+
+    test_settings = replace(
+        config.settings,
+        detector_endpoint="http://inference.test/v1/detect",
+        detector_api_key=None,
+    )
+    monkeypatch.setattr(detector, "settings", test_settings)
+    monkeypatch.setattr(detector.httpx, "post", lambda *_, **__: FakeResponse())
+    remote = detector.RemoteDetector()
+    assert remote.detect(image_path) == []
+    assert remote.last_metadata["routing"]["mode"] == "shadow"
+    assert remote.last_metadata["model_sha256"] == "main-sha"

@@ -23,6 +23,17 @@ type Quality = {
 
 type DetectorSummary = {
   target_count: number | null;
+  inference?: {
+    mode?: string;
+    model_sha256?: string | null;
+    speed_ms?: { request_model_ms?: number; routing_ms?: number };
+    routing?: {
+      mode?: string;
+      candidate_count?: number;
+      selected_candidate_count?: number;
+      timing_ms?: { total?: number };
+    } | null;
+  } | null;
   primary_candidate?: {
     class_id: number;
     class_name: string;
@@ -414,6 +425,12 @@ export default function Home() {
                       <p>{summary.target_count ?? 0} 个定位目标{summary.primary_candidate ? ` · 最高置信度 ${confidenceText(summary.primary_candidate.max_confidence)}` : ""}</p>
                       <div className="chip-row">
                         {(summary.review_reasons ?? []).map((reason) => <span className="chip warn" key={reason}>{reason}</span>)}
+                        {summary.inference?.routing ? (
+                          <span className="chip good">
+                            路由 {summary.inference.routing.mode ?? "unknown"} · 专家候选 {summary.inference.routing.candidate_count ?? 0}
+                            {summary.inference.speed_ms?.routing_ms != null ? ` · ${Math.round(summary.inference.speed_ms.routing_ms)} ms` : ""}
+                          </span>
+                        ) : null}
                       </div>
                     </>
                   ) : <p>模型输出将在此形成候选类别和人工复核触发条件。</p>}

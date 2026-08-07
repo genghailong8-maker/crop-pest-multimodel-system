@@ -216,6 +216,8 @@ def detect_case(case_id: str) -> dict[str, Any]:
             },
         )
     summary = summarize_detections(detections)
+    if detector.last_metadata:
+        summary["inference"] = detector.last_metadata
     if quality["flags"]:
         summary["needs_review"] = True
         summary["review_reasons"] = [

@@ -65,6 +65,7 @@ def inspect_image_quality(image_path: Path) -> ImageQuality:
 class UltralyticsDetector:
     def __init__(self) -> None:
         self._model: Any | None = None
+        self.last_metadata: dict[str, Any] = {}
 
     def _load(self) -> Any:
         if settings.model_path is None:
@@ -89,6 +90,10 @@ class UltralyticsDetector:
             device=settings.model_device,
             verbose=False,
         )
+        self.last_metadata = {
+            "mode": "local",
+            "model": settings.model_path.name if settings.model_path else None,
+        }
         detections: list[dict[str, Any]] = []
         if not results:
             return detections
@@ -163,6 +168,9 @@ def validate_remote_detections(payload: Any) -> list[dict[str, Any]]:
 
 
 class RemoteDetector:
+    def __init__(self) -> None:
+        self.last_metadata: dict[str, Any] = {}
+
     def detect(self, image_path: Path) -> list[dict[str, Any]]:
         if not settings.detector_endpoint:
             raise DetectorUnavailable("尚未配置服务器视觉识别地址")
@@ -179,7 +187,17 @@ class RemoteDetector:
                     timeout=settings.detector_timeout_seconds,
                 )
             response.raise_for_status()
-            return validate_remote_detections(response.json())
+            payload = response.json()
+            if isinstance(payload, dict):
+                self.last_metadata = {
+                    "mode": "remote",
+                    "model_sha256": payload.get("model_sha256"),
+                    "speed_ms": payload.get("speed_ms"),
+                    "routing": payload.get("routing"),
+                }
+            else:
+                self.last_metadata = {"mode": "remote"}
+            return validate_remote_detections(payload)
         except (OSError, httpx.HTTPError, ValueError) as exc:
             raise DetectorUnavailable(f"服务器视觉识别调用失败：{exc}") from exc
 
@@ -188,11 +206,16 @@ class ConfiguredDetector:
     def __init__(self) -> None:
         self.remote = RemoteDetector()
         self.local = UltralyticsDetector()
+        self.last_metadata: dict[str, Any] = {}
 
     def detect(self, image_path: Path) -> list[dict[str, Any]]:
         if settings.detector_endpoint:
-            return self.remote.detect(image_path)
-        return self.local.detect(image_path)
+            detections = self.remote.detect(image_path)
+            self.last_metadata = self.remote.last_metadata
+            return detections
+        detections = self.local.detect(image_path)
+        self.last_metadata = self.local.last_metadata
+        return detections
 
 
 def summarize_detections(detections: list[dict[str, Any]]) -> dict[str, Any]:

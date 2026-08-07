@@ -40,3 +40,5 @@ artifacts/dataset-audit/contact-sheet-*.jpg
 artifacts/server/inference/server.log
 artifacts/server/inference/server.pid
 artifacts/local/
+artifacts/diagnostics/
+artifacts/experiments/independent-field-calibration-10-13-v2/class13-grasshopper-v1/

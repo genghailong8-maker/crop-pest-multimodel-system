@@ -1,0 +1,94 @@
+{
+  "checkpoint_id": "phase5-live-20260807",
+  "created_at": "2026-08-07T11:13:43.962108+00:00",
+  "project_root": "/root/autodl-tmp/crop-pest-system",
+  "service": {
+    "health": {
+      "status": "ok",
+      "model": "best.pt",
+      "model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+      "device": "0",
+      "image_size": 640,
+      "class_count": 16,
+      "routing": {
+        "mode": "shadow",
+        "reclassify": false,
+        "score_mode": "keep",
+        "candidate_confidence": 0.05,
+        "background_threshold": 0.9,
+        "target_threshold": 0.15,
+        "threshold10": 0.15,
+        "threshold13": 0.15,
+        "temperature10": 1.25,
+        "temperature13": 0.75,
+        "class10_expert_threshold": 0.0,
+        "models": {
+          "main": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071"
+          },
+          "class10_detector": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49"
+          },
+          "crop_classifier": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c"
+          }
+        }
+      }
+    },
+    "pid": 3381,
+    "cwd": "/root/autodl-tmp/crop-pest-system"
+  },
+  "gpu": "NVIDIA GeForce RTX 5090, 32607 MiB, 731 MiB, 0 %",
+  "models": [
+    {
+      "role": "main",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/server/inference/weights/official-plus-public-weak-v1-e120-b64/best.pt",
+      "exists": true,
+      "size_bytes": 5394821,
+      "sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071"
+    },
+    {
+      "role": "class10_detector",
+      "path": "/root/autodl-tmp/crop-pest-system/runs/detect/weak-expert-v2-full-public10-ft-freeze10-lr1e4-e18-b64/weights/best.pt",
+      "exists": true,
+      "size_bytes": 5383365,
+      "sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49"
+    },
+    {
+      "role": "crop_classifier",
+      "path": "/root/autodl-tmp/crop-pest-system/runs/detect/pairwise-crop-cls-10-13-v5-e30-b128/weights/best.pt",
+      "exists": true,
+      "size_bytes": 3189762,
+      "sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c"
+    }
+  ],
+  "data": [
+    {
+      "path": "/root/autodl-tmp/crop-pest-system/data/official",
+      "exists": true,
+      "bytes": 631561
+    },
+    {
+      "path": "/root/autodl-tmp/crop-pest-system/data/experiments/independent-field-calibration-10-13-v2",
+      "exists": true,
+      "bytes": 9070797
+    },
+    {
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/server/inference",
+      "exists": true,
+      "bytes": 15989064
+    }
+  ],
+  "project_bytes": 6468154623,
+  "routing_decision": "shadow_only; active_not_allowed_before_frozen_gate_and_web_benchmark",
+  "resume": "reconnect to the same host, verify health/hash/GPU, then continue local web e2e and benchmark."
+}
