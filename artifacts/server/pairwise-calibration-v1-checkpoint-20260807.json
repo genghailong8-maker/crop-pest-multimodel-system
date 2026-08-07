@@ -1,0 +1,26 @@
+{
+  "created_at": "2026-08-07T10:05:00+08:00",
+  "server": "ssh -p 10373 root@connect.bjb2.seetacloud.com",
+  "main_model": "official-plus-public-weak-v1-e120-b64",
+  "classifier": "pairwise-crop-cls-10-13-v5-e30-b128",
+  "report": "artifacts/experiments/pairwise-calibration-v1/report.json",
+  "report_sha256": "993c0cb15adee0f8de58439beaea03fa76ecf1f5b210a9b40800270dbd42d620",
+  "method": "leakage-safe internal tuning followed by frozen official validation; independent class-10/13 temperatures and operating thresholds",
+  "grid": {
+    "reranker_configs": 126,
+    "top_configs": 12,
+    "temperature_values": [0.75, 1.0, 1.25],
+    "operating_thresholds": [0.15, 0.25, 0.35, 0.45, 0.55, 0.65],
+    "calibration_candidates": 3888
+  },
+  "result": {
+    "tune_acceptable_count": 0,
+    "frozen_acceptable": false,
+    "decision": "keep_current_main_model",
+    "best_unconstrained_frozen_map50_95": 0.526735812826739,
+    "baseline_frozen_map50_95": 0.5324366372648117,
+    "best_unconstrained_class10_map50_95": 0.2946265982285181,
+    "best_unconstrained_class13_map50_95": 0.2764578639697834,
+    "note": "The internal tuning split overfits; no calibrated thresholds are promoted. More independent reviewed 10/13 data is required."
+  }
+}
