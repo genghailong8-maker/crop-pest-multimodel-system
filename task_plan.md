@@ -6,11 +6,11 @@
 
 ## Next Step
 
-Phase 5 的服务器推理链、真实网页图片 E2E、基准测量以及全量证据固化均已完成；Phase 6 的 16 类安全知识卡片、来源登记、可解释输出和人工复核审计闭环也已完成。当前 `active` 仍禁止，第二轮校准已严格拒绝新配置并保留当前主模型，不启动重训。下一步进入 Phase 7，固化比赛材料、演示流程、离线容错和最终复现检查。
+Phase 5 的服务器推理链、真实网页图片 E2E、基准测量以及全量证据固化均已完成；Phase 6 的 16 类安全知识卡片、来源登记、可解释输出和人工复核审计闭环也已完成；Phase 7 的比赛材料、演示/离线容错、最终回归和公开边界审核已完成。当前 `active` 仍禁止，第二轮校准已严格拒绝新配置并保留当前主模型，不启动重训。下一步仅在用户需要时进行答辩材料细化、服务器关机或新的独立数据实验。
 
 ## Current Phase
 
-Phase 6 — 防治知识与可信交互（complete）；下一入口为 Phase 7 比赛材料与最终交付
+Phase 7 — 比赛材料与最终交付（complete）；材料、演示容错、最终回归和公开边界审核已完成
 
 ## Resume Protocol
 
@@ -103,11 +103,11 @@ Phase 6 — 防治知识与可信交互（complete）；下一入口为 Phase 7 
 
 ### Phase 7: 比赛材料与最终交付
 
-- [ ] 完成系统架构、数据治理、实验对比和创新点材料
-- [ ] 固化演示流程和离线容错方案
-- [ ] 完成最终回归测试与复现检查
-- [ ] 审核公开仓库和比赛提交包
-- **Status:** pending
+- [x] 完成系统架构、数据治理、实验对比和创新点材料（含答辩幻灯片提纲）
+- [x] 固化演示流程和离线容错方案（含真实识别和无模型降级路径）
+- [x] 完成最终回归测试与复现检查
+- [x] 审核公开仓库和比赛提交包
+- **Status:** complete（材料五件套、标准库复现门、服务探测和发布边界检查均通过；active 仍禁止）
 
 ## Decision Gates
 
@@ -171,6 +171,7 @@ Phase 6 — 防治知识与可信交互（complete）；下一入口为 Phase 7 
 | 使用 `Start-Process` 重启本地后端被安全策略拦截 | 1 | 只停止已确认的本地 PID，改用 detached Python 子进程恢复 8000 端口并验证健康接口 |
 | PowerShell `Get-NetTCPConnection` 不接受端口数组 | 1 | 改用逐端口 HTTP 探测和单端口查询，未影响服务状态 |
 | 在 `web` 工作目录读取 `web/package.json` | 1 | 纠正为当前目录的 `package.json`，随后 lint/build/test 均通过 |
+| Phase 7 GitHub push 与只读 `git ls-remote` 遇到 HTTPS 连接重置/不可达 | 2 | 停止重复网络尝试；本地 Phase 7 commit 完整保留，网络恢复后 fast-forward 推送 |
 
 ## Notes
 
@@ -186,6 +187,15 @@ Phase 6 — 防治知识与可信交互（complete）；下一入口为 Phase 7 
 - 公开仓库：`https://github.com/genghailong8-maker/crop-pest-multimodel-system`
 - 草稿 PR：`https://github.com/genghailong8-maker/crop-pest-multimodel-system/pull/1`
 - 关机检查点：`artifacts/server/shutdown-checkpoint-20260807.json`
-- 当前本地分支可能领先远程；恢复时由 `git status --short --branch` 判断并在网络可用后补推。
+- 当前本地分支在 Phase 7 本地提交后领先远程 1 个 commit；`git push origin codex/publish-audits-and-calibration-plan` 因 GitHub HTTPS 连接重置未完成，网络恢复后补推本阶段 commit。
 - 规划文件是后续对话的首要上下文来源；任何关键发现应写入文件，而不是只保留在聊天中。
 - 2026-08-10 Phase 5 恢复与收尾：SSH `connect.bjb2.seetacloud.com:10373` 已重新可用，RTX 5090 当前约 729 MiB 显存占用；远程推理服务已以 `shadow` 启动，三份模型均已加载且 SHA-256 与关机检查点一致。网页真实图片 E2E、准确率/延迟/吞吐/显存/模型大小测量及全量监控/配置/指标/权重固化均已完成；证据清单为 `artifacts/server/phase5-full-evidence-20260810.json`，`active` 仍禁止，下一步进入 Phase 6。
+
+## Phase 7 Completion — 2026-08-10
+
+- 比赛材料已固化：`docs/competition/architecture-and-innovation.md`、`demo-runbook.md`、`reproducibility-checklist.md`、`presentation-outline.md`、`submission-package.md`；README 已提供入口和复现命令。
+- 演示流程覆盖本机后端、网页、远程推理隧道、知识/复核展示、训练监控，以及后端不可达、模型不可用、远程超时时的安全降级。真实识别仍以 Phase 5 已留存的浏览器 E2E 证据为准，当前 runtime 复核再次确认推理服务 16 类、三模型加载、shadow 路由。
+- `scripts/final_repro_check.py --require-services` 通过：必需文件 20/20、知识契约 16 类/4 来源、Phase 5 证据与 16 类/3,321/833/101/85 口径一致、active 禁止、公开边界无禁用跟踪文件、后端/知识接口/推理隧道/网页均可达。
+- 回归结果：backend `9 passed`（1 个既有 Starlette 弃用警告）；web `npm test` 通过（构建 + 3 路由渲染）；web lint `0 errors`、3 个既有 `<img>` warnings；相关 Python `py_compile` 和 `git diff --check` 通过。
+- 生成的复现 JSON 保存在被忽略的 `artifacts/release/` 下，作为本机运行证据，不进入公开提交；拟提交范围仅包含代码、材料、规划和可公开元数据。用户未跟踪的 `CLAUDE.md` 仍不修改、不暂存。
+- Git 提交已创建（本阶段本地 commit，推送待网络恢复）；首次 push 与随后一次 `git ls-remote` 均因 `github.com:443` 连接失败/重置停止重试，未发生远端部分写入。

@@ -31,6 +31,7 @@
 - `training/`：视觉模型训练与服务器运行脚本。
 - `inference/`：服务器 GPU 推理服务、启动脚本和本机 SSH 隧道。
 - `artifacts/dataset-audit/`：数据质量审计结果。
+- `docs/competition/`：比赛架构、数据治理、演示、复现和提交包材料。
 
 ## 本机运行
 
@@ -66,4 +67,16 @@ npm.cmd run dev
 
 官方原始数据保持只读。`data/official/splits/quarantine-conflicting-labels.txt` 只记录冲突文件，不会删除或改写数据。
 
-官方知识库目前为空，因此在补充权威来源前，系统不会生成具体药剂名称、剂量或安全间隔。官方病害样本中的目标框多为病叶范围，也不会直接把框面积等同于病斑严重度。
+知识契约已登记 16 类卡片和原则级 IPM/绿色防控来源，但不会从图像结果生成具体药剂名称、剂量、混配或安全间隔；这些信息必须来自当地现行标签和植保人员。官方病害样本中的目标框多为病叶范围，也不会直接把框面积等同于病斑严重度。
+
+## Phase 7 比赛交付
+
+- 比赛材料：`docs/competition/architecture-and-innovation.md`、`demo-runbook.md`、`reproducibility-checklist.md`、`presentation-outline.md`、`submission-package.md`。
+- 最终复现与公开边界审计：
+
+  ```powershell
+  $py = "C:\Users\genghailong\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
+  & $py scripts\final_repro_check.py --output artifacts\release\final-repro-check-20260810.json
+  ```
+
+  默认只做静态门并可离线运行；需要强制检查本机后端、推理隧道和网页时追加 `--require-services`。正式性能仍以服务器证据清单为准，当前路由保持 `shadow`。

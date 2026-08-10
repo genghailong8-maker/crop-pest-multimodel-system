@@ -438,3 +438,24 @@
 - A first combined restart command using `Start-Process` was blocked by local policy; an alternate detached Python child process was used after stopping only the known local backend PID. The server was restored on port 8000 and verified.
 - A PowerShell `Get-NetTCPConnection` check passed an unsupported port array and returned no result; the check was replaced by individual HTTP probes and a single-port query.
 - One lint command attempted `Get-Content web/package.json` while already in the `web` directory; this was a path-only command error, and the corrected lint/build/test commands passed.
+
+## Phase 7 Start — 2026-08-10
+
+- **Status:** in_progress. Confirmed the worktree is clean except for user-owned `?? CLAUDE.md`; branch `codex/publish-audits-and-calibration-plan` is aligned with origin before Phase 7 edits.
+- Added four competition-ready Markdown artifacts under `docs/competition/`: architecture/data governance/innovation, 5-minute demo and offline fallback, final reproducibility checklist, and public submission-package boundary.
+- Added `scripts/final_repro_check.py`, a stdlib-only static gate with optional local runtime probes. It checks the 16-class knowledge contract, Phase 5 scope/metrics/shadow gate, required evidence files, and forbidden tracked artifacts.
+- Updated `README.md` and `.gitignore` with the Phase 7 entry point and generated-report boundary. The generated report path is `artifacts/release/final-repro-check-20260810.json` and remains a local ignored artifact.
+- Next actions: run syntax/static check, backend and web regression, optional live service probes, inspect the generated report, then update all three planning files and publish only intended tracked files.
+
+### Phase 7 command note
+
+- An initial read-only inspection used a root-level `.venv\Scripts\python.exe` path that does not exist; no files were changed. Subsequent checks use the bundled Codex Python path recorded in the competition checklist.
+
+## Phase 7 Completion — 2026-08-10
+
+- **Status:** complete locally; GitHub push is pending network recovery. Added five competition materials under `docs/competition/` and linked them from `README.md`.
+- The demo runbook now includes explicit remote endpoint environment variables, health probes, a five-minute script, and offline behavior for backend/model/tunnel failures. It forbids fabricated detections, stale-case reuse, automatic active approval, and concrete chemical instructions.
+- `scripts/final_repro_check.py --require-services` returned `passed=True`: required files 20/20, knowledge/Phase5/public-boundary/runtime sections all true; runtime probes `[True, True, True, True]`.
+- Regression evidence: backend `9 passed`; web build/render test `3 passed`; lint `0 errors` with the existing three image warnings; `py_compile` and `git diff --check` passed.
+- The local service was not reconfigured or restarted during Phase 7. Its health endpoint is reachable but reports `detector_mode=unconfigured`; the remote inference tunnel remains healthy in shadow mode. This preserves the documented offline fallback and does not alter server weights or routing.
+- Staged only the Phase 7 files and planning updates (never `CLAUDE.md`), reran the report after staging and after commit, and created the local Phase 7 commit. `git push` and a subsequent `git ls-remote` both failed at `github.com:443` (connection reset/unreachable); no remote partial write occurred. Network recovery only requires pushing the local branch's one leading commit.

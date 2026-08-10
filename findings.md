@@ -275,6 +275,23 @@
 - Validation: backend `9 passed` with one pre-existing Starlette deprecation warning; web `npm test` passed (build + 3 rendered routes); web lint has `0 errors` and the same 3 existing `<img>` warnings; live 8000 `/health`, `/api/catalog/knowledge`, and `/api/cases/review-queue` returned successfully.
 - This Phase 6 slice does not require GPU/server training. The remote inference service remains untouched in `shadow` mode; no active-route or weight change was made.
 
+## Phase 7 Start — 2026-08-10
+
+- Phase 7 已进入 `in_progress`。本阶段目标是把已验证的系统事实整理成比赛材料，固化可重复的 5 分钟演示和离线降级行为，并以标准库脚本完成最终复现/公开边界门。
+- 已创建 `docs/competition/architecture-and-innovation.md`、`demo-runbook.md`、`reproducibility-checklist.md`、`submission-package.md`；材料明确官方 3,321/833 划分、独立 101/85 门控、4 个保留模型角色、主模型冻结指标和 shadow-only 决策。
+- 已创建 `scripts/final_repro_check.py`。脚本不依赖第三方 Python 包，静态检查知识契约、Phase 5 全量证据、必需文件和 Git 跟踪边界；后端/推理/网页探测为可选项，`--require-services` 才会把不可达视为失败。
+- Phase 7 文档与静态复现检查不需要 GPU；真实网页识别仍需要可用的推理服务或兼容远程端点。当前没有授权启动训练、切换 active 或改写服务器权重。
+- 公开边界继续执行 `PUBLICATION_POLICY.md`；`CLAUDE.md` 仍是用户工作区内未跟踪文件，不修改、不加入提交包。
+
+## Phase 7 Completion — 2026-08-10
+
+- **Status:** complete. 比赛材料五件套已完成：架构/数据治理/创新、5 分钟演示与离线容错、最终复现清单、答辩幻灯片提纲、公开提交包边界。
+- `scripts/final_repro_check.py --require-services` 通过：20 个必需文件存在；知识契约 16 类、4 来源、化学边界存在；Phase 5 证据的官方 3,321/833、独立 101/85、4 个保留模型角色和 `active_routing_allowed=false` 一致；Git 禁止跟踪文件 0；后端、知识接口、推理隧道和网页全部可达。
+- 回归：backend `9 passed`（1 个既有 Starlette 弃用警告）；web `npm test` 3/3 通过；web lint 0 errors、3 个既有 `<img>` warnings；Python 编译和 `git diff --check` 通过。
+- 当前本机后端健康接口显示 `detector_mode=unconfigured`，这是离线/无环境变量进程的安全降级状态；推理隧道仍报告 16 类、三模型加载、`shadow`。真实识别演示使用 `demo-runbook.md` 中的 `CROP_DETECTOR_ENDPOINT=http://127.0.0.1:8870/v1/detect` 启动方式，并以 Phase 5 已保存的真实网页 E2E 作为准确率之外的链路证据。
+- 生成报告写入被忽略的 `artifacts/release/`，不进入公开提交；`CLAUDE.md` 仍保持未跟踪原样。
+- Phase 7 本地提交已创建；`git push origin codex/publish-audits-and-calibration-plan` 与一次只读 `git ls-remote` 均受到当前 GitHub HTTPS 连接重置/不可达影响，停止重试，远端未发生部分写入。网络恢复后只需 fast-forward 推送本地领先的 1 个 commit。
+
 ## Phase 5 Live Resume — 2026-08-10
 
 - Server `connect.bjb2.seetacloud.com:10373` is reachable again. RTX 5090 reports 32,607 MiB total and about 729 MiB used while the inference service is idle.
