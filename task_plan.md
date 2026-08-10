@@ -6,7 +6,7 @@
 
 ## Next Step
 
-Phase 5 已完成服务器推理链的第一步，并已保存 `artifacts/server/phase5-live-checkpoint-20260807.json` 与 `artifacts/server/phase5-shutdown-task-nodes-20260807.json`：当前主模型、类 10 检测专家和类 10/13 crop 专家已接入，默认以 shadow 运行并保留主模型结果。服务器已在停止推理进程、确认 GPU 0 MiB 后关机，远端 SSH 已不可达。下次从本机网页真实图片验证继续，再测量路由链的准确率、延迟、吞吐、显存和模型大小。第二轮校准已严格拒绝新配置并保留当前主模型；不启动重训。服务器恢复时先核对关机检查点、GPU、健康状态和三份权重 SHA-256。
+Phase 5 的服务器推理链、真实网页图片 E2E 和基准测量均已完成：主模型、类 10 检测专家和类 10/13 crop 专家以 `shadow` 运行并保留主模型结果；网页样本、路由压测、RTX 5090 主模型 PT 基准、显存和模型大小证据分别保存在 `artifacts/server/phase5-benchmark-20260810-route.json` 与 `artifacts/server/phase5-benchmark-20260810-main-pt.json`。当前下一步是固化 Phase 5 的监控、配置、指标和权重证据，并保持 `active` 禁止；第二轮校准已严格拒绝新配置并保留当前主模型，不启动重训。服务器恢复时仍先核对关机检查点、GPU、健康状态和三份权重 SHA-256。
 
 ## Current Phase
 
@@ -88,10 +88,10 @@ Phase 5 — 多模型协同生产集成（in_progress）
 
 - [x] 将主检测器与类 10/13 专家模型接入服务器推理链
 - [x] 根据校准结果实现逐类阈值与专家路由（默认 shadow，active 需显式开启）
-- [ ] 在网页完成真实图片端到端识别验证
-- [ ] 测量准确率、延迟、吞吐、显存和模型大小
+- [x] 在网页完成真实图片端到端识别验证（`phase5-e2e-class10.jpg`，本地网页→FastAPI→远程 shadow 推理链路成功）
+- [x] 测量准确率、延迟、吞吐、显存和模型大小（官方冻结验证集 + RTX 5090 主模型基准 + shadow 路由 HTTP 压测）
 - [ ] 所有实验接入实时监控并保留配置、指标、权重
-- **Status:** in_progress（已保存服务器检查点，等待网页验证与基准测量）
+- **Status:** in_progress（网页 E2E、基准测量和本轮 checkpoint 已完成；active 仍不允许，下一步完成全量监控/配置/指标/权重固化）
 
 ### Phase 6: 防治知识与可信交互
 
@@ -184,3 +184,4 @@ Phase 5 — 多模型协同生产集成（in_progress）
 - 关机检查点：`artifacts/server/shutdown-checkpoint-20260807.json`
 - 当前本地分支可能领先远程；恢复时由 `git status --short --branch` 判断并在网络可用后补推。
 - 规划文件是后续对话的首要上下文来源；任何关键发现应写入文件，而不是只保留在聊天中。
+- 2026-08-10 Phase 5 恢复：SSH `connect.bjb2.seetacloud.com:10373` 已重新可用，RTX 5090 当前约 729 MiB 显存占用；远程推理服务已以 `shadow` 启动，三份模型均已加载且 SHA-256 与关机检查点一致。网页真实图片 E2E、准确率/延迟/吞吐/显存/模型大小测量已完成；下一步固化监控/配置/指标/权重，`active` 仍禁止。

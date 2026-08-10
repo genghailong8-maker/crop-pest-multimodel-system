@@ -240,3 +240,16 @@
 ---
 
 每进行 2 次新的网页、PDF、图片或搜索查看后，应立即把关键结论补充到本文件。
+
+## Phase 5 Live Resume — 2026-08-10
+
+- Server `connect.bjb2.seetacloud.com:10373` is reachable again. RTX 5090 reports 32,607 MiB total and about 729 MiB used while the inference service is idle.
+- Remote `/health` is `status=ok`, `class_count=16`, `image_size=640`, `routing.mode=shadow`; main, class-10 detector, and crop classifier are all loaded. Their SHA-256 values match the saved shutdown checkpoint (`cbb26d83…`, `95a03f1d…`, `9804458d…`).
+- The local tunnel, FastAPI backend, and web server are running for the real-image browser E2E. Active routing remains disallowed until the requested measurements are completed and reviewed.
+- Real browser E2E succeeded through the user-facing form using `artifacts/incoming/phase5-e2e-class10.jpg` (640×640). The UI reported acceptable quality, `0` selected detections, `1` shadow expert candidate, and `42 ms` routing time; the case was saved as `3850f4500d164c4cb6562a8f96ef09bc` with status `detected`.
+- The saved case records remote request-model time `122.671 ms`, routing `41.638 ms`, crop-expert `23.156 ms`, class-10 detector `15.741 ms`; shadow decision preserved the main model result. The routed candidate had crop support background `0.988147` and class-10 support `8:0.421973`, so active routing must remain disabled.
+- Benchmark evidence is saved as `artifacts/server/phase5-benchmark-20260810-route.json` and `artifacts/server/phase5-benchmark-20260810-main-pt.json`. The production shadow route completed 20/20 sequential requests (mean wall 121.501 ms, p95 142.248 ms, 8.082 req/s) and 24/24 requests with 4 workers (wall p95 233.521 ms, 29.572 req/s); all responses remained `routing.mode=shadow`.
+- Standalone main PT benchmark on RTX 5090 (10 iterations after 3 warmups) measured batch-1 mean 5.256 ms / 190.246 images/s, batch-8 21.026 ms / 380.474 images/s, and batch-32 86.730 ms / 368.962 images/s. GPU idle was 497.75 MiB and benchmark global peak was 2,587.94 MiB (delta 2,090.19 MiB).
+- Current three-model service idle memory is 729 MiB on the 32,607 MiB RTX 5090. Model sizes: main PT 5,394,821 bytes (5.145 MiB), class-10 PT 5,383,365 bytes (5.134 MiB), crop PT 3,189,762 bytes (3.042 MiB), combined PT 13.321 MiB; main ONNX 10,591,452 bytes (10.101 MiB).
+- Accuracy remains the fixed official 833-image frozen validation result for the main model: precision 0.839196, recall 0.776205, mAP50 0.827517, mAP50-95 0.548224. The single real field image has no ground-truth annotation, so it is an E2E/latency sample rather than an accuracy estimate. Active routing remains disallowed because the independent frozen calibration gate was rejected (`frozen_acceptable=false`) and the observed candidate's background support was 0.988147.
+- A consolidated Phase 5 checkpoint is saved at `artifacts/server/phase5-benchmark-checkpoint-20260810.json`, including server health, routing configuration, model hashes/sizes, web case evidence, benchmark summaries, and evidence SHA-256 values. The remaining Phase 5 item is full experiment monitoring/configuration persistence; no active-route switch is authorized.

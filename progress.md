@@ -378,3 +378,29 @@
 - [x] 固定 tune/test 并执行第二轮类 10/13 校准。
 - [x] 更新三个规划文件并汇报已完成工作与下一步。
 - [x] 类 13 自动审计、近重复视觉核对、复核画廊和严格终结门已完成；用户已确认 142 条复核决定。
+
+## Phase 5 Server Resume — 2026-08-10
+
+- Status: in_progress; server restored and validated, with inference service running in shadow mode.
+- Verified: SSH connectivity, RTX 5090 (32,607 MiB total; ~729 MiB used), health `ok`, 16 classes, 640px input, and all three model hashes against the shutdown checkpoint.
+- Local test surface: tunnel `127.0.0.1:8870`, backend health `127.0.0.1:8000`, web `http://127.0.0.1:3000/`.
+- Current action: persist Phase 5 monitoring/configuration/metrics/weight evidence after completing E2E and benchmark measurements. Do not enable active routing.
+- Browser tab at `localhost:3000` completed the real-image submission; case `3850f4500d164c4cb6562a8f96ef09bc` is saved as `detected`.
+- The production `vinext start` surface returned 404 for its client asset and could not hydrate; it was stopped. The same app is now served with `vinext dev` on `localhost:3000` for the requested browser E2E (no source-code change).
+- Browser E2E checkpoint: `phase5-e2e-class10.jpg` uploaded successfully, preview rendered, the recognition button is enabled, and the form remains connected to the local backend.
+
+## Phase 5 Real Web E2E — 2026-08-10
+
+- Completed a real user-facing browser submission on `localhost:3000` with `artifacts/incoming/phase5-e2e-class10.jpg`, temperature 26°C, humidity 68%, and an explicit shadow-only note.
+- Case `3850f4500d164c4cb6562a8f96ef09bc` reached `detected`; quality passed at 640×640 (brightness 82.02, contrast 47.52, edge energy 45.26).
+- UI/result evidence: 0 selected detections, 1 shadow expert candidate, routing shadow, 41.638 ms routing; remote request-model time 122.671 ms. The candidate was retained as `shadow_keep`; active routing was not enabled.
+- The production `vinext start` client-asset issue was isolated to the local serving mode and worked around for this test with `vinext dev`; no repository source change was made.
+
+## Phase 5 Benchmark & Routing Gate — 2026-08-10
+
+- Saved route benchmark: `artifacts/server/phase5-benchmark-20260810-route.json`. Sequential 20/20 succeeded (mean wall 121.501 ms, p95 142.248 ms, 8.082 req/s); 4-worker concurrency 24/24 succeeded (wall p95 233.521 ms, 29.572 req/s).
+- Saved main PT benchmark: `artifacts/server/phase5-benchmark-20260810-main-pt.json`. Batch 1/8/32 throughput was 190.246/380.474/368.962 images/s; standalone GPU peak 2,587.94 MiB from 497.75 MiB idle.
+- Model-size evidence: main PT 5.145 MiB, class-10 PT 5.134 MiB, crop PT 3.042 MiB, combined PT 13.321 MiB, main ONNX 10.101 MiB. Service after restart reports 729 MiB used and `status=ok` with all three hashes matching the checkpoint.
+- Accuracy evidence is the fixed official frozen validation result (833 images): mAP50 0.827517, mAP50-95 0.548224, precision 0.839196, recall 0.776205. The unlabeled field E2E image is not counted as accuracy.
+- Gate decision: keep `active` disabled; leave remote service in `shadow` and proceed to Phase 5 monitoring/configuration/metrics/weight persistence.
+- Consolidated checkpoint: `artifacts/server/phase5-benchmark-checkpoint-20260810.json`; this records the current live configuration, model assets, web case, benchmarks, accuracy basis, and routing gate. The service was restarted after the clean standalone benchmark and rechecked healthy in shadow mode.

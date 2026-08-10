@@ -1,0 +1,99 @@
+{
+  "created_at": "2026-08-10T02:10:50Z",
+  "phase": "phase5",
+  "status": "shadow_only",
+  "server": {
+    "ssh_host": "connect.bjb2.seetacloud.com",
+    "ssh_port": 10373,
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "gpu_memory_total_mib": 32607,
+    "gpu_memory_service_idle_mib": 729
+  },
+  "health": {
+    "status": "ok",
+    "class_count": 16,
+    "image_size": 640,
+    "routing_mode": "shadow",
+    "reclassify": false,
+    "score_mode": "keep",
+    "candidate_confidence": 0.05,
+    "background_threshold": 0.9,
+    "threshold10": 0.15,
+    "threshold13": 0.15,
+    "temperature10": 1.25,
+    "temperature13": 0.75
+  },
+  "model_assets": {
+    "main_pt": {
+      "sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+      "size_bytes": 5394821,
+      "size_mib": 5.1449022293
+    },
+    "class10_detector_pt": {
+      "sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49",
+      "size_bytes": 5383365,
+      "size_mib": 5.1339769363
+    },
+    "crop_classifier_pt": {
+      "sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c",
+      "size_bytes": 3189762,
+      "size_mib": 3.0419940948
+    },
+    "main_onnx": {
+      "sha256": "048b9050caa2db6389881865fe16818968e75d3f11fd288d4fa6a88181a258e2",
+      "size_bytes": 10591452,
+      "size_mib": 10.1007957458
+    },
+    "combined_production_pt_size_mib": 13.3208732605
+  },
+  "web_case": {
+    "id": "3850f4500d164c4cb6562a8f96ef09bc",
+    "image": "artifacts/incoming/phase5-e2e-class10.jpg",
+    "status": "detected",
+    "quality_acceptable": true,
+    "selected_detection_count": 0,
+    "shadow_candidate_count": 1,
+    "routing_ms": 41.638,
+    "request_model_ms": 122.671,
+    "active_routing": false
+  },
+  "benchmarks": {
+    "route": {
+      "artifact": "artifacts/server/phase5-benchmark-20260810-route.json",
+      "sequential_success": "20/20",
+      "sequential_mean_wall_ms": 121.501,
+      "sequential_p95_wall_ms": 142.248,
+      "sequential_throughput_rps": 8.082,
+      "concurrent_success": "24/24",
+      "concurrent_workers": 4,
+      "concurrent_p95_wall_ms": 233.521,
+      "concurrent_throughput_rps": 29.572
+    },
+    "main_pt": {
+      "artifact": "artifacts/server/phase5-benchmark-20260810-main-pt.json",
+      "gpu_idle_mib": 497.75,
+      "gpu_global_peak_mib": 2587.9375,
+      "batch1_throughput_images_per_second": 190.246,
+      "batch8_throughput_images_per_second": 380.474,
+      "batch32_throughput_images_per_second": 368.962
+    },
+    "official_frozen_accuracy": {
+      "images": 833,
+      "precision": 0.839196,
+      "recall": 0.776205,
+      "map50": 0.827517,
+      "map50_95": 0.548224
+    }
+  },
+  "routing_gate": {
+    "decision": "keep_shadow",
+    "active_allowed": false,
+    "reason": "independent frozen calibration gate rejected; real field image is unlabeled and observed crop background support was 0.988147"
+  },
+  "evidence_sha256": {
+    "route_benchmark": "c9f0acbdf1519473fdda10fe7b7569a9a3d6eb668b60cc522487d06f9d653599",
+    "main_pt_benchmark": "f7f32d423b46a5a52f2232c9ae904b0c1bd475dfe3061bb45899e2f792974c44",
+    "live_checkpoint": "e822347a1e59de04d924751fd5b94ebfa79cfd2feb94d83d085fafb55f9b4866",
+    "shutdown_task_nodes": "09978d42b9a6cf1ab5b447b85dfff9c14bef72e5ad306228f8fab904a9c3ab43"
+  }
+}
