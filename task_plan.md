@@ -6,11 +6,11 @@
 
 ## Next Step
 
-Phase 5 的服务器推理链、真实网页图片 E2E 和基准测量均已完成：主模型、类 10 检测专家和类 10/13 crop 专家以 `shadow` 运行并保留主模型结果；网页样本、路由压测、RTX 5090 主模型 PT 基准、显存和模型大小证据分别保存在 `artifacts/server/phase5-benchmark-20260810-route.json` 与 `artifacts/server/phase5-benchmark-20260810-main-pt.json`。当前下一步是固化 Phase 5 的监控、配置、指标和权重证据，并保持 `active` 禁止；第二轮校准已严格拒绝新配置并保留当前主模型，不启动重训。服务器恢复时仍先核对关机检查点、GPU、健康状态和三份权重 SHA-256。
+Phase 5 的服务器推理链、真实网页图片 E2E、基准测量以及全量证据固化均已完成：主模型、类 10 检测专家和类 10/13 crop 专家以 `shadow` 运行并保留主模型结果；网页样本、路由压测、RTX 5090 主模型 PT 基准、显存、模型大小、实时训练监控快照、配置和权重哈希统一保存在 `artifacts/server/phase5-full-evidence-20260810.json` 及其引用的证据文件中。当前 `active` 仍禁止，第二轮校准已严格拒绝新配置并保留当前主模型，不启动重训。下一步进入 Phase 6，完善防治知识、可解释输出和人工复核闭环。
 
 ## Current Phase
 
-Phase 5 — 多模型协同生产集成（in_progress）
+Phase 5 — 多模型协同生产集成（complete）；下一入口为 Phase 6 防治知识与可信交互
 
 ## Resume Protocol
 
@@ -90,8 +90,8 @@ Phase 5 — 多模型协同生产集成（in_progress）
 - [x] 根据校准结果实现逐类阈值与专家路由（默认 shadow，active 需显式开启）
 - [x] 在网页完成真实图片端到端识别验证（`phase5-e2e-class10.jpg`，本地网页→FastAPI→远程 shadow 推理链路成功）
 - [x] 测量准确率、延迟、吞吐、显存和模型大小（官方冻结验证集 + RTX 5090 主模型基准 + shadow 路由 HTTP 压测）
-- [ ] 所有实验接入实时监控并保留配置、指标、权重
-- **Status:** in_progress（网页 E2E、基准测量和本轮 checkpoint 已完成；active 仍不允许，下一步完成全量监控/配置/指标/权重固化）
+- [x] 所有实验接入实时监控并保留配置、指标、权重（训练监控 20 个运行、四个保留模型角色、实时健康探测及证据清单已固化）
+- **Status:** complete（`phase5-full-evidence-20260810.json` 已生成并校验；active 仍不允许）
 
 ### Phase 6: 防治知识与可信交互
 

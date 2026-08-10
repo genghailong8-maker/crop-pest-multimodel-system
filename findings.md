@@ -241,6 +241,17 @@
 
 每进行 2 次新的网页、PDF、图片或搜索查看后，应立即把关键结论补充到本文件。
 
+## Phase 5 Full Evidence — 2026-08-10
+
+- 已新增可重复采集脚本 `scripts/collect_phase5_evidence.py`，并生成统一证据清单 `artifacts/server/phase5-full-evidence-20260810.json`。最终清单大小 108,768 bytes，SHA-256 为 `753ff334045ddabbe99ba20db69df8155e0e56e1e742cd7316563a4697e0733a`；清单同时记录采集时的 Git 分支/提交、运行环境、证据文件 inventory 和各文件 SHA-256。
+- 采集时 `http://127.0.0.1:8870/health`（远程推理隧道）、`http://127.0.0.1:8000/health`（FastAPI）、`http://127.0.0.1:8765/health`（训练监控）以及 `http://localhost:3000/training`（网页训练监控入口）均可达；网页返回 HTTP 200。最新病例接口也可达，病例 `3850f4500d164c4cb6562a8f96ef09bc` 保留在清单中作为 E2E 追踪证据。
+- 训练监控由远程 `training/server/run_monitor.sh` 维持运行，`/api/training/status` 返回 20 个运行摘要和完整当前运行曲线。当前选中运行 `pairwise-crop-cls-10-13-v5-e30-b128` 已完成 30/30 epoch；RTX 5090 快照为 0% 利用率、729 MB/32607 MB 显存、27°C、约 4.64 W，GPU 历史采样随清单保存。
+- 生产配置已固化为 `routing.mode=shadow`、`reclassify=false`、`score_mode=keep`、候选阈值 0.05、背景阈值 0.90、目标阈值 0.15、`threshold10/13=0.15/0.15`、`temperature10/13=1.25/0.75`；三路模型均报告 `configured=true, loaded=true`。`active_routing_allowed=false`，在新的独立 frozen 门通过前不得切换。
+- 保留模型角色和权重证据：官方基线 PT `0443b179564564fce071b7595e1c4a68484a339230951c5e8cefe279af066192`；生产主模型 PT `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`（5,394,821 B）；类 10 检测专家 `95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49`（5,383,365 B）；类 10/13 crop 专家 `9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c`（3,189,762 B）；生产主模型 ONNX `048b9050caa2db6389881865fe16818968e75d3f11fd288d4fa6a88181a258e2`（10,591,452 B）。服务端 health 中的三份加载哈希与本地权重记录一致。
+- 指标证据仍以官方冻结 833 张验证集为准：主模型 precision `0.839196`、recall `0.776205`、mAP50 `0.827517`、mAP50-95 `0.548224`。主模型 PT 基准（RTX 5090，预热后 10 次）为 batch 1/8/32 吞吐 `190.246/380.474/368.962 images/s`，平均延迟 `5.256/21.026/86.730 ms`，全局显存峰值 `2,587.94 MiB`；shadow 路由压测 20/20 顺序成功（均值 121.501 ms、p95 142.248 ms、8.082 req/s），24/24 并发成功（p95 233.521 ms、29.572 req/s）。
+- 有效第二轮独立校准仍为拒绝：101 tune、85 frozen、3,888 个候选、36 个 tune-acceptable；选中配置在 frozen 上类 10 mAP50-95 从 `0.387952` 降至 `0.363993`，类 13 为 `0.0`，`frozen_acceptable=false`，决策 `keep_current_main_model`。因此本证据固化只记录参数，不将其晋级为 active。
+- 证据清单的完整一致性校验通过：四个模型角色及 ONNX 文件存在、加载哈希匹配，四个健康/网页探测均为 reachable，训练运行数为 20，路由为 shadow，独立 frozen 门为 false；当前唯一未跟踪工作区文件 `CLAUDE.md` 未纳入清单提交范围。
+
 ## Phase 5 Live Resume — 2026-08-10
 
 - Server `connect.bjb2.seetacloud.com:10373` is reachable again. RTX 5090 reports 32,607 MiB total and about 729 MiB used while the inference service is idle.

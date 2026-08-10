@@ -404,3 +404,16 @@
 - Accuracy evidence is the fixed official frozen validation result (833 images): mAP50 0.827517, mAP50-95 0.548224, precision 0.839196, recall 0.776205. The unlabeled field E2E image is not counted as accuracy.
 - Gate decision: keep `active` disabled; leave remote service in `shadow` and proceed to Phase 5 monitoring/configuration/metrics/weight persistence.
 - Consolidated checkpoint: `artifacts/server/phase5-benchmark-checkpoint-20260810.json`; this records the current live configuration, model assets, web case, benchmarks, accuracy basis, and routing gate. The service was restarted after the clean standalone benchmark and rechecked healthy in shadow mode.
+
+## Phase 5 Full Monitoring / Evidence — 2026-08-10
+
+- **Status:** complete. Added `scripts/collect_phase5_evidence.py` and ran it with the bundled Codex Python after `py_compile` passed. The final regeneration produced `artifacts/server/phase5-full-evidence-20260810.json` (108,768 bytes; SHA-256 `753ff334045ddabbe99ba20db69df8155e0e56e1e742cd7316563a4697e0733a`).
+- **Runtime checks:** inference tunnel `127.0.0.1:8870`, backend `127.0.0.1:8000`, training monitor `127.0.0.1:8765`, and web training page `localhost:3000/training` all returned reachable/HTTP 200. The collector stores the health payloads, routing configuration, latest case summary, model file hashes/sizes, benchmark summaries, calibration result, and a 85-file artifact inventory.
+- **Monitoring:** remote training monitor is running through `training/server/run_monitor.sh`; API returned 20 run summaries. The selected run `pairwise-crop-cls-10-13-v5-e30-b128` is completed at 30/30 epochs. The snapshot records RTX 5090 at 0% utilization, 729 MB/32607 MB, 27°C, ~4.64 W and the retained GPU history.
+- **Configuration/weights:** collector confirmed `routing.mode=shadow`, `reclassify=false`, `score_mode=keep`, candidate/background/target thresholds `0.05/0.90/0.15`, class-10/13 thresholds `0.15/0.15`, temperatures `1.25/0.75`, and all three service-loaded hashes match the local production PT records. Active routing remains forbidden.
+- **Metrics:** collector references official frozen 833-image accuracy (P `0.839196`, R `0.776205`, mAP50 `0.827517`, mAP50-95 `0.548224`), main PT batch benchmarks, and sequential/concurrent shadow-route pressure evidence. The valid independent calibration report is retained with `frozen_acceptable=false` and `keep_current_main_model`.
+- **Planning transition:** Phase 5 is now complete in `task_plan.md`; the next entry point is Phase 6 (防治知识与可信交互). No server shutdown was requested, so inference, monitor, tunnels and web surfaces remain available for the next step.
+
+### New error log entries
+
+- The first ad-hoc JSON inspection here-string accidentally left a `PY` marker in the Python stdin and ended with `NameError`; no artifact was modified. A corrected read-only inspection and the collector validation then completed successfully.
