@@ -184,4 +184,4 @@ Phase 5 — 多模型协同生产集成（complete）；下一入口为 Phase 6 
 - 关机检查点：`artifacts/server/shutdown-checkpoint-20260807.json`
 - 当前本地分支可能领先远程；恢复时由 `git status --short --branch` 判断并在网络可用后补推。
 - 规划文件是后续对话的首要上下文来源；任何关键发现应写入文件，而不是只保留在聊天中。
-- 2026-08-10 Phase 5 恢复：SSH `connect.bjb2.seetacloud.com:10373` 已重新可用，RTX 5090 当前约 729 MiB 显存占用；远程推理服务已以 `shadow` 启动，三份模型均已加载且 SHA-256 与关机检查点一致。网页真实图片 E2E、准确率/延迟/吞吐/显存/模型大小测量已完成；下一步固化监控/配置/指标/权重，`active` 仍禁止。
+- 2026-08-10 Phase 5 恢复与收尾：SSH `connect.bjb2.seetacloud.com:10373` 已重新可用，RTX 5090 当前约 729 MiB 显存占用；远程推理服务已以 `shadow` 启动，三份模型均已加载且 SHA-256 与关机检查点一致。网页真实图片 E2E、准确率/延迟/吞吐/显存/模型大小测量及全量监控/配置/指标/权重固化均已完成；证据清单为 `artifacts/server/phase5-full-evidence-20260810.json`，`active` 仍禁止，下一步进入 Phase 6。
