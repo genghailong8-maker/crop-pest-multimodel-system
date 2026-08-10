@@ -21,6 +21,39 @@ type Quality = {
   acceptable: boolean;
 };
 
+type KnowledgeCard = {
+  class_id: number;
+  name_zh: string;
+  name_en: string;
+  crop: string;
+  type: string;
+  observation_focus: string;
+  prevention: string[];
+  first_actions: string[];
+  source_ids: string[];
+  knowledge_scope: string;
+};
+
+type Explainability = {
+  schema_version: string;
+  decision_scope: string;
+  primary_class_id: number | null;
+  primary_class_name: string | null;
+  primary_confidence: number | null;
+  primary_confidence_band: "none" | "low" | "medium" | "high";
+  model_evidence: {
+    mode?: string | null;
+    model_sha256?: string | null;
+    speed_ms?: { request_model_ms?: number; routing_ms?: number } | null;
+    routing?: { mode?: string; candidate_count?: number; selected_candidate_count?: number } | null;
+    routing_is_shadow?: boolean;
+  };
+  knowledge_card: KnowledgeCard | null;
+  source_ids: string[];
+  human_review: { required: boolean; reasons: string[]; review_endpoint: string };
+  safety: { chemical_recommendations: string; requires_local_label_and_agronomist: boolean; boundary_version: string };
+};
+
 type DetectorSummary = {
   target_count: number | null;
   inference?: {
@@ -50,6 +83,7 @@ type DetectorSummary = {
   }>;
   needs_review: boolean;
   review_reasons: string[];
+  explainability?: Explainability;
 };
 
 type Analysis = {
@@ -77,7 +111,19 @@ type CaseRecord = {
   detections: Detection[] | null;
   detector_summary: DetectorSummary | null;
   analysis: Analysis | null;
-  review: Record<string, unknown> | null;
+  review: ReviewRecord | null;
+  review_events?: Array<{ event_id: string; recorded_at: string; decision: string; reviewer_id: string; notes: string }>;
+};
+
+type ReviewRecord = {
+  decision: "accepted" | "needs_more_evidence" | "rejected";
+  final_class_id?: number | null;
+  final_diagnosis?: string | null;
+  severity?: string;
+  accepted_detection_indexes: number[];
+  reviewer_notes: string;
+  reviewer_id: string;
+  reviewed_at: string;
 };
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
@@ -87,6 +133,7 @@ const statusLabels: Record<string, string> = {
   detected: "视觉识别完成",
   analyzed: "综合分析完成",
   reviewed: "人工复核完成",
+  review_pending: "等待人工复核",
   model_unavailable: "等待视觉模型",
   multimodal_unavailable: "等待多模态服务",
 };
@@ -135,6 +182,8 @@ export default function Home() {
   const [notes, setNotes] = useState("");
   const [busy, setBusy] = useState(false);
   const [analysisBusy, setAnalysisBusy] = useState(false);
+  const [reviewBusy, setReviewBusy] = useState(false);
+  const [reviewNotes, setReviewNotes] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const refreshCases = useCallback(async () => {
@@ -182,6 +231,7 @@ export default function Home() {
     setFile(selected);
     setPreviewUrl(selected ? URL.createObjectURL(selected) : null);
     setActiveCase(null);
+    setReviewNotes("");
     setError(null);
   }
 
@@ -239,12 +289,42 @@ export default function Home() {
     try {
       const response = await fetch(apiUrl(`/api/cases/${caseId}`));
       setActiveCase(await readJson<CaseRecord>(response));
+      setReviewNotes("");
       setFile(null);
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       setPreviewUrl(null);
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "记录读取失败");
+    }
+  }
+
+  async function submitReview(decision: "accepted" | "needs_more_evidence") {
+    if (!activeCase) return;
+    setReviewBusy(true);
+    setError(null);
+    const primary = summary?.primary_candidate;
+    const primaryIndex = primary ? detections.findIndex((item) => item.class_id === primary.class_id) : -1;
+    try {
+      const response = await fetch(apiUrl(`/api/cases/${activeCase.id}/review`), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          decision,
+          final_class_id: primary?.class_id ?? null,
+          accepted_detection_indexes: decision === "accepted" && primaryIndex >= 0 ? [primaryIndex] : [],
+          reviewer_notes: reviewNotes.trim(),
+          reviewer_id: "web-reviewer",
+        }),
+      });
+      const reviewed = await readJson<CaseRecord>(response);
+      setActiveCase(reviewed);
+      setReviewNotes("");
+      await refreshCases();
+    } catch (requestError) {
+      setError(requestError instanceof Error ? requestError.message : "人工复核保存失败");
+    } finally {
+      setReviewBusy(false);
     }
   }
 
@@ -435,6 +515,23 @@ export default function Home() {
                     </>
                   ) : <p>模型输出将在此形成候选类别和人工复核触发条件。</p>}
                 </article>
+
+                <article className="evidence-card explainability-card">
+                  <div className="card-kicker">可信边界</div>
+                  {summary?.explainability ? (
+                    <>
+                      <strong>{summary.explainability.primary_confidence_band === "none" ? "暂无可解释候选" : `置信度 ${summary.explainability.primary_confidence_band}`}</strong>
+                      <p>{summary.explainability.knowledge_card?.observation_focus ?? "请补充整株、近景和环境信息后再判断。"}</p>
+                      <div className="chip-row">
+                        <span className="chip warn">仅作候选线索</span>
+                        <span className="chip">不提供药剂剂量</span>
+                        {summary.explainability.model_evidence.routing?.mode && <span className="chip good">路由 {summary.explainability.model_evidence.routing.mode}</span>}
+                      </div>
+                      {summary.explainability.knowledge_card && <ul className="evidence-list">{summary.explainability.knowledge_card.first_actions.slice(0, 2).map((action) => <li key={action}>{action}</li>)}</ul>}
+                      <small>依据：{summary.explainability.source_ids.join("、") || "待补充来源"} · {summary.explainability.schema_version}</small>
+                    </>
+                  ) : <p>识别完成后显示知识卡片、模型路由、来源和安全边界。</p>}
+                </article>
               </div>
 
               <article className="analysis-card">
@@ -447,6 +544,21 @@ export default function Home() {
                   {analysisBusy ? "正在综合研判…" : "提交综合分析"}
                 </button>
               </article>
+
+              {summary?.explainability?.human_review.required && activeCase.status !== "reviewed" && (
+                <article className="review-action-card">
+                  <div>
+                    <div className="card-kicker">人工复核闭环</div>
+                    <h3>该结果需要人工确认</h3>
+                    <p>{summary.explainability.human_review.reasons.join("；")}</p>
+                    <textarea value={reviewNotes} onChange={(event) => setReviewNotes(event.target.value)} placeholder="记录补拍要求、现场观察或最终判断依据…" />
+                  </div>
+                  <div className="review-action-buttons">
+                    <button className="secondary-button" type="button" onClick={() => submitReview("needs_more_evidence")} disabled={reviewBusy}>{reviewBusy ? "保存中…" : "请求补充证据"}</button>
+                    <button className="primary-button compact" type="button" onClick={() => submitReview("accepted")} disabled={reviewBusy}>{reviewBusy ? "保存中…" : "确认当前候选"}</button>
+                  </div>
+                </article>
+              )}
 
               {detections.length > 0 && (
                 <div className="detection-list">

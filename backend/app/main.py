@@ -3,8 +3,9 @@ from __future__ import annotations
 import json
 import uuid
 from contextlib import asynccontextmanager
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Annotated, Any
+from typing import Annotated, Any, Literal
 
 from fastapi import FastAPI, File, Form, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -17,6 +18,7 @@ from .catalog import CLASS_CATALOG
 from .config import settings
 from .database import create_case, get_case, init_database, list_cases, stored_image_path, update_case
 from .detector import DetectorUnavailable, detector, inspect_image_quality, summarize_detections
+from .knowledge import build_explainability, get_knowledge_card, knowledge_contract
 from .multimodal import MultimodalUnavailable, request_multimodal_analysis
 from .prelabels import detail as prelabel_detail
 from .prelabels import image_path as prelabel_image_path
@@ -29,11 +31,13 @@ ALLOWED_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 
 
 class ReviewRequest(BaseModel):
+    decision: Literal["accepted", "needs_more_evidence", "rejected"] = "accepted"
     final_class_id: int | None = Field(default=None, ge=0, le=15)
     final_diagnosis: str | None = Field(default=None, max_length=200)
     severity: str = Field(default="unknown", pattern="^(low|medium|high|unknown)$")
     accepted_detection_indexes: list[int] = Field(default_factory=list)
     reviewer_notes: str = Field(default="", max_length=2000)
+    reviewer_id: str = Field(default="local-reviewer", min_length=1, max_length=80)
 
 
 class PrelabelReviewRequest(BaseModel):
@@ -92,6 +96,19 @@ def classes() -> list[dict[str, Any]]:
     return CLASS_CATALOG
 
 
+@app.get("/api/catalog/knowledge")
+def knowledge() -> dict[str, Any]:
+    return knowledge_contract()
+
+
+@app.get("/api/catalog/classes/{class_id}/knowledge")
+def class_knowledge(class_id: int) -> dict[str, Any]:
+    card = get_knowledge_card(class_id)
+    if card is None:
+        raise HTTPException(status_code=404, detail="类别知识卡片不存在")
+    return card
+
+
 @app.get("/api/prelabels/queue")
 def prelabel_queue_endpoint(
     priority: Annotated[str | None, Query(pattern="^(all|P0|P1|P2)$")] = "all",
@@ -124,6 +141,34 @@ def prelabel_review_endpoint(image_id: str, request: PrelabelReviewRequest) -> d
 @app.get("/api/cases")
 def cases(limit: Annotated[int, Query(ge=1, le=200)] = 50) -> list[dict[str, Any]]:
     return list_cases(limit)
+
+
+@app.get("/api/cases/review-queue")
+def review_queue(limit: Annotated[int, Query(ge=1, le=200)] = 50) -> dict[str, Any]:
+    candidates: list[dict[str, Any]] = []
+    for record in list_cases(200):
+        summary = record.get("detector_summary") or {}
+        if record.get("status") not in {"detected", "analyzed", "review_pending"}:
+            continue
+        if not summary.get("needs_review") and record.get("status") != "review_pending":
+            continue
+        candidates.append(
+            {
+                "id": record["id"],
+                "created_at": record["created_at"],
+                "updated_at": record["updated_at"],
+                "crop": record["crop"],
+                "part": record["part"],
+                "status": record["status"],
+                "image_filename": record["image_filename"],
+                "quality": record.get("quality"),
+                "detector_summary": summary,
+                "review_events_count": len(record.get("review_events") or []),
+            }
+        )
+        if len(candidates) >= limit:
+            break
+    return {"total": len(candidates), "items": candidates}
 
 
 @app.get("/api/cases/{case_id}")
@@ -205,15 +250,19 @@ def detect_case(case_id: str) -> dict[str, Any]:
     try:
         detections = detector.detect(image_path)
     except DetectorUnavailable as exc:
+        unavailable_summary = {
+            "target_count": None,
+            "needs_review": True,
+            "review_reasons": [str(exc)],
+        }
+        unavailable_summary["explainability"] = build_explainability(
+            [], unavailable_summary, quality, None
+        )
         return update_case(
             case_id,
             status="model_unavailable",
             quality=quality,
-            detector_summary={
-                "target_count": None,
-                "needs_review": True,
-                "review_reasons": [str(exc)],
-            },
+            detector_summary=unavailable_summary,
         )
     summary = summarize_detections(detections)
     if detector.last_metadata:
@@ -224,6 +273,12 @@ def detect_case(case_id: str) -> dict[str, Any]:
             *summary["review_reasons"],
             *quality["flags"],
         ]
+    summary["explainability"] = build_explainability(
+        detections,
+        summary,
+        quality,
+        detector.last_metadata,
+    )
     return update_case(
         case_id,
         status="detected",
@@ -257,9 +312,49 @@ async def analyze_case(case_id: str) -> dict[str, Any]:
 
 @app.post("/api/cases/{case_id}/review")
 def review_case(case_id: str, request: ReviewRequest) -> dict[str, Any]:
-    require_case(case_id)
+    record = require_case(case_id)
+    detections = record.get("detections") or []
+    invalid_indexes = [
+        index
+        for index in request.accepted_detection_indexes
+        if index < 0 or index >= len(detections)
+    ]
+    if invalid_indexes:
+        raise HTTPException(status_code=422, detail=f"检测框索引不存在：{invalid_indexes}")
+    reviewed_at = datetime.now(UTC).isoformat()
+    review_payload = request.model_dump()
+    review_payload["reviewed_at"] = reviewed_at
+    analysis = record.get("analysis")
+    evidence_snapshot = {
+        "quality": record.get("quality"),
+        "detections": detections,
+        "detector_summary": record.get("detector_summary"),
+        "analysis_status": analysis.get("status") if isinstance(analysis, dict) else None,
+    }
+    review_payload["evidence_snapshot"] = evidence_snapshot
+    event = {
+        "event_id": uuid.uuid4().hex,
+        "recorded_at": reviewed_at,
+        "decision": request.decision,
+        "reviewer_id": request.reviewer_id,
+        "accepted_detection_indexes": request.accepted_detection_indexes,
+        "notes": request.reviewer_notes,
+        "evidence_snapshot": evidence_snapshot,
+    }
+    review_events = [*(record.get("review_events") or []), event]
+    next_status = "review_pending" if request.decision == "needs_more_evidence" else "reviewed"
     return update_case(
         case_id,
-        status="reviewed",
-        review=request.model_dump(),
+        status=next_status,
+        review=review_payload,
+        review_events=review_events,
     )
+
+
+@app.get("/api/cases/{case_id}/review-events")
+def review_events(case_id: str) -> dict[str, Any]:
+    record = require_case(case_id)
+    return {
+        "case_id": case_id,
+        "events": record.get("review_events") or [],
+    }

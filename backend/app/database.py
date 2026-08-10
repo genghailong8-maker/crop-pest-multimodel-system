@@ -16,6 +16,7 @@ JSON_COLUMNS = {
     "detector_summary_json": "detector_summary",
     "analysis_json": "analysis",
     "review_json": "review",
+    "review_events_json": "review_events",
 }
 
 
@@ -54,10 +55,17 @@ def init_database() -> None:
                 detections_json TEXT,
                 detector_summary_json TEXT,
                 analysis_json TEXT,
-                review_json TEXT
+                review_json TEXT,
+                review_events_json TEXT
             )
             """
         )
+        columns = {
+            row["name"]
+            for row in connection.execute("PRAGMA table_info(diagnosis_cases)").fetchall()
+        }
+        if "review_events_json" not in columns:
+            connection.execute("ALTER TABLE diagnosis_cases ADD COLUMN review_events_json TEXT")
         connection.execute(
             """
             CREATE INDEX IF NOT EXISTS idx_diagnosis_cases_created_at
@@ -80,6 +88,8 @@ def decode_row(row: sqlite3.Row | None) -> dict[str, Any] | None:
     for database_name, public_name in JSON_COLUMNS.items():
         raw_value = item.pop(database_name, None)
         item[public_name] = json.loads(raw_value) if raw_value else None
+    if item.get("review_events") is None:
+        item["review_events"] = []
     item["image_url"] = f"/api/cases/{item['id']}/image"
     return item
 
@@ -158,4 +168,3 @@ def update_case(case_id: str, **fields: Any) -> dict[str, Any]:
 
 def stored_image_path(case_record: dict[str, Any]) -> Path:
     return Path(case_record["image_path"])
-

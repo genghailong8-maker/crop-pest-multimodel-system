@@ -19,6 +19,8 @@
 - 最佳权重已接入服务器推理服务，网页后端通过 SSH 私有隧道获取真实检测框。
 - 已准备服务器环境自检、只读数据挂载、训练、推理和实时监控脚本。
 - 界面会明确区分真实模型结果、模型尚未配置和需要人工复核，不使用写死的识别结论。
+- Phase 6 知识契约位于 `backend/app/knowledge.py`：`GET /api/catalog/knowledge` 返回 16 类知识卡片、来源和安全边界；病例结果中的 `detector_summary.explainability` 保存检测框、置信度、模型/路由证据、来源和人工复核触发原因。
+- `POST /api/cases/{case_id}/review` 会记录 `accepted`、`needs_more_evidence` 或 `rejected` 决策及证据快照；`GET /api/cases/review-queue` 和 `GET /api/cases/{case_id}/review-events` 用于复核队列与审计追溯。知识卡片只提供综合防治方向，不生成具体药剂、剂量、混配或安全间隔。
 
 ## 目录
 

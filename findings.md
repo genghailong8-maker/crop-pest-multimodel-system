@@ -252,6 +252,29 @@
 - 有效第二轮独立校准仍为拒绝：101 tune、85 frozen、3,888 个候选、36 个 tune-acceptable；选中配置在 frozen 上类 10 mAP50-95 从 `0.387952` 降至 `0.363993`，类 13 为 `0.0`，`frozen_acceptable=false`，决策 `keep_current_main_model`。因此本证据固化只记录参数，不将其晋级为 active。
 - 证据清单的完整一致性校验通过：四个模型角色及 ONNX 文件存在、加载哈希匹配，四个健康/网页探测均为 reachable，训练运行数为 20，路由为 shadow，独立 frozen 门为 false；当前唯一未跟踪工作区文件 `CLAUDE.md` 未纳入清单提交范围。
 
+## Phase 6 Start — 2026-08-10
+
+- 当前 `CLAUDE.md` 不是可执行的纯 Markdown 准则，而是一次 `Invoke-WebRequest` 的序列化输出（正文仅残留标题、谨慎优先于速度等截断内容）；文件保持原样、不加入 Git。按可见准则执行小步修改、先验证后提交、保留证据和用户文件。
+- 现有后端已有 16 类 `CLASS_CATALOG`、检测框/置信度、图像质量标记、路由和模型哈希元数据，以及预标注复核 API；但 `catalog.py` 只有类别名称，缺少来源、证据等级、非化学防治和安全边界，诊断结果也没有把知识卡片或复核审计统一关联起来。
+- Phase 6 的安全决策：先登记可追溯的综合防治（IPM）和观察/隔离/清洁/栽培管理建议；在没有逐类权威标签、作物登记和当地法规核验前，不输出具体药剂、剂量、混配或安全间隔。低置信度、无目标、候选接近或质量异常一律保留人工复核入口。
+
+### Phase 6 Source Register (initial)
+
+- `fao-ipm-principles`: FAO, “Principles and practices”, https://www.fao.org/pest-and-pesticide-management/ipm/principles-and-practices/en/ — supports ecosystem approach, resistant varieties, rotation/intercropping, sanitation and using pesticides only when effective alternatives are unavailable.
+- `fao-ipm-definition`: FAO, “Integrated Pest Management”, https://www.fao.org/pest-and-pesticide-management/ipm/integrated-pest-management/en/ — supports combining biological, physical, cultural and chemical measures while reducing pesticide risk.
+- `cn-crop-pest-regulation`: Ministry of Agriculture and Rural Affairs of the PRC, “农作物病虫害防治条例”, https://fgs.moa.gov.cn/flfg/202004/t20200403_6340771.htm — supports prevention-first, integrated/green control and healthy cultivation measures such as rotation, sanitation and removal of diseased residues.
+- `cn-green-control`: Ministry of Agriculture and Rural Affairs, “2013年全国农作物病虫害绿色防控示范区建设方案”, https://zzys.moa.gov.cn/gzdt/201304/t20130411_6309844.htm — supports ecological, biological, physical and scientifically supervised control as green-control categories.
+- These sources are general IPM policy/principle references, not product labels. The application must show them as provenance and must not infer product, dose, mixture, re-entry or pre-harvest interval from an image.
+
+### Phase 6 Implementation Evidence — 2026-08-10
+
+- Added `backend/app/knowledge.py` with schema `phase6-knowledge-v1`, 16 class cards, four source records, source retrieval dates, evidence levels, observation focus, first actions, escalation conditions and explicit prohibited inference fields.
+- Added `GET /api/catalog/knowledge` and `GET /api/catalog/classes/{class_id}/knowledge`. Detection responses now include `detector_summary.explainability` with normalized detection evidence, confidence band, model SHA/routing/timing evidence, knowledge card/source IDs, safety boundary and review reasons.
+- Added SQLite-compatible `review_events_json` migration and `review_events` response field. `GET /api/cases/review-queue` lists low-confidence/near-candidate/quality/no-target cases; `POST /api/cases/{case_id}/review` records decision, reviewer ID, notes and an evidence snapshot; `GET /api/cases/{case_id}/review-events` exposes the audit trail.
+- Updated the diagnosis page to show the knowledge card's observation/first-action guidance, source IDs, shadow route and safety boundary, and to submit “请求补充证据” or “确认当前候选” decisions. README documents the contract and endpoint boundary.
+- Validation: backend `9 passed` with one pre-existing Starlette deprecation warning; web `npm test` passed (build + 3 rendered routes); web lint has `0 errors` and the same 3 existing `<img>` warnings; live 8000 `/health`, `/api/catalog/knowledge`, and `/api/cases/review-queue` returned successfully.
+- This Phase 6 slice does not require GPU/server training. The remote inference service remains untouched in `shadow` mode; no active-route or weight change was made.
+
 ## Phase 5 Live Resume — 2026-08-10
 
 - Server `connect.bjb2.seetacloud.com:10373` is reachable again. RTX 5090 reports 32,607 MiB total and about 729 MiB used while the inference service is idle.
