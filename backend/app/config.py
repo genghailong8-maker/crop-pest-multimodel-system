@@ -36,6 +36,8 @@ class Settings:
     detector_timeout_seconds: float
     vlm_endpoint: str | None
     vlm_api_key: str | None
+    vlm_model: str
+    vlm_timeout_seconds: float
     prelabel_dir: Path
     allowed_origins: tuple[str, ...]
 
@@ -65,6 +67,8 @@ def load_settings() -> Settings:
         detector_timeout_seconds=float(os.getenv("CROP_DETECTOR_TIMEOUT_SECONDS", "30")),
         vlm_endpoint=optional_text(os.getenv("CROP_VLM_ENDPOINT")),
         vlm_api_key=optional_text(os.getenv("CROP_VLM_API_KEY")),
+        vlm_model=os.getenv("CROP_VLM_MODEL", "crop-pest-vlm").strip() or "crop-pest-vlm",
+        vlm_timeout_seconds=float(os.getenv("CROP_VLM_TIMEOUT_SECONDS", "120")),
         prelabel_dir=optional_path(
             os.getenv(
                 "CROP_PRELABEL_DIR",

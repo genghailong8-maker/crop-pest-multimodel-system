@@ -39,10 +39,34 @@ chmod +x inference/run_server.sh
 inference/run_server.sh start
 ```
 
-服务默认仅监听 `127.0.0.1:8870`。本机运行 `inference/open_tunnel.ps1` 后，把后端配置为：
+服务默认仅监听 `127.0.0.1:8870`。本机运行 `inference/open_tunnel.ps1 -IdentityFile "$env:USERPROFILE\.ssh\<私钥文件名>"` 后，把后端配置为；私钥路径只在本机传入，不写入仓库：
 
 ```text
 CROP_DETECTOR_ENDPOINT=http://127.0.0.1:8870/v1/detect
 ```
+
+## Qwen3-VL 多模态服务
+
+服务器首次安装与启动：
+
+```bash
+chmod +x inference/run_vlm_server.sh
+inference/run_vlm_server.sh install
+inference/run_vlm_server.sh download
+inference/run_vlm_server.sh start
+inference/run_vlm_server.sh status
+```
+
+服务固定名称为 `crop-pest-vlm`，默认只监听 `127.0.0.1:8890`，模型与隔离环境保存在 `/root/autodl-tmp/crop-pest-vlm`。`open_tunnel.ps1` 会同时建立检测端口 8870 和多模态端口 8890 的私有转发。后端使用：
+
+部署固定 Qwen3-VL revision `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b`；AutoDL 无法直接访问 Hugging Face 时默认从 `https://hf-mirror.com` 获取同一官方仓库内容，可通过 `CROP_VLM_HF_ENDPOINT` 覆盖。下载阶段禁用 Xet/CAS，将完整固定快照写入 `${CROP_VLM_ROOT}/model`；服务只加载该本地目录，避免启动时再次访问外部网络。
+
+```text
+CROP_VLM_ENDPOINT=http://127.0.0.1:8890/v1/chat/completions
+CROP_VLM_MODEL=crop-pest-vlm
+CROP_VLM_TIMEOUT_SECONDS=120
+```
+
+默认最大上下文为 8192、单请求最多一张图片、GPU 内存利用上限为 0.65。后端在每次请求中传入 `mm_processor_kwargs.max_pixels=1003520`，保留完整画面但约束视觉 token，避免大图超过 8192 上下文。若首次加载因显存不足失败，只允许一次受控重试：设置 `CROP_VLM_MAX_MODEL_LEN=4096` 和 `CROP_VLM_GPU_MEMORY_UTILIZATION=0.72` 后重启；不得静默更换模型。
 
 如设置 `CROP_INFERENCE_API_KEY`，本机后端还需设置同值的 `CROP_DETECTOR_API_KEY`。

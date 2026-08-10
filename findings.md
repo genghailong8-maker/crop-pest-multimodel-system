@@ -304,3 +304,34 @@
 - Current three-model service idle memory is 729 MiB on the 32,607 MiB RTX 5090. Model sizes: main PT 5,394,821 bytes (5.145 MiB), class-10 PT 5,383,365 bytes (5.134 MiB), crop PT 3,189,762 bytes (3.042 MiB), combined PT 13.321 MiB; main ONNX 10,591,452 bytes (10.101 MiB).
 - Accuracy remains the fixed official 833-image frozen validation result for the main model: precision 0.839196, recall 0.776205, mAP50 0.827517, mAP50-95 0.548224. The single real field image has no ground-truth annotation, so it is an E2E/latency sample rather than an accuracy estimate. Active routing remains disallowed because the independent frozen calibration gate was rejected (`frozen_acceptable=false`) and the observed candidate's background support was 0.988147.
 - A consolidated Phase 5 checkpoint is saved at `artifacts/server/phase5-benchmark-checkpoint-20260810.json`, including server health, routing configuration, model hashes/sizes, web case evidence, benchmark summaries, and evidence SHA-256 values. The remaining Phase 5 item is full experiment monitoring/configuration persistence; no active-route switch is authorized.
+
+## Phase 8 Start — 2026-08-10
+
+- 用户确认采用服务器自托管 `Qwen/Qwen3-VL-8B-Instruct`、网页一键完整分析，并将 Karpathy Guidelines 只写入 `task_plan.md` 的强制规则。
+- 服务器 `connect.bjb2.seetacloud.com:10373` 已使用项目专用密钥重新认证成功：RTX 5090 32,607 MiB、检查时 0 MiB/0% 使用，`/root/autodl-tmp` 剩余约 43G；当前没有 Uvicorn、vLLM 或 Ollama 进程。
+- 服务器基础 Python 为 3.12.3、PyTorch `2.8.0+cu128`、CUDA 12.8、GPU capability `(12, 0)`；未安装 vLLM/Transformers/Accelerate，也没有 Docker 命令。部署必须使用 `/root/autodl-tmp` 下隔离环境和缓存，不能污染已有 Ultralytics 基础环境。
+- 当前后端 `backend/app/multimodal.py` 使用自定义 JSON 直返契约，只验证响应为字典；Phase 8 将以最小改动切换为 OpenAI-compatible chat completions，并用 Pydantic 严格验证 C 项结构。SQLite 继续复用 `analysis_json`，不做迁移。
+- 当前网页上传后会自动检测，但多模态分析仍需单独点击且只显示少量字段；Phase 8 将串联上传→检测→分析，并在多模态失败时保留病例/检测结果和仅分析重试入口。
+- 安全边界不变：多模态只能补充解释，不能降低检测链已有人工复核风险；无目标、低置信度、低质量、候选冲突或视觉/多模态冲突必须复核；不输出药剂剂量、混配、采收间隔等处方。
+- 本阶段不切换 detector active 路由、不启动重训，也不把第二轮 rejected calibration 配置晋级。
+- 2026-08-10 官方 Qwen3-VL 模型卡明确给出 `pip install vllm`、`vllm serve Qwen/Qwen3-VL-8B-Instruct` 和 OpenAI-compatible 图文 chat-completions 示例；因此不需要自建推理 API 包装器。官方模型卡：https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct 。
+- 服务器 Python 3.12 的包索引可用且当前提供 vLLM `0.26.0`；为保证复现，Phase 8 部署脚本固定该版本，而不是每次安装不确定的最新版。
+## Phase 8 VLM Runtime Finding — 2026-08-10
+
+- Qwen3-VL weights loaded successfully on the RTX 5090 (16.65 GiB of weight memory). Startup then failed only during optional FlashInfer sampler warmup because FlashInfer 0.6.14 misidentified the Blackwell architecture; this was not an out-of-memory event. vLLM's documented `VLLM_USE_FLASHINFER_SAMPLER=0` fallback is therefore used while keeping the working FlashAttention backend.
+
+## Phase 8 Live Endpoint and Browser Findings — 2026-08-10
+
+- The pinned Qwen3-VL snapshot is served as `crop-pest-vlm` from `/root/autodl-tmp/crop-pest-vlm/model`; `/v1/models` reports max context 8192. The service uses `vllm==0.26.0`, listens only on server `127.0.0.1:8890`, uses 65% configured GPU memory and measured about 21,156 MiB idle after load.
+- The detector service is separately healthy on `127.0.0.1:8870`, covers all 16 classes and remains `routing.mode=shadow`; all three detector-side weights retain their saved hashes. The local tunnel forwards both private endpoints, and backend `/health` reports `detector_mode=remote`, `multimodal_configured=true`, `multimodal_model=crop-pest-vlm`.
+- Real browser weak/no-target sample: the existing class-10 field image retained the saved detector result (0 selected detections, 1 shadow candidate), produced a strict no-primary VLM result, and forced human review. Real normal sample: official class 2 detected `南瓜白粉病` at 91.78%, Qwen3-VL returned the same primary diagnosis with complete C-item fields; deterministic alignment reconciliation changed the model's contradictory raw `conflict` to `agree` and recorded the raw value in provenance.
+- A controlled local VLM endpoint outage proved the web keeps the newly created case, image quality, 91.78% detection and shadow evidence, exposes `仅重试综合分析`, and succeeds after endpoint recovery without re-uploading or re-detecting. Reloading the page restored the persisted case and analysis from history.
+- Exact failure reruns established that large-image HTTP 400 responses were context-length violations, not random endpoint failures. Per-request `mm_processor_kwargs.max_pixels=1003520` keeps the complete image content while bounding vision tokens; all nine previously failed samples then succeeded with schema/content completeness 100% and no unsafe output.
+
+## Phase 8 Final Evidence — 2026-08-10
+
+- Final evidence `artifacts/server/phase8-multimodal-evidence-20260810.json` is 16-class stratified at 10 images/class (160 total), SHA-256 `be54b463fcb6a709197510159d963e668d825d68ce7ee780c29f575b74baf415`. All 160 succeeded; failure rate 0, Top-1 0.8625, schema-valid rate 1.0, content-nonempty rate 0.58125, unsafe outputs 0 and risk-preservation failures 0.
+- Per-class Top-1: 0/2/3/4/11/14 = 1.0; class 5/7/9 = 0.9; class 6/10/12/15 = 0.8; class 8/13 = 0.7; class 1 = 0.5. The longest-catalog-name rule prevents class 15 `豆芫菁` from being counted as class 8 `芫菁`.
+- Conflict evaluation: 17 cases had a detector primary outside ground truth, but the VLM/final alignment identified only 1 (5.8824%); 132/160 results requested human review. This is a measured limitation, not a reason to enable active.
+- VLM mean/P50/P95 latency is 2221.518/2238.267/2756.890 ms; end-to-end P50/P95 is 2325.747/2949.004 ms. Sequential throughput is 0.429228 image/s; 8 requests with concurrency 2 all succeeded in 9.510 s, 0.841212 image/s.
+- Peak GPU memory is 24,024 MiB. The materialized model directory is 17,545,920,365 bytes (about 16.34 GiB), isolated runtime venv 8,319,801,095 bytes, and complete VLM root 25,888,950,823 bytes.

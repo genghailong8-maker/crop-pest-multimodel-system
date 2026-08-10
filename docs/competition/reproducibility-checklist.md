@@ -38,11 +38,11 @@ npm.cmd run lint
 
 # 回到根目录，检查 Python 语法和补丁空白
 cd ..
-& $py -m py_compile scripts\final_repro_check.py scripts\collect_phase5_evidence.py backend\app\knowledge.py
+& $py -m py_compile scripts\final_repro_check.py scripts\collect_phase5_evidence.py scripts\collect_phase8_multimodal_evidence.py backend\app\knowledge.py backend\app\multimodal.py
 git diff --check
 ```
 
-预期结果：后端 9 项测试通过；网页构建与 3 条路由渲染通过；lint 0 errors（保留既有 `<img>` warning）；`py_compile` 和 `git diff --check` 成功。
+预期结果：后端 17 项测试通过；网页构建与 3 条路由渲染通过；lint 0 errors（保留既有 `<img>` warning）；`py_compile` 和 `git diff --check` 成功。
 
 ## 4. 冻结指标与证据入口
 
@@ -54,8 +54,11 @@ git diff --check
 | 主模型 PT 基准 | `artifacts/server/phase5-benchmark-20260810-main-pt.json` | batch 1/8/32 延迟、吞吐、显存 |
 | 独立校准 | `artifacts/experiments/independent-field-calibration-10-13-v2/second-round-calibration-v2.json` | 101 tune、85 frozen 门控 |
 | 知识契约 | `backend/app/knowledge.py` | 16 类来源、安全边界和解释输出 |
+| Phase 8 多模态证据 | `artifacts/server/phase8-multimodal-evidence-20260810.json` | 分层 Top-1、结构/安全、延迟、吞吐、显存和磁盘大小 |
 
 正式报告应引用固定官方验证集指标：Precision 0.839196、Recall 0.776205、mAP50 0.827517、mAP50-95 0.548224。类 10/13 独立 frozen 门未通过，因此复现时不得把 shadow 配置改成 active。
+
+Phase 8 多模态报告应引用固定分层 160 张证据：成功率 100%、Top-1 86.25%、结构校验 100%、内容非空 58.13%、冲突识别 1/17（5.88%）、人工复核 132/160；完整链路 P50/P95 2.326/2.949 秒，并发 2 吞吐 0.841 张/秒，峰值显存 24,024 MiB，模型目录 17,545,920,365 bytes。证据 SHA-256 为 `be54b463fcb6a709197510159d963e668d825d68ce7ee780c29f575b74baf415`。
 
 ## 5. 服务器复现分层
 
@@ -64,5 +67,6 @@ git diff --check
 | 文档、知识契约、公开仓库审计 | 否 | 本机标准库即可完成 |
 | 后端/网页回归 | 否 | 模型不可用时仍验证降级路径 |
 | 真实图片 E2E | 是（或兼容推理端点） | 需要远程模型服务和隧道 |
+| 真实多模态分层评估 | 是 | 需要检测 8870、Qwen3-VL 8890 和正式冻结验证集；不得使用模拟响应 |
 | 官方验证集重跑 | 是 | 按固定划分和既有权重执行，不改 split |
 | 重新训练/第二轮校准 | 是 | 需要 GPU；当前没有批准新的训练或 active 切换 |

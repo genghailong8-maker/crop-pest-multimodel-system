@@ -89,11 +89,18 @@ type DetectorSummary = {
 type Analysis = {
   status?: string;
   message?: string;
+  schema_version?: string;
   primary_diagnosis?: string | null;
+  candidate_diagnoses?: string[];
+  symptoms?: string[];
   harm_level?: string;
+  possible_causes?: string[];
   evidence?: string[];
   uncertainty?: string[];
+  detector_alignment?: "agree" | "uncertain" | "conflict";
   needs_human_review?: boolean;
+  review_reasons?: string[];
+  provenance?: { model?: string; protocol?: string; latency_ms?: number };
 };
 
 type CaseRecord = {
@@ -142,6 +149,14 @@ const cropOptions = ["玉米", "番茄", "马铃薯", "南瓜", "葡萄", "芒�
 const partOptions = ["叶片", "茎秆", "果实", "根部", "整株", "田间环境"];
 const stageOptions = ["苗期", "营养生长期", "开花期", "结果期", "成熟期", "未知"];
 
+const pipelineLabels = {
+  idle: "开始完整分析",
+  uploading: "正在上传并登记图片…",
+  detecting: "正在完成质量检查与视觉识别…",
+  analyzing: "正在进行多模态综合分析…",
+  complete: "完整分析已完成",
+};
+
 function apiUrl(path: string) {
   return `${API_BASE}${path}`;
 }
@@ -181,6 +196,7 @@ export default function Home() {
   const [environment, setEnvironment] = useState("露地");
   const [notes, setNotes] = useState("");
   const [busy, setBusy] = useState(false);
+  const [pipelineStage, setPipelineStage] = useState<keyof typeof pipelineLabels>("idle");
   const [analysisBusy, setAnalysisBusy] = useState(false);
   const [reviewBusy, setReviewBusy] = useState(false);
   const [reviewNotes, setReviewNotes] = useState("");
@@ -233,6 +249,7 @@ export default function Home() {
     setActiveCase(null);
     setReviewNotes("");
     setError(null);
+    setPipelineStage("idle");
   }
 
   async function submitCase(event: FormEvent) {
@@ -242,6 +259,7 @@ export default function Home() {
       return;
     }
     setBusy(true);
+    setPipelineStage("uploading");
     setError(null);
     try {
       const form = new FormData();
@@ -257,11 +275,27 @@ export default function Home() {
       const uploadResponse = await fetch(apiUrl("/api/cases"), { method: "POST", body: form });
       const created = await readJson<CaseRecord>(uploadResponse);
       setActiveCase(created);
+      setPipelineStage("detecting");
       const detectResponse = await fetch(apiUrl(`/api/cases/${created.id}/detect`), { method: "POST" });
       const detected = await readJson<CaseRecord>(detectResponse);
       setActiveCase(detected);
+      if (detected.status === "detected") {
+        setPipelineStage("analyzing");
+        try {
+          const analyzeResponse = await fetch(apiUrl(`/api/cases/${created.id}/analyze`), { method: "POST" });
+          const analyzed = await readJson<CaseRecord>(analyzeResponse);
+          setActiveCase(analyzed);
+          setPipelineStage(analyzed.status === "analyzed" ? "complete" : "idle");
+        } catch (analysisError) {
+          setPipelineStage("idle");
+          setError(`视觉识别已保存；${analysisError instanceof Error ? analysisError.message : "综合分析失败，可单独重试"}`);
+        }
+      } else {
+        setPipelineStage("idle");
+      }
       await refreshCases();
     } catch (requestError) {
+      setPipelineStage("idle");
       setError(requestError instanceof Error ? requestError.message : "提交失败");
     } finally {
       setBusy(false);
@@ -276,6 +310,7 @@ export default function Home() {
       const response = await fetch(apiUrl(`/api/cases/${activeCase.id}/analyze`), { method: "POST" });
       const analyzed = await readJson<CaseRecord>(response);
       setActiveCase(analyzed);
+      if (analyzed.status === "analyzed") setPipelineStage("complete");
       await refreshCases();
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "综合分析失败");
@@ -293,6 +328,7 @@ export default function Home() {
       setFile(null);
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       setPreviewUrl(null);
+      setPipelineStage("idle");
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (requestError) {
       setError(requestError instanceof Error ? requestError.message : "记录读取失败");
@@ -330,6 +366,15 @@ export default function Home() {
 
   const detections = activeCase?.detections ?? [];
   const summary = activeCase?.detector_summary;
+  const analysis = activeCase?.analysis;
+  const analysisReviewReasons = analysis?.review_reasons ?? [];
+  const reviewRequired = Boolean(
+    summary?.explainability?.human_review.required || analysis?.needs_human_review,
+  );
+  const combinedReviewReasons = Array.from(new Set([
+    ...(summary?.explainability?.human_review.reasons ?? []),
+    ...analysisReviewReasons,
+  ]));
 
   return (
     <main className="app-shell">
@@ -386,7 +431,7 @@ export default function Home() {
           </div>
 
           <label className={`upload-zone ${previewUrl ? "has-image" : ""}`}>
-            <input type="file" accept="image/jpeg,image/png,image/webp" onChange={selectFile} />
+            <input type="file" accept="image/jpeg,image/png,image/webp" onClick={(event) => { event.currentTarget.value = ""; }} onChange={selectFile} />
             {previewUrl ? (
               <img src={previewUrl} alt="待识别图片预览" />
             ) : (
@@ -439,8 +484,9 @@ export default function Home() {
             <textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="例如：近期连续降雨、叶片自下而上出现症状……" />
           </label>
           <button className="primary-button" type="submit" disabled={busy || connection !== "online"}>
-            {busy ? "正在完成质量检查与视觉识别…" : "开始视觉识别"}
+            {pipelineLabels[pipelineStage]}
           </button>
+          {busy && <div className="pipeline-progress"><span className={pipelineStage === "uploading" ? "active" : "done"}>上传</span><i>→</i><span className={pipelineStage === "detecting" ? "active" : pipelineStage === "analyzing" ? "done" : ""}>检测</span><i>→</i><span className={pipelineStage === "analyzing" ? "active" : ""}>分析</span></div>}
         </form>
 
         <section className="panel result-panel" aria-live="polite">
@@ -535,22 +581,36 @@ export default function Home() {
               </div>
 
               <article className="analysis-card">
-                <div>
+                <div className="analysis-main">
                   <div className="card-kicker">多模型协同分析</div>
-                  <h3>{activeCase?.analysis?.primary_diagnosis ?? "等待服务器端多模态分析"}</h3>
-                  <p>{activeCase?.analysis?.message ?? "检测结果、原图、作物信息和环境信息将共同提交，输出诊断依据、不确定性及复核建议。"}</p>
+                  <h3>{analysis ? (analysis.primary_diagnosis || "未能确认主诊断") : "等待服务器端多模态分析"}</h3>
+                  <p>{analysis?.message ?? "检测结果、原图、作物信息和环境信息将共同提交，输出诊断依据、不确定性及复核建议。"}</p>
+                  {analysis?.status === "completed" && (
+                    <div className="analysis-detail-grid">
+                      <div><strong>候选诊断</strong><span>{analysis.candidate_diagnoses?.join("、") || "无其他候选"}</span></div>
+                      <div><strong>危害程度</strong><span>{analysis.harm_level ?? "unknown"}</span></div>
+                      <div><strong>视觉一致性</strong><span>{analysis.detector_alignment ?? "uncertain"}</span></div>
+                      <div><strong>模型与耗时</strong><span>{analysis.provenance?.model ?? "未记录"}{analysis.provenance?.latency_ms != null ? ` · ${Math.round(analysis.provenance.latency_ms)} ms` : ""}</span></div>
+                    </div>
+                  )}
+                  {analysis?.status === "completed" && <>
+                    <strong className="analysis-label">症状</strong><ul className="evidence-list">{analysis.symptoms?.length ? analysis.symptoms.map((item) => <li key={item}>{item}</li>) : <li>未提供可确认症状</li>}</ul>
+                    <strong className="analysis-label">可能原因</strong><ul className="evidence-list">{analysis.possible_causes?.length ? analysis.possible_causes.map((item) => <li key={item}>{item}</li>) : <li>未提供可确认原因</li>}</ul>
+                    <strong className="analysis-label">诊断证据</strong><ul className="evidence-list">{analysis.evidence?.length ? analysis.evidence.map((item) => <li key={item}>{item}</li>) : <li>当前没有足够证据</li>}</ul>
+                    <strong className="analysis-label">不确定性</strong><ul className="evidence-list">{analysis.uncertainty?.length ? analysis.uncertainty.map((item) => <li key={item}>{item}</li>) : <li>未记录额外不确定性</li>}</ul>
+                  </>}
                 </div>
-                <button className="secondary-button" type="button" onClick={runAnalysis} disabled={analysisBusy || !activeCase?.detections}>
-                  {analysisBusy ? "正在综合研判…" : "提交综合分析"}
+                <button className="secondary-button" type="button" onClick={runAnalysis} disabled={analysisBusy || busy || !activeCase?.detections}>
+                  {analysisBusy ? "正在综合研判…" : activeCase?.status === "analyzed" ? "重新分析" : "仅重试综合分析"}
                 </button>
               </article>
 
-              {summary?.explainability?.human_review.required && activeCase.status !== "reviewed" && (
+              {reviewRequired && activeCase.status !== "reviewed" && (
                 <article className="review-action-card">
                   <div>
                     <div className="card-kicker">人工复核闭环</div>
                     <h3>该结果需要人工确认</h3>
-                    <p>{summary.explainability.human_review.reasons.join("；")}</p>
+                    <p>{combinedReviewReasons.join("；") || "综合分析建议人工确认"}</p>
                     <textarea value={reviewNotes} onChange={(event) => setReviewNotes(event.target.value)} placeholder="记录补拍要求、现场观察或最终判断依据…" />
                   </div>
                   <div className="review-action-buttons">

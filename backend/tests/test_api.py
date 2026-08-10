@@ -278,3 +278,64 @@ def test_detection_attaches_phase6_explainability(tmp_path, monkeypatch):
         assert explainability["model_evidence"]["routing_is_shadow"] is True
         assert explainability["human_review"]["required"] is True
         assert explainability["safety"]["chemical_recommendations"] == "not_provided"
+
+
+def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
+    test_settings = replace(
+        config.settings,
+        storage_dir=tmp_path,
+        database_path=tmp_path / "test.sqlite3",
+        upload_dir=tmp_path / "uploads",
+        vlm_endpoint="http://127.0.0.1:8890/v1/chat/completions",
+    )
+    monkeypatch.setattr(database, "settings", test_settings)
+    monkeypatch.setattr(main, "settings", test_settings)
+
+    async def fake_analysis(record, _image_path):
+        assert record["crop"] == "玉米"
+        return {
+            "status": "completed",
+            "schema_version": "phase8-multimodal-v1",
+            "primary_diagnosis": "玉米叶枯病",
+            "candidate_diagnoses": ["玉米叶枯病"],
+            "symptoms": ["叶片出现斑点"],
+            "harm_level": "medium",
+            "possible_causes": ["高湿环境"],
+            "evidence": ["视觉模型候选与原图症状一致"],
+            "uncertainty": [],
+            "detector_alignment": "agree",
+            "needs_human_review": False,
+            "review_reasons": [],
+            "provenance": {"model": "crop-pest-vlm", "latency_ms": 42.0},
+        }
+
+    monkeypatch.setattr(main, "request_multimodal_analysis", fake_analysis)
+
+    with TestClient(main.app) as client:
+        upload = client.post(
+            "/api/cases",
+            files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
+            data={
+                "crop": "玉米",
+                "part": "叶片",
+                "growth_stage": "苗期",
+                "environment_json": '{"scene":"露地"}',
+            },
+        )
+        case_id = upload.json()["id"]
+        database.update_case(
+            case_id,
+            status="detected",
+            quality={"acceptable": True, "flags": []},
+            detections=[{"class_id": 0, "class_name": "玉米叶枯病", "confidence": 0.87}],
+            detector_summary={"needs_review": False, "review_reasons": []},
+        )
+
+        analyzed = client.post(f"/api/cases/{case_id}/analyze")
+        assert analyzed.status_code == 200
+        assert analyzed.json()["status"] == "analyzed"
+        assert analyzed.json()["analysis"]["primary_diagnosis"] == "玉米叶枯病"
+
+        reloaded = client.get(f"/api/cases/{case_id}")
+        assert reloaded.status_code == 200
+        assert reloaded.json()["analysis"]["provenance"]["model"] == "crop-pest-vlm"

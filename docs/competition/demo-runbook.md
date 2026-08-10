@@ -8,7 +8,7 @@
 
 ### 需要服务器的部分
 
-完整识别 E2E 需要 RTX 5090 推理服务或已启动的可兼容远程端点；服务器应报告 `status=ok`、`class_count=16`、三份模型 `loaded=true`，且 `routing.mode=shadow`。训练监控页需要监控服务；它不是识别链路的硬依赖。
+完整识别 E2E 需要 RTX 5090 上的检测服务和 Qwen3-VL 多模态服务；检测端应报告 `status=ok`、`class_count=16`、三份模型 `loaded=true`、`routing.mode=shadow`，多模态 `/v1/models` 应列出 `crop-pest-vlm`。训练监控页不是识别链路的硬依赖。
 
 ### 不需要服务器的部分
 
@@ -21,6 +21,9 @@
 cd backend
 $env:CROP_DETECTOR_ENDPOINT = "http://127.0.0.1:8870/v1/detect"
 $env:CROP_DETECTOR_TIMEOUT_SECONDS = "30"
+$env:CROP_VLM_ENDPOINT = "http://127.0.0.1:8890/v1/chat/completions"
+$env:CROP_VLM_MODEL = "crop-pest-vlm"
+$env:CROP_VLM_TIMEOUT_SECONDS = "120"
 .\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 
 # 终端 2：网页
@@ -34,6 +37,7 @@ npm.cmd run dev
 ```powershell
 Invoke-WebRequest http://127.0.0.1:8000/health | Select-Object -ExpandProperty Content
 Invoke-WebRequest http://127.0.0.1:8870/health | Select-Object -ExpandProperty Content
+Invoke-WebRequest http://127.0.0.1:8890/v1/models | Select-Object -ExpandProperty Content
 Invoke-WebRequest http://localhost:3000/ | Select-Object -ExpandProperty StatusCode
 ```
 
@@ -43,8 +47,8 @@ Invoke-WebRequest http://localhost:3000/ | Select-Object -ExpandProperty StatusC
 | ---: | --- | --- |
 | 0:00–0:30 | 打开首页，指向 4,164/5,920/16 数据概览 | 类别空间与数据治理，不是写死的演示结论 |
 | 0:30–1:20 | 上传一张清晰图片，填写作物、部位、生育期和环境 | 图片先经过分辨率、亮度、对比度、清晰度检查 |
-| 1:20–2:10 | 点击识别，展示框、候选类别、置信度和耗时 | 主模型负责定位；专家结果显示为 `shadow`，不覆盖主结果 |
-| 2:10–2:50 | 展开“可信边界”和来源 ID | 观察重点、第一步行动、FAO/农业农村部来源；不提供药剂剂量 |
+| 1:20–2:10 | 点击“开始完整分析”，观察上传、检测、分析三段状态 | 主模型负责定位；专家结果显示为 `shadow`，不覆盖主结果 |
+| 2:10–2:50 | 展示多模态字段和“可信边界” | 主/候选诊断、症状、危害、原因、证据、不确定性、一致性、模型溯源及来源 ID |
 | 2:50–3:35 | 点击“请求补充证据”，填写拍摄建议并保存 | `review_pending`、reviewer ID、证据快照与审计事件 |
 | 3:35–4:10 | 打开历史记录或复核页 | 可追溯病例、复核队列和人工决定 |
 | 4:10–4:40 | 打开 `/training` | 训练运行、完成 epoch、GPU 快照和监控证据 |
@@ -67,6 +71,7 @@ Invoke-WebRequest http://localhost:3000/ | Select-Object -ExpandProperty StatusC
 - [ ] 网页 `http://localhost:3000/` 返回 200。
 - [ ] 后端 `/health` 返回 `status=ok`。
 - [ ] 推理 `/health` 返回 16 类、三份模型已加载、`routing.mode=shadow`。
+- [ ] 多模态 `/v1/models` 返回 `crop-pest-vlm`，后端 `/health` 返回 `multimodal_configured=true`。
 - [ ] 有一张本地演示图片；图片无标签时只作为 E2E 证据。
 - [ ] 能打开知识卡片来源和安全边界。
 - [ ] 能保存一次 `needs_more_evidence` 复核事件。

@@ -88,6 +88,7 @@ def health() -> dict[str, Any]:
             else "unconfigured"
         ),
         "multimodal_configured": bool(settings.vlm_endpoint),
+        "multimodal_model": settings.vlm_model if settings.vlm_endpoint else None,
     }
 
 

@@ -138,6 +138,10 @@ select:focus, input:focus, textarea:focus { border-color: #72a489; box-shadow: 0
 .primary-button:disabled, .secondary-button:disabled { cursor: not-allowed; opacity: .48; }
 .secondary-button { color: var(--green); background: var(--green-soft); padding: 11px 14px; white-space: nowrap; }
 .secondary-button:hover:not(:disabled) { background: #d9eddf; }
+.pipeline-progress { display: flex; justify-content: center; align-items: center; gap: 7px; margin-top: 10px; color: #94a29a; font-size: 10px; }
+.pipeline-progress i { font-style: normal; }
+.pipeline-progress span.active { color: var(--green); font-weight: 800; }
+.pipeline-progress span.done { color: #5b7766; }
 
 .case-status { font-size: 11px; font-weight: 750; padding: 7px 10px; border-radius: 999px; color: var(--green); background: var(--green-soft); }
 .status-model_unavailable, .status-multimodal_unavailable { color: #8a551d; background: var(--amber-soft); }
@@ -172,6 +176,12 @@ select:focus, input:focus, textarea:focus { border-color: #72a489; box-shadow: 0
 .evidence-list li + li { margin-top: 4px; }
 .analysis-card { display: flex; justify-content: space-between; align-items: center; gap: 18px; margin-top: 12px; background: linear-gradient(135deg, #f5faf6, #eef7ef); }
 .analysis-card h3 { margin: 0; font-size: 16px; }
+.analysis-main { min-width: 0; flex: 1; }
+.analysis-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.analysis-detail-grid div { display: flex; flex-direction: column; gap: 3px; padding: 8px; border-radius: 9px; background: rgba(255,255,255,.65); }
+.analysis-detail-grid strong, .analysis-label { color: var(--ink); font-size: 10px; }
+.analysis-detail-grid span { color: var(--muted); font-size: 10px; line-height: 1.5; overflow-wrap: anywhere; }
+.analysis-label { display: block; margin-top: 12px; }
 .review-action-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; align-items: end; margin-top: 12px; padding: 15px; border: 1px solid #e3c995; border-radius: 14px; background: #fffaf0; }
 .review-action-card h3 { margin: 0; font-size: 15px; }
 .review-action-card p { margin: 6px 0 9px; color: #765f36; font-size: 11px; line-height: 1.7; }
@@ -225,6 +235,7 @@ footer { max-width: 1364px; margin: 0 auto; padding: 22px 0 34px; border-top: 1p
   .intake-panel, .result-panel { padding: 17px; }
   .form-grid, .evidence-grid { grid-template-columns: 1fr; }
   .analysis-card { align-items: stretch; flex-direction: column; }
+  .analysis-detail-grid { grid-template-columns: 1fr; }
   .review-action-card { grid-template-columns: 1fr; align-items: stretch; }
   .review-action-buttons { flex-direction: row; }
   .primary-button.compact { flex: 1; min-width: 0; }

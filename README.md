@@ -6,7 +6,7 @@
 
 - 产品形态：响应式网页系统，适合电脑答辩、手机拍照上传和快速迭代。
 - 本机职责：开发网页、后端业务、数据管理和接口联调。
-- 服务器职责：视觉模型训练、验证、导出；后续多模态模型部署及推理服务。
+- 服务器职责：视觉模型训练、验证、导出，以及 Qwen3-VL 多模态推理服务。
 - 模型接入：网页通过后端调用服务器推理接口，本机不承担正式训练负载。
 
 ## 当前进度
@@ -21,6 +21,7 @@
 - 界面会明确区分真实模型结果、模型尚未配置和需要人工复核，不使用写死的识别结论。
 - Phase 6 知识契约位于 `backend/app/knowledge.py`：`GET /api/catalog/knowledge` 返回 16 类知识卡片、来源和安全边界；病例结果中的 `detector_summary.explainability` 保存检测框、置信度、模型/路由证据、来源和人工复核触发原因。
 - `POST /api/cases/{case_id}/review` 会记录 `accepted`、`needs_more_evidence` 或 `rejected` 决策及证据快照；`GET /api/cases/review-queue` 和 `GET /api/cases/{case_id}/review-events` 用于复核队列与审计追溯。知识卡片只提供综合防治方向，不生成具体药剂、剂量、混配或安全间隔。
+- Phase 8 已接入服务器自托管 `Qwen3-VL-8B-Instruct`：网页主操作一键完成“上传→目标检测→多模态分析→保存→查看”，分析失败时保留病例和检测结果并支持只重试分析；后端通过严格 JSON Schema/Pydantic 校验 C 项字段，已有质量和检测风险只能升级、不能被多模态结论清除。
 
 ## 目录
 
@@ -80,3 +81,7 @@ npm.cmd run dev
   ```
 
   默认只做静态门并可离线运行；需要强制检查本机后端、推理隧道和网页时追加 `--require-services`。正式性能仍以服务器证据清单为准，当前路由保持 `shadow`。
+
+## Phase 8 多模态证据
+
+Qwen3-VL 的隔离部署、启动/停止/状态脚本和 8870/8890 双隧道见 `inference/README.md`。正式 16 类分层证据位于 `artifacts/server/phase8-multimodal-evidence-20260810.json`（SHA-256 `be54b463fcb6a709197510159d963e668d825d68ce7ee780c29f575b74baf415`）：每类 10 张，共 160/160 成功，端到端 Top-1 86.25%，结构校验 100%，P50/P95 端到端延迟 2.326/2.949 秒，并发 2 吞吐 0.841 张/秒，峰值显存 24,024 MiB，模型目录约 16.34 GiB。冲突识别仅 1/17（5.88%），因此 `active` 路由仍关闭，本阶段不启动重训。

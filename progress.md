@@ -459,3 +459,69 @@
 - Regression evidence: backend `9 passed`; web build/render test `3 passed`; lint `0 errors` with the existing three image warnings; `py_compile` and `git diff --check` passed.
 - The local service was not reconfigured or restarted during Phase 7. Its health endpoint is reachable but reports `detector_mode=unconfigured`; the remote inference tunnel remains healthy in shadow mode. This preserves the documented offline fallback and does not alter server weights or routing.
 - Staged only the Phase 7 files and planning updates (never `CLAUDE.md`), reran the report after staging and after commit, and created the local Phase 7 commit. `git push` and a subsequent `git ls-remote` both failed at `github.com:443` (connection reset/unreachable); no remote partial write occurred. Network recovery only requires pushing the local branch's one leading commit.
+
+## Phase 8 Kickoff — 2026-08-10
+
+- **Status:** in_progress.
+- **Assumptions locked:** self-host Qwen3-VL-8B-Instruct on the existing RTX 5090; use vLLM OpenAI-compatible chat completions; change the primary web path to one-click upload→detect→analyze; persist Karpathy Guidelines in `task_plan.md`; keep `active` off and do not retrain.
+- **Success criteria:** real `/v1/models` and image request; backend health reports multimodal configured; strict C-item schema persists in case history; real browser flow succeeds and can reload history; 16-class stratified evidence records accuracy/completeness/latency/throughput/VRAM/model size without simulated values.
+- **Scope guardrail:** only touch planning, VLM deployment/tunnel, backend multimodal/config/tests, the diagnosis page, directly related docs/evidence; preserve untracked `CLAUDE.md`.
+- **Server baseline:** SSH succeeds; RTX 5090 is idle with 32,607 MiB total; `/root/autodl-tmp` has about 43G free; no VLM or inference process currently runs.
+- **Current step:** inspect the exact backend/web contracts and tests, implement the smallest local code change first, then deploy the endpoint and run real integration checks.
+
+### Phase 8 error log
+
+- A combined parallel recovery command returned exit code 1 without usable output. It was split into individual checks.
+- Windows `python.exe` again resolved to the Microsoft Store placeholder; session catch-up succeeded with the bundled Codex workspace Python. All further local Python checks will use that interpreter.
+- The first backend test command repeated the repository-relative `backend/.venv` prefix while already using `backend` as its working directory. The corrected `.venv/Scripts/python.exe` command passed; this was a path-only error.
+- The first web regression used PowerShell's blocked `npm.ps1` entry point. Re-running the same package scripts through `npm.cmd` passed; no source change was required.
+- The first dual-tunnel PowerShell parse check found a trailing comma in the SSH argument array. The comma was removed before the script was run or synchronized.
+- The first vLLM 0.26.0 launch rejected the removed `--disable-log-requests` CLI flag before any model download or GPU allocation. Current CLI help confirmed the remaining model-length, memory, multimodal, sequence and served-name options; the obsolete flag was removed for the second launch.
+- The second launch reached model resolution but the server could not connect to `huggingface.co:443`; no cache file or GPU allocation occurred. The exact process was stopped. `https://hf-mirror.com` returned the official repository commit header successfully, so the deployment now pins revision `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` and uses the reachable mirror only as the transport endpoint.
+- The mirror-resolved launch then failed because Hugging Face Hub still selected Xet CAS and its reconstruction endpoint returned `401 Unauthorized`; GPU remained at 0 MiB. The deployment was reworked instead of retried: `download` disables Xet, materializes the pinned snapshot under `${CROP_VLM_ROOT}/model`, and `start` loads only that local path.
+- A direct inline download probe was not executed because nested PowerShell/SSH quoting produced a local parser error. The persistent `download` action replaces that fragile command and is Bash-syntax checked before use.
+- The first evidence-script upload assumed the remote work copy already had a top-level `scripts/` directory; it did not. Backend files had already copied successfully. The exact remote directory was created, the evidence script uploaded, and all synchronized Phase 8 Python files passed remote `py_compile`.
+
+## Phase 8 Backend Contract — 2026-08-10
+
+- **Status:** complete. `CROP_VLM_ENDPOINT` now targets an OpenAI-compatible chat-completions endpoint; added model and timeout settings without changing the public analyze route or database schema.
+- Added strict `phase8-multimodal-v1` validation for diagnosis, candidates, symptoms, harm, causes, evidence, uncertainty, detector alignment and review status. Responses persist model/protocol/latency provenance without endpoint secrets.
+- Existing detector and quality risks are merged into `review_reasons`; the VLM cannot clear them. No-target, uncertain alignment or conflict also force review. The system prompt forbids product, dose, mixture, re-entry and pre-harvest instructions.
+- Validation after the first implementation: backend full suite `13 passed` with one pre-existing Starlette deprecation warning. A persisted API success/reload case was then added and will be included in the next full regression.
+
+## Phase 8 One-Click Web Flow — 2026-08-10
+
+- **Status:** implementation complete; regression pending. The existing form now calls upload, detect and analyze in sequence and exposes the active stage without introducing new routes or components.
+- If visual detection succeeds but the VLM call fails, the detected case remains active and saved; the analysis card offers a VLM-only retry. Upload/detection are not repeated.
+- The analysis card now renders all C-item fields: primary/candidate diagnosis, symptoms, harm, possible causes, evidence, uncertainty, detector alignment, review reasons, model and latency.
+- Detector/quality and multimodal review reasons are merged in the existing review card. History and Phase 6 knowledge/review behavior remain unchanged.
+## Phase 8 VLM Runtime Recovery — 2026-08-10
+
+- Qwen3-VL completed its local weight load, but FlashInfer sampler warmup rejected the RTX 5090 architecture. Because the load used only about 21.1 GiB before KV cache allocation and did not report OOM, the one-time 4096/72% memory fallback was not triggered. The targeted documented fix disables only FlashInfer sampling and preserves FlashAttention.
+- The first 16-class smoke collector completed without calling the VLM because it passed the `ImageQuality` dataclass where the backend contract expects its dictionary form. The collector now uses the same `.as_dict()` conversion as the production API and records the materialized model directory size separately; no service or model change was needed.
+- The next smoke run proved all 16 real image requests returned HTTP 200 and passed Pydantic, but vLLM legitimately emitted `{}` because every schema field had a Pydantic default. All nine C-item output fields are now required by the strict JSON schema (nullable diagnosis remains allowed), preventing an empty object from counting as a valid analysis.
+- The normal class-2 browser sample produced the same detector and VLM diagnosis (`南瓜白粉病`) but the model also labeled alignment as `conflict`. A deterministic post-validation reconciliation now derives agreement/conflict from the two primary names, records the raw model value in provenance, and still preserves every pre-existing detector/quality review risk.
+- Real browser failure-recovery setup exposed that choosing the same file twice does not fire the native file-input `change` event, leaving the prior completed case visible. The file input now clears its browser value before each chooser open, so same-file reruns reset the pipeline and create a new case as expected.
+- The first formal 160-image run returned 151 successes and 9 failures: four JSON responses reached the 800-token output cap, while five vLLM requests returned HTTP 400. The cap is raised to 1200 and HTTP failures now retain a bounded response detail; the collector supports exact sample-ID reruns so the 400 cause can be diagnosed without repeating unaffected samples.
+- Exact reruns proved the HTTP 400 cause was image-derived input lengths of 8,426–14,299 tokens exceeding the fixed 8,192 context, not service instability. The OpenAI request now uses vLLM's advertised `mm_processor_kwargs.max_pixels=1003520` while still sending the complete source image, and constrains concise list lengths so 1,200 output tokens are sufficient.
+- Review of the zero-failure evidence exposed a metric bug: class 8 `芫菁` is a substring of class 15 `豆芫菁`, so substring-only matching could inflate class-8 Top-1 and falsely mark class-8/15 agreement. Diagnosis text is now resolved to the longest matching catalog name before comparing class IDs; final evidence must be regenerated with this corrected rule.
+- The combined local syntax command attempted `bash -n` on Windows, where Bash is not installed; Python compile, PowerShell parse and `git diff --check` remained usable, and the VLM shell script had already passed `bash -n` on the target Linux server.
+- A post-fix compile command was launched from `backend/` while naming root-relative `scripts/...`; the 17 backend tests had already passed, and the compile path was corrected by running it from the repository root before synchronization.
+- The first final `--require-services` gate passed all static/Phase 5/Phase 8/VLM/detector/web checks but found the detached local backend process had exited, so the 8000 probes timed out and the gate correctly failed. The backend was restarted with the final environment before repeating the gate; no model or evidence result was affected.
+
+## Phase 8 Live Endpoint and Browser E2E — 2026-08-10
+
+- **Endpoint:** `crop-pest-vlm` is healthy on server loopback port 8890 with max context 8192; detector port 8870 is healthy with 16 classes and `shadow`. The dual local tunnel and backend health checks passed.
+- **Normal sample:** official class 2 completed upload→detect→analyze→save in the real webpage, with detector `南瓜白粉病` 91.78%, structured Qwen3-VL diagnosis, all C-item fields, `agree` alignment and model latency displayed.
+- **Weak/risk sample:** the class-10 field image retained its no-target/shadow-candidate evidence and required human review; no existing risk was cleared.
+- **Failure recovery:** with a controlled local endpoint failure, detection and the case remained saved, the VLM-only retry appeared, and after restoring the endpoint that button completed analysis without another upload/detection. Same-file reselection and post-refresh history restoration also passed.
+- **Regression checkpoint:** backend `17 passed` with one pre-existing warning; web build and 3 rendered routes passed; lint has 0 errors and the same 3 existing `<img>` warnings. Final 160-image evidence rerun is in progress after all nine first-run failures passed exact targeted reruns.
+
+## Phase 8 Completion — 2026-08-10
+
+- **Status:** complete. Real Qwen3-VL endpoint, OpenAI-compatible strict backend contract, one-click web pipeline, failure-preserving retry, real browser E2E, stratified metrics and competition/reproduction materials are implemented.
+- **Final evidence:** 160/160 successful, Top-1 86.25%, schema valid 100%, content nonempty 58.13%, unsafe output 0, risk-preservation failure 0; SHA-256 `be54b463fcb6a709197510159d963e668d825d68ce7ee780c29f575b74baf415`.
+- **Performance/resources:** end-to-end P50/P95 2325.747/2949.004 ms; sequential/concurrency-2 throughput 0.429228/0.841212 image/s; peak GPU 24,024 MiB; model directory 17,545,920,365 bytes.
+- **Gate:** error-conflict identification is only 1/17 (5.88%), so `active` remains forbidden. No new training or second-round experiment was started.
+- **Git handoff:** the final live gate passed, the Phase 8 scope was committed locally without `CLAUDE.md`, and the branch is one commit ahead of origin. The remaining external action is the user's manual GitHub push.
+- **Final reproduction gate:** `phase8-final-repro-v1` passed after backend restart: 25/25 required files, Phase 5 and Phase 8 evidence, 16-class/4-source knowledge contract, public boundary, and all five live probes (backend health, knowledge, detector 8870, VLM 8890, web 3000) are true. Generated report remains under ignored `artifacts/release/`.
