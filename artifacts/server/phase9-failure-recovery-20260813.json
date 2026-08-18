@@ -1,0 +1,49 @@
+{
+  "case_id": "fa0bfbff69a54ed0b0791bc8590dd7cd",
+  "before_vlm_down": {
+    "status": "analyzed",
+    "resolution_status": "conclusive",
+    "is_test": true,
+    "detection_count": 1,
+    "analysis_status": "completed"
+  },
+  "vlm_down": {
+    "http_status": 502,
+    "response_status": null,
+    "resolution_status": null,
+    "detail": "多模态服务调用失败：多模态服务返回 502: ",
+    "diagnosis": null,
+    "schema_version": null,
+    "detection_count": 0
+  },
+  "after_vlm_down": {
+    "status": "analyzed",
+    "resolution_status": "conclusive",
+    "is_test": true,
+    "detection_count": 1,
+    "analysis_status": "completed"
+  },
+  "before_vlm_up": {
+    "status": "detected",
+    "resolution_status": "no_supported_target",
+    "is_test": false,
+    "detection_count": 0,
+    "analysis_status": null
+  },
+  "vlm_up": {
+    "http_status": 200,
+    "response_status": "analyzed",
+    "resolution_status": "no_supported_target",
+    "detail": null,
+    "diagnosis": "豆芫菁",
+    "schema_version": "phase9-multimodal-v2",
+    "detection_count": 0
+  },
+  "after_vlm_up": {
+    "status": "analyzed",
+    "resolution_status": "no_supported_target",
+    "is_test": false,
+    "detection_count": 0,
+    "analysis_status": "completed"
+  }
+}

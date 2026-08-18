@@ -1,0 +1,118 @@
+{
+  "created_at": "2026-08-12",
+  "scope": {
+    "official_frozen_images": 833,
+    "official_frozen_split_sha256": "91a777a8818b8766f49f67891562d1cd808198a89586ec370b49a9e56d7096a4",
+    "main_model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+    "operating_confidence": 0.25,
+    "iou_threshold": 0.5,
+    "note": "混淆统计使用当前主模型 CPU 只读审计；shadow 对照复用已经运行的 8870 服务，不额外加载模型。"
+  },
+  "confusion": {
+    "axis": "actual_to_predicted; missed means background prediction",
+    "classes": {
+      "8": {
+        "ground_truth_boxes": 98,
+        "predicted_as": {"8": 62, "12": 1, "13": 2, "15": 15},
+        "missed": 18,
+        "prediction_row_at_threshold": {"predicted_count": 98, "actual_8": 62, "actual_10": 4, "actual_12": 3, "actual_13": 5, "actual_15": 13, "background": 11},
+        "best_threshold_scan": {"threshold": 0.5, "precision": 0.738095, "recall": 0.632653, "f1": 0.681319}
+      },
+      "10": {
+        "ground_truth_boxes": 87,
+        "predicted_as": {"8": 4, "10": 67, "13": 6},
+        "missed": 10,
+        "prediction_row_at_threshold": {"predicted_count": 97, "actual_10": 67, "actual_12": 3, "actual_13": 18, "background": 9},
+        "best_threshold_scan": {"threshold": 0.45, "precision": 0.741176, "recall": 0.724138, "f1": 0.732558}
+      },
+      "13": {
+        "ground_truth_boxes": 89,
+        "predicted_as": {"8": 5, "9": 3, "10": 18, "13": 54},
+        "missed": 9,
+        "prediction_row_at_threshold": {"predicted_count": 69, "actual_8": 2, "actual_9": 1, "actual_10": 6, "actual_13": 54, "background": 6},
+        "best_threshold_scan": {"threshold": 0.15, "precision": 0.794521, "recall": 0.651685, "f1": 0.716049}
+      },
+      "15": {
+        "ground_truth_boxes": 83,
+        "predicted_as": {"8": 13, "15": 66},
+        "missed": 4,
+        "prediction_row_at_threshold": {"predicted_count": 87, "actual_8": 15, "actual_12": 1, "actual_15": 66, "background": 5},
+        "best_threshold_scan": {"threshold": 0.7, "precision": 0.842105, "recall": 0.771084, "f1": 0.805031}
+      }
+    },
+    "key_pairwise_confusions": {
+      "8_to_15": {"boxes": 15, "rate_of_actual_8": 0.153061},
+      "15_to_8": {"boxes": 13, "rate_of_actual_15": 0.156627},
+      "10_to_13": {"boxes": 18, "rate_of_actual_10": 0.206897},
+      "13_to_10": {"boxes": 18, "rate_of_actual_13": 0.202247}
+    }
+  },
+  "data_audit": {
+    "unified_allowed_images": 4490,
+    "unified_dev_train_images": 3816,
+    "unified_dev_val_images": 674,
+    "opencv_images_checked": 4490,
+    "opencv_issue_count": 0,
+    "class_box_counts_in_unified_data": {"8": 498, "10": 800, "13": 352, "15": 322},
+    "sha256_overlap": {
+      "dev_train_vs_dev_val": 0,
+      "dev_train_vs_official_frozen": 0,
+      "dev_val_vs_official_frozen": 0,
+      "final_train_vs_official_frozen": 0,
+      "expert_tune_vs_expert_frozen": 0,
+      "expert_tune_vs_unified_dev": 0,
+      "expert_frozen_vs_unified_dev": 0,
+      "expert_tune_vs_official_frozen": 0,
+      "expert_frozen_vs_official_frozen": 0
+    },
+    "official_frozen_internal_duplicates": {
+      "files": 833,
+      "unique_sha256": 830,
+      "duplicate_groups": 3,
+      "groups": [
+        ["pd_126d67a051e16765.jpg", "pd_36cba2156d8e3328.jpg"],
+        ["pd_3beb202f14ee4f79.jpg", "pd_73b8a8495ff242da.jpg"],
+        ["pd_7daa85f59e337332.jpg", "pd_c466e22330df7b25.jpg"]
+      ]
+    },
+    "independent_expert_sets": {
+      "class10_source_images": {"tune": 32, "frozen": 16},
+      "class13_reviewed_images": {"tune": 69, "frozen": 69},
+      "combined_calibration_lists": {"tune": 101, "frozen": 85},
+      "class8_or_class15_independent_expert_frozen": false,
+      "roboflow_class13_training_445": "excluded_missing_source"
+    },
+    "quality_decision": "split_independence_passes_at_sha256_level; accepted unified images pass OpenCV audit; official frozen set has three internal duplicate groups and should be disclosed as a metric caveat."
+  },
+  "shadow_evaluation": {
+    "endpoint_requests": 833,
+    "successful_requests": 833,
+    "failed_requests": 0,
+    "routing_mode_observed": "shadow",
+    "reclassify_observed": false,
+    "main_and_shadow_keep_identical": true,
+    "candidate_coverage": {
+      "class10": {"ground_truth_boxes": 87, "covered_at_iou50": 76, "crop_top1_agreement_on_covered": 62},
+      "class13": {"ground_truth_boxes": 89, "covered_at_iou50": 75, "crop_top1_agreement_on_covered": 53}
+    },
+    "same_code_counterfactual_current_active_parameters": {
+      "main_map50": 0.783818,
+      "main_map50_95": 0.505247,
+      "main_weak_map50_95": 0.309752,
+      "counterfactual_map50": 0.780377,
+      "counterfactual_map50_95": 0.503916,
+      "counterfactual_weak_map50_95": 0.30443,
+      "delta_map50": -0.003441,
+      "delta_map50_95": -0.001331,
+      "delta_weak_map50_95": -0.005323,
+      "class10_delta_map50_95": -0.002504,
+      "class13_delta_map50_95": -0.018787,
+      "class8_delta_map50_95": 0.0,
+      "class15_delta_map50_95": 0.0,
+      "promotion_gate_passed": false
+    },
+    "decision": "keep_shadow",
+    "reason": "shadow 保持主模型结果没有改变输出；当前 active 规则的同集离线反事实整体、弱类、类10和类13均下降，且类8/15没有专家路由。"
+  },
+  "metric_note": "shadow-route JSON 的 mAP 是为同一 HTTP 输出做相对比较的标准库实现，不替代 Ultralytics 官方冻结评测的线上基线 mAP50-95=0.548224。"
+}

@@ -17,6 +17,25 @@ import httpx
 
 
 REQUIRED_CONTENT_FIELDS = ("primary_diagnosis", "symptoms", "harm_level", "possible_causes", "evidence")
+PHASE9_REQUIRED_CONTENT_FIELDS = (
+    "primary_diagnosis",
+    "candidate_diagnoses",
+    "symptoms",
+    "harm",
+    "harm_level",
+    "possible_causes",
+    "evidence",
+    "uncertainty",
+    "required_additional_photos",
+    "detector_alignment",
+    "field_input_consistency",
+    "content_sufficiency",
+    "diagnostic_risk",
+    "field_severity",
+    "severity_basis",
+    "independent_judgment",
+    "provenance",
+)
 PROHIBITED_MARKERS = ("农药剂量", "混配", "倍液", "毫升/亩", "克/亩", "采收间隔", "安全间隔", "复入间隔")
 
 
@@ -31,6 +50,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--vlm-root", type=Path, default=Path("/root/autodl-tmp/crop-pest-vlm"))
     parser.add_argument("--concurrency-samples", type=int, default=8)
     parser.add_argument("--only-sample-id", action="append", default=[])
+    parser.add_argument("--phase9", action="store_true")
     return parser.parse_args()
 
 
@@ -132,8 +152,8 @@ class GpuMonitor:
         self.thread.join(timeout=2)
 
 
-def content_complete(analysis: dict[str, Any]) -> bool:
-    for field in REQUIRED_CONTENT_FIELDS:
+def content_complete(analysis: dict[str, Any], fields: tuple[str, ...] = REQUIRED_CONTENT_FIELDS) -> bool:
+    for field in fields:
         value = analysis.get(field)
         if value is None or value == "" or value == []:
             return False
@@ -184,12 +204,18 @@ def main() -> int:
                     summary["review_reasons"] = list(dict.fromkeys([*summary["review_reasons"], *quality["flags"]]))
                 summary["inference"] = detector.last_metadata
                 case_record = {
-                    "id": f"phase8-eval-{index:04d}",
+                    "id": f"phase{'9' if args.phase9 else '8'}-eval-{index:04d}",
                     "crop": CLASS_BY_ID[sample["class_id"]]["crop"],
                     "part": "叶片" if CLASS_BY_ID[sample["class_id"]]["type"] == "病害" else "田间环境",
                     "growth_stage": "未知",
                     "environment": {"scene": "官方冻结验证集", "temperature": "", "humidity": ""},
-                    "notes": "Phase 8 真实分层评估",
+                    "notes": (
+                        "Phase 9 真实分层评估；受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。"
+                        if args.phase9
+                        else "Phase 8 真实分层评估"
+                    ),
+                    "affected_ratio_percent": 12.5 if args.phase9 else None,
+                    "spread_speed": "slow" if args.phase9 else "unknown",
                     "quality": quality,
                     "detections": detections,
                     "detector_summary": summary,
@@ -210,12 +236,29 @@ def main() -> int:
                         and detector_primary_class_id not in sample["ground_truth_classes"],
                         "detector_needs_review": summary["needs_review"],
                         "analysis_primary_diagnosis": analysis.get("primary_diagnosis"),
+                        "independent_primary_diagnosis": (
+                            analysis.get("independent_judgment") or {}
+                        ).get("primary_diagnosis"),
                         "detector_alignment": analysis.get("detector_alignment"),
+                        "severity_basis": analysis.get("severity_basis") if args.phase9 else None,
+                        "analysis_provenance": analysis.get("provenance") if args.phase9 else None,
                         "needs_human_review": analysis.get("needs_human_review"),
                         "review_reasons": analysis.get("review_reasons"),
                         "top1_match": diagnosis_class_id(analysis.get("primary_diagnosis")) == sample["class_id"],
                         "schema_valid": analysis.get("schema_version") == ANALYSIS_SCHEMA_VERSION,
-                        "content_complete": content_complete(analysis),
+                        "content_complete": content_complete(
+                            analysis,
+                            PHASE9_REQUIRED_CONTENT_FIELDS if args.phase9 else REQUIRED_CONTENT_FIELDS,
+                        ),
+                        "severity_input_cited": (
+                            "12.5" in str(analysis.get("severity_basis", ""))
+                            and any(
+                                marker in str(analysis.get("severity_basis", "")).lower()
+                                for marker in ("slow", "缓慢", "扩散速度")
+                            )
+                        )
+                        if args.phase9
+                        else None,
                         "unsafe_marker_hits": [marker for marker in PROHIBITED_MARKERS if marker in serialized],
                         "vlm_latency_ms": round(vlm_latency_ms, 3),
                         "end_to_end_ms": round((time.perf_counter() - started) * 1000, 3),
@@ -265,7 +308,7 @@ def main() -> int:
     identified_conflicts = [item for item in expected_conflicts if item["detector_alignment"] == "conflict"]
     review_triggered = [item for item in successful if item["needs_human_review"]]
     evidence = {
-        "schema_version": "phase8-evidence-v1",
+        "schema_version": "phase9-evidence-v1" if args.phase9 else "phase8-evidence-v1",
         "generated_at_epoch": time.time(),
         "configuration": {
             "val_list": str(args.val_list),
@@ -274,6 +317,12 @@ def main() -> int:
             "vlm_endpoint_protocol": "openai_chat_completions",
             "vlm_model": args.vlm_model,
             "active_routing_allowed": False,
+            "evaluation_mode": "phase9" if args.phase9 else "phase8",
+            "field_input_note": (
+                "affected_ratio_percent=12.5 and spread_speed=slow are controlled protocol inputs, not field severity ground truth"
+                if args.phase9
+                else None
+            ),
         },
         "services": {"detector_health": detector_health, "vlm_models": vlm_models},
         "selection": {"total": len(samples), "per_class": per_class_selected},
@@ -284,6 +333,11 @@ def main() -> int:
             "top1_accuracy": round(sum(bool(item["top1_match"]) for item in successful) / len(successful), 6) if successful else None,
             "schema_valid_rate": round(sum(bool(item["schema_valid"]) for item in successful) / len(successful), 6) if successful else None,
             "content_complete_rate": round(sum(bool(item["content_complete"]) for item in successful) / len(successful), 6) if successful else None,
+            "severity_input_citation_rate": (
+                round(sum(bool(item["severity_input_cited"]) for item in successful) / len(successful), 6)
+                if args.phase9 and successful
+                else None
+            ),
             "expected_conflict_count": len(expected_conflicts),
             "conflict_identified_count": len(identified_conflicts),
             "conflict_identification_rate": round(len(identified_conflicts) / len(expected_conflicts), 6) if expected_conflicts else None,

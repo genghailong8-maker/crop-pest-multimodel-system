@@ -1,0 +1,10 @@
+{
+  "case_id": "1a1d836ef8da4649b51f2848d87fe506",
+  "http_status": 200,
+  "status": "model_unavailable",
+  "resolution_status": "service_unavailable",
+  "diagnostic_risk": "high",
+  "detection_count": 0,
+  "user_summary": "图片已经保存，但识别服务暂时不可用。",
+  "next_action": "服务恢复后重新进行图片识别。"
+}

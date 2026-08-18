@@ -2,7 +2,9 @@ from __future__ import annotations
 
 import io
 from dataclasses import replace
+from datetime import UTC, datetime, timedelta
 
+import httpx
 from fastapi.testclient import TestClient
 from PIL import Image
 
@@ -50,6 +52,10 @@ def test_upload_history_and_model_unavailable(tmp_path, monkeypatch):
         created = upload.json()
         assert created["status"] == "uploaded"
         assert created["image_width"] == 640
+        assert created["public_consent"] is False
+        assert created["expires_at"] is None
+        assert created["is_test"] is False
+        assert created["resolution_status"] == "conclusive"
 
         detection = client.post(f"/api/cases/{created['id']}/detect")
         assert detection.status_code == 200
@@ -57,10 +63,41 @@ def test_upload_history_and_model_unavailable(tmp_path, monkeypatch):
         assert detected["status"] == "model_unavailable"
         assert detected["quality"]["width"] == 640
         assert detected["detector_summary"]["needs_review"] is True
+        assert detected["resolution_status"] == "service_unavailable"
 
         history = client.get("/api/cases")
         assert history.status_code == 200
         assert len(history.json()) == 1
+
+        expired_at = (datetime.now(UTC) - timedelta(days=1)).isoformat()
+        database.update_case(
+            created["id"],
+            public_consent=True,
+            expires_at=expired_at,
+        )
+        image_path = test_settings.upload_dir / f"{created['id']}.jpg"
+
+        local_history = client.get("/api/cases")
+        assert [item["id"] for item in local_history.json()] == [created["id"]]
+        assert image_path.exists()
+
+        database.update_case(created["id"], is_test=True)
+        assert client.get("/api/cases").json() == []
+        admin_test = client.get("/api/cases?record_scope=test")
+        assert [item["id"] for item in admin_test.json()] == [created["id"]]
+        assert client.get("/api/trends?days=30").json()["total"] == 0
+        database.update_case(created["id"], is_test=False)
+
+        trend = client.get("/api/trends?days=30")
+        assert trend.status_code == 200
+        assert trend.json()["total"] == 1
+        assert "本机保存的诊断记录" in trend.json()["scope"]
+        assert image_path.exists()
+
+    with TestClient(main.app) as restarted_client:
+        restarted_history = restarted_client.get("/api/cases")
+        assert [item["id"] for item in restarted_history.json()] == [created["id"]]
+        assert image_path.exists()
 
 
 def test_rejects_non_image(tmp_path, monkeypatch):
@@ -134,7 +171,7 @@ def test_remote_detector_preserves_routing_metadata(tmp_path, monkeypatch):
 
 
 def test_phase6_knowledge_contract_is_source_registered():
-    from app.knowledge import KNOWLEDGE_SCHEMA_VERSION, knowledge_contract
+    from app.knowledge import KNOWLEDGE_SCHEMA_VERSION, knowledge_contract, prioritized_guidance
 
     contract = knowledge_contract()
     assert contract["schema_version"] == KNOWLEDGE_SCHEMA_VERSION
@@ -144,6 +181,28 @@ def test_phase6_knowledge_contract_is_source_registered():
     assert contract["safety_boundary"]["scope"] == "general_ipm_orientation_only"
     assert contract["safety_boundary"]["chemical_limit"]
     assert all(card["source_ids"] for card in contract["classes"])
+    source_by_id = {item["id"]: item for item in contract["sources"]}
+    for card in contract["classes"]:
+        class_sources = [
+            source_by_id[source_id]
+            for source_id in card["source_ids"]
+            if source_by_id[source_id]["evidence_level"].startswith("class_specific")
+        ]
+        assert class_sources, card["class_id"]
+        assert all(source["url"].startswith("https://") for source in class_sources)
+        assert all(source["retrieved_at"] == "2026-08-11" for source in class_sources)
+        assert set(card["management"]) == {
+            "agronomic",
+            "physical",
+            "biological",
+            "monitoring_and_escalation",
+        }
+        assert all(card["management"][key] for key in card["management"])
+        assert "具体产品" in card["chemical_safety"]
+    guidance = prioritized_guidance(0, "high", "unknown")
+    assert guidance is not None
+    assert "人工复核" in "".join(guidance["immediate"])
+    assert "无法判断" in "".join(guidance["immediate"])
 
 
 def test_case_review_queue_and_audit_history(tmp_path, monkeypatch):
@@ -339,3 +398,70 @@ def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
         reloaded = client.get(f"/api/cases/{case_id}")
         assert reloaded.status_code == 200
         assert reloaded.json()["analysis"]["provenance"]["model"] == "crop-pest-vlm"
+
+
+def test_multimodal_failure_returns_saved_case_for_retry(tmp_path, monkeypatch):
+    test_settings = replace(
+        config.settings,
+        storage_dir=tmp_path,
+        database_path=tmp_path / "test.sqlite3",
+        upload_dir=tmp_path / "uploads",
+        vlm_endpoint="http://127.0.0.1:8890/v1/chat/completions",
+    )
+    monkeypatch.setattr(database, "settings", test_settings)
+    monkeypatch.setattr(main, "settings", test_settings)
+
+    async def unavailable(_record, _image_path):
+        raise httpx.ReadTimeout("timed out", request=httpx.Request("POST", test_settings.vlm_endpoint))
+
+    monkeypatch.setattr(main, "request_multimodal_analysis", unavailable)
+
+    with TestClient(main.app) as client:
+        upload = client.post(
+            "/api/cases",
+            files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
+            data={
+                "crop": "玉米",
+                "part": "叶片",
+                "growth_stage": "苗期",
+                "environment_json": "{}",
+            },
+        )
+        case_id = upload.json()["id"]
+        database.update_case(
+            case_id,
+            status="detected",
+            quality={"acceptable": True, "flags": []},
+            detections=[
+                {
+                    "class_id": 0,
+                    "class_name": "玉米叶枯病",
+                    "confidence": 0.87,
+                    "bbox": [0.1, 0.2, 0.3, 0.4],
+                }
+            ],
+            detector_summary={"needs_review": False, "review_reasons": []},
+        )
+
+        response = client.post(f"/api/cases/{case_id}/analyze")
+
+        assert response.status_code == 200
+        payload = response.json()
+        assert payload["status"] == "multimodal_unavailable"
+        assert payload["resolution_status"] == "service_unavailable"
+        assert payload["diagnostic_risk"] == "high"
+        assert payload["field_severity"] == "unknown"
+        assert payload["user_summary"] == "图片识别结果已经保存，但综合分析暂时不可用。"
+        assert payload["next_action"] == "服务恢复后只需重试综合分析。"
+        assert payload["analysis"] == {
+            "status": "unavailable",
+            "message": "综合分析服务暂时不可用",
+            "needs_human_review": True,
+            "review_reasons": ["综合分析服务暂时不可用"],
+        }
+        assert payload["detections"][0]["class_name"] == "玉米叶枯病"
+
+        reloaded = client.get(f"/api/cases/{case_id}")
+        assert reloaded.status_code == 200
+        assert reloaded.json()["status"] == "multimodal_unavailable"
+        assert reloaded.json()["detections"][0]["class_name"] == "玉米叶枯病"

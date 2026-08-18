@@ -1,0 +1,22 @@
+services:
+  gateway:
+    image: public.ecr.aws/docker/library/nginx:1.27-alpine
+    pull_policy: never
+
+  web:
+    build:
+      context: /data/ghl
+      dockerfile: app/deploy/lab/Dockerfile.web.offline
+
+  backend:
+    build:
+      context: /data/ghl
+      dockerfile: app/deploy/lab/Dockerfile.backend.offline
+
+  detector:
+    build:
+      context: /data/ghl
+      dockerfile: app/deploy/lab/Dockerfile.inference.offline
+
+  vlm:
+    pull_policy: never

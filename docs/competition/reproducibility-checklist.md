@@ -55,10 +55,13 @@ git diff --check
 | 独立校准 | `artifacts/experiments/independent-field-calibration-10-13-v2/second-round-calibration-v2.json` | 101 tune、85 frozen 门控 |
 | 知识契约 | `backend/app/knowledge.py` | 16 类来源、安全边界和解释输出 |
 | Phase 8 多模态证据 | `artifacts/server/phase8-multimodal-evidence-20260810.json` | 分层 Top-1、结构/安全、延迟、吞吐、显存和磁盘大小 |
+| Phase 9 两阶段证据 | `artifacts/server/phase9-multimodal-evidence-20260812.json` | 两阶段 Top-1、内容、冲突、严重度引用、安全门、延迟和显存 |
 
 正式报告应引用固定官方验证集指标：Precision 0.839196、Recall 0.776205、mAP50 0.827517、mAP50-95 0.548224。类 10/13 独立 frozen 门未通过，因此复现时不得把 shadow 配置改成 active。
 
 Phase 8 多模态报告应引用固定分层 160 张证据：成功率 100%、Top-1 86.25%、结构校验 100%、内容非空 58.13%、冲突识别 1/17（5.88%）、人工复核 132/160；完整链路 P50/P95 2.326/2.949 秒，并发 2 吞吐 0.841 张/秒，峰值显存 24,024 MiB，模型目录 17,545,920,365 bytes。证据 SHA-256 为 `be54b463fcb6a709197510159d963e668d825d68ce7ee780c29f575b74baf415`。
+
+Phase 9 两阶段正式证据使用同一固定分层 160 张：160/160 成功，Top-1 87.50%，Schema、内容完整和严重度输入引用均为 100%，冲突识别 15/17（88.24%），不安全输出与风险错误清除均为 0；完整链路 P50/P95 4.444/5.087 秒，峰值显存 23,058 MiB。证据 SHA-256 为 `9b31bb691063c14759f70c0283d2f78fd5fee5d4f4c92c749d4568c6d2aba45d`。
 
 ## 5. 服务器复现分层
 
@@ -67,6 +70,26 @@ Phase 8 多模态报告应引用固定分层 160 张证据：成功率 100%、To
 | 文档、知识契约、公开仓库审计 | 否 | 本机标准库即可完成 |
 | 后端/网页回归 | 否 | 模型不可用时仍验证降级路径 |
 | 真实图片 E2E | 是（或兼容推理端点） | 需要远程模型服务和隧道 |
+
 | 真实多模态分层评估 | 是 | 需要检测 8870、Qwen3-VL 8890 和正式冻结验证集；不得使用模拟响应 |
 | 官方验证集重跑 | 是 | 按固定划分和既有权重执行，不改 split |
 | 重新训练/第二轮校准 | 是 | 需要 GPU；当前没有批准新的训练或 active 切换 |
+
+## 6. Phase 9 CPU 与数据门
+
+```powershell
+cd backend
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe scripts\manage_storage.py check
+
+cd ..\web
+npm.cmd test
+npm.cmd run lint
+
+cd ..
+git diff --check
+```
+
+CPU 门应至少覆盖：本地默认显示全部病例、趋势统计全部本机记录、超过 30 天的病例不自动删除、严重度缺失输入为未知、趋势/报告接口、备份恢复、两阶段 prompt 隔离、确定性冲突和风险不降级、16/16 逐类来源。保留的公网兼容测试继续覆盖公开同意与过期、无编辑令牌 403、上传限流 429 和公网管理路由隐藏。
+
+Phase 9 的正式 160 张双阶段评估、16 类真实样本、本机完整 E2E、故障恢复、备份恢复和自动回归已经通过。最终仍需用户在当前电脑的 Chrome/Edge 完成关键用例验收；手机尺寸只做响应式检查，不要求公网、另一台电脑或手机真机。详细状态见 `user-acceptance-matrix-20260811.md` 与 `phase9-evidence-index-20260811.md`。

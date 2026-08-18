@@ -1,5 +1,14 @@
 # Progress Log
 
+## GitHub 发布范围确认（2026-08-18）
+
+- 用户确认发布全部项目文件，包括 Phase 9 训练脚本和约 3.4 MB 评测证据。
+- 继续排除 `tmp/`、模型、SQLite、病例与上传图片、报告运行数据、密钥、缓存、服务器输出和本地 `CLAUDE.md`。
+- 发布到现有分支并更新 Draft PR #1，不创建重复 PR。
+- 暂存审计共 140 个文件、约 4.02 MB，最大文件约 1.91 MB；未发现已知服务器密码、SSH 私钥或 GitHub/OpenAI Token。
+- 发布回归通过：后端 29 项、Phase 9 训练脚本 9 项、前端生产构建及 6 项页面测试；ESLint 0 error、5 个既有 `<img>` warning。
+- `CLAUDE.md` 未暂存且不会上传；用户要求删除，但自动删除被本机安全策略拦截，需由用户手动删除。
+
 ## Phase-5 Integration Kickoff — 2026-08-07
 
 - **Status:** in_progress
@@ -525,3 +534,510 @@
 - **Gate:** error-conflict identification is only 1/17 (5.88%), so `active` remains forbidden. No new training or second-round experiment was started.
 - **Git handoff:** the final live gate passed, the Phase 8 scope was committed locally without `CLAUDE.md`, and the branch is one commit ahead of origin. The remaining external action is the user's manual GitHub push.
 - **Final reproduction gate:** `phase8-final-repro-v1` passed after backend restart: 25/25 required files, Phase 5 and Phase 8 evidence, 16-class/4-source knowledge contract, public boundary, and all five live probes (backend health, knowledge, detector 8870, VLM 8890, web 3000) are true. Generated report remains under ignored `artifacts/release/`.
+
+## Phase 9 Planning Checkpoint — 2026-08-10
+
+- **Status:** pending; no project validation, implementation, deployment change or UI redesign was performed in this conversation.
+- **User-requested order for 2026-08-11:** (1) user-perspective requirements/build acceptance, (2) gap optimization, (3) cross-computer/browser direct-use and dependency audit, (4) backend database/detection-record persistence audit and only-if-needed implementation, (5) user manual use-case validation, (6) UI redesign after all previous gates pass.
+- **Planning output:** the detailed Phase 9 checklist, stop conditions and expected documentation artifacts were added to `task_plan.md`; supporting findings and known boundaries were recorded in `findings.md`.
+- **Current evidence to carry forward:** Phase 8 final evidence is 160/160 successful, Top-1 86.25%, schema-valid 100%, `active` forbidden; local branch is one commit ahead of origin and `CLAUDE.md` remains an untracked user file.
+- **Recovery note:** the first Windows `session-catchup.py` invocation used the Microsoft Store `python.exe` placeholder and exited 1 without output. This conversation did not retry by changing project files; future sessions should use the bundled workspace Python path recorded in the existing planning logs.
+- **Next:** tomorrow resume by reading all three planning files and `git status`, then begin Phase 9.1 only. Do not start 9.2–9.6 early, and do not perform any of the six workstreams in this conversation.
+
+## Karpathy Guidelines Audit — 2026-08-10
+
+- **Status:** complete; rules already existed and were confirmed as mandatory for all future work.
+- **Detected location:** `task_plan.md` → `Mandatory Karpathy Guidelines`, with matching references in the Phase 8/9 findings and progress logs.
+- **Required workflow from now on:** before code changes, state assumptions and success criteria; choose the simplest sufficient implementation; avoid unrelated refactors; make every change reproducibly verifiable; touch only files directly required by the task.
+- **Verification of this audit:** repository-wide `rg` search found the five rules and their Phase 8/9 references; no business code was changed. The untracked `CLAUDE.md` remains untouched.
+- **Next:** apply this workflow at the start of Phase 9.1 and record assumptions, affected files, tests and results before proceeding to any later phase.
+
+## Test Server Connection — 2026-08-11
+
+- **完成内容：** 使用项目专用 SSH 私钥恢复远程检测器和 Qwen3-VL 服务，建立 8870/8890 双隧道，启动本地 FastAPI 后端，并打开前端测试页面。
+- **验证结果：** `8000/health`、`8000/api/catalog/knowledge`、`8870/health`、`8890/v1/models` 和 `localhost:3000/` 均返回 200；浏览器页面已加载“田诊协同｜农作物病虫害识别与防治系统”。
+- **本次错误与处理：** 默认 `id_ed25519` 不存在，改用 `codex_autodl_nongxin_2026`；首次隧道尝试时远程两个服务均未启动，先启动远程 detector/VLM 后重建隧道。
+- **当前可测试地址：** `http://localhost:3000/`。Phase 9.1–9.6 仍未完成，本轮仅恢复测试环境，不标记 Phase 9 完成。
+
+## Phase 9.1 CPU/Static Preflight — 2026-08-11
+
+- **假设与范围：** GPU 当前不可用；只做验收矩阵、源码/API/SQLite 静态核验和 CPU 回归，不启动远程推理，不改业务代码、数据库或 UI。
+- **完成内容：** 对照 README、比赛架构、演示手册、复现清单、前端页面、FastAPI 路由和数据库实现，形成 `docs/competition/user-acceptance-matrix-20260811.md`。
+- **回归结果：** 后端 `17 passed`（1 个既有弃用警告）；网页 build 与 3 个渲染测试通过；lint `0 errors`、3 个既有 `<img>` warnings。
+- **数据库结果：** `backend/runtime/crop-pest.sqlite3` 只读 schema/记录检查完成，11 条病例记录，`PRAGMA integrity_check=ok`；没有新增数据库能力。
+- **当前缺口：** 8870/8890 GPU 隧道关闭；真实 detector/VLM、跨电脑完整访问、重启/换浏览器恢复、备份恢复和并发边界仍未验证；自动备份缺口只记录，不进入 9.2。
+- **下一小任务：** 服务器 GPU 恢复后先做 GPU/远程服务健康检查，再补齐矩阵中的真实检测、综合分析、失败重试和刷新恢复用例；GPU 未恢复则保持等待，不重复尝试。
+
+## Project-Wide Scoring Audit — 2026-08-11
+
+- 读取并视觉核对比赛 PDF 第 8 页“评分项具体判定标准”，锁定题目二 A-E 满分条件。
+- 当前判断：A 上传与闭环、B 真实视觉识别/定位/展示已具备主要功能；C 因关键内容非空率 58.13% 和冲突识别率 5.88% 不能按满分认定；D 具备知识来源和 IPM 安全边界，但逐类权威防治依据与风险等级不足；E 有稳定性、记录、复核、监控和创新材料，但严重程度/趋势/报告、跨电脑稳定演示仍未完成。
+- 该审计只修改规划记录，不修改业务代码、数据库结构或 UI；后续按 Phase 9.1 GPU 恢复条件补充现场证据，再决定是否进入 9.2。
+
+## 新版 Phase 9 Kickoff — 2026-08-11
+
+- **Status:** in_progress；新版 9.1–9.8 已替换旧 Phase 9，当前先实施 CPU 可完成范围。
+- **实施假设：** 公共用户匿名；新病例明确同意后公开 30 天；旧病例保持私有；管理端只在主机本地；Sites 前端通过受保护的同源代理访问主机 FastAPI；当前 GPU 和固定公网域名均暂不可用。
+- **成功标准：** 每项 A–E 条件都有接口、页面、数据库、测试和证据映射；所有修改可由后端 pytest、前端 build/render/lint、数据库迁移/恢复/清理测试和浏览器检查重复验证；真实模型指标不使用 mock 冒充。
+- **范围控制：** 不启用 `active`，不重训，不修改官方冻结验证集，不迁移前端框架，不引入第二数据库或第二大模型，不修改用户未跟踪的 `CLAUDE.md`。
+- **当前动作：** 先同步规划文件；随后按最小依赖顺序实现病例/SQLite/公开安全与趋势报告，再实现两阶段多模态、逐类知识和用户界面。
+- **外部停止门：** 真实 160 张分层评估和完整 E2E 等待 GPU；固定 HTTPS 隧道和 Sites 正式公网连接等待用户准备域名与 Cloudflare 账号；最终用户验收必须由用户在另一台设备完成。
+
+### 新错误记录
+
+- 系统 `python.exe` 再次命中 Windows Store 占位程序，`session-catchup.py` 首次退出 1 且无输出；改用 Codex 工作区依赖中的 Python 后恢复成功，并检测到 45 条未同步上下文。项目文件未受影响。
+- 前端首次 lint 出现 2 个 React 19 effect 内同步状态更新错误；将状态更新移入异步请求回调后，复测为 0 errors、5 warnings。
+- 浏览器首次调用了不存在的 `domcontentloaded()` 辅助方法；改用短暂等待后获取 DOM snapshot，未影响页面或项目文件。
+- 后端重启时一次组合式 PowerShell 命令被执行策略拒绝，随后拆成“精确停止已确认 PID”和“单独启动”两个命令；第一次启动还因相对解释器路径指向仓库根而失败，改用明确的后端虚拟环境绝对路径后 `/health` 恢复 200。
+
+## Phase 9 CPU/UI Implementation Checkpoint — 2026-08-11
+
+- **后端与数据库：** 新增公共字段、最小迁移、WAL/busy timeout、30 天公共过滤、编辑令牌、IP 限流、VLM 并发门、趋势/报告接口和存储维护脚本。真实库检查为 `integrity=ok`、11/11 图片路径有效，并创建一份运行时备份。
+- **多模态：** 完成 `phase9-multimodal-v2` 两阶段协议、严格结构和确定性安全门；只运行 mock/CPU 测试，未调用 GPU。
+- **知识：** 16/16 类补齐逐类来源与农业/物理/生物/监测升级措施；保持农药产品、剂量、混配、次数和安全间隔禁区。
+- **用户端：** 完成首页、公共历史、趋势、病例详情、可打印报告、隐私同意、仅分析重试和技术证据折叠区；Sites Worker 完成同源代理及公网管理隔离。
+- **验证：** 后端 21 passed；网页 build 与 6/6 render/Worker tests 通过；lint 0 errors、5 个动态病例图片性能 warnings；桌面/手机浏览器检查通过。
+- **文档：** 更新 A–E 验收矩阵，新增数据库维护、公网部署和 Phase 9 证据索引，并同步 README、架构、演示和复现说明。
+- **仍待完成：** GPU 真实 160 张/冲突/性能/完整 E2E；域名与 Cloudflare 固定隧道、Sites 发布；用户另一台电脑/手机验收。Phase 9 保持 `in_progress`。
+- **隐私边界收口：** `/api/cases` 默认只返回公共记录，`/api/trends` 永远只统计公共记录；主机管理模式通过 `scope=all` 查看完整病例，公网请求该 scope 返回 404。最终运行检查为公共病例 0、主机完整病例 11，旧病例没有被错误公开。
+- **补充错误记录：** 一次用于检索 review 路由的 PowerShell `rg` 命令因双引号未闭合退出 1；改用单引号模式重新执行成功，未修改文件。
+
+## Phase 9.9 Final UI Planning — 2026-08-11
+
+- **Status:** pending；本轮只更新规划，不修改前端或业务代码。
+- **完成内容：** 在 `task_plan.md` 增加 9.9“系统定型后的最终 UI/UX 重构”，并明确现有 9.5 是用于功能验收的用户化基础界面。
+- **顺序门：** 必须先完成 9.1–9.8 的 GPU、公网、数据库、跨设备和用户关键用例验收，再冻结 UI 需求并开始重构。
+- **验证标准：** 最终 UI 需通过 Chrome、Edge、桌面、手机、另一台电脑、异常状态、真实长内容与打印报告检查，并重新运行 build/render/lint 和关键流程回归。
+- **下一步：** 当前仍等待 GPU、域名/Cloudflare 和用户跨设备验收；这些工作完成后与用户确认最终视觉和交互需求，再启动 9.9。
+# Phase 9 本机交付实施启动 — 2026-08-12
+
+- **用户决策：** 取消公网部署，仅在当前电脑运行；本地病例长期保存；服务器 GPU 仍通过私有回环 SSH 隧道使用；公网代码保留但默认停用。
+- **实施假设：** 本轮只完成本机交付所需的计划、接口/数据库语义、页面文案、运行材料和 CPU 回归；不执行 GPU 真实评估，不提前进入 9.9 最终 UI 重构。
+- **最小修改：** 本地模式默认查询全部病例与趋势、禁止自动过期、移除用户端公开语义；显式公网模式保持原行为和测试。
+- **验证目标：** 后端本地/公网回归、前端 build/render/lint、数据库长期保存与查询范围测试、Git diff 检查全部通过；`CLAUDE.md` 和无关工作区内容不修改。
+- **后端检查点：** 本地模式已改为默认全量历史/趋势且不自动清理过期病例；显式公网模式保留原过滤和安全行为。完整 pytest 为 `21 passed`，仅有 1 个既有 Starlette 弃用警告。
+- **运行时错误：** 浏览器复测发现 8000 仍是修改前启动的旧进程；精确核对并停止 PID 12808 后，一条同时包含隐藏启动、轮询和接口检查的组合 PowerShell 命令被执行策略拒绝。未修改文件；后续拆为单独启动与单独健康检查，不重复组合写法。
+- **运行时复测：** 新后端启动成功，`public_mode=false`；默认历史和 30 天趋势均返回真实 SQLite 的 11 条记录。浏览器确认首页无本地公开同意框，历史显示 11 条，趋势显示 11 条并可追溯。
+- **已知数据问题：** 一条 2026-08-05 历史病例的作物/部位/生育期字段为既有乱码；本轮未擅自改写历史记录。
+
+## Phase 9 本机交付改造检查点 — 2026-08-12
+
+- **已完成：** 取消公网/Sites/Cloudflare/域名/跨电脑交付任务；本地模式默认显示全部病例和趋势，不要求公开同意，不创建过期时间或编辑令牌，不在启动/查询时执行过期清理。
+- **兼容性：** `CROP_PUBLIC_MODE=true` 下的公开过滤、编辑令牌、30 天过期、限流和 Worker 管理隔离代码及测试保留；默认配置仍为 `false`。
+- **用户界面：** 导航、首页、历史、趋势和病例详情已改为本机语义；本机无公开同意框，病例明确长期保存在当前电脑。
+- **真实运行：** FastAPI 已按新代码重启；默认历史 11 条、30 天趋势 11 条；数据库 `integrity=ok`、11/11 图片路径有效；浏览器可逐条查看病例和趋势。
+- **验证：** 后端 `21 passed`（1 个既有弃用警告）；前端 build + 6/6 render/Worker tests；lint 0 errors、5 个既有动态图片 warnings；静态复现门通过；`git diff --check` 无空白错误，仅有 Windows 行尾提示。
+- **未完成：** 8870/8890 当前不可达；Phase 9 真实 160 张双阶段评估、16 类样本、完整 E2E、用户当前电脑 Chrome/Edge 验收以及 9.9 最终 UI/UX 重构仍待后续。
+- **下一步：** GPU 恢复后先核对服务器地址与显卡状态，再启动 detector/Qwen3-VL 和回环隧道，执行真实评估与本机完整链路；用户确认关键用例后才启动 9.9。
+
+## Phase 9 GPU 恢复执行启动 — 2026-08-12
+
+- **用户提供地址：** `ssh -p 10373 root@connect.bjb2.seetacloud.com`；继续使用本机项目专用私钥 `codex_autodl_nongxin_2026`。
+- **范围与硬门：** 只恢复既有 detector/Qwen3-VL、8870/8890 回环隧道并执行真实评估/E2E；保持 `shadow`，不重训、不改冻结数据、不提前进入 9.9。
+- **错误记录：** 首轮并行只读检查中的端口命令再次使用了已知不兼容的“PowerShell `foreach` 后直接接管道”写法并解析失败；未改变服务或文件。后续固定先收集到任务变量再格式化，且把 SSH、脚本与端口检查拆开执行。
+- **VLM 轮询错误：** 首条远程轮询命令使用 `$(seq 1 50)`，被本地 PowerShell 提前解释为本机命令并导致远程 Bash 语法错误；VLM 进程未受影响。改用单引号包裹、无命令替换的 Bash `{1..50}` 循环。
+- **隧道启动错误：** 直接运行 `inference/open_tunnel.ps1` 被当前 Windows PowerShell 执行策略拦截；远程 detector/VLM 未受影响。使用一次性 `powershell.exe -ExecutionPolicy Bypass -File` 调用已审计脚本，不修改系统策略或项目脚本。
+- **冒烟解释器错误：** 首次远程 16 类冒烟假设项目存在 `../.venv/bin/python`，实际不存在，命令在任何评估请求前退出。改为读取 detector PID 1914 的 `/proc/.../exe`，复用正在运行服务的真实 Python 环境，不安装新依赖。
+- **只读命令附带错误：** 获取 detector 解释器时 `readlink` 成功返回 `/root/miniconda3/bin/python3.12`，同一命令中的 `tr` 因远程引号处理提示缺少参数；不再依赖 `tr`，直接使用已确认解释器并显式设置 `PYTHONPATH=backend`。
+- **服务恢复结果：** RTX 5090 可用；远程 detector PID 1914、Qwen3-VL PID 1958 正常，8870/8890 回环隧道由本机 PID 5056 提供。detector 健康检查为 16 类、三个视觉模型已加载、`routing.mode=shadow`；本机后端健康检查显示 detector 与 multimodal 均已配置且 `public_mode=false`。
+- **16 类真实冒烟：** `phase9-multimodal-smoke-20260812.json` 已生成并下载，16/16 成功、Schema/内容完整率 100%、不安全输出 0、风险错误清除 0；但严重度输入引用率 18.75%、预期冲突识别 0/3、E2E P95 8.902 秒，未达到 160 张正式门槛。当前暂停正式 160 张，先做直接相关的协议最小修正并重跑冒烟。
+- **本地回归路径错误：** 协议修正后的首次 pytest 命令在 `backend` 工作目录错误使用 `..\.venv\Scripts\python.exe`，解释器不存在，任何测试均未开始。只读核对确认实际解释器为 `backend\.venv\Scripts\python.exe`；后续固定在 `backend` 下使用 `.\.venv\Scripts\python.exe`。
+- **冒烟长任务调用错误：** v2 冒烟首次仍使用前台 SSH 并把本地超时设为 1 秒（工具实际约 5 秒后终止），不能据此判断远程评估状态。先核对精确进程/输出文件；若任务未继续，改用远程 `nohup` 后台运行与短轮询，正式 160 张沿用该模式。
+- **v2 首次远程任务终止：** 前台 SSH 断开后一度观察到收集器 PID 4087 继续运行，但随后进程退出且未生成最终 JSON；收集器只在全部样本结束后写文件，因此没有可用的部分证据。按既定方案改用带 PID 文件和日志的 `nohup` 后台任务重跑，不把此次中断计入模型成功率。
+- **v2 结果读取引号错误：** 冒烟已完成，但首次把含 Python 字典索引的 `python -c` 嵌入 PowerShell 双引号命令，触发本地解析错误，请求未发往服务器。改为先下载 JSON，再用本机项目 Python 读取，避免继续叠加跨 shell 引号。
+- **v2 本机摘要命令仍被 PowerShell 解析：** 下载后又把复杂 Python f-string 直接放入 PowerShell 双引号，`or` 与花括号被本地解析，仍未读取文件。停止内联 Python，改用 PowerShell 原生 `ConvertFrom-Json` 分步读取；该错误不影响证据 JSON。
+- **v2 有效结果：** 16/16 成功、Schema/内容/严重度引用均 100%、预期冲突 3/3、不安全输出 0、风险错误清除 0；Top-1 56.25%、E2E P95 9.012 秒仍未通过硬门。继续暂停 160 张，按“阶段二不重复上传原图 + 明确综合结论规则”的最小范围做 v3 复测。
+- **后台 SSH 表象：** v3 使用 `nohup ... &` 启动后，调用侧仍因远程 shell 保持而在约 5 秒超时；精确检查确认收集器 PID 6000 正常运行、日志文件已建立。以后不把启动命令超时视为任务失败，以进程和最终 JSON 为准。
+- **v3 结论与 v4 范围：** v3 的严重度/冲突/安全门继续通过，但 Top-1 56.25%、P95 9.015 秒无改善。依据既有 160 张证据中主检测 Top-1 86.875% 高于原综合 86.25%，v4 明确主检测负责最终规范类别，多模态独立判断负责冲突、候选和复核，并把列表限制为 1–2 条短句以压缩生成耗时；本地 23 项测试通过。
+- **v4 前置门：** 16/16 成功；Schema、内容、严重度引用、冲突识别均 100%；安全输出与风险保护为 0 失败；E2E P95 4.838 秒。已满足启动正式 160 张的前置条件，下一步使用相同官方验证列表、每类 10 张和相同协议生成最终证据。
+- **本机后端停止竞态：** 为加载 v4 代码精确停止已确认的后端进程树时，子/父进程先后退出，最后一个 PID 1560 在检查后、执行 `Stop-Process` 前已消失，命令因此返回 1；目标进程已停止，不是业务故障。启动新后端前重新确认 8000 无监听。
+- **等待期回归与页面检查：** 正式 160 张独占模型服务期间，本机后端已重启加载 v4；后端 23 passed，前端 build 通过，lint 0 errors/5 个既有 `<img>` warnings。内置浏览器首页显示服务开放、本地病例语义、受害比例/扩散速度输入、最近记录和安全声明，未发起额外模型请求影响性能证据。
+- **浏览器标签恢复：** 首次新建标签后 Playwright 报告标签不属于当前会话；按浏览器技能要求保留浏览器绑定、重新新建标签并改用可见 DOM 后恢复，随后 Playwright DOM 读取成功。未切换浏览器或使用外部自动化。
+- **正式 160 张通过：** `phase9-multimodal-evidence-20260812.json` 已下载并按摘要重算硬门：160/160 成功，Top-1 87.50%，Schema/内容/严重度引用 100%，冲突识别 15/17（88.24%），不安全输出 0、风险错误清除 0，E2E P95 5.087 秒，峰值显存 23,058 MiB；SHA-256 `9b31bb691063c14759f70c0283d2f78fd5fee5d4f4c92c749d4568c6d2aba45d`。
+- **E2E 上传命令错误：** 首次 `curl.exe -F` 的 `environment_json` 在 PowerShell/Windows curl 参数传递中丢失 JSON 引号，接口正确返回 422“环境信息格式错误”；首条脚本又未先检查响应字段而输出一组 null。数据库未创建病例。改用合法空对象 `{}` 完成接口闭环，田间环境细节由网页交互另行验证。
+- **本机正常 E2E：** 新病例 `4992820b001c4dc18a1b7619209fec5c` 完成上传→1 个南瓜白粉病检测→两阶段分析→历史/趋势→报告→补充证据复核；严重度为 low 且依据引用 12.5% 与缓慢扩散，协议为 `phase9-multimodal-v2`，分析总耗时 4.561 秒，报告含 5 个来源。病例详情、趋势和报告真实页面均通过 DOM 检查并保存 PNG。
+- **双隧道降级与恢复：** 精确停止 SSH PID 5056 后，8870/8890 均不可达，但原 12 条历史和报告仍可读取；新病例 `7b23a3d5a0e14c448326ea881f0f7236` 上传成功，检测明确进入 `model_unavailable` 且 `needs_review=true`。恢复同一回环隧道后，该病例重新检测和两阶段分析成功。
+- **恢复检查命令输出噪声：** 读取离线病例 ID 时未加 `-Raw`，在最终 JSON 中把 PowerShell FileInfo 扩展属性一并序列化，产生大量无关输出；API 实际使用的字符串值正确且恢复成功。后续读取临时 ID 固定使用 `[string](Get-Content -Raw).Trim()`。
+- **仅分析重试：** 使用 detector 保持 8870、故意把 VLM 转发到 8891 的隧道，新病例 `b80717bdddd64c17be7926fcad082f62` 先成功检测 1 个目标，分析接口返回 502；数据库保留 `detected` 状态和检测框。恢复标准 8890 后只重试 `/analyze` 即完成，不需要重新上传或重新检测。
+- **重启持久化：** FastAPI 精确重启后，主 E2E 病例仍为 `review_pending`，`phase9-multimodal-v2` 分析与 1 条复核事件均可恢复；本地历史现为 14 条，包含新建病例。
+- **最终并行回归路径错误：** 数据库维护命令误写为仓库根 `scripts/storage_maintenance.py`，实际入口是 `backend/scripts/manage_storage.py`；该子命令在文件打开前退出，其他并行结果未完整返回。改为分别运行后端、前端、维护脚本和 diff，避免聚合掩盖结果。
+
+## Phase 9 GPU 与自动验收检查点 — 2026-08-12
+
+- **正式模型门：** 固定 160 张真实两阶段评估全部硬门通过：成功率、Schema、内容、严重度引用 100%，Top-1 87.50%，冲突识别 15/17（88.24%），不安全输出和风险错误清除 0，E2E P95 5.087 秒，峰值显存 23,058 MiB。
+- **本机闭环：** 新建真实病例完成上传、检测、两阶段分析、历史、趋势、报告和人工复核；详情、趋势、报告三张浏览器证据已保存到 `artifacts/server/phase9-local-*-20260812.png`。
+- **故障与恢复：** 验证双隧道关闭时病例仍保存、模型不可用状态明确、历史/报告可读；验证 VLM 单独不可用时检测结果保留，恢复后只重试分析成功。
+- **持久化：** FastAPI 重启后病例、分析与复核事件恢复；SQLite 在线备份、同备份恢复和安全备份通过，`integrity=ok`，14/14 图片路径有效。
+- **最终自动回归：** 后端 23 passed；前端 build 与 6/6 render/Worker tests；lint 0 errors/5 个既有图片性能 warnings；`git diff --check` 无空白错误。
+- **当前状态：** GPU/自动验收完成，服务保持运行；Phase 9 仍为 `in_progress`，唯一流程门是用户在当前电脑 Chrome/Edge 亲自验收并确认。用户确认前不进入 9.9 最终 UI/UX 重构。
+
+## Phase 9 产品诊断 — 2026-08-12
+
+- **范围：** 只读诊断，不修改业务代码、数据库内容或 UI；使用评分矩阵、Phase 9 证据、当前本机页面、接口、SQLite 检查和 Git 状态。
+- **服务与存储：** 3000/8000/8870/8890 均返回 200；SQLite `integrity=ok`，21/21 图片路径有效。
+- **评分判断：** 模型和功能自动硬门基本通过，但用户 Chrome/Edge 验收、PDF 保存确认和 9.9 最终 UI/UX 重构未完成，因此不能宣称完全满足满分。
+- **产品判断：** 当前适合技术人员预先启动后的比赛演示和受引导试用，不适合完全不懂术语的普通用户独立长期使用。
+- **新发现：** 160 张中 102 张触发人审，56 张为非预期冲突误触发；病例人工复核没有真实处理/反馈闭环；移动端主导航被隐藏；用户端大量 9–11px 文字；存在 `????` 历史字段和带图库水印的演示病例。
+- **计划同步：** 上述问题已写入 Phase 9 的 9.9 前置产品问题清单；本轮未擅自修复，也未提前进入 UI 重构。
+
+## Phase 9 当前问题整改与自动化交付启动 — 2026-08-12
+
+- **状态：** `in_progress`；先处理 CPU/本机产品问题，再执行统一数据审计与六模型公平对照，最后恢复服务并完成真实回归。
+- **已锁定边界：** 自动判断或自动拒答；独立 `/admin`；先备份再标记现有 21 条测试病例；不删除原始数据；不启动 9.9 最终视觉重构。
+- **服务器前置：** RTX 5090 当前运行 detector 与 Qwen3-VL，约占 23 GiB 显存，项目盘剩余约 19 GiB；训练允许停服错峰，恢复后必须重新验证 8870/8890、FastAPI 和前端。
+- **Karpathy Guidelines：** 每个子阶段修改前记录假设，采用最小数据/API/UI改动，只改与本计划直接相关的文件，并立即运行可重复验证。
+- **数据库保护与隔离：** 在线备份 `backend/runtime/backups/phase9-pre-automation-20260812.sqlite3` 已创建；源库 `integrity=ok`、21/21 图片存在。新增 `is_test` 后使用精确 `expected-count=21` 门将实施前快照标记为测试记录，未删除或改写原始病例。
+- **维护检查修正：** 测试记录默认过滤后，首次维护检查只显示 0 条图片；数据未丢失。将管理维护检查显式改为覆盖 `record_scope=all` 并加回归测试，复测为 21/21。
+- **验证入口错误：** 首次前端并行验证命中 Windows `npm.ps1` 执行策略并中止，改用同一安装的 `npm.cmd`；不修改系统策略。
+- **Worker 隔离遗漏：** 新 `/admin` 首次渲染测试在公网兼容模式返回 200 而非 404；本机管理功能正常。将 `/admin` 加入现有 `/review`、`/training` 同一屏蔽判断后重跑。
+- **产品整改检查点：** 后端 24 passed；前端 build/6 tests 通过；lint 0 errors/5 个既有图片警告。真实 API 为用户 0、测试 21、全部 21、趋势 0；`/admin` 实际显示 21 条测试记录。
+- **响应式与无障碍：** 桌面普通页最低可见文字 14px；390×844 下移动导航 3 项可见、46px，表单 16px、最小操作高度 44px、无横向溢出。机械检测仅报非用户主流程的既有训练进度条宽度动画 warning，本轮不做无关修改。
+- **统一数据构建完成：** 新增只写清单的构建器并通过相关测试；服务器最终 v4 为 4,490 张，开发训练 3,816、内部验证 674、官方冻结验证 833。独立 OpenCV 复核 4,490/4,490 无问题；源图片和标签未被移动或改写。
+- **审计排除：** Pest65 的 11 张空标签、4 张损坏 JPEG 和 1 张重复框图片已排除；Roboflow 类 13 原始训练 445 张在服务器缺失，未使用独立 tune/frozen 数据替代。该事实不阻止六架构在现有合规统一数据上的公平对照，但必须进入证据和晋级判断。
+- **质量门重启：** 首次 YOLO26n 训练约进行 10/120 轮时，重复出现截断 JPEG 解码警告。已精确停止未完成任务、保留日志，向构建器增加 JPEG 结束标记与 Pillow 解码校验后生成 v2 清单；首轮中间权重不参与排名。
+- **最终数据质量门：** v2 仍有底层 JPEG 警告，进一步用 OpenCV 逐图审计定位 `p58_train_108_3a5906bbc070.jpg`；同时排除训练日志发现的重复框图片。最终 v4 为 4,490 张，独立 OpenCV 复核问题数 0，相关测试 9 passed。
+- **六模型正式训练启动：** 精确记录并停止远程 detector PID 1914、Qwen3-VL PID 1958/2167 后释放显存；`phase9-model-search-v4` 使用 640、120 epochs、batch 32、固定种子顺序训练六候选。首个 YOLO26n 已正常进入训练，数据警告计数 0；本地历史、趋势和报告仍可用，真实识别暂时降级。
+- **YOLO26n 完成：** 120/120 与 best 权重开发验证完成，mAP50-95 `0.503968`、弱类均值 `0.419486`、选型分 `0.478624`；官方冻结集未使用。
+- **权重下载恢复：** YOLO26s 自动下载在服务器侧生成 0 字节文件并持续轮询 3 分钟，已停止训练器。改从 Ultralytics 官方 `assets` v8.4.0 在本机下载缺失五权重，使用 `.part` 临时文件、大小和 SHA-256 校验后传服务器；服务器端 5/5 Ultralytics 可加载。恢复训练器后跳过已完成 YOLO26n，从 YOLO26s 继续。
+- **六模型对照完成：** 六个候选均以 640、120 epochs、batch 32、seed 20260729 在同一 3,816/674 开发划分完成，无训练失败、无数据解码/CUDA 异常，官方冻结 833 张未参与选型。按综合分排序：YOLO11s `0.495082`、YOLO12s `0.493887`、YOLO26s `0.488974`、YOLOv8s `0.481238`、YOLO26n `0.478624`、YOLOv5su `0.478102`。
+- **最终架构选择：** YOLO11s 与 YOLO12s 分差 `0.001196`，小于预设 `0.005`；按“接近时先比较 Recall”的固定规则，YOLO12s 以 `0.756101` 高于 YOLO11s 的 `0.750980`，进入全量 4,490 张允许数据最终重训。选型证据已固化为 `artifacts/server/phase9-model-search-20260812.json`。
+- **冻结隔离复核：** 重建数据清单后 `dataset-refit.yaml` 仅引用 `final-train.txt`，`dataset-frozen-eval.yaml` 的验证集才引用官方 833 张；全量图片再次解码/哈希检查通过，未改变 4,490、3,816/674 和冻结 833 的计数。
+- **最终重训与一次冻结评测：** YOLO12s 使用全部 4,490 张允许数据从官方预训练权重完成 120/120，训练期间 `val=False`，未读取官方冻结集。随后唯一一次官方 833 张评测得到 Precision `0.807657`、Recall `0.798434`、mAP50 `0.809507`、mAP50-95 `0.523463`。
+- **晋级结论：** 候选仅 Recall 与 16 类证据通过；总体 mAP50-95、mAP50、弱类平均增益和弱类不下降门失败，故严格拒绝上线，不执行候选 160 张系统评估，也不在冻结集上继续调参。当前主模型 + 类 10/13 shadow 专家链继续作为在线视觉层，Qwen3-VL继续保留。
+- **服务恢复：** 远程原 detector PID 35662、Qwen3-VL 服务已恢复，8870/8890 双回环隧道重建；FastAPI 发现旧进程未带 detector/VLM endpoint 后，使用既有 `run_local_server.cmd` 最小重启，健康状态恢复为 `detector_mode=remote`、`multimodal_configured=true`。3000/8000/8870/8890 均可用，视觉路由保持 `shadow`。
+- **最终自动回归：** 后端 `24 passed`；前端 build + 6/6 tests；lint 0 errors/5 个既有 `<img>` warnings；最终复现门含所有服务通过。SQLite `integrity=ok`、22/22 图片路径有效，普通历史/趋势仍为 0，测试病例只在 `/admin` 可见。
+- **真实链路：** 无目标样本自动落入 `no_supported_target`，页面显示“无法判断、请补拍”；正常南瓜样本检测 1 框、自动 `conclusive`、严重度 low、报告与 5 个来源生成。两条自动病例随后标记 `is_test=true`，未污染用户历史。
+- **恢复后固定 160 张复测：** 160/160 成功，Top-1 `87.50%`，Schema/内容/严重度输入引用均 `100%`，冲突识别 `15/17=88.24%`，不安全输出 0、风险错误清除 0，E2E P50/P95 `4.494/5.105` 秒，峰值显存 `23,088 MiB`。证据为 `artifacts/server/phase9-post-remediation-multimodal-evidence-20260812.json`。
+- **当前门：** 自动化整改与交付完成，Phase 9 仍保持 `in_progress`；下一步由用户在当前电脑 Chrome/Edge 亲自使用并反馈，用户确认前不启动 9.9 最终视觉重构。
+
+## Phase 9.11 弱类 8/10/13/15 混淆与专家 shadow 专项验证启动 — 2026-08-12
+
+- **范围：** 先做官方冻结集混淆统计、训练/验证数据独立性审计和现有专家的 shadow 对照；不改变线上模型、路由或冻结数据。
+- **验证门：** 只有弱类在冻结集提升、总体 mAP50-95 不下降、其他类别不下降且专家成本可接受，才允许讨论 `active`；否则保持 `shadow` 并如实记录“不上线”。
+- **已确认前置：** 本地 8000、detector 8870、Qwen3-VL 8890 健康；路由为 `shadow`，`reclassify=false`，三份视觉权重均已加载。
+- **下一步：** 完成四类混淆矩阵与错误类型统计，核对 4,490 张统一训练集、674 张内部验证、833 张官方冻结集及类 10/13 独立 101 tune/85 frozen 的哈希和标签门，再运行 shadow 对照。
+- **专项审计首次错误：** 直接在服务器 GPU 加载额外主模型运行 833 张审计时，detector/Qwen3-VL 已占用约 22 GiB 显存，审计进程触发 CUDA OOM；线上服务未停止、模型和路由未改变。后续改用 `CUDA_VISIBLE_DEVICES=''`、CPU、batch 1 的只读审计，shadow 对照复用现有 8870 服务，不再额外占用 GPU。
+
+## Phase 9.11 弱类专项结果 — 2026-08-12
+
+- **冻结集混淆已完成：** 类 8/10/13/15 的 GT 框为 `98/87/89/83`；主要错分为 8→15=`15`、15→8=`13`、10→13=`18`、13→10=`18`。漏检分别为 `18/10/9/4`，另有低 IoU 与背景误报；具体矩阵和阈值扫描保存在专项 JSON。
+- **数据审计已完成：** 统一 4,490 张数据 OpenCV 检查 `4490/4490` 无问题；dev train/val、专家 tune/frozen 与官方 frozen 的 SHA-256 交叉均为 0。官方 frozen 内部 3 组重复内容哈希（830/833 唯一），作为评测局限记录。类 10/13 为 101 tune、85 frozen；类 8/15 无独立专家 frozen，不能支持四类专家上线。
+- **Shadow 对照已完成：** 833/833 HTTP 请求成功，服务观察值 `shadow`、`reclassify=false`，主模型与 shadow_keep 完全一致；类 10/13 候选覆盖 76/87、75/89，已覆盖框上的 crop Top-1 一致 62、53。
+- **晋级判断：** 当前 active 规则的离线同代码反事实使 mAP50-95 下降 `0.001331`，弱类均值下降 `0.005323`，类 10/13 分别下降 `0.002504/0.018787`，故不满足冻结集稳定提升门。最终保持主模型在线、专家只作 `shadow` 证据，不切换 `active`。
+- **交付证据：** `artifacts/server/phase9-weak-classes-audit-20260812.json`、`artifacts/server/phase9-shadow-route-20260812.json`、`artifacts/server/phase9-weak-classes-shadow-evidence-20260812.json`；新增 `training/evaluate_shadow_route.py` 已通过 `py_compile`，评估脚本仅调用现有 HTTP 服务，不复制加载 GPU 模型。
+- **后续状态：** 本专项完成；继续执行 Phase 9.7–9.8 的本机用户验收。用户确认前不进入 9.9 UI/UX 重构，也不因本轮结果进行无证据重训。
+- **会话封存与明日测试版本：** 已封存 `artifacts/server/phase9-weak-classes-session-checkpoint-20260812.json`，明日暂定使用当前已验证的 `official-plus-public-weak-v1-e120-b64` 主模型；YOLO12s 候选不替换。专家无最终决定权，继续 `shadow`。本机前后端保持；远程 detector、Qwen3-VL 和双隧道已停止，GPU 显存为 0 MiB。由于远程是平台容器且 PID 1 为 `/init/boot/boot.sh`，SSH 内 `systemctl/poweroff/reboot` 均被拒绝，实例本身仍需在 SeetaCloud/AutoDL 控制台手动停止。
+
+## 2026-08-13 本次 GPU/浏览器真实测试收尾
+
+- **前置假设：** 只恢复服务和执行验收，不改业务代码、不重训、不切换主模型、不启用专家 `active`；所有本轮病例测试后标记为测试记录。
+- **服务：** SSH、RTX 5090、远程 detector、Qwen3-VL、本机双隧道、FastAPI 和前端均已恢复；结束时服务仍保持在线，交给用户继续人工测试。
+- **已通过：** 正常上传→检测→两阶段分析→保存→报告；detector 故障降级；VLM 恢复后仅重试分析；历史/趋势/报告读取；FastAPI 重启持久化；SQLite 完整性和测试数据隔离；后端 24 个测试、前端 build/6 tests、lint 无错误；桌面和 390×844 基础浏览器检查。
+- **未完全通过：** 无目标结果页的主标题可能展示 Qwen 独立候选，和“未发现支持目标”矛盾；VLM 故障仍以 HTTP 502 暴露而非结构化不可用状态。两项均记录为后续优先整改，未在本轮直接修改。
+- **当前结论：** 系统已具备明天本机人工集中测试条件，但不能宣称满分或 Phase 9 完成。用户测试后提交问题，再进入对应整改；在用户确认关键用例可行前不进入 Phase 9.9 最终 UI 重构。
+
+## 两项问题修复启动 — 2026-08-13
+
+- **范围：** 只处理无目标页面误导和 Qwen3-VL 故障 502；不训练专家、不切换模型、不启用 `active`、不改数据库。
+- **已完成分析：** 已定位普通用户页面直接显示 `analysis.primary_diagnosis` 的根因；已定位后端仅将未配置异常结构化、而把 HTTP/解析异常返回 502 的根因。
+- **方案：** 统一用户诊断标题和非结论内容边界；将多模态异常转换为保留病例与检测证据的 `multimodal_unavailable/service_unavailable` HTTP 200，并保留仅分析重试。
+- **下一步：** 修改后端、普通用户页面/API助手和最小测试；立即执行后端、前端和真实浏览器回归。
+
+## 两项问题修复完成 — 2026-08-13
+
+- **代码：** 完成状态优先用户标题、非结论内容隔离、多模态故障结构化 HTTP 200 和高风险/未知严重度保护。
+- **验证：** 后端 `25 passed`；前端 `npm.cmd test` 为 build + 6/6 tests 通过；lint `0 errors`/5 个既有图片警告；compileall 和 diff check 通过。
+- **真实浏览器：** 无目标样本首页/详情/报告均显示“无法可靠判断”；关闭 Qwen3-VL 后显示服务不可用和仅分析重试；恢复服务后重试成功。
+- **服务收尾：** 本机前端、FastAPI、detector 隧道、Qwen3-VL 隧道均已恢复并健康，路由仍为 `shadow`；本轮病例已隔离为测试记录。
+- **当前入口：** 两项整改完成，Phase 9 仍为 `in_progress`；下一步交给用户在当前电脑 Chrome/Edge 进行人工测试。用户反馈前不进入 Phase 9.9 最终 UI 重构，也不训练新的专家模型。
+- **证据：** `artifacts/server/phase9-remediation-20260813.json` 已记录无目标标题、故障 HTTP 200、恢复重试、自动化测试和交付时服务状态。
+
+## Same-Frozen-Set Detector Comparison — 2026-08-13
+
+- **范围锁定：** 只评测昨天六模型中的 YOLO26n 权重与当前主模型；不重训、不调参、不切换线上权重、不启用专家、不调用 Qwen3-VL。
+- **前置核对：** SSH 已恢复；远程 RTX 5090 可用；两份权重和同一冻结清单均存在，SHA 已记录到 `findings.md`。本机 `/health` 返回 `200`，detector/Qwen3-VL 当前在线。
+- **待执行：** 停止远程 detector 与 Qwen3-VL，使用统一评测脚本在同一 833 张冻结集上各评测一次；保存原始 JSON 后恢复服务并检查 3000/8000/8870/8890。
+
+## Same-Frozen-Set Detector Comparison Completed — 2026-08-13
+
+- **停服与评测：** 评测前停止远程 detector PID `4842`、Qwen3-VL PID `3904`，显存降至 `0 MiB`；直接执行 `training/evaluate_detector.py`，未经过 HTTP、专家或多模态链路。
+- **统一对象：** 服务器 `official-frozen-val.txt` 为 `833` 行；冻结 YAML SHA-256 `2e7f691de609c4a310549d1ac6fb98e99eedcec18160588729f8e1e38fef60b8`；两个结果均含完整 16 类指标和 17×17 混淆矩阵。
+- **YOLO26n 候选：** `phase9-yolo26n-e120-b32/weights/best.pt`，SHA 前缀 `fb71fab6`；P `0.829715`、R `0.756240`、mAP50 `0.806850`、mAP50-95 `0.519087`。
+- **当前主模型：** `official-plus-public-weak-v1-e120-b64/weights/best.pt`，SHA 前缀 `cbb26d83`；P `0.831993`、R `0.778327`、mAP50 `0.825132`、mAP50-95 `0.546065`。
+- **差值：** 主模型相对候选 P `+0.002278`、R `+0.022087`、mAP50 `+0.018282`、mAP50-95 `+0.026978`；11/16 类提升，5/16 类下降。类 8 降幅最大 `-0.054795`，类 10 `-0.014842`，类 13/15 基本持平。
+- **恢复：** detector PID `7017`、Qwen3-VL PID `7059` 已恢复；远程 GPU 约 `22110 MiB`，本机 3000、8000、8870、8890 均返回 200；detector 健康状态确认主模型 SHA 一致、`routing.mode=shadow`、`reclassify=false`。
+- **交付结论：** 当前主模型继续保留上线；昨天 YOLO26n 候选不替换。该结论仅证明同一冻结集上的整体检测优势，不授予专家决定权，也不证明类 8 等弱类没有后续优化空间。
+- **产物：** 已保存三份本地证据 JSON/YAML；`git diff --check` 通过（仅有既有 LF/CRLF 提示，无空白错误）。
+
+## Remaining Five Detector Comparison Started — 2026-08-13
+
+- **范围：** 评测 YOLO26s、YOLO11s、YOLO12s、YOLOv8s、YOLOv5su 五份六模型搜索权重；不重训、不调参、不切换主模型、不启用专家、不调用 Qwen3-VL。
+- **统一口径：** 同一官方 833 张冻结清单、640 输入、batch 32、workers 4、直接 Ultralytics 评测；结果完成后与已保存的 YOLO26n 和当前主模型结果合并比较。
+- **下一步：** 核对五份服务器权重 SHA 和冻结清单 SHA，停止两项远程推理服务，依次后台评测并保存原始 JSON，最后恢复全部服务。
+
+## Remaining Five Detector Comparison Completed — 2026-08-13
+
+- **权重核验：** YOLO26s、YOLO11s、YOLO12s、YOLOv8s、YOLOv5su 五份 best 权重均存在；冻结清单 833 张，SHA 与上一轮一致。
+- **统一评测：** 停止远程 detector/Qwen3-VL 后，直接运行 `training/evaluate_detector.py`，每个权重一次，640/batch32/workers4；没有专家、HTTP shadow 或多模态调用。
+- **结果：** YOLO26s mAP50-95 `0.535458`；YOLO11s `0.534951`；YOLO12s `0.522652`；YOLOv8s `0.530064`；YOLOv5su `0.519336`；当前主模型同口径 `0.546065`。
+- **综合观察：** 主模型 mAP50-95 仍最高；YOLO26s Precision 最高 `0.834140`；YOLO12s Recall 最高 `0.807891`，但两者都未超过主模型的总体综合结果。
+- **冻结集加权分：** current-main `0.487785` > yolo26s `0.483844` > yolo11s `0.483537` > yolo26n `0.474415` > yolov8s `0.473773` > yolo12s `0.466811` > yolov5su `0.464188`。
+- **服务恢复：** detector PID `8927`、Qwen3-VL PID `8969`；远程显存约 `22110 MiB`；本机 3000/8000/8870/8890 及主模型健康检查均通过，路由保持 `shadow/reclassify=false`。
+- **证据：** 五份原始 JSON 与 `phase9-same-frozen-eval-20260813-five-model-summary.json` 已保存；本轮没有代码、数据库或线上模型配置修改。
+
+## 4,490 全量训练与 833 冻结集统一比较启动 — 2026-08-13
+
+- 已完成本轮启动前的 planning-with-files 恢复检查、Git 状态核对和三份规划文件同步；工作区已有改动全部保留。
+- 已固定训练口径：4,490 张 `final-train.txt`、120 轮、640、batch64、seed `20260729`、官方预训练权重、训练期不使用验证集、完成后使用 `last.pt`。
+- 已固定评测口径：六个新 `last.pt` 加当前主模型，共七个权重；官方 833 张冻结集、640、batch64、workers4、`training/evaluate_detector.py`；不调用专家、Qwen3-VL 或 detector HTTP。
+- 已核对文件级独立性：训练/冻结跨集合精确 SHA 交集 0；训练无缺失，冻结无缺失；冻结内部存在 3 组重复内容，待在最终报告中标注。
+- 待执行：解码像素/感知哈希补充门；GPU 停服与显存确认；六模型依次训练；统一冻结评测；恢复服务并输出七模型比较证据。
+- 当前尚未停止服务、尚未训练、尚未修改线上模型；如遇 OOM、重复像素或服务恢复失败，将停止相应步骤并记录具体错误。
+- **错误记录：** 服务器默认 PATH 没有 `python` 命令，首次运行独立性审计返回 `bash: python: command not found`；未生成有效审计结论，改用服务器已有绝对 Python 解释器继续。
+- **错误记录：** 使用绝对解释器的首次运行发现审计脚本条件列表存在语法错误；没有生成结果文件，已做单行语法修复并重新执行编译检查。
+- **审计复核：** 首次有效报告显示文件 SHA 与解码像素 SHA 跨集合均为 0，但发现脚本把重复文件的 `processed_count` 误写成唯一哈希数，且没有保存精确感知哈希的路径配对；在训练前修正统计和证据字段，重新生成报告并人工检查 43 组感知哈希相同项。
+
+## 训练前独立性门阻断 — 2026-08-13
+
+- 独立性审计及 23 页复核图已完成；没有跨集合文件/像素 SHA 重复，但确认 74 张唯一训练图片与官方冻结集存在同图变体或同场景近重复。
+- 74 张候选构成为 PlantDoc 51、SciDB 3、官方训练 20；精确 pHash 48 个实际配对、近似 pHash 43 个配对；冻结集内部 3 组重复已单独记录。
+- 因用户原计划要求训练集和冻结集独立，当前不能使用原 4,490 张直接训练；本阶段停止在训练前，不停止 detector/Qwen3-VL，不修改清单、不修改线上主模型。
+- 待用户确认：是否保留原始清单作为审计原件，并排除 74 张候选生成 4,416 张独立训练清单后继续。确认后才执行清单生成、二次审计、停服和六模型训练。
+
+## 用户授权后继续 — 2026-08-13
+
+- 用户已授权使用排除 74 张视觉重复候选后的 4,416 张独立训练集继续。
+- 当前仍未停止 detector/Qwen3-VL，未训练，未切换线上主模型；先生成派生清单和 YAML，再通过二次独立性门。
+- 二次门通过条件：训练 4,416 条、官方冻结 833 条；缺失/解码错误为 0；跨集合文件 SHA、解码像素 SHA、精确 pHash 和 pHash 距离 `<=8` 均为 0。
+
+## 二次独立性门通过 — 2026-08-13
+
+- 派生训练清单已固定为 4,416 张，原始 4,490 张清单和官方 833 张冻结清单未修改。
+- 二次审计通过：4,416/4,416 与 833/833 成功解码；跨集合文件 SHA、像素 SHA、精确 pHash 和近似 pHash（距离≤8）均为 0；训练集内部像素重复为 0。
+- 冻结集内部 3 组重复仍保留并记录为官方评测限制。
+- 下一步：记录服务/PID/GPU/磁盘，停 detector/Qwen3-VL，依次启动六个严格 batch64、120轮、val=False 训练。
+- **错误记录：** 服务器训练前检查命令因 PowerShell/Bash 多层引号解析失败，未执行到远程检查、未停止服务、未修改文件；改为多个短命令分别核对。
+
+## GPU 停服完成，六模型训练开始 — 2026-08-13
+
+- 停服前记录：detector PID `8927`、Qwen3-VL PID `8969`，GPU 使用 `22110 MiB`；停止后两进程消失，GPU 使用 `0 MiB`。
+- 训练数据：独立训练清单 4,416 张；冻结 833 张不在训练期使用。
+- 训练配置：六个官方预训练权重，120 轮、640、batch64、seed `20260729`、`val=False`、`patience=0`，串行运行，统一使用 `last.pt`。
+- 当前状态：已具备启动第一个 YOLO26n 训练条件；训练期间实时服务暂不可用，历史/病例数据不受影响。
+
+## 首次训练暂停 — 2026-08-13
+
+- 首次 YOLO26n 已启动至约第 5/120 轮；显存约 11.3 GiB，batch64 未 OOM。
+- 发现训练 YAML 包含官方冻结 `val` 字段，尽管 `val=False`，启动日志仍扫描冻结标签缓存；该运行不纳入最终结果。
+- 当前动作：停止首次训练，检查训练器行为并生成无 `val` 字段的训练 YAML；修正后从 YOLO26n 重新开始，六个模型均以修正后的训练契约执行。
+- 已完成最小修复代码：派生清单生成器现在输出训练占位 YAML（`train=val=4,416`）和含官方冻结集的评测 YAML；待上传并验证 YAML 内容后重启训练。
+
+## 第二次训练启动失败 — 2026-08-13
+
+- 训练专用 YAML 不含 `val:` 时，Ultralytics 在启动前报 `'val:' key missing`；没有训练进程、没有权重结果，GPU 仍为 0 MiB。
+- 修正决定：保留 `val=False`，让 `val:` 指向同一份 4,416 张训练清单作为框架占位，避免官方 833 张进入训练配置；训练后统一使用单独的冻结评测 YAML。
+
+## 即时评测执行规则 — 2026-08-13
+
+- 用户已确认：每个模型训练完成后立即评测，不等待六模型全部完成；结果以独立 JSON 保存用于后续比较。
+- 当前执行门：先用修正后的训练 YAML 启动 YOLO26n；确认日志只扫描 4,416 张独立训练清单后，训练完成即评测官方 833 张冻结集。
+- 统一比较字段：Precision、Recall、mAP50、mAP50-95、16 类指标、17×17 混淆矩阵、速度、显存、权重 SHA、数据清单/评测配置哈希。
+- 当前主模型单独完成同配置基线；候选模型不自动替换线上主模型，全部结束后再按预先固定的排名规则判断。
+
+## YOLO26n 修正训练已启动 — 2026-08-13
+
+- 训练专用 YAML 已重新生成，`train` 和框架必需的 `val` 均为 4,416 张独立训练清单；官方冻结路径未进入训练 YAML。
+- YOLO26n 已进入第 `1/120` 轮，随后监测到第 `11/120` 轮；batch `64`，640 输入，seed `20260729`，显存约 `11.3 GiB`，未发生 OOM。
+- 训练日志确认只扫描独立训练清单的 `4,416` 张图片；未扫描官方 833 张冻结集。
+- 服务器已启动串行编排器：YOLO26n 完成后立即冻结评测，随后评测当前主模型基线，再依次训练并即时评测其余五个模型。
+
+## 用户中止全部训练 — 2026-08-13
+
+- 用户要求停止所有训练，当前主模型继续作为视觉模型，不做任何线上权重变更。
+- 已终止 YOLOv5su 及其子进程和串行编排器；YOLOv5su 训练记录返回主动终止 `rc=143`，未生成完成记录或冻结评测结果。
+- 已完成的 YOLO26n、YOLO26s、YOLO11s、YOLO12s、YOLOv8s 即时评测和当前主模型基线均保留在服务器 `artifacts/server/phase9-fulltrain-eval-20260813-*.json`。
+- 服务器验证通过：无训练进程、无串行编排器，GPU `0 MiB`；下一步只恢复既有主模型服务与本机测试链路，保持 `shadow/reclassify=false`。
+
+## 编排器等待逻辑修正 — 2026-08-13
+
+- **发现：** 初版等待条件会把包含训练命令的远程 shell 命令行一并匹配，可能在 YOLO26n 完成后错误地继续等待。
+- **最小修正：** 等待条件收窄为真正的 `/root/miniconda3/bin/python training/train_phase9_finalist.py` 进程；停止并重启编排器，不停止或重启正在运行的 YOLO26n。
+- **验证：** 重启后仅一个 YOLO26n 训练任务继续运行，当前约第 `51/120` 轮；状态文件新增等待记录，未启动后续模型。
+
+## YOLO26n 即时评测完成 — 2026-08-13
+
+- YOLO26n 训练完成：120/120，使用独立训练清单 4,416 张、640、batch64、seed `20260729`，最终权重为 `last.pt`；训练记录标记 `frozen_validation_used_during_training=false`。
+- 官方 833 张冻结评测已立即完成，评测未调用 detector HTTP、专家或 Qwen3-VL；评测数据清单 SHA 为 `91a777a8818b8766f49f67891562d1cd808198a89586ec370b49a9e56d7096a4`。
+- YOLO26n 结果：Precision `0.687078`，Recall `0.689678`，mAP50 `0.684810`，mAP50-95 `0.410084`；权重 SHA `5bd3db42f4223f43e914d74b151cf2d7f8bf018a057d45910402a0afa9425fe1`。
+- 当前主模型同配置基线：Precision `0.839196`，Recall `0.776205`，mAP50 `0.827517`，mAP50-95 `0.548224`。YOLO26n 四项总体指标均未达到替换门，不上线。
+- 证据：服务器 `artifacts/server/phase9-fulltrain-eval-20260813-yolo26n.json`、`...-current-main.json`；状态文件记录 YOLO26n 评测完成后已进入 YOLO26s。
+
+## YOLO26s 即时评测完成 — 2026-08-13
+
+- YOLO26s 训练完成：120/120，使用同一 4,416 张独立训练清单、640、batch64、seed `20260729`，最终使用 `last.pt`。
+- 官方 833 张冻结评测即时完成：Precision `0.736392`，Recall `0.684162`，mAP50 `0.677087`，mAP50-95 `0.409398`。
+- 权重 SHA：`cd5972261d09859bff22a60253f8847d5e96f2e5935121ff45dba9d143f50c88`；评测 YAML SHA 与 YOLO26n 相同，冻结列表 SHA 为 `91a777a8818b8766f49f67891562d1cd808198a89586ec370b49a9e56d7096a4`。
+- 相对于当前主模型，YOLO26s 的 mAP50-95、mAP50 和 Recall 均未达到替换门，不上线；状态文件记录评测完成后已进入 YOLO11s。
+- 证据：服务器 `artifacts/server/phase9-fulltrain-eval-20260813-yolo26s.json`。
+
+## YOLO11s 即时评测完成 — 2026-08-13
+
+- YOLO11s 训练完成：120/120，使用 4,416 张独立训练清单、640、batch64、seed `20260729`，最终使用 `last.pt`。
+- 官方 833 张冻结评测即时完成：Precision `0.721783`，Recall `0.659075`，mAP50 `0.678103`，mAP50-95 `0.401406`。
+- 权重 SHA：`309d282351343a0a979a5f341c06662818518f4b480fe50543b35b83ac6a69c9`；评测 YAML SHA 为 `1d834c0fe5100884d8fe6a2e117558137a6f19d72b33e02e8a0e076da679afec`。
+- YOLO11s 总体指标均低于当前主模型，不具备替换资格；状态文件记录评测完成后已进入 YOLO12s。
+- 证据：服务器 `artifacts/server/phase9-fulltrain-eval-20260813-yolo11s.json`。
+
+## YOLO12s 即时评测完成 — 2026-08-13
+
+- YOLO12s 训练完成：120/120，使用 4,416 张独立训练清单、640、batch64、seed `20260729`，最终使用 `last.pt`；训练期间未读取官方冻结清单。
+- 官方 833 张冻结评测即时完成：Precision `0.747517`，Recall `0.676535`，mAP50 `0.696172`，mAP50-95 `0.414133`。
+- 权重 SHA：`f81227fe07abf938867c6cb93cfca9e9a8a2a85ff8f94bc18f6eac93b4334418`；评测 YAML SHA 为 `1d834c0fe5100884d8fe6a2e117558137a6f19d72b33e02e8a0e076da679afec`。
+- YOLO12s 总体指标低于当前主模型，不具备替换资格；状态文件记录评测完成后已进入 YOLOv8s。
+- 证据：服务器 `artifacts/server/phase9-fulltrain-eval-20260813-yolo12s.json`。
+
+## YOLOv8s 即时评测完成 — 2026-08-13
+
+- YOLOv8s 训练完成：120/120，使用 4,416 张独立训练清单、640、batch64、seed `20260729`，最终使用 `last.pt`。
+- 官方 833 张冻结评测即时完成：Precision `0.702166`，Recall `0.703074`，mAP50 `0.672390`，mAP50-95 `0.398096`。
+- 权重 SHA：`7a09f233d5c95f8dc5286c46d0749d1e28dca21b3a56c83443c2f9ae260b58c1`；评测 YAML SHA 为 `1d834c0fe5100884d8fe6a2e117558137a6f19d72b33e02e8a0e076da679afec`。
+- YOLOv8s 总体指标低于当前主模型，不具备替换资格；状态文件记录评测完成后已进入最后一个 YOLOv5su。
+- 证据：服务器 `artifacts/server/phase9-fulltrain-eval-20260813-yolov8s.json`。
+## 训练停止与主模型冻结完成 — 2026-08-13
+
+- 用户决定停止全部训练，线上继续使用当前主模型，不做权重或路由变更。
+- 已停止 YOLOv5su 及串行训练编排器；无训练进程、无训练编排器，GPU 已从训练状态释放。
+- 已保留五个已完成候选和当前主模型的统一冻结集评测 JSON；候选结果均低于当前主模型，不具备上线资格。
+- 已恢复 detector、Qwen3-VL、8870/8890 隧道及本机前后端；主模型 SHA、`shadow` 路由和 `reclassify=false` 已复核。
+- 当前交付状态：等待用户进行集中人工测试；后续问题按用户反馈处理。
+
+## 当前模型冻结，进入用户功能测试 — 2026-08-13
+
+- 视觉检测继续使用当前主模型，Qwen3-VL 继续作为多模态分析模型。
+- 不训练候选模型、不切换权重、不改变专家 `shadow` 路由。
+- 当前任务阶段切换为用户人工测试；用户反馈问题后再进行最小范围修复和回归验证。
+- 功能问题处理完成且用户确认后，再进入最终 UI 界面重构。
+
+## Session Resume — 2026-08-14
+
+- **使用 planning-with-files 恢复：** 已完整读取三个规划文件；工作区 Python 执行 `session-catchup.py` 成功退出，未报告未同步上下文。
+- **Git 状态：** 当前分支 `codex/publish-audits-and-calibration-plan`，领先远端 1 个提交；既有已修改/未跟踪文件和用户 `CLAUDE.md` 全部保留，未执行清理、回滚、提交或重置。
+- **服务检查：** 本机 FastAPI `8000/health=200`；前端 `3000`、detector 隧道 `8870`、Qwen3-VL 隧道 `8890` 均不可达。FastAPI 仍显示 remote detector/Qwen3-VL 配置，但上游隧道未就绪，不能据此开始真实识别。
+- **远程检查：** `connect.bjb2.seetacloud.com:10373` 当前 TCP 不可达；未尝试复用旧 PID、未重启远程服务、未启动训练/评测、未修改线上模型或路由。
+- **当前结论：** 自动/GPU 门已在上一轮完成，但用户 Chrome/Edge 人工验收的运行前置条件不满足；等待用户恢复 GPU 主机或提供新 SSH 地址后，再按既有启动材料重新核对并进入验收。
+- **本轮错误：** Windows Store `python.exe` 占位程序首次执行 catch-up 退出 1；改用工作区 Python 成功。一次并行 PowerShell 检查因循环块直接接管道解析失败，拆分后完成检查，均未产生业务副作用。
+
+## 实验室服务器部署评估启动 — 2026-08-14
+
+- 使用 `planning-with-files` 恢复项目状态并核对 Git 差异；既有用户修改全部保留。
+- 读取服务器检查输出，确认 CentOS 7/glibc 2.17、4×K80、125 GiB RAM、根盘 97%、`/data` 约 3 TiB 可用。
+- 读取 `backend/pyproject.toml`、`inference/requirements.txt`、`web/package.json`、RTX 5090 环境证据和 Qwen3-VL 启动脚本引用。
+- 当前正在对照官方文档确认 VS Code Remote Server 与 vLLM/GPU 的最低要求；未对服务器执行升级、安装或部署。
+- 已核对微软 Remote Development、vLLM、NVIDIA CUDA/架构矩阵和 Qwen3-VL 官方资料：CentOS 7 主机不满足当前 VS Code Server；K80 不满足 vLLM 且不能承载现有 CUDA 12.8 栈。
+- 完成部署判定：CPU、RAM 和 `/data` 容量足够；操作系统、根盘、Python、Node、GPU/驱动不满足完整系统。形成“只解决 VS Code”“降级部署”“完整部署”三条升级路径。
+- 本轮只读检查与规划记录已完成；未在实验室服务器上安装软件、升级系统、清理磁盘或启动服务。
+# 双服务器部署执行日志（2026-08-14）
+
+- 已读取 `planning-with-files` 与 `karpathy-guidelines`，恢复三份规划文件并检查 Git 状态。
+- 已锁定无损约束：优先不重装；不格式化 `/data`；不清理根盘；现有工作区改动全部保留。
+- 当前进行 Phase A：代码接口、数据结构、测试和 SSH 可达性核对。
+- 工具错误：首次并行恢复调用失败且无输出；拆分后成功读取 Git 与规划文件。默认 `python.exe` 运行 catch-up 退出 1，尚未重复同一失败命令。
+- 已完成现有 FastAPI、SQLite、病例三阶段请求、动态报告、Admin 页面和前端 API 调用点核对。
+- SSH 只读检查确认服务器可达但无免密认证；未写入服务器、未记录密码。
+- 后端双实例、认证、离线切换拒绝、病例归属和报告快照测试已增至 29 项并全部通过。
+- 前端生产构建通过；首轮页面测试仅因 Admin 旧标题断言失败，已更新为受保护会话加载文案。
+- 首轮 lint 发现 Admin effect 内同步触发状态更新，已改为会话 Promise 内顺序刷新；其余 5 项为项目原有 `<img>` 性能警告。
+- SSH 密钥首次安装尝试失败：Windows OpenSSH 无法直接执行 `.cmd` askpass（`CreateProcessW error:2`）；未接收密码、未连接成功、服务器无改动。改用本机编译的最小 askpass `.exe` 重试。
+- Windows 原生凭据包装器首次运行在弹窗前因 PowerShell 5.1 对无 BOM 中文脚本的解析错误停止；未读取密码、未连接服务器。已把包装器提示改为 ASCII。
+- 第二次原生凭据框后台等待 120 秒后仍不可见/无输入，已终止本轮新建进程；保留用户原有 SSH PID 12044。
+- 已生成实验室 Docker/CPU/llama.cpp 部署包、Docker 数据根安全迁移脚本、重装前备份清单、GPU 独立后端启动包和 Windows 密钥上传脚本。
+- 本地验证：后端 29 passed；前端生产构建与 6 项页面测试通过；ESLint 0 error（保留既有 5 条 img 警告）；Compose YAML 可解析。
+- 用户执行局域网公钥拉取命令后，BatchMode 密钥认证仍被拒绝；推断为反向路由/防火墙或追加格式问题，未进入服务器命令执行。改为启动可见 PowerShell，仅让用户交互输入 SSH 密码完成公钥安装。
+- 用户完成可见 PowerShell 中的密码输入后，显式指定 `ghl_codex_ed25519` 已返回 `KEY_OK`；Docker data-root 为 `/data/ghl/docker`，部署环境文件存在。已将专用密钥写入本机 `Host ghl` 配置，后续不再需要重复输入 SSH 密码。
+- 一次远端只读状态命令的 `awk` 引号被 Windows PowerShell 改写，导致末尾字段脱敏检查语法错误；此前的密钥、时间、Docker data-root 和环境文件检查均已成功，未产生远端写入。
+- `ssh ghl` 别名免密验证成功；远端 Admin 哈希与会话密钥仍为空，服务尚未启动。
+- 已验证公共 ECR 的 Python/Node/nginx 镜像和 GHCR llama.cpp server 镜像均可在本机解析；已确定官方 Qwen3-VL Q4_K_M 与 Q8_0 mmproj 的准确文件名和大小，准备离线下载。
+- 四个离线镜像已下载完成：Python 43,202,048 字节、Node 79,900,672 字节、nginx 20,980,736 字节、llama.cpp server 310,675,968 字节。
+- 首次 Qwen 双文件并行下载包装失败：PowerShell `Receive-Job` 把 curl 的 stderr 进度输出升级为 NativeCommandError，未留下模型文件。按 3-strike 规则不重复该包装方式，改用 Hugging Face 官方下载客户端或静默 curl。
+- 已在本地后端 venv 安装 `huggingface_hub 1.27.0` 与 `hf-xet 1.6.0`，不改变项目依赖清单；官方客户端下载仍在运行。下载期间目标 `.incomplete` 文件暂为 0，但下载进程约占 2.2 GB 内存并持续使用 CPU，推断 Xet 正在内存/分块阶段，暂不终止。
+- Qwen 官方客户端下载完成：目标目录总字节数与官方精确大小一致。主模型 SHA-256 `67d1659b...e9e2`，mmproj SHA-256 `c6ba8550...3bfd`；四个镜像 tar 也已生成本机 SHA-256 清单。
+- 已将四个镜像、Qwen3-VL Q4_K_M 和 Q8_0 mmproj 上传至 `/data/ghl/cache/images` 与 `/data/ghl/models/qwen3-vl`。上传过程中只读抽查确认镜像与主模型完成、mmproj 持续增长；最终两个 SCP 作业均为 Completed。
+- 服务器端 SHA-256 与本机六项全部一致，精确字节数一致；镜像/模型文件权限已收紧为 640，目录为 750。
+- 首次批量 `docker load` 命令因 PowerShell 在远端双引号字符串内提前展开 Bash `$archive`，远端报 `unexpected end of file`，没有导入或删除镜像。已改用 PowerShell 单引号保护远端脚本后重试。
+- 第二次 `docker load` 已逐项成功导入 Python、Node、nginx、llama.cpp server；只在末尾格式化列表时 SSH 引号丢失导致 `grep` 管道被拆分，导入结果不受影响。改用三条简单只读命令复核成功。
+- 远端新镜像均位于 `/data/ghl/docker`；原有 Redis/MySQL/EMQX 镜像和三个停止容器完整保留，未启动、未删除。
+- 已新增离线 Dockerfiles、Compose 覆盖和固定依赖清单；主 Compose 的 nginx 使用已导入公共 ECR 名称，VLM 改用实际 GGUF 文件名。
+- 后端 wheelhouse 首次跨平台解析因 `uvicorn[standard]` 的可选 `watchfiles` 没有匹配显式 manylinux_2_28 标签而失败，未留下不完整 wheel。生产服务不依赖热重载/文件监控，离线清单最小化为普通 `uvicorn` 后重试。
+- 后端 wheelhouse 通过双 manylinux 标签解析完成（19 文件/10.6 MB）；推理 wheelhouse 完成（51 文件/363 MB）。npm 基础缓存 197 MB，并额外缓存锁文件中的 13 个 Linux x64/glibc 原生包，最终缓存约 323 MB。
+- PowerShell 5 的 `ConvertFrom-Json` 无法解析该 package-lock 的属性名，已改用 Node 只读解析；没有修改锁文件。
+- 三个离线缓存包已生成 SHA-256。首次直接执行上传 `.ps1` 被本机 ExecutionPolicy 拒绝，脚本未运行、服务器无改动；改用单次 `-ExecutionPolicy Bypass -File` 调用，不修改系统策略。
+- 更新后的部署代码已上传；三个缓存包在服务器端 SHA-256 全匹配并解压到 `/data/ghl/cache`。兼容性门通过：CentOS 7 旧内核可从 `/data/ghl/docker` 离线运行 Python 3.12.14 与 Node 22.23.2，Compose 合并配置有效。
+- Admin 密钥仍未设置；现有生成脚本已具备两次密码确认，输出仅包含 PBKDF2 哈希和随机会话密钥，不保存明文。
+- 2026-08-16 用户已成功生成 Admin 配置；本地只读验证确认两行、PBKDF2-SHA256/600000 格式及会话密钥格式均有效，未显示敏感值。
+- 合并远端 `.env` 前的首次 SCP 被远端关闭；后续 TCP/SSH 与快速重试均确认 `192.168.15.133:22` 不可达。当前电脑仅连接 `WLAN 172.20.10.2/172.20.10.1`，不是实验室 `192.168.15.0/24` 网络，因此没有向服务器写入 Admin 配置，也没有启动构建或服务。
+- 2026-08-16 服务器恢复可达：TCP 22、密钥 SSH、`/data/ghl/docker` 和约 3 TB 空间均正常。Admin 配置已合并进远端 `.env`，写入前版本保存在 `/data/ghl/migration-backup`。
+- 首次 Compose 启动发现 PBKDF2 哈希中的 `$` 被当成插值变量；未泄露密码，但容器内哈希会被截断。已把 Compose 环境文件中的 `$` 改为 `$$`，备份问题版本并重建 backend 及依赖容器；后续启动无该警告。
+- 离线构建完成并启动 gateway/web/backend/detector/vlm 五个容器。后端、前端、CPU detector 正常监听；Qwen3-VL Q4_K_M + Q8 mmproj 约 8 秒加载完成，`8890/health` 返回 200，`/v1/models` 声明 multimodal 能力。
+- VLM 当前显示 unhealthy 的原因不是模型失败，而是 llama.cpp 镜像内置 healthcheck 固定探测 8080，部署命令改为 8890。需在 Compose 覆盖健康检查到 `127.0.0.1:8890/health` 后重建 VLM。
+- 已覆盖 VLM healthcheck 并重建，状态转为 healthy。首次正式 `verify.sh` 停在网关 curl，`bash -x` 证明 Windows 合并的 `.env` 使用 CRLF，端口变量变成 `8080\r`；服务未失败。将远端文件规范化为 LF，并在验证脚本中显式移除 `\r`。
+- 规范化 LF 后正式验证通过：健康 JSON、lab_cpu 配置、SQLite/上传/报告目录、detector/VLM 内网 200、Admin 哈希与会话密钥容器格式均正确。
+- 真实 lab_cpu 病例上传成功，CPU detect 约 0.6 秒且本图无支持目标时正确进入复核；Qwen3-VL 首次 CPU analyze 约 96.5 秒，状态 completed、结构化字段与 provenance 完整；报告重复读取 SHA-256 一致。
+- 前端 `/` 与 `/admin` 首次真实访问返回 500。vinext 日志显示本地 production server 调用 Worker 时 `env` 为 undefined，而 Cloudflare Worker 入口直接读取 `env.CROP_PUBLIC_MODE`。最小修复为给本地运行提供空 Env/ExecutionContext 默认值，Cloudflare 注入 Env 时行为不变。
+- vinext Worker 默认 Env/ExecutionContext 修复后，本地生产构建通过；服务器离线重建 web 后 `/` 与 `/admin` 均返回 200，未登录 Admin API 返回 401。重建脚本最终因 Windows here-string CRLF 的 `[` 判断退出 1，但 HTTP 结果已独立复核通过，服务无故障。
+- 五服务整体 restart 后健康接口、前端、lab_cpu 病例状态和实例归属恢复；报告快照重启前后 SHA-256 一致。SQLite `PRAGMA integrity_check=ok`，病例数 1，上传图片和报告 JSON 均存在；VLM 重新加载后恢复 healthy。
+- CPU 多模态稳定态复测约 96.1 秒，与首请求约 96.5 秒接近；服务重启和重复分析均完成。
+- 类 10 专家验收病例 `lab_cpu-282c1e389a984334b83c9641b87c5896`：主模型输出类 10、置信度 0.943568，路由候选 1、动作 `shadow_keep`，crop 支持 0.925467、类 10 专家支持 0.937514，总检测约 0.54 秒。
+- 类 13 专家验收病例 `lab_cpu-5b1830353da64aefa5883a886c5b1c65`：主模型输出类 13、置信度 0.930684，路由候选 1、动作 `shadow_keep`，crop 支持 0.820420，总检测约 0.33 秒。两例均无路由错误，确认当前 `shadow` 专家不会覆盖主模型识别。
+- Docker 服务为开机启用且当前 active；空闲容器内存约为 web 79 MiB、VLM 5.0 GiB、backend 39 MiB、detector 281 MiB、gateway 2 MiB。实验室 CPU 单机自动验收仅剩用户使用自设密码完成 Admin 登录。
+- 最终回归：后端 `29 passed`；前端生产构建与 6 项页面测试通过；lint 0 error（5 条既有 `<img>` warning）；相关 `git diff --check` 仅有 Windows 换行提示，无空白错误。
+- 远端最终 `verify.sh` 再次通过，五容器均在线、VLM healthy；公网入口 `/`、`/admin`、`/health` 均返回 200，当前病例数 3、存储剩余约 3.27 TB。
+
+## GPU 双服务器联调启动（2026-08-17）
+
+- 用户已在实验室服务器 Admin 成功登录，并已开启原 GPU 服务器；实验室 CPU 单机人工登录门完成。
+- 原 GPU 地址 `connect.bjb2.seetacloud.com:10373` TCP 已恢复可达，继续使用项目专用私钥 `codex_autodl_nongxin_2026`。
+- 首次 GPU 只读状态命令因 PowerShell 提前展开远端 Bash 变量导致引号不闭合，SSH 未执行远端命令、无服务器改动；后续改用 PowerShell 单引号保护完整远端命令。
+- 第二次只读包装被 Windows OpenSSH 去掉远端 grep 正则的引号，Bash 在状态读取前遇到括号语法错误；仍无远端改动。停止复用复合正则命令，改为多条无正则的简单只读 SSH 检查。
+- GPU 只读核验：主机身份与历史一致，RTX 5090 空闲，数据盘剩余约 18 GiB；旧 detector/VLM 资产存在，但两个服务和 FastAPI 均未运行。
+- 实验室服务器到 GPU 公网 SSH `connect.bjb2.seetacloud.com:10373` 的 TCP 探测超时，原定由实验室主动建立 `18000` SSH 隧道暂不可行；正在区分完全无外网与单端口阻断，再选不裸露 GPU 后端的替代链路。
+- 一条远端 Python 版本检查因 Windows OpenSSH 去掉 `python -c` 代码引号而在导入前失败；不再用该包装，改用简单模块版本命令或 heredoc 文件方式。
+- 本机没有 `bash` 可执行文件，GPU 部署脚本的本地 `bash -n` 未运行；`git diff --check` 通过。改为上传后先在 GPU Linux 上执行 `bash -n`，语法通过前不运行 bootstrap。
+- GPU 端 `bash -n` 通过，轻量后端代码已上传到新 `/root/autodl-tmp/ghl/app`；bootstrap 使用 `--system-site-packages` 与 `--no-build-isolation --no-deps` 成功，只构建约 39 KB 项目 wheel，未下载或复制模型。
+- GPU 后端首次启动因 Bash `source` 读取未加引号的 `CROP_INSTANCE_LABEL=原 GPU 服务器`，把空格后的 `GPU` 误当成命令而停止；未创建病例、未修改模型。修复为带引号的标签后再启动。
+- GPU 独立后端随后健康启动，报告 `instance_id=gpu_full`、空白病例库、remote detector 与 `crop-pest-vlm` 均已配置。
+- GPU 真实类 10 闭环通过：病例 `gpu_full-eb8287361dd04fb38b50ed842d028ed4`，检测约 0.48 秒、置信度 0.943703、专家 `shadow_keep`；两阶段多模态约 12.17 秒（请求总计约 12.49 秒）、结论 `conclusive`、模型 `crop-pest-vlm`，报告重复读取一致。
+- 首次 GPU 后端 `restart` 因 Windows SCP 后脚本缺少可执行位，在真正停止前被拒绝；后端与数据未受影响。bootstrap 增加显式 `chmod 0750`。同一验收摘要还遇到 PowerShell 5 不支持 `Convert.ToHexString`，改用 `BitConverter` 兼容转换。
+- 修复权限后 GPU backend `restart` 成功；病例仍为 `analyzed`，报告 SHA-256 前后均为 `88bd0b709d6ea4594f7986d2a6d3da3ef688dea3224dc6f47bd59c1ddb017369`。
+- GPU 最终状态：backend、detector、Qwen3-VL 均健康；主模型 SHA 保持 `cbb26d83...58071`，专家路由仍为 `shadow/reclassify=false`，VLM 服务名 `crop-pest-vlm`。
+- 实验室网络实测无可用外网，无法由实验室建立到 GPU 的持久 SSH 隧道；`sshd -T` 为 `allowtcpforwarding yes`、`gatewayports no`。当前无 `active-instance.json`，控制存储按代码默认仍使用 `lab_cpu`，未发生切换。
+- 浏览器只读核对未复用到用户已登录标签：控制接口返回空标签列表，新建局域网标签访问超时并重置；未点击或提交 Admin 操作，不影响用户当前页面。后续以服务器/API 证据为准。
+- 一次实验室容器 Python 探针再次被 Windows OpenSSH 改写引号而语法失败；改用已有网络探测与简单状态文件读取，不重复复杂 `python -c`。一次三条 SSH 串行检查超过本地 30 秒上限，首条同时确认误查的 `/data/ghl/storage/control` 不存在；实际控制挂载为 `/data/ghl/runtime/control`。
+
+## Windows 临时中继（2026-08-17）
+
+- 用户明确选择当前 Windows 电脑作为临时中继；不创建 Windows 开机任务，电脑必须保持开机、联网且不休眠。
+- 新增 `deploy/lab/tcp_relay.py`、`lab-gpu-relay.service` 与 `scripts/windows_gpu_relay.ps1`；Python 编译、PowerShell 解析、空闲状态和差异检查通过。
+- 实验室 systemd relay 已安装、enabled/active，仅监听 `172.17.0.1:18000`；Windows GPU 本地隧道 PID 26408、实验室反向隧道 PID 20208，本机仅监听 loopback 18001。
+- 三层健康检查均返回 `gpu_full`：Windows `127.0.0.1:18001`、实验室 `127.0.0.1:18000`、Docker host-gateway `172.17.0.1:18000`。
+- 统一入口保持活动实例 `lab_cpu`，但已经成功读取 GPU 病例 `gpu_full-eb8287361dd04fb38b50ed842d028ed4` 及其报告，证明病例前缀能经临时中继固定回 GPU 存储。
+- Windows Stop 脚本增加 PID 与 SSH 命令标记双重核对，避免 PID 文件陈旧时误终止其他 SSH 会话。
+- 用户在 Admin 完成 `lab_cpu → gpu_full` 切换；`active-instance.json` 与 `switch-audit.jsonl` 均确认 admin 操作和时间，Windows 两个中继 PID 正常。
+- 从实验室统一入口上传类 13 样本得到 `gpu_full-fcb09b112dbb4c79bf69d472a50cf5be`；检测类 13 置信度 0.930618、0.43 秒、专家 `shadow_keep`，GPU 多模态约 4.92 秒，报告实例为 `gpu_full`。
+- GPU 活动实例列表仅含 2 个 GPU 病例；原 CPU 病例 `lab_cpu-f5a9ef4da90e471f85314a123ba85dbf` 仍可按前缀读取，状态 analyzed、报告实例 lab_cpu。
+- 文件级隔离通过：实验室 storage 为 3 个 `lab_cpu` 上传文件/3 病例，GPU storage 为 2 个 `gpu_full` 上传文件/2 病例，两个目录没有对方前缀文件。
+- 用户在 Admin 完成 `gpu_full → lab_cpu` 切回；控制状态与第二条审计记录均确认成功，中继保持在线。
+- 切回后从统一入口新建 `lab_cpu-812db2c77557486585d17d3160cf3e5f`，检测类 10 置信度 0.943568、约 0.35 秒，报告实例 `lab_cpu`；CPU 活动列表 4 条且全部为 lab_cpu，GPU 计数仍为 2。
+- 离线门验收：停止 Windows 两个中继进程后，实验室到 GPU 不可达，活动实例仍为 lab_cpu，CPU 健康且 4 病例可读；用户在 Admin 确认 GPU“离线”、按钮“服务器不可用”、CPU“当前使用”。
+- Windows 中继已恢复，当前 PID 为 GPU 26660、实验室反向 25984；Windows、实验室 loopback/Docker 网关和统一入口再次返回 gpu_full 健康，GPU 病例数仍为 2。
+- 最终状态：活动实例 lab_cpu、CPU 4 病例、GPU 2 病例、切换审计 2 条；实验室五容器及 relay systemd active，GPU backend/detector/VLM 健康，GPU 约占 22,244 MiB 显存。
+- 最终回归从仓库根目录误运行 pytest 时收集到 `training/test_grasshopper_field_eval.py`，因后端轻量环境没有 NumPy 而收集失败；这是测试范围错误，不是部署回归。改在 `backend` 目录运行正确套件后 `29 passed`。Python relay 编译、PowerShell 解析、`git diff --check` 与实验室 `verify.sh` 均通过。
+- 尝试在最终检查的组合命令中递归删除本轮 `py_compile` 生成的 `deploy/lab/__pycache__` 时被本地安全策略拦截；命令未执行、没有删除文件。停止递归清理，不影响部署或验收结果。
+- 随后对已核实位于工作区内的单个 `.pyc` 做精确删除仍被同一策略拦截；不再尝试，保留该 2.8 KB 编译缓存。
+
+## GitHub 发布准备（2026-08-17）
+
+- 用户要求将相关文件发布到 `genghailong8-maker/crop-pest-multimodel-system`；GitHub CLI 已安装并以目标账号登录，origin 与目标仓库一致，默认分支为 master。
+- 当前工作分支 `codex/publish-audits-and-calibration-plan` 比远端同名分支领先 1 个既有 Phase 8 提交，工作树还包含 Phase 9、双服务器部署、训练证据和本机运行文件，禁止直接 `git add -A`。
+- 发布审计发现未跟踪 `tmp/` 含约 5.8 GB Qwen GGUF、镜像、wheel/npm 缓存、Admin 配置和中继 PID；已将 `tmp/`、检查输出、`*.gguf`、`*.sqlite3` 加入 `.gitignore`，明确不上传密钥、病例、数据库、模型或缓存。
+- 敏感扫描未发现服务器密码、SSH 私钥或 GitHub/OpenAI Token；`CROP_ADMIN_*` 唯一命中为安全生成脚本中的变量名。忽略后未跟踪候选共约 3.44 MB。
+- 当前分支已有 draft PR #1（目标 master），本次应更新该 PR 而不是重复创建。工作树仍混有约 3.4 MB 旧训练评测 JSON/脚本；按发布安全流程，提交前需要用户确认“系统/部署范围”或“连同训练证据全部发布”。
