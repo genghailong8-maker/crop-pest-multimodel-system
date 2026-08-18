@@ -1,0 +1,125 @@
+{
+  "endpoint": "http://127.0.0.1:8870/v1/detect",
+  "confidence": 0.25,
+  "samples": [
+    {
+      "purpose": "class8_class10_existing_sample",
+      "path": "C:\\Users\\genghailong\\Documents\\编程大赛\\backend\\runtime\\uploads\\b0e72284d5de449cbcad6cb1c2c465be.jpg",
+      "detection_count": 0,
+      "detections": [],
+      "model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+      "routing_mode": "shadow",
+      "reclassify": null,
+      "expert_decisions": [
+        {
+          "candidate_index": 1,
+          "original_class_id": 10,
+          "action": "shadow_keep",
+          "crop_support": {
+            "10": 0.011564,
+            "13": 0.000289,
+            "99": 0.988147
+          },
+          "class10_support": {
+            "8": 0.421973,
+            "10": 0.0
+          }
+        }
+      ],
+      "request_model_ms": 90.247
+    },
+    {
+      "purpose": "class10_existing_sample",
+      "path": "C:\\Users\\genghailong\\Documents\\编程大赛\\backend\\runtime\\uploads\\ceb1c0cd242246a480a613a0227fc07b.jpg",
+      "detection_count": 1,
+      "detections": [
+        {
+          "class_id": 10,
+          "confidence": 0.943703,
+          "bbox": [
+            0.1446577,
+            0.0812465,
+            0.7045311,
+            0.8233483
+          ]
+        }
+      ],
+      "model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+      "routing_mode": "shadow",
+      "reclassify": null,
+      "expert_decisions": [
+        {
+          "candidate_index": 0,
+          "original_class_id": 10,
+          "action": "shadow_keep",
+          "crop_support": {
+            "10": 0.925089,
+            "13": 0.074757,
+            "99": 0.000154
+          },
+          "class10_support": {
+            "8": 0.0,
+            "10": 0.93756
+          }
+        }
+      ],
+      "request_model_ms": 48.59
+    },
+    {
+      "purpose": "class13_existing_sample",
+      "path": "C:\\Users\\genghailong\\Documents\\编程大赛\\backend\\runtime\\uploads\\5879b10c19ba4da28e05efe42f5b1172.jpg",
+      "detection_count": 1,
+      "detections": [
+        {
+          "class_id": 13,
+          "confidence": 0.930618,
+          "bbox": [
+            0.2069684,
+            0.0500008,
+            0.5894547,
+            0.8779418
+          ]
+        }
+      ],
+      "model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+      "routing_mode": "shadow",
+      "reclassify": null,
+      "expert_decisions": [
+        {
+          "candidate_index": 0,
+          "original_class_id": 13,
+          "action": "shadow_keep",
+          "crop_support": {
+            "10": 0.180006,
+            "13": 0.819992,
+            "99": 2e-06
+          },
+          "class10_support": {}
+        }
+      ],
+      "request_model_ms": 31.434
+    },
+    {
+      "purpose": "class15_existing_sample",
+      "path": "C:\\Users\\genghailong\\Documents\\编程大赛\\backend\\runtime\\uploads\\0bedbf7b405b46a49bac3db15d1d9475.jpg",
+      "detection_count": 1,
+      "detections": [
+        {
+          "class_id": 15,
+          "confidence": 0.625062,
+          "bbox": [
+            0.1468852,
+            0.1654578,
+            0.8118749,
+            0.5723132
+          ]
+        }
+      ],
+      "model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+      "routing_mode": "shadow",
+      "reclassify": null,
+      "expert_decisions": [],
+      "request_model_ms": 14.932
+    }
+  ]
+}

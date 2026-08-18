@@ -1,0 +1,707 @@
+# Findings & Decisions
+
+## 自建知识库接入审计（2026-08-18）
+
+- 用户知识库包含 16 个 UTF-8 Markdown，与 `CLASS_CATALOG` 的 0–15 类按中文名一一对应。
+- 文档实际引用 61 张图片，总计约 5.2 MB；图片均存在于 `E:\病图片`，但绝对 Windows 路径必须在打包副本中改为相对路径。
+- 15 个文档含“特征”章节；“玉米叶枯病”缺失该章节，按需求显示“知识库暂未收录该项”，不从其他章节推断或生成。
+- 当前报告是 `crop-report-json-v1` 不可变快照；升级必须新增 v2 版本文件并保留原文件，不能覆写历史版本。
+- 实验室服务器五容器在线，`/data` 剩余约 3.0 TB，尚无独立知识库目录；本阶段只重建 backend/web，不修改 detector、VLM 或 GPU 主机。
+- 实验室部署后 3 个已有可靠病例升级为 v2，复查为 `eligible=0/already_v2=3`；SQLite `integrity=ok`，6 个病例图片均存在。
+- 叶蝉病例详情和报告实测通过：三个知识栏目正确；报告含 2 个表格、4 张已加载图片、百度百科来源，两个页面均无“查看技术证据”。
+
+## Requirements
+
+- 题目：第三届“农信杯”题目二《基于多模型协同的农作物病虫害识别与防治系统开发》。
+- 所有训练使用 GPU 服务器；新增公开数据必须确实有助于训练。
+- 公开数据必须有明确类别映射、检测框、许可证和低重复率。
+- 先做小规模试训/校准，再决定是否从头训练。
+- 官方验证集永久冻结，所有实验保留复现配置、指标和权重。
+- 系统需覆盖真实识别、多模型协同、防治知识、可解释性、人工复核和比赛材料。
+- 完成本轮工作后的总结性回复必须包含：此次任务完成了什么，以及针对最终项目目标下一步应该做什么；中间进度更新不必重复这两个部分。
+- 默认任务结束报告只说明当前小任务完成内容和下一个小任务；当上下文接近上限、即将压缩或用户明确要求时，升级为项目全局报告。全局报告必须涵盖计划/目标进度、已完成优化、当前步骤及目的、后续优化、当前阶段、训练实验数量与保留模型角色数量、最佳模型，以及按训练/官方验证/独立 tune/独立 frozen/test/仅审计未采用划分的数据集构成；报告结尾提醒用户开启新对话。
+- 使用 `task_plan.md`、`findings.md`、`progress.md` 作为跨对话持久上下文。
+
+## Dataset Findings
+
+### 官方数据
+
+- 4,164 张图片，5,920 个检测框，16 类。
+- 固定种子：`20260729`。
+- 训练 3,321 张，验证 833 张。
+- 10 个冲突重复样本已隔离。
+- 划分元数据位于 `data/official/splits/`；不得根据后续结果重新划分。
+
+### 本地新增数据
+
+- 用户提供目录：`C:\编程大赛数据\Dataset\图片`。
+- 可选目录：`C:\编程大赛数据\Dataset\pest65`。
+- 已建立数据审计、自动预标注和人工复核流程；用户已确认复核完成。
+
+### 类 10 独立数据
+
+- SciDB 独立列表已在服务器准备：32 张 tune、16 张 frozen test。
+- 服务器旧路径记录在 `artifacts/server/shutdown-checkpoint-20260807.json`；恢复时应先确认服务器是否仍保留该目录。
+
+### 类 13 独立数据
+
+- GHCID 数据质量较强，但全量约 31.2GB，曾因服务器磁盘与选择性下载限制暂缓。
+- 当前较小候选：Roboflow `grasshopper-qpkes-i1pbc v1`，587 张，固定 train/valid/test 为 445/70/72，YOLO 检测框，页面声明 CC BY 4.0。
+- 候选页面：`https://universe.roboflow.com/amiruls-workspace-wyolc/grasshopper-qpkes-i1pbc/dataset/1`。
+- 下载需要 Roboflow 登录；未得到登录条件前不应假设数据已经取得。
+- 预定独立校准规模：类 10 为 32 tune + 16 frozen；类 13 候选为 70 tune + 72 frozen，总计 102 tune + 88 frozen。
+- 类 13 数据必须先人工复核框质量、类别纯度、许可证与重复率，再进入校准。
+- 2026-08-07 再次通过公开搜索核对：该候选仍为 587 张、1 个 `grasshopper` 类、Object Detection、CC BY 4.0；公开项目页为 `https://universe.roboflow.com/amiruls-workspace-wyolc/grasshopper-qpkes-i1pbc`。
+- 本机尚无该候选的图片或标注副本；内置浏览器能打开目标版本页，但动态 DOM 读取超时，尚未完成登录下载。
+- 2026-08-07 用户已在 Roboflow 登录成功，并明确授权 Codex 直接下载、保存所需数据；当前浏览器位于数据集版本 1 的下载页。
+- 登录态下载页再次确认版本 1 含 587 张图片；可选格式包括 YOLO26/12/11/9/8/5/7、COCO、VOC 等。已选择与源模型和现有解析器匹配的 `YOLOv11`。
+- 选择 `YOLOv11` 并 Continue 后，页面短暂进入项目 `/fork` 路径；这表明公开数据集下载可能要求先 Fork 到用户工作区。Fork 会创建新的 Roboflow 数据集副本，需在提交前获得明确授权。
+- 2026-08-07 用户已明确允许将该公开数据集 Fork 到其 Roboflow 工作区，以完成 YOLOv11 ZIP 下载。
+- 授权后的 Fork 对话框仅提供 Cancel 与 `Fork Dataset` 最终提交按钮，未显示需用户选择的其他配置字段；可按默认工作区创建副本。
+- 最后一次自动提交在同一快照内点击时再次超时；随后只读检查发现 `/fork` 标签已关闭，但唯一剩余标签仍是原公开数据集版本 URL。该状态不足以证明 Fork 已创建，必须检查页面可见状态或用户工作区后才能继续下载。
+- 用户随后在 `/fork` 页面手动点击了最终按钮。点击后的自动检查中，未接管标签列表为空；先前已接管的公开数据集页仍位于原版本 URL，因此还需用页面可见内容或工作区项目状态确认 Fork 结果。
+- 原公开版本页的可见 DOM 已恢复，并明确提供 `/dataset/1/download/yolov11` 下载链接；后续可沿该页面现有链接继续，不需要重复 Fork，也不需要依赖对账户副本状态的推测。
+- 已进入 YOLOv11 下载对话框；可见选项明确为 `Download dataset — Get a code snippet or ZIP file`，与本项目所需离线审计流程匹配，不需要启动 Roboflow 云训练或消耗训练额度。
+- 在下载对话框点击 Continue 后仍被重定向到 `/fork`；Fork 对话框同时提示，如使用该数据集的预设导出设置，应从可用 Downloads 下载。由于动态 Fork/下载对话框已多次导致自动控制超时，用户手动完成 YOLOv11 ZIP 下载是当前更快、更可靠的路径。
+- 用户工作区内当前项目 `grasshopper-qpkes-i1pbc-0o9g2` 的 Dataset 页显示 968 张图片，并提供 `Versions` 导航；该数量与目标公共 v1 的 587 张不一致，不能直接作为独立评估集下载。可能存在重复 Fork、合并或错误项目，必须先在 Versions/项目列表中定位精确 587 张版本。
+- `grasshopper-qpkes-i1pbc-0o9g2` 的 Versions 页显示 `No versions created yet`；创建页将基于 968 张源图生成 734 train / 120 valid / 114 test，并会使用额度。该项目不满足目标固定 445/70/72，禁止创建或导出其版本。
+- 用户确认 968 张是误添加图片所致。工作区项目列表显示三个同名 `grasshopper` 项目：一个 968 张、两个各 587 张；因此无需修改或删除错误项目，可直接选择一个未改动的 587 张 Fork。
+- 用户已选择干净项目 `grasshopper-qpkes-i1pbc-bujaf`；其导航栏 Dataset 数量为 587。已从 Train 页切换到该项目的 Versions 页，未启动训练。
+- 干净项目 Versions 页确认源图 587，固定划分 445 train / 70 valid / 72 test，与公共 v1 完全匹配；当前 `No versions created yet`，因此尚无 Download。页面底部 `Create` 会生成版本且标注 `Uses Credits`，需用户明确授权后才能提交。
+- 已下载归档 `grasshopper-qpkes-i1pbc-v1.zip`，大小 37,042,590 字节，SHA-256 `958bd065e5197ec144603e62967044b793a1175b3bc56a526bba6a7deea8eaf8`，ZIP 共 1,179 个条目。
+- 完整自动审计通过：tune 70（102 框）、frozen 72（160 框）、无排除、无目标无效记录、39 张合法负样本、1 个小于 0.002 归一化容差的边缘框已裁剪并留痕。
+- 跨库比较成功解码 13,347 张历史图片，另有 407 张外部坏图被记录并跳过（394 张来自 Pest65、13 张来自本地新增图片）；目标 ZIP 仍保持严格解码失败即拒绝。
+- 发现 8 个感知近重复记录，其中 2 个 frozen 负样本分别与 tune 样本的感知距离为 0，另有若干同 split 连续帧；在人工确认这些跨 split 近重复前，`calibration_eligible=false`。
+- 已生成 142 张带框离线复核画廊，可筛选 flagged/negative/near/repaired/tune/frozen。视觉抽查 `frozen-000015` 的右边界修复框与昆虫位置吻合；`frozen-000070` 为空场景负样本，画廊正确显示 boxes=0。
+- 跨 split 对比确认 `tune-000065` 与 `frozen-000070` 为同一张空场景图片，并非感知哈希误报；`frozen-000070` 应在人工复核中拒绝/排除，防止 tune→frozen 泄漏。
+- 第二组跨 split 对比同样确认 `tune-000069` 与 `frozen-000071` 为完全相同空场景，建议排除 frozen 侧记录。
+- tune 内 `tune-000002` / `tune-000003` 是同一机位的相邻帧，昆虫与框位置有轻微变化，并非同一像素内容；可保留但人工复核备注其相关性。
+- `tune-000029` / `tune-000030` 视觉内容与框完全相同，建议排除后者，避免调参集重复计权。
+- `frozen-000008` / `frozen-000009` 视觉内容完全相同，仅框行顺序不同，建议排除后者，避免冻结指标重复计权。
+- `frozen-000010` / `frozen-000011` 以及 `frozen-000011` / `frozen-000013` 为同场景相邻帧，机位或昆虫位置存在细微变化；建议保留并在人工备注中说明相关性，而非按完全重复删除。
+- `frozen-000021` / `frozen-000022` 同样为细微变化的相邻帧，建议保留并备注。
+- 终结门调整为允许带理由的 `rejected` 决定，同时强制所有记录有 accepted/rejected、拒绝项有备注、近重复/修复框接受项有备注，并禁止感知距离 0 的跨 tune/frozen 重复仍同时被接受。
+- 已新增 `training/prepare_grasshopper_field_eval.py`：严格要求单一 `grasshopper` 类，保留 valid→tune 70 张、test→frozen 72 张，校验 YOLO 框，映射到官方类 13，执行 SHA-256/16×16 感知哈希并生成 `review.csv`。
+- 已新增 `training/finalize_grasshopper_field_review.py`：只有自动门通过、142 条人工复核全部填写 accepted/rejected、拒绝项与近重复/修复框接受项均有必要备注时，才生成正式 `tune.txt`/`frozen.txt` 并设置 `calibration_eligible=true`。
+- `training/evaluate_weak_reranker.py` 已支持相对于清单文件解析图片路径，使本机复核结果同步服务器后仍可直接使用；旧绝对路径清单保持兼容。
+- 用户确认采用复核建议后，`review.csv` 已写入 138 条 `accepted`、4 条 `rejected` 和 9 条必要备注；严格终结器成功生成 69 tune + 69 frozen，`human_review_status=accepted_with_exclusions`、`calibration_eligible=true`。
+- 终结后独立一致性检查确认：manifest 接受 138、复核 142、拒绝 4；两份清单均为 69 行，文件缺失 0，tune/frozen 路径重叠 0；6 项类 13 回归测试通过。
+- 用户重新开机后，旧地址已恢复：SSH `connect.bjb2.seetacloud.com:10373` 成功登录，主机 `autodl-container-4129428075-000fbcc8`；RTX 5090（32,607 MiB）空闲，项目盘剩余 43G，远程项目目录存在。
+- 服务器只读核验通过：类 10 SciDB 清单为 32 tune + 16 frozen；主模型 SHA-256 `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`，类 10/13 crop 专家 SHA-256 `9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c`，均与本地记录一致。
+- 已将类 13 最终 `tune.txt`/`frozen.txt`、图片、标签、manifest、review.csv 和六个工具同步到服务器；六个工具 SHA-256 均与本地一致。服务器合并清单实际为 101 tune（32 个类 10 + 69 个类 13）和 85 frozen（16 个类 10 + 69 个类 13）。
+- 远程核对时一次未引用的 `grep` 管道留下孤立子进程；已按精确 PID 清理，复核 GPU 为 0 MiB/0% 利用率，未启动任何校准任务。
+- 首次第二轮校准已完成但不能作为有效结论：报告计数为 101 tune/85 frozen，然而所有 baseline mAP/F1 为 0。诊断确认类 10 SciDB 标签文件使用本地类别 `0`（应映射官方类 `10`）；类 13 首张样本标注为类 13，但主模型在置信度 0.05 下没有预测框。该报告保留为诊断记录，不能据此决定模型。
+- 进一步读取 `training/build_weak_expert_dataset.py` 确认专家类别映射为 `TARGET_TO_EXPERT={8:0, 10:1}`；类 10 独立列表对应的 SciDB labels 中 valid/test 共 0 类 6 框、1 类 27 框，test 共 0 类 3 框、1 类 13 框。有效评测副本按 `0→8、1→10` 重映射，原始符号链接和标签保持不变。
+- 有效第二轮校准（101 tune、85 frozen）结果：tune baseline 类 10 mAP50-95 `0.448475`、F1 `0.830189`（TP 22/FP 4/FN 5）；类 13 mAP50-95 `0`、F1 `0`（TP 0/FP 14/FN 100）。tune 网格 3,888 个候选，36 个满足 tune 门；选中温度 10/13=`1.25/0.75`、阈值 10/13=`0.15/0.15`、背景阈值 `0.9`、`keep` 模式。frozen baseline 类 10 mAP50-95 `0.387952`、F1 `0.72`，选中配置为 `0.363993`，类 13 仍为 `0`，未通过 frozen 门。结论：第二轮配置不进入生产，继续保留当前主模型；类 13 独立数据暴露的是检测召回/域差问题，当前 crop 重排无法恢复缺失候选框，因此不因该结果自动重训。
+
+### 当前数据资产与用途口径（2026-08-07）
+
+- 官方比赛数据：4,164 张、5,920 框、16 类；固定 3,321 张训练和 833 张冻结验证，另隔离 10 个冲突重复样本。
+- PlantDoc 弱类补充：CC BY 4.0，映射官方类 3/5/7；审计后保留 303 张训练图、785 框，另有 21 张测试图、34 框用于公开数据侧评估。
+- ScienceDB/Pests102 弱类子集：训练侧包含类 8 的 105 张和类 10 的 450 张；类 10 另固定 32 张 tune、16 张 frozen，后 48 张不参与 pairwise v5 训练。
+- Pest65 蚜虫补充：人工复核后训练侧保留 327 张、1,168 框，曾用于两次类 9 蚜虫增强主模型实验；它不是当前最佳 `official-plus-public-weak-v1` 主模型名称所指的数据源。
+- 类 10/13 hard-crop 专家集：从官方训练图的 GT crop、主模型困难候选和背景 crop 派生；v5 共选择 4,690 个 crop，仅来自官方训练划分，官方 833 张验证集未进入。
+- Roboflow 类 13 独立数据：源数据 587 张（445 train/70 valid/72 test，CC BY 4.0）；当前只把 valid/test 作为候选 tune/frozen，445 张 train 尚未纳入训练。人工采纳 4 个建议排除项后预计为 69 tune + 69 frozen。
+- GreenFlyDB：已完成来源和质量审计，但因含 `greenfly/notgreenfly` 二分类、7 个无效标签文件且需要人工确认到官方类 9 的映射，当前未自动合并训练。
+- 本地新增图片与未采用公开候选仍保留在审计资产中；“已下载/已审计”不等于“已用于当前最佳模型训练”。
+
+## Model Findings
+
+### 当前模型库存口径（2026-08-07）
+
+- 本地指标与权重记录能够确认 12 次不同配置的训练运行：官方基线 1 次、Pest65 主模型实验 2 次、公开弱类主模型 smoke/pilot/full 3 次、弱类检测专家 3 次、crop 分类专家 3 次。
+- 当前项目保留 4 个不重复的模型角色：官方 16 类基线、公开弱类增强的 16 类生产候选、类 10 弱类检测专家、类 10/13 crop 分类专家。PT/ONNX 导出以及 best/last 权重均不另算模型。
+- 当前最佳单一主检测模型为 `official-plus-public-weak-v1-e120-b64/best.pt`；在固定官方验证集上 mAP50 为 `0.827517`、mAP50-95 为 `0.548224`、Precision 为 `0.839196`、Recall 为 `0.776205`，优于官方基线的 `0.705030`、`0.425336`、`0.733906`、`0.683310`。
+- 当前最佳专项模型为类 10/13 pairwise crop 专家 v5；最终协同系统仍未冻结，需完成第二轮独立校准和生产路由后才能称为项目最终最佳模型。
+
+### 官方 YOLO26n 基线
+
+- 训练配置：batch 64，计划 120 轮，第 105 轮因 `patience=30` 正常早停。
+- 独立验证：mAP50 `0.705030`、mAP50-95 `0.425336`、Precision `0.733906`、Recall `0.683310`。
+- 本机权重：`artifacts/server/official-baseline-yolo26n-e120-b64/weights/best.pt`。
+- SHA-256：`0443b179564564fce071b7595e1c4a68484a339230951c5e8cefe279af066192`。
+
+### 当前 16 类生产候选
+
+- PT：`artifacts/server/remote-runs/official-plus-public-weak-v1-e120-b64/weights/best.pt`。
+- PT SHA-256：`cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`。
+- ONNX：`artifacts/server/remote-runs/official-plus-public-weak-v1-e120-b64/weights/best.onnx`。
+- ONNX SHA-256：`048b9050caa2db6389881865fe16818968e75d3f11fd288d4fa6a88181a258e2`。
+
+### 类 10/13 专家模型
+
+- 类 10 弱类检测专家：`artifacts/server/experiments/weak-expert-v2-full-public10-ft-freeze10-lr1e4-e18-b64/best.pt`。
+- 类 10 弱类检测专家 SHA-256：`95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49`。
+- 类 10/13 crop 专家 best：`artifacts/server/experiments/pairwise-crop-cls-10-13-v5-e30-b128/best.pt`。
+- best SHA-256：`9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c`。
+- last SHA-256：`50fc0af58e3254aac910683670a31b715ad3731a11c80113f28cc8aa3a40364d`。
+- 可复现实验数据归档：`artifacts/server/pairwise-hard-crops-10-13-v5.tar.gz`。
+- 第一轮校准报告：`artifacts/experiments/pairwise-calibration-v1/report.json`。
+- 专家重排报告：`artifacts/experiments/pairwise-crop-reranker-v2/report.json`。
+
+## Weak-Class Audit Findings
+
+### 类 8 / 15
+
+- 报告：`artifacts/experiments/class-pair-audit-8-15-v1/report.json`。
+- 类 8，阈值 0.50：P `0.7381`、R `0.6327`、F1 `0.6813`，98 个 GT。
+- 类 8 主要错误：15 个误为类 15、18 个漏检、2 个误为类 13、1 个误为类 12。
+- 类 15，阈值 0.70：P `0.8421`、R `0.7711`、F1 `0.8050`，83 个 GT。
+- 类 15 主要错误：13 个误为类 8、4 个漏检。
+- 结论：8/15 存在明显双向混淆，后续可评估专家路由，但不应仅凭该审计重划官方数据。
+
+### 类 6 / 12
+
+- 报告：`artifacts/experiments/class-pair-audit-6-12-v1/report.json`。
+- 类 6，阈值 0.20：P `0.8077`、R `0.6774`、F1 `0.7368`，31 个 GT。
+- 类 6 主要错误：7 个漏检、4 个误为类 7、各 1 个误为类 2/3。
+- 类 12，阈值 0.25：P `0.9383`、R `0.8837`、F1 `0.9102`，86 个 GT。
+- 类 12 主要错误：3 个误为类 10、3 个误为类 8、2 个漏检、各 1 个误为类 0/15。
+- 结论：类 12 已较强；类 6 更需要召回与困难样本优化，不能将 6/12 当作主要双向混淆对。
+
+## System Findings
+
+- 网页包含诊断首页、人工复核页 `/review`、训练监控页 `/training`。
+- 后端为 FastAPI，支持远程视觉推理接口。
+- 2026-08-07 Phase 5 启动：先在本机审查现有推理契约并实现可回退、配置驱动的类 10/13 路由；只有真实权重加载、服务器推理链回归和延迟/显存测量才使用 RTX 5090。第二轮独立校准被 frozen 门拒绝，不能直接晋级其阈值配置。
+- Phase 5 服务器链已接入当前生产候选主模型、类 10 检测专家和类 10/13 crop 分类专家；默认 `shadow` 保留主模型输出，`active` 仅显式开启。远程 `/health` 已确认三份权重加载成功，主模型 SHA-256 `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`、类 10 检测专家 SHA-256 `95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49`、crop 专家 SHA-256 `9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c`。
+- 路由配置已包含 `threshold10`/`threshold13`、`temperature10`/`temperature13`、背景阈值、候选阈值和 score mode；第二轮校准虽作为 shadow 诊断参数记录，但未被晋级为生产 active 配置。真实类 10 图片请求已返回专家支持与耗时，backend 会将这些字段写入 `detector_summary.inference`。
+- 本机 SSH 隧道→FastAPI 上传→远程 GPU 推理→病例检测端到端通过；真实响应在 shadow 下保留主模型结果并记录约 35–43 ms 路由耗时。active 隔离冒烟显示该样本会因 crop 专家背景分数 `0.988147` 被丢弃，进一步证明不能在 frozen 门未通过时默认 active。
+- 2026-08-07 Phase 5 暂停检查点：服务器推理服务仍由 `/root/miniconda3/bin/python -m uvicorn inference.service:app --host 127.0.0.1 --port 8870` 运行，`/health` 返回 `status=ok`、`class_count=16`、`routing.mode=shadow`；RTX 5090 为 0% 利用率、约 731 MiB/32607 MiB 显存。三份权重均存在且哈希保持不变：主模型 `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`（5,394,821 B）、类 10 检测专家 `95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49`（5,383,365 B）、crop 专家 `9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c`（3,189,762 B）。远端检查点已 `sync` 并回拷本地：`artifacts/server/phase5-live-checkpoint-20260807.json`，本地/远端 SHA-256 均为 `9097ca3b9af70403902ee99d42d05e5ea77e5eaaa9cd3f33678e7e99e1961c30`。
+- 本机网页已启动在 `http://127.0.0.1:3000/`（备用 `http://localhost:3000/`），FastAPI 在 `127.0.0.1:8000`，SSH 隧道将 `127.0.0.1:8870` 转到服务器；本轮只完成页面可见性和真实图片上传流程的准备，网页识别按钮的最终点击与指标基准尚未完成。下次应从现有浏览器页/本地服务状态继续，不重复服务器链路回归。
+- 当前决策保持：`active` 路由不允许；必须先完成网页真实验证和可复现指标，再以 frozen 门结果、误报/漏报和部署成本重新评估。
+- 服务器关机检查点：`artifacts/server/phase5-shutdown-task-nodes-20260807.json` 已在远端 `sync` 后回拷本地，远端/本地 SHA-256 为 `7095770760ea9f8007b4cc0bc376152cf0137b9c632db0631344479387b871e8`。检查点记录 5 个任务节点：服务器推理链完成、网页端到端待做、指标基准待做、active 不允许、服务器关机完成。推理进程停止后 GPU 为 0 MiB/0%，随后执行 `shutdown -h now`；复核 SSH 端口拒绝连接，确认服务器已关闭。
+- 训练工具覆盖数据审计/划分、服务器训练、验证、导出与实时监控。
+- 本地验证曾通过：后端 5 个 pytest；网页 production build；`/`、`/review`、`/training` 共 3 个渲染测试。
+- 网页 lint 无错误，有 3 个既有 `<img>` 警告。
+
+## GitHub & Publication Findings
+
+- 公开仓库：`https://github.com/genghailong8-maker/crop-pest-multimodel-system`。
+- 默认分支 `master`：`0925002`。
+- 当前工作分支 `codex/publish-audits-and-calibration-plan`：`4574d82`。
+- 草稿 PR：`https://github.com/genghailong8-maker/crop-pest-multimodel-system/pull/1`。
+- 已确认远程不含 `.pt`、`.onnx`、原始图片、压缩归档、私钥或令牌。
+- `data/official/` 在公开仓库中只包含 YAML、固定划分清单和审计元数据。
+- `.gitignore` 排除数据图片/标注、权重、ONNX、归档、环境和日志。
+- 仓库尚未选择项目级 LICENSE；公开可见不等于授权他人复用。
+- 2026-08-07 Phase 5 集成已在本地提交为 `530b29f`（22 个文件，包含推理链、后端/网页传播、测试、校准报告、规划文件和服务器检查点；未包含权重、图片、压缩包或密钥）。首次推送因 `github.com:443` 网络不可达失败；本地提交与工作区内容完整保留，网络恢复后需补推该分支。
+- GitHub 连接器只读仓库与分支查询成功，但尝试用 `create_blob` 发布同一提交时返回 `403 Resource not accessible by integration`，未发生远端部分写入；因此当前 GitHub 远端仍停留在 `9cf96fe`，本地最新提交为 `530b29f`、`93e1d1a`，待网络或写权限恢复后按 fast-forward 补推。
+
+## Technical Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| 主模型、弱类专家和阈值校准分层处理 | 便于控制风险、定位收益并保持整体模型稳定 |
+| 类 13 先找小型合法检测集 | GHCID 全量过大，当前只需要独立校准与现场验证样本 |
+| 冻结 tune/test 职责 | tune 选阈值，test 只做一次最终报告，降低过拟合风险 |
+| 大模型和所有训练放在 GPU 服务器 | 符合用户要求，本机主要承担代码、报告和安全备份 |
+| 权重只做本机/服务器备份，不上传公共 Git | 控制体积、版权和安全风险 |
+
+## Issues Encountered
+
+| Issue | Resolution |
+|-------|------------|
+| 原 AutoDL 实例无可用 GPU 或被占用 | 暂停并在用户提供可用服务器后恢复 |
+| GitHub CLI App 令牌不能创建仓库或写入 | 用户网页创建仓库，使用 Git Credential Manager 设备授权完成推送 |
+| 浏览器自动化控制 GitHub 标签页超时 | 改为一次明确的用户手动点击，避免反复失败 |
+| 服务器关机可能丢失实验上下文 | 创建本地权重/数据备份、哈希核验和关机检查点 |
+| Roboflow Fork 项目显示 968 张而非目标 587 张 | 暂停导出，先只读核验 Versions 和工作区中的其他 Fork 项目，防止污染冻结评估集 |
+| 外部对比库含 407 张不可完整解码图片 | 将路径与异常写入 manifest 后跳过；目标候选图仍使用严格校验，不降低自动门标准 |
+
+## Resume Findings — 2026-08-07
+
+- 本次恢复重新以 UTF-8 完整读取三个规划文件并检查实际 Git 状态：当前分支仍领先远端 3 个提交，工作树包含类 13 审计工具、规划文件及 `.gitignore` 的未提交修改；这些既有改动必须保留。
+- 当前 `Next Step` 不需要服务器：填写 `review.csv` 和运行 `finalize_grasshopper_field_review.py` 均可在本机完成；终结后的类 10/13 第二轮批量推理与校准才需要 GPU 服务器。
+- `class13-grasshopper-v1/review.csv` 现有 142 条记录，`review_decision` 和 `review_notes` 全部为空。建议清单给出 4 条拒绝、5 条接受并备注，但剩余 133 条仍须人工确认，不能自动视为已接受。
+- 用户随后明确确认拒绝建议的 4 条、接受其余 138 条并写入 5 条指定接受备注；该人工门已完成，不再是当前阻塞。
+- 类 13 终结完成后再次探测服务器：`connect.bjb2.seetacloud.com` 仍可解析到 `106.38.204.136`，但 `10373` TCP 不可达；因此尚未同步终结数据、核验远程 GPU/模型/类 10 清单，也未运行 frozen test。
+- 已按 UTF-8 完整恢复三个规划文件；当前仍处于 Phase 4，下一步是类 13 独立现场样本复核及类 10/13 第二轮冻结校准。
+- 当前分支 `codex/publish-audits-and-calibration-plan` 比远程领先 3 个提交，工作树无已显示的未提交改动。
+- 旧服务器关机检查点只证明关机前状态安全，不证明旧 SSH 地址当前仍在线；继续远程工作前必须重新探测地址和 GPU 状态。
+- 数据候选下载、许可证留档和人工框质量复核可在本机进行；涉及现有 PyTorch 专家模型的批量推理、第二轮校准或后续训练，应按项目约束使用 GPU 服务器。
+- 旧地址 `connect.bjb2.seetacloud.com:10373` 当前 DNS 可解析，但 TCP 端口关闭，旧 AutoDL 实例不可连接。
+- 第二轮脚本 `training/calibrate_pairwise_thresholds.py` 会加载 Ultralytics 主检测器与 crop 分类专家，并默认使用 `--device 0` 执行 tune/eval 批量推理；因此正式运行明确需要可用 GPU 服务器。
+- 类 10 的 32/16 图片清单记录为服务器相对路径；若新服务器不保留旧项目卷，需要从备份或 ScienceDB 源重新恢复这些数据与清单。
+- 本机检查确认类 10 的 `scidb_valid_eval.txt`、`scidb_test_eval.txt` 及 `artifacts/public/scidb-pests102` 均不存在；只有主模型和 crop 专家权重的本地备份。
+- 本机有 GTX 1660 SUPER 6GB 且 C 盘约 156 GiB 可用，理论上可做小批量推理，但这不能替代项目既定 GPU 服务器流程，也不能弥补缺失的类 10 数据。
+- 用户重新开机后，项目专用 SSH 密钥可登录原 AutoDL 实例；GPU 为 RTX 5090 32GB，检查时利用率 0%、显存 0 MiB，`/root/autodl-tmp` 剩余 43G。
+- 远程类 10 清单仍完整：`scidb_valid_eval.txt` 32 行、`scidb_test_eval.txt` 16 行。
+- 远程 `/root/autodl-tmp/crop-pest-system` 是工作副本而非 Git 仓库；后续同步必须以本地 Git 工作树为代码真源。
+- 服务器类 10 独立集逐项核对结果：48/48 图片存在，48/48 对应标签存在。
+- 服务器主模型 `runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.pt` SHA-256 为 `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`；crop 专家 `runs/detect/pairwise-crop-cls-10-13-v5-e30-b128/weights/best.pt` 为 `9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c`，均与本地记录一致。
+
+## Resources
+
+- 比赛通知：`E:\第三届“农信杯”编程大赛\2026第三届“农信杯”编程大赛 .pdf`
+- 官方数据：`E:\第三届“农信杯”编程大赛\基于多模型协同的农作物病虫害识别与防治系统开发`
+- 本地新增数据：`C:\编程大赛数据\Dataset\图片`
+- Pest65：`C:\编程大赛数据\Dataset\pest65`
+- 关机检查点：`artifacts/server/shutdown-checkpoint-20260807.json`
+- 发布规范：`PUBLICATION_POLICY.md`
+- GHCID 论文：`https://www.nature.com/articles/s41598-020-57674-8`
+
+## Visual/Browser Findings
+
+- GitHub 新仓库页面最终由用户手动提交，仓库可见性为 Public。
+- GitHub PR #1 已验证为 Open、Draft，合并状态为 Clean。
+- 本地系统页面曾在 `http://localhost:3000/`、`/review`、`/training` 使用。
+
+---
+
+每进行 2 次新的网页、PDF、图片或搜索查看后，应立即把关键结论补充到本文件。
+
+## Phase 5 Full Evidence — 2026-08-10
+
+- 已新增可重复采集脚本 `scripts/collect_phase5_evidence.py`，并生成统一证据清单 `artifacts/server/phase5-full-evidence-20260810.json`。最终清单大小 108,768 bytes，SHA-256 为 `753ff334045ddabbe99ba20db69df8155e0e56e1e742cd7316563a4697e0733a`；清单同时记录采集时的 Git 分支/提交、运行环境、证据文件 inventory 和各文件 SHA-256。
+- 采集时 `http://127.0.0.1:8870/health`（远程推理隧道）、`http://127.0.0.1:8000/health`（FastAPI）、`http://127.0.0.1:8765/health`（训练监控）以及 `http://localhost:3000/training`（网页训练监控入口）均可达；网页返回 HTTP 200。最新病例接口也可达，病例 `3850f4500d164c4cb6562a8f96ef09bc` 保留在清单中作为 E2E 追踪证据。
+- 训练监控由远程 `training/server/run_monitor.sh` 维持运行，`/api/training/status` 返回 20 个运行摘要和完整当前运行曲线。当前选中运行 `pairwise-crop-cls-10-13-v5-e30-b128` 已完成 30/30 epoch；RTX 5090 快照为 0% 利用率、729 MB/32607 MB 显存、27°C、约 4.64 W，GPU 历史采样随清单保存。
+- 生产配置已固化为 `routing.mode=shadow`、`reclassify=false`、`score_mode=keep`、候选阈值 0.05、背景阈值 0.90、目标阈值 0.15、`threshold10/13=0.15/0.15`、`temperature10/13=1.25/0.75`；三路模型均报告 `configured=true, loaded=true`。`active_routing_allowed=false`，在新的独立 frozen 门通过前不得切换。
+- 保留模型角色和权重证据：官方基线 PT `0443b179564564fce071b7595e1c4a68484a339230951c5e8cefe279af066192`；生产主模型 PT `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`（5,394,821 B）；类 10 检测专家 `95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49`（5,383,365 B）；类 10/13 crop 专家 `9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c`（3,189,762 B）；生产主模型 ONNX `048b9050caa2db6389881865fe16818968e75d3f11fd288d4fa6a88181a258e2`（10,591,452 B）。服务端 health 中的三份加载哈希与本地权重记录一致。
+- 指标证据仍以官方冻结 833 张验证集为准：主模型 precision `0.839196`、recall `0.776205`、mAP50 `0.827517`、mAP50-95 `0.548224`。主模型 PT 基准（RTX 5090，预热后 10 次）为 batch 1/8/32 吞吐 `190.246/380.474/368.962 images/s`，平均延迟 `5.256/21.026/86.730 ms`，全局显存峰值 `2,587.94 MiB`；shadow 路由压测 20/20 顺序成功（均值 121.501 ms、p95 142.248 ms、8.082 req/s），24/24 并发成功（p95 233.521 ms、29.572 req/s）。
+- 有效第二轮独立校准仍为拒绝：101 tune、85 frozen、3,888 个候选、36 个 tune-acceptable；选中配置在 frozen 上类 10 mAP50-95 从 `0.387952` 降至 `0.363993`，类 13 为 `0.0`，`frozen_acceptable=false`，决策 `keep_current_main_model`。因此本证据固化只记录参数，不将其晋级为 active。
+- 证据清单的完整一致性校验通过：四个模型角色及 ONNX 文件存在、加载哈希匹配，四个健康/网页探测均为 reachable，训练运行数为 20，路由为 shadow，独立 frozen 门为 false；当前唯一未跟踪工作区文件 `CLAUDE.md` 未纳入清单提交范围。
+
+## Phase 6 Start — 2026-08-10
+
+- 当前 `CLAUDE.md` 不是可执行的纯 Markdown 准则，而是一次 `Invoke-WebRequest` 的序列化输出（正文仅残留标题、谨慎优先于速度等截断内容）；文件保持原样、不加入 Git。按可见准则执行小步修改、先验证后提交、保留证据和用户文件。
+- 现有后端已有 16 类 `CLASS_CATALOG`、检测框/置信度、图像质量标记、路由和模型哈希元数据，以及预标注复核 API；但 `catalog.py` 只有类别名称，缺少来源、证据等级、非化学防治和安全边界，诊断结果也没有把知识卡片或复核审计统一关联起来。
+- Phase 6 的安全决策：先登记可追溯的综合防治（IPM）和观察/隔离/清洁/栽培管理建议；在没有逐类权威标签、作物登记和当地法规核验前，不输出具体药剂、剂量、混配或安全间隔。低置信度、无目标、候选接近或质量异常一律保留人工复核入口。
+
+### Phase 6 Source Register (initial)
+
+- `fao-ipm-principles`: FAO, “Principles and practices”, https://www.fao.org/pest-and-pesticide-management/ipm/principles-and-practices/en/ — supports ecosystem approach, resistant varieties, rotation/intercropping, sanitation and using pesticides only when effective alternatives are unavailable.
+- `fao-ipm-definition`: FAO, “Integrated Pest Management”, https://www.fao.org/pest-and-pesticide-management/ipm/integrated-pest-management/en/ — supports combining biological, physical, cultural and chemical measures while reducing pesticide risk.
+- `cn-crop-pest-regulation`: Ministry of Agriculture and Rural Affairs of the PRC, “农作物病虫害防治条例”, https://fgs.moa.gov.cn/flfg/202004/t20200403_6340771.htm — supports prevention-first, integrated/green control and healthy cultivation measures such as rotation, sanitation and removal of diseased residues.
+- `cn-green-control`: Ministry of Agriculture and Rural Affairs, “2013年全国农作物病虫害绿色防控示范区建设方案”, https://zzys.moa.gov.cn/gzdt/201304/t20130411_6309844.htm — supports ecological, biological, physical and scientifically supervised control as green-control categories.
+- These sources are general IPM policy/principle references, not product labels. The application must show them as provenance and must not infer product, dose, mixture, re-entry or pre-harvest interval from an image.
+
+### Phase 6 Implementation Evidence — 2026-08-10
+
+- Added `backend/app/knowledge.py` with schema `phase6-knowledge-v1`, 16 class cards, four source records, source retrieval dates, evidence levels, observation focus, first actions, escalation conditions and explicit prohibited inference fields.
+- Added `GET /api/catalog/knowledge` and `GET /api/catalog/classes/{class_id}/knowledge`. Detection responses now include `detector_summary.explainability` with normalized detection evidence, confidence band, model SHA/routing/timing evidence, knowledge card/source IDs, safety boundary and review reasons.
+- Added SQLite-compatible `review_events_json` migration and `review_events` response field. `GET /api/cases/review-queue` lists low-confidence/near-candidate/quality/no-target cases; `POST /api/cases/{case_id}/review` records decision, reviewer ID, notes and an evidence snapshot; `GET /api/cases/{case_id}/review-events` exposes the audit trail.
+- Updated the diagnosis page to show the knowledge card's observation/first-action guidance, source IDs, shadow route and safety boundary, and to submit “请求补充证据” or “确认当前候选” decisions. README documents the contract and endpoint boundary.
+- Validation: backend `9 passed` with one pre-existing Starlette deprecation warning; web `npm test` passed (build + 3 rendered routes); web lint has `0 errors` and the same 3 existing `<img>` warnings; live 8000 `/health`, `/api/catalog/knowledge`, and `/api/cases/review-queue` returned successfully.
+- This Phase 6 slice does not require GPU/server training. The remote inference service remains untouched in `shadow` mode; no active-route or weight change was made.
+
+## Phase 7 Start — 2026-08-10
+
+- Phase 7 已进入 `in_progress`。本阶段目标是把已验证的系统事实整理成比赛材料，固化可重复的 5 分钟演示和离线降级行为，并以标准库脚本完成最终复现/公开边界门。
+- 已创建 `docs/competition/architecture-and-innovation.md`、`demo-runbook.md`、`reproducibility-checklist.md`、`submission-package.md`；材料明确官方 3,321/833 划分、独立 101/85 门控、4 个保留模型角色、主模型冻结指标和 shadow-only 决策。
+- 已创建 `scripts/final_repro_check.py`。脚本不依赖第三方 Python 包，静态检查知识契约、Phase 5 全量证据、必需文件和 Git 跟踪边界；后端/推理/网页探测为可选项，`--require-services` 才会把不可达视为失败。
+- Phase 7 文档与静态复现检查不需要 GPU；真实网页识别仍需要可用的推理服务或兼容远程端点。当前没有授权启动训练、切换 active 或改写服务器权重。
+- 公开边界继续执行 `PUBLICATION_POLICY.md`；`CLAUDE.md` 仍是用户工作区内未跟踪文件，不修改、不加入提交包。
+
+## Phase 7 Completion — 2026-08-10
+
+- **Status:** complete. 比赛材料五件套已完成：架构/数据治理/创新、5 分钟演示与离线容错、最终复现清单、答辩幻灯片提纲、公开提交包边界。
+- `scripts/final_repro_check.py --require-services` 通过：20 个必需文件存在；知识契约 16 类、4 来源、化学边界存在；Phase 5 证据的官方 3,321/833、独立 101/85、4 个保留模型角色和 `active_routing_allowed=false` 一致；Git 禁止跟踪文件 0；后端、知识接口、推理隧道和网页全部可达。
+- 回归：backend `9 passed`（1 个既有 Starlette 弃用警告）；web `npm test` 3/3 通过；web lint 0 errors、3 个既有 `<img>` warnings；Python 编译和 `git diff --check` 通过。
+- 当前本机后端健康接口显示 `detector_mode=unconfigured`，这是离线/无环境变量进程的安全降级状态；推理隧道仍报告 16 类、三模型加载、`shadow`。真实识别演示使用 `demo-runbook.md` 中的 `CROP_DETECTOR_ENDPOINT=http://127.0.0.1:8870/v1/detect` 启动方式，并以 Phase 5 已保存的真实网页 E2E 作为准确率之外的链路证据。
+- 生成报告写入被忽略的 `artifacts/release/`，不进入公开提交；`CLAUDE.md` 仍保持未跟踪原样。
+- Phase 7 本地提交已创建；`git push origin codex/publish-audits-and-calibration-plan` 与一次只读 `git ls-remote` 均受到当前 GitHub HTTPS 连接重置/不可达影响，停止重试，远端未发生部分写入。网络恢复后只需 fast-forward 推送本地领先的 1 个 commit。
+
+## Phase 5 Live Resume — 2026-08-10
+
+- Server `connect.bjb2.seetacloud.com:10373` is reachable again. RTX 5090 reports 32,607 MiB total and about 729 MiB used while the inference service is idle.
+- Remote `/health` is `status=ok`, `class_count=16`, `image_size=640`, `routing.mode=shadow`; main, class-10 detector, and crop classifier are all loaded. Their SHA-256 values match the saved shutdown checkpoint (`cbb26d83…`, `95a03f1d…`, `9804458d…`).
+- The local tunnel, FastAPI backend, and web server are running for the real-image browser E2E. Active routing remains disallowed until the requested measurements are completed and reviewed.
+- Real browser E2E succeeded through the user-facing form using `artifacts/incoming/phase5-e2e-class10.jpg` (640×640). The UI reported acceptable quality, `0` selected detections, `1` shadow expert candidate, and `42 ms` routing time; the case was saved as `3850f4500d164c4cb6562a8f96ef09bc` with status `detected`.
+- The saved case records remote request-model time `122.671 ms`, routing `41.638 ms`, crop-expert `23.156 ms`, class-10 detector `15.741 ms`; shadow decision preserved the main model result. The routed candidate had crop support background `0.988147` and class-10 support `8:0.421973`, so active routing must remain disabled.
+- Benchmark evidence is saved as `artifacts/server/phase5-benchmark-20260810-route.json` and `artifacts/server/phase5-benchmark-20260810-main-pt.json`. The production shadow route completed 20/20 sequential requests (mean wall 121.501 ms, p95 142.248 ms, 8.082 req/s) and 24/24 requests with 4 workers (wall p95 233.521 ms, 29.572 req/s); all responses remained `routing.mode=shadow`.
+- Standalone main PT benchmark on RTX 5090 (10 iterations after 3 warmups) measured batch-1 mean 5.256 ms / 190.246 images/s, batch-8 21.026 ms / 380.474 images/s, and batch-32 86.730 ms / 368.962 images/s. GPU idle was 497.75 MiB and benchmark global peak was 2,587.94 MiB (delta 2,090.19 MiB).
+- Current three-model service idle memory is 729 MiB on the 32,607 MiB RTX 5090. Model sizes: main PT 5,394,821 bytes (5.145 MiB), class-10 PT 5,383,365 bytes (5.134 MiB), crop PT 3,189,762 bytes (3.042 MiB), combined PT 13.321 MiB; main ONNX 10,591,452 bytes (10.101 MiB).
+- Accuracy remains the fixed official 833-image frozen validation result for the main model: precision 0.839196, recall 0.776205, mAP50 0.827517, mAP50-95 0.548224. The single real field image has no ground-truth annotation, so it is an E2E/latency sample rather than an accuracy estimate. Active routing remains disallowed because the independent frozen calibration gate was rejected (`frozen_acceptable=false`) and the observed candidate's background support was 0.988147.
+- A consolidated Phase 5 checkpoint is saved at `artifacts/server/phase5-benchmark-checkpoint-20260810.json`, including server health, routing configuration, model hashes/sizes, web case evidence, benchmark summaries, and evidence SHA-256 values. The remaining Phase 5 item is full experiment monitoring/configuration persistence; no active-route switch is authorized.
+
+## Phase 8 Start — 2026-08-10
+
+- 用户确认采用服务器自托管 `Qwen/Qwen3-VL-8B-Instruct`、网页一键完整分析，并将 Karpathy Guidelines 只写入 `task_plan.md` 的强制规则。
+- 服务器 `connect.bjb2.seetacloud.com:10373` 已使用项目专用密钥重新认证成功：RTX 5090 32,607 MiB、检查时 0 MiB/0% 使用，`/root/autodl-tmp` 剩余约 43G；当前没有 Uvicorn、vLLM 或 Ollama 进程。
+- 服务器基础 Python 为 3.12.3、PyTorch `2.8.0+cu128`、CUDA 12.8、GPU capability `(12, 0)`；未安装 vLLM/Transformers/Accelerate，也没有 Docker 命令。部署必须使用 `/root/autodl-tmp` 下隔离环境和缓存，不能污染已有 Ultralytics 基础环境。
+- 当前后端 `backend/app/multimodal.py` 使用自定义 JSON 直返契约，只验证响应为字典；Phase 8 将以最小改动切换为 OpenAI-compatible chat completions，并用 Pydantic 严格验证 C 项结构。SQLite 继续复用 `analysis_json`，不做迁移。
+- 当前网页上传后会自动检测，但多模态分析仍需单独点击且只显示少量字段；Phase 8 将串联上传→检测→分析，并在多模态失败时保留病例/检测结果和仅分析重试入口。
+- 安全边界不变：多模态只能补充解释，不能降低检测链已有人工复核风险；无目标、低置信度、低质量、候选冲突或视觉/多模态冲突必须复核；不输出药剂剂量、混配、采收间隔等处方。
+- 本阶段不切换 detector active 路由、不启动重训，也不把第二轮 rejected calibration 配置晋级。
+- 2026-08-10 官方 Qwen3-VL 模型卡明确给出 `pip install vllm`、`vllm serve Qwen/Qwen3-VL-8B-Instruct` 和 OpenAI-compatible 图文 chat-completions 示例；因此不需要自建推理 API 包装器。官方模型卡：https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct 。
+- 服务器 Python 3.12 的包索引可用且当前提供 vLLM `0.26.0`；为保证复现，Phase 8 部署脚本固定该版本，而不是每次安装不确定的最新版。
+## Phase 8 VLM Runtime Finding — 2026-08-10
+
+- Qwen3-VL weights loaded successfully on the RTX 5090 (16.65 GiB of weight memory). Startup then failed only during optional FlashInfer sampler warmup because FlashInfer 0.6.14 misidentified the Blackwell architecture; this was not an out-of-memory event. vLLM's documented `VLLM_USE_FLASHINFER_SAMPLER=0` fallback is therefore used while keeping the working FlashAttention backend.
+
+## Phase 8 Live Endpoint and Browser Findings — 2026-08-10
+
+- The pinned Qwen3-VL snapshot is served as `crop-pest-vlm` from `/root/autodl-tmp/crop-pest-vlm/model`; `/v1/models` reports max context 8192. The service uses `vllm==0.26.0`, listens only on server `127.0.0.1:8890`, uses 65% configured GPU memory and measured about 21,156 MiB idle after load.
+- The detector service is separately healthy on `127.0.0.1:8870`, covers all 16 classes and remains `routing.mode=shadow`; all three detector-side weights retain their saved hashes. The local tunnel forwards both private endpoints, and backend `/health` reports `detector_mode=remote`, `multimodal_configured=true`, `multimodal_model=crop-pest-vlm`.
+- Real browser weak/no-target sample: the existing class-10 field image retained the saved detector result (0 selected detections, 1 shadow candidate), produced a strict no-primary VLM result, and forced human review. Real normal sample: official class 2 detected `南瓜白粉病` at 91.78%, Qwen3-VL returned the same primary diagnosis with complete C-item fields; deterministic alignment reconciliation changed the model's contradictory raw `conflict` to `agree` and recorded the raw value in provenance.
+- A controlled local VLM endpoint outage proved the web keeps the newly created case, image quality, 91.78% detection and shadow evidence, exposes `仅重试综合分析`, and succeeds after endpoint recovery without re-uploading or re-detecting. Reloading the page restored the persisted case and analysis from history.
+- Exact failure reruns established that large-image HTTP 400 responses were context-length violations, not random endpoint failures. Per-request `mm_processor_kwargs.max_pixels=1003520` keeps the complete image content while bounding vision tokens; all nine previously failed samples then succeeded with schema/content completeness 100% and no unsafe output.
+
+## Phase 8 Final Evidence — 2026-08-10
+
+- Final evidence `artifacts/server/phase8-multimodal-evidence-20260810.json` is 16-class stratified at 10 images/class (160 total), SHA-256 `be54b463fcb6a709197510159d963e668d825d68ce7ee780c29f575b74baf415`. All 160 succeeded; failure rate 0, Top-1 0.8625, schema-valid rate 1.0, content-nonempty rate 0.58125, unsafe outputs 0 and risk-preservation failures 0.
+- Per-class Top-1: 0/2/3/4/11/14 = 1.0; class 5/7/9 = 0.9; class 6/10/12/15 = 0.8; class 8/13 = 0.7; class 1 = 0.5. The longest-catalog-name rule prevents class 15 `豆芫菁` from being counted as class 8 `芫菁`.
+- Conflict evaluation: 17 cases had a detector primary outside ground truth, but the VLM/final alignment identified only 1 (5.8824%); 132/160 results requested human review. This is a measured limitation, not a reason to enable active.
+- VLM mean/P50/P95 latency is 2221.518/2238.267/2756.890 ms; end-to-end P50/P95 is 2325.747/2949.004 ms. Sequential throughput is 0.429228 image/s; 8 requests with concurrency 2 all succeeded in 9.510 s, 0.841212 image/s.
+- Peak GPU memory is 24,024 MiB. The materialized model directory is 17,545,920,365 bytes (about 16.34 GiB), isolated runtime venv 8,319,801,095 bytes, and complete VLM root 25,888,950,823 bytes.
+
+## Phase 9 Planning Checkpoint — 2026-08-10
+
+- 用户要求将以下工作安排到 2026-08-11，本次对话不执行：从用户角度核验题目要求和完整构建；识别未满足项并优化；验证其他电脑/浏览器直接打开与依赖；核验后端数据库检测记录存储并在确有缺口时实现；由用户亲自验证用例；全部完成后再做前端 UI 重设计。
+- 当前已知基线：Phase 8 的真实多模态端点、后端严格结构校验、一键上传→检测→分析、失败保留/仅分析重试、真实浏览器 E2E、16 类证据和最终复现门已完成；`active` 仍禁止。
+- 明天必须先把“已有自动化证据”与“用户可完成的人工验收”分开，不能仅因 `phase8-final-repro-v1` 通过就推断另一台电脑可直接打开，也不能仅因已有 SQLite/病例 API 就推断跨设备集中存储已满足。
+- 跨电脑检查的重点是实际架构边界：网页、FastAPI、127.0.0.1 端口转发、远程 detector/VLM、训练监控、CORS/防火墙/HTTPS、依赖和数据目录是否需要同时存在；结论必须给出用户可执行的下载/安装/启动清单。
+- 数据库检查的重点是持久化字段、重启/刷新恢复、数据库路径与备份恢复、并发与隐私边界；只有验收发现真实缺口并获得实现授权时才扩展数据库，不预设必须更换 SQLite。
+
+## Karpathy Guidelines Audit — 2026-08-10
+
+- **结果：已使用。** `task_plan.md` 已有 `Mandatory Karpathy Guidelines`，明确覆盖“修改代码前分析假设、优先简单实现、避免无关重构、所有修改必须可验证、修改范围必须与任务直接相关”五项用户要求。
+- `findings.md` 与 `progress.md` 的历史记录已将该规则用于 Phase 8 的范围控制、最小实现、验证和 `CLAUDE.md` 保留边界；Phase 9 计划也要求发现问题后先列出假设和最小修复范围。
+- **持续执行决定：** 从后续每一项代码、配置、测试、部署和 UI 任务开始，必须先写明假设与成功标准，再实施最小直接相关改动，并立即运行可重复验证；不做未授权的相邻重构。
+- **审计边界：** 现有日志能证明规则已经写入并被引用，不能反向证明历史每一行改动都完成了逐项合规审计；后续阶段以规划文件、变更差异、验证结果和错误记录作为证据。
+
+## Test Server Connection — 2026-08-11
+
+- 本机默认 `~/.ssh/id_ed25519` 不存在；使用项目已有私钥 `~/.ssh/codex_autodl_nongxin_2026` 可成功认证 `connect.bjb2.seetacloud.com:10373`。
+- 远程检测服务和 Qwen3-VL 服务初始均已停止；按仓库既定脚本启动后，检测器 `127.0.0.1:8870` 与模型服务 `127.0.0.1:8890` 均已就绪。模型服务返回 `crop-pest-vlm`，最大上下文 8192。
+- 本机双 SSH 隧道已建立：检测器 `127.0.0.1:8870`、VLM `127.0.0.1:8890`；本地 FastAPI 后端运行在 `127.0.0.1:8000`，网页运行在 `localhost:3000`。
+- 连通性验证：后端 `/health`、知识库接口、检测器 `/health`、VLM `/v1/models` 和网页首页均返回 200。后端报告 `detector_mode=remote` 且多模态服务已配置。
+- 本次只恢复测试运行链路，没有修改业务代码、数据库结构、模型权重或 Phase 9 计划状态。
+
+## Phase 9.1 CPU/Static Preflight — 2026-08-11
+
+- 按 GPU 等待边界完成 CPU/静态前置核验；没有启动远程 detector、Qwen3-VL、SSH 隧道或 GPU 请求。
+- 后端回归 `17 passed`，网页 `npm.cmd test` 的构建与 3 个路由渲染测试通过；lint 为 0 errors、3 个既有 `<img>` warnings。
+- SQLite 默认路径为 `backend/runtime/crop-pest.sqlite3`；只读检查显示 11 条病例记录（analyzed 7、detected 3、model_unavailable 1），`PRAGMA integrity_check` 为 `ok`。
+- `diagnosis_cases` 已覆盖环境、质量、检测框、detector summary、分析、复核和复核事件 JSON 字段；当前未发现需要立即扩展数据库的证据。
+- 发现的非阻塞边界：没有自动备份/恢复脚本；图片路径依赖 `runtime/uploads`；SQLite 并发写入和跨浏览器重启恢复尚未运行时验证；GPU 相关完整链路继续等待。
+- 详细矩阵已写入 `docs/competition/user-acceptance-matrix-20260811.md`。本阶段不修复问题、不进入 9.2–9.6。
+
+## 题目二评分细则审计 — 2026-08-11
+
+- **评分依据：** 用户目录微信文件中的《2026第三届“农信杯”编程大赛》PDF 第 8 页“评分项具体判定标准”；题目二满分项为 A 图片上传与基础流程 15 分、B 视觉识别/定位与展示 25 分、C 多模型协同综合分析 25 分、D 知识库与防治建议 20 分、E 系统质量/创新/答辩 15 分。
+- **A：** 代码、后端测试和 Phase 8 真实网页证据覆盖上传、作物/部位/生育期、检测、分析、保存、历史查看；按功能证据接近/达到满分。仍需在服务器恢复后现场再次演示，确认不是仅依赖已保存证据。
+- **B：** 实际 YOLO 主检测器覆盖 16 类，输出框、类别、置信度，并对多目标、无目标、低质量进入人工复核；按细则功能已基本达到满分条件。当前 `shadow` 专家只补充证据，不覆盖主模型结论，不能把专家路由描述成已经提升主模型。
+- **C：** Qwen3-VL 已接入并收到原图、视觉结果、作物/部位/生育期/环境等字段，输出结构化诊断、症状、危害、诱因、依据、候选、置信度和复核信息；但 160 张正式分层样本的关键内容非空率只有 58.13%，17 个预期冲突只识别 1 个（5.88%），因此按满分标准的“处理相近类别、低置信度和模型冲突”仍只能判为部分达标。
+- **D：** 已有 16 类知识卡片、4 个来源 ID、农业/物理/生物/IPM 方向和农药标签安全边界；但来源主要是原则/法规级来源，尚不是逐病虫害的当地标签或权威药剂登记库，也没有结构化风险等级与严重度映射，因此现场评分存在从满分降为部分分的风险。
+- **E：** 已有网页、FastAPI、SQLite 病例/复核审计、训练监控、复现材料、shadow 安全边界和模型/数据说明；但题目二满分项要求的完整识别记录、严重程度、趋势或报告能力尚未形成独立功能，跨电脑稳定运行与现场答辩仍未验证，故 E 不能无条件视为满分。
+- **当前明确未满足或证据不足的满分点：** C 的多模态内容完整性与冲突识别；D 的逐类权威来源/风险分级/针对性防治证据；E 的严重程度/趋势/报告和跨环境稳定演示；A/B/E 的“现场稳定演示”尚受 GPU、隧道和部署环境约束。
+- **评分结论边界：** 不把 PPT、自动化报告或历史成功日志单独当作现场功能验收；正式评分仍需服务器恢复后用项目样本完成真实演示，并记录截图、接口响应、日志和用户操作结果。
+
+## 新版 Phase 9 实施基线 — 2026-08-11
+
+- 用户已明确授权以新版 9.1–9.8 替换旧 Phase 9 顺序，把 A–E 评分缺口与验收、数据库、公网、用户测试和 UI 改造统一实施；UI 不再等待旧 9.5 用户验收后才开始，而是在 CPU 可完成阶段与后端契约同步实现。
+- **公开模式决定：** 匿名用户可上传；明确同意后病例进入共享公共历史并保留 30 天；旧病例默认私有。匿名用户只可用一次性病例编辑令牌修改自己的病例。
+- **部署决定：** Sites 提供公网前端；当前主机继续承担 FastAPI、SQLite、上传图片和 SSH 模型隧道。浏览器只访问同源 `/api/*`，Sites Worker 注入 origin secret；detector 和 Qwen3-VL 不直接暴露公网。
+- **严重度决定：** `diagnostic_risk` 表示系统诊断可靠性风险，`field_severity` 表示结合用户受害比例、扩散速度和图片的田间辅助判断；缺少受害比例或扩散速度时后者必须为“无法判断”。现有人工复核 `severity` 字段继续使用。
+- **模型决定：** 在线链路保持 3 个视觉模型加 1 个 Qwen3-VL；专家只提供 `shadow` 第二意见。多模态升级为两阶段，先独立看图，再与 YOLO/专家/质量证据比对；不新增第二个大模型，不启用 active，不自动重训。
+- **GPU/公网阻塞：** 当前 GPU 不可用，不执行真实 160 张评估、性能或完整 E2E。用户尚无域名和 Cloudflare 账号，固定公网地址必须等人工准备完成；这两个阻塞不妨碍数据库、协议 mock、知识、UI 和本地构建测试。
+- **最小修改范围：** 只修改 Phase 9 直接相关的规划、FastAPI/SQLite、多模态协议、知识卡片、网页与部署文档/测试；保留用户未跟踪 `CLAUDE.md` 和既有训练/模型证据。
+
+## Phase 9 CPU 实施发现 — 2026-08-11
+
+- 病例主表已用兼容迁移补入受害比例、扩散速度、公开同意、过期时间、诊断风险、田间严重度和编辑令牌哈希；旧病例仍为私有。SQLite 启用 WAL、busy timeout、完整性检查，并提供备份、恢复、过期删除和图片路径检查。
+- `phase9-multimodal-v2` 已实现两个独立请求：阶段一 prompt 不包含 YOLO 类别；阶段二才比较独立判断、主检测、质量风险和 shadow 专家。确定性门覆盖冲突、无目标、低置信度、质量异常、字段矛盾与“风险不可降低”。
+- 16/16 类现均有至少一个逐类权威来源；报告 API 展开来源标题、机构、URL 和检索日期，不再要求普通用户理解内部 source ID。
+- 新用户端已形成首页、公共历史、趋势、病例详情和打印报告；浏览器检查覆盖 1280×720 与 390×844，无横向溢出。技术参数继续收在折叠区。
+- Sites Worker 已完成同源 API 代理、origin secret 注入、公共模式管理页 404 和主机不可达 503；但固定 API 域名、Cloudflare tunnel 和 Sites 正式发布仍缺用户人工前置。
+- 公开趋势严格描述为“系统收到的公共上传记录”，不等同真实地区疫情；SQLite 仍只定位单主机演示和小规模公开测试。
+- 生成的 `web/public/phase9-social-preview.png` 仅作网页分享预览，不作为项目样本、检测结果或评分证据。
+
+## Phase 9 最终 UI 顺序决定 — 2026-08-11
+
+- 用户新增要求：系统设置和功能验收完成后，按照最终确认的需求再次重构 UI 界面。
+- 当前 9.5 已完成的是支撑普通用户功能验收的基础界面，不应被描述为最终视觉定稿；新增 9.9 专门承担系统定型后的最终 UI/UX 重构。
+- 9.9 的硬入口是 9.1–9.8 全部完成，包括 GPU 真实链路、公网固定地址、数据库/安全边界、跨电脑与手机测试以及用户关键用例确认。底层接口或流程仍可能变化时不得提前重构。
+- 最终 UI 重构只基于用户确认的真实反馈和定型数据契约，优先信息架构、操作路径、响应式、可访问性和各种状态；继续使用现有前端技术栈，不顺带修改模型、数据库或后端业务。
+# Phase 9 本机交付范围变更 — 2026-08-12
+
+- 用户明确取消公网部署、Sites、Cloudflare、域名、固定 HTTPS 隧道和另一台电脑访问要求；最终系统仅在当前电脑运行。
+- 运行拓扑锁定为：前端 `localhost:3000`、FastAPI `127.0.0.1:8000`、SQLite/图片/报告本机保存；detector 8870 与 Qwen3-VL 8890 继续通过仅监听回环地址的私有 SSH 隧道使用服务器 GPU。
+- 本地病例选择长期保存：不要求公共展示同意、不执行 30 天自动过期；历史和趋势默认使用 SQLite 全部病例。现有 11 条旧病例多数 `public_consent=false`，若沿用公共默认范围会错误隐藏，因此必须按 `settings.public_mode` 选择查询范围。
+- 公网 Worker、`CROP_PUBLIC_MODE`、公开同意、过期时间、编辑令牌、origin secret 和限流代码保留但默认停用；这是比删除整套已测试实现更小、更安全的修改。
+- Phase 9.9 最终 UI 重构入口改为：GPU 真实链路、数据库持久化、本机 Chrome/Edge 和用户关键用例通过；不再等待公网或跨设备验收。
+- 新后端进程的真实接口确认：`public_mode=false`，默认 `/api/cases` 返回 11 条，`/api/trends?days=30` 统计 11 条；浏览器历史和趋势页面均能逐条追溯。
+- 浏览器检查发现病例 `2ae2e30d46004bf4bcc162fcb8eb2e1a` 的作物/部位/生育期为既有乱码（显示为 `???? · ?? · ??`）。这是历史数据本身的问题，不属于本次本机交付语义修改；为避免未经授权改写病例，本轮只记录。
+- 数据库维护检查为 `integrity=ok`、11/11 图片路径存在；重启生命周期测试证明带旧 `expires_at` 的本地病例不会在启动时被清理。
+- 当前本机 FastAPI 与网页可用，但 detector 8870、Qwen3-VL 8890 不可达，因此不能执行或宣称 Phase 9 GPU 真实评估和完整 E2E 已完成。
+
+## Phase 9 GPU 真实冒烟发现 — 2026-08-12
+
+- 服务器 RTX 5090 已恢复；远程 detector 与 Qwen3-VL、8870/8890 本机回环隧道均已启动。健康检查确认主检测器覆盖 16 类、两个专家模型已加载、路由保持 `shadow`；本机 FastAPI 已按真实模型配置重启且 `public_mode=false`。
+- Phase 9 两阶段 16 类冒烟使用官方冻结验证列表每类 1 张，共 16/16 请求成功，Schema 与内容字段完整率均为 100%，不安全农药输出 0，已有风险错误清除 0，证明真实两阶段协议可运行。
+- 冒烟未通过正式评估前置门：田间严重度依据仅 3/16 同时明确引用“受害比例 12.5%”与“扩散速度缓慢”；3 个主检测类别错误样本中显式冲突识别为 0；端到端 P95 为 8.902 秒，高于 7 秒目标。16 张 Top-1 为 50%，仅作逐类冒烟，不能代替 160 张正式分层指标。
+- 根因假设：严重度引用目前只依赖模型遵循提示，没有确定性后处理；冲突校验错误地使用已看到 YOLO 证据的第二阶段最终诊断，而非第一阶段独立判断，且输出未被约束到 16 个规范类名或“无法判断”；两阶段均固定 `max_tokens=1200`，未针对阶段内容长度设置上限。
+- 最小修正范围锁定为 `backend/app/multimodal.py`、对应测试和 Phase 9 证据收集字段：强制保留用户田间输入引用、用独立判断执行确定性一致性校验、限制规范诊断名称、记录两阶段诊断/耗时，并在 16 类复测通过后才启动 160 张正式评估。不修改检测器权重、路由、冻结数据或 UI。
+- v2 同样本复测为 16/16 成功、Schema/内容完整率 100%、严重度输入引用 16/16、预期冲突识别 3/3、不安全输出与风险错误清除均为 0，说明确定性协议修正有效。
+- v2 仍未放行正式评估：Top-1 为 56.25%，第二阶段在主检测正确时仍多次机械沿用错误的独立判断；E2E P95 为 9.012 秒。两阶段耗时显示阶段二重复携带原图后常占 3–7 秒，而其职责是比较阶段一图像摘要、YOLO、shadow、质量和田间字段，不需要再次编码同一原图。
+- 下一最小假设：阶段一保持真正多模态独立看图；阶段二改为仅接收结构化文本证据，并明确 `primary_diagnosis` 是综合结论、`detector_alignment` 是独立判断与 YOLO 的一致性，两者不能混为一谈。这样不改变模型数量和安全门，预期同时降低重复图像开销与独立判断锚定。
+- v3 证明取消第二阶段重复图片没有显著降低生成耗时：16/16 成功，E2E P95 仍为 9.015 秒；最终 Top-1 仍为 56.25%。问题不是重复视觉编码本身，而是完整结构输出长度和综合类别职责不清。
+- 既有同一 160 张 Phase 8 证据重新计算显示：主检测器 Top-1 为 139/160（86.875%），原多模态综合为 138/160（86.25%）。因此 Phase 9 最终类别采用主检测器规范主候选，多模态独立判断保留为候选/冲突/人工复核证据；这与既定“专家和多模态不覆盖主模型、风险只升级”边界一致。无检测框时仍保留多模态的“无法判断/候选”结论。
+- v4 前置门通过：16/16 成功，Schema/内容/严重度引用均 100%，预期冲突 3/3，不安全输出 0，风险错误清除 0；E2E P50/P95 为 4.420/4.838 秒。Top-1 13/16（81.25%）等于该小样本的主检测正确数，仅用于逐类冒烟；正式门仍由固定 10 张/类的 160 张结果决定。
+- Phase 9 固定 160 张正式真实评估全部硬门通过：160/160 成功，Top-1 87.50%，Schema/内容/严重度输入引用均 100%；17 个主检测错误样本中独立判断识别出 15 个冲突（88.24%）；不安全输出 0、已有风险错误清除 0。端到端 P50/P95 为 4.444/5.087 秒，并发 2 成功 2/2，峰值显存 23,058 MiB。证据文件为 `artifacts/server/phase9-multimodal-evidence-20260812.json`，SHA-256 `9b31bb691063c14759f70c0283d2f78fd5fee5d4f4c92c749d4568c6d2aba45d`。
+- 本机真实 E2E 证明新协议并非只在批处理脚本中可用：病例 `4992820b001c4dc18a1b7619209fec5c` 的主检测为南瓜白粉病 0.917845，路由 `shadow`，Qwen 独立判断一致，田间严重度 low，严重度依据包含受害比例 12.5% 和缓慢扩散，分析总耗时 4.561 秒；报告含 5 个权威/原则来源。
+- 本机故障边界已实测：detector/VLM 双隧道关闭时上传仍持久化且检测返回 `model_unavailable`；仅 VLM 不可用时病例保留 `detected` 状态和检测框，恢复后仅调用分析接口即可完成。历史、趋势与报告不依赖 GPU 在线。
+- SQLite 在线备份、恢复与 FastAPI 重启均通过，当前 14 条病例、14/14 图片路径有效，主 E2E 病例的分析和复核事件可恢复。剩余的 Phase 9 门不是技术实现，而是用户亲自在当前电脑 Chrome/Edge 完成关键用例并确认；该确认前不得进入最终 UI 重构。
+
+## Phase 9 满分与普通用户产品诊断 — 2026-08-12
+
+- **结论：不能宣称完全满足满分。** A–E 的主要功能和既定自动硬门已大部分满足，但用户 Chrome/Edge 亲自验收、PDF 保存确认和最终 UI/UX 重构仍未完成；评分最终还取决于现场演示和评委判定。
+- **模型硬门已通过：** 固定 160 张为 160/160 成功、Top-1 87.50%、Schema/内容/严重度引用 100%、冲突识别 15/17（88.24%）、不安全输出和风险错误清除均为 0、E2E P95 5.087 秒。
+- **安全与可用性的张力：** 102/160（63.75%）触发人工复核；71 张被判独立判断与视觉候选冲突，其中 56 张不是预期 detector 错误样本。硬门达标不等于复核成本可接受，当前会造成普通用户频繁看到“待复核”。
+- **人工复核尚未形成产品闭环：** 病例页会写入 `review_pending`，但普通用户端没有责任人、处理时限或反馈机制；现有 `/review` 页面读取的是预标注队列，不是 `/api/cases/review-queue` 的病例队列。
+- **普通用户判断：** 在技术人员先启动 3000/8000/8870/8890 且有人讲解时，普通用户可以完成上传和查看结果；但系统还不适合“完全不懂术语、无人指导、独立长期使用”的用户。
+- **主要 UX 缺口：** 移动端隐藏主导航且没有替代入口；受害比例、生育阶段、诊断风险、田间严重度、视觉候选和独立多模态判断仍需解释；大量用户端辅助文字为 9–11px；触控目标、键盘焦点、200% 缩放和屏幕阅读器尚未正式验收。
+- **数据与演示可信度：** 本机 21 条病例中有 1 条 `crop/part/growth_stage` 为 `????/??/??`，趋势页也显示 `????`；真实 E2E 病例使用了带 Alamy 水印的图库样本。数据库完整性和 21/21 图片路径正常，但这些内容不宜直接用于正式演示。
+- **正面结果：** 首页主流程清晰，默认隐藏 SHA/阈值/JSON，服务不可用时不伪造结果，病例历史、趋势、报告、备份恢复和模型故障重试均已有真实证据；前端产品语言已明显优于开发者界面。
+- **技术 UI 审计：** Implementation Integrity 3/4、Accessibility 2/4、Performance 3/4、Theming 3/4、Responsive 2/4，总计 13/20（Acceptable）。静态 detector 只报 1 个非主用户流程的宽度动画 warning；主要风险来自人工复核闭环、移动导航、可读性和术语，不是框架或性能崩坏。
+
+## Phase 9 当前问题整改启动 — 2026-08-12
+
+- 用户确认普通用户端采用“自动判断或自动拒答”，不再依赖人工复核队列；证据不足必须诚实提示补拍或无法判断，不能强制猜测。
+- 用户确认本机管理区采用独立 `/admin`，普通导航不展示管理功能且本机模式不设置口令。
+- 用户确认数据库先备份，再将实施开始前的 21 条开发/评测记录全部标记为测试；普通历史与趋势隐藏，管理区保留可追溯查看。
+- 用户要求统一治理可用检测数据，并公平对照 YOLO26n、YOLO26s、YOLO11s、YOLO12s、YOLOv8s、YOLOv5su；允许训练期间暂停 detector 与 Qwen3-VL。
+- 只读服务器检查确认 RTX 5090 32,607 MiB，当前 detector 约占 746 MiB、Qwen3-VL 约占 22,298 MiB；项目盘剩余约 19 GiB。训练必须先停推理释放显存，并控制中间产物占用。
+- 当前计划明确：单一主模型只替代视觉检测层；Qwen3-VL继续负责独立看图、证据比对、风险解释和防治建议。
+- 数据隔离已落地：源库备份后，实施前 21 条均以 `is_test=true` 可逆标记；普通 API 0 条、管理测试范围 21 条、全部范围 21 条、普通趋势 0 条，21/21 图片仍存在。
+- 自动结果采用派生而非重复存储：服务不可用、无支持目标、图片硬质量风险、主候选低于 0.45、明确模型冲突分别映射为四种用户状态；纯模型“建议复核”不再阻塞普通用户，但技术证据和管理接口继续保留。
+- `/admin` 已独立显示 21 条测试病例，普通用户导航不含管理入口；公网兼容 Worker 对 `/admin`、`/review`、`/training` 均返回 404。
+- 桌面/390×844 浏览器检查：普通页可见文字最低 14px，输入 16px，最小操作高度 44px，移动导航 3 项均为 46px，无横向溢出。Impeccable detector 仅报非普通流程训练进度条的既有 `transition: width` 警告，按避免无关重构保留。
+- 统一数据完整质量审计最终得到 4,490 张合格图片：官方 3,321、PlantDoc 303、ScienceDB 555、Pest65 311；固定种子划分为开发训练 3,816、内部验证 674。官方冻结 833 张清单 SHA-256 为 `91a777a8818b8766f49f67891562d1cd808198a89586ec370b49a9e56d7096a4`，未用于架构选型；独立 OpenCV 复核 4,490/4,490 无解码警告。
+- Pest65 审核清单中 11 张图片标签为空、4 张 JPEG 损坏、1 张包含重复框，已按 `invalid_label`、`invalid_image` 排除，且没有伪造框或修补原图；计划中的 Roboflow 类 13 原始训练 445 张在服务器不存在，记为 `excluded_missing_source`，没有使用既有 tune/frozen 集替代。
+- 六模型统一开发集结果表明，没有候选在该内部验证划分上同时显著领先：YOLO11s 综合分最高 `0.495082`，YOLO12s 为 `0.493887`，差值仅 `0.001196`；YOLO12s 的整体 mAP50-95 更高（`0.529228` 对 `0.525417`）且 Recall 更高（`0.756101` 对 `0.750980`），但弱类均值更低（`0.411423` 对 `0.424303`）。因此严格按事先冻结的“分差不超过 0.005 时先看 Recall”规则选 YOLO12s，而不是事后更改权重。
+- 六模型完整排序证据为 `artifacts/server/phase9-model-search-20260812.json`；资产 SHA 证据为 `artifacts/server/phase9-model-assets-20260812.json`，统一数据与 OpenCV 审计证据分别为 `phase9-unified-dataset-manifest-20260812.json`、`phase9-opencv-audit-20260812.json`。
+- YOLO12s 全量重训后的官方冻结结果没有超过当前线上基线：mAP50-95 `0.523463`（基线 `0.548224`）、mAP50 `0.809507`（基线 `0.827517`）；Recall 虽从 `0.776205` 提升到 `0.798434`，但弱类均值只有 `0.328963`，且类 13/15 相对基线下降超过 0.02。按预设硬门必须拒绝晋级，不能用单一新模型替换当前 shadow 链。
+- 冻结评测与门判定证据为 `artifacts/server/phase9-yolo12s-frozen-metrics-20260812.json`、`phase9-yolo12s-detector-gate-20260812.json`；训练记录为 `phase9-yolo12s-final-training-20260812.json`。由于 detector 门已失败，继续为该候选运行 160 张多模态评估不会改变晋级结论，属于不必要 GPU 消耗，故按计划停止候选验证并恢复原服务。
+- 原模型链恢复后固定 160 张复测与整改前指标一致且满足既有硬门：160/160 成功、Top-1 87.50%、Schema/内容/田间输入引用 100%、冲突 15/17、E2E P95 5.105 秒、峰值显存 23,088 MiB；说明产品整改、数据隔离和六模型实验没有破坏当前线上模型协议。
+- 普通用户状态已由真实浏览器确认：无目标病例显示“无法判断 / 请补拍”，正常南瓜白粉病病例显示“已有可参考结果”、92% 模型匹配程度、较低严重度和田间依据；普通历史为空，管理页可追溯全部测试记录。技术上仍保留 `needs_human_review` 供审计，但用户决策不再依赖无人处理的等待队列。
+
+## Phase 9.11 弱类混淆与专家 shadow 专项验证启动 — 2026-08-12
+
+- **用户要求：** 先统计类 8/10/13/15 的具体混淆关系，检查训练/验证数据是否足够干净独立，以 `shadow` 方式验证现有专家是否改善，只有冻结集稳定提升且其他类别不下降才考虑上线。
+- **实施边界：** 复用现有主模型、类 10 检测专家和类 10/13 crop 专家；不改线上主模型、不启用 `active`、不重划官方 833 张冻结集、不删除或改写原始数据。
+- **验证门：** 混淆必须区分漏检/低 IoU 与错分类；数据必须记录来源、数量、标签质量、哈希去重和冻结隔离；专家结论必须同时比较弱类、总体和全 16 类非回归。
+- **当前状态：** 服务器 8870/8890 和本地 8000 已健康，detector `routing.mode=shadow`、`reclassify=false`，三份视觉权重已加载；专项评测尚未形成新的最终证据，下一步先完成冻结集混淆与数据清单核验。
+
+## Phase 9.11 弱类专项结果 — 2026-08-12
+
+- **四类混淆：** 官方冻结集 833 张上，类 8 共 98 个 GT 框，正确 62，错为类 15 共 15，错为类 13 共 2，漏检 18；类 10 共 87 个 GT 框，正确 67，错为类 13 共 6、类 8 共 4，漏检 10；类 13 共 89 个 GT 框，正确 54，错为类 10 共 18、类 8 共 5、类 9 共 3，漏检 9；类 15 共 83 个 GT 框，正确 66，错为类 8 共 13，漏检 4。预测视角下最主要的对称关系是 8↔15 和 10↔13，不能只靠提高置信度解决，因为同时存在漏检和已定位后的错分类。
+- **数据充分性与独立性：** 统一允许数据 4,490 张，开发训练 3,816、内部验证 674，四类框数 8/10/13/15=`498/800/352/322`；4,490/4,490 OpenCV 解码检查无问题。训练/内部验证、专家 tune/frozen、官方 frozen 的 SHA-256 交叉均为 0；但官方 frozen 内部有 3 组重复内容哈希（833 文件、830 唯一 SHA），已作为指标局限保留。类 10/13 独立校准为 101 tune、85 frozen；类 8/15 没有独立专家 frozen，现阶段不足以支持四类专家上线声明。Roboflow 类 13 原始训练 445 张因服务器缺失被排除，未用 tune/frozen 伪装替代。
+- **Shadow 实测：** 复用现有 8870 服务完成 833/833 请求，观察到 `routing=shadow`、`reclassify=false`；shadow_keep 与主模型输出完全相同。类 10/13 候选覆盖分别为 76/87、75/89，crop 专家在已覆盖框上的 Top-1 一致分别为 62、53，这说明专家产生了证据，但不能等同于净收益。
+- **Active 反事实：** 使用当前服务返回的专家支持和线上校准规则做同一数据集离线对照，结果 mAP50-95 `0.505247→0.503916`（下降 `0.001331`），弱类均值 `0.309752→0.304430`（下降 `0.005323`），类 10 下降 `0.002504`、类 13 下降 `0.018787`；因此总体和目标弱类均未满足非下降门，不能启用 active。该脚本 mAP 只用于同代码相对比较，不替代官方 Ultralytics 冻结基线 `0.548224`。
+- **最终决策：** 当前主模型继续在线；类 10 检测专家和类 10/13 crop 专家继续只提供 shadow 第二意见，不参与最终检测类别决策；类 8/15 当前没有专家路由。专项证据为 `artifacts/server/phase9-weak-classes-audit-20260812.json`、`artifacts/server/phase9-shadow-route-20260812.json`、`artifacts/server/phase9-weak-classes-shadow-evidence-20260812.json`。
+- **会话结束状态：** 已封存 `artifacts/server/phase9-weak-classes-session-checkpoint-20260812.json`；远程 detector、Qwen3-VL 和本机 8870/8890 隧道已停止，远程 GPU 显存为 0 MiB。远程是平台容器，PID 1 为 `/init/boot/boot.sh`，`systemctl/poweroff/reboot` 均被拒绝，实例本身仍需在 SeetaCloud/AutoDL 控制台停止；未将未完成的实例级关机伪报为成功。
+
+## 2026-08-13 本机 GPU 真实测试发现
+
+- **运行环境：** SSH `root@connect.bjb2.seetacloud.com:10373` 可用；远程 GPU 为 RTX 5090（32,607 MiB），检测器和 Qwen3-VL 已恢复。本机 `3000/8000/8870/8890` 全部健康，线上路由仍为 `shadow`。
+- **正常链路通过：** 现有类 10 样本完成上传、检测、两阶段分析、保存、历史/报告读取；检测置信度 `0.9437`，状态 `conclusive`，Qwen3-VL 协议 `phase9-multimodal-v2`，完整分析约 `4.53s`，报告来源数 5。
+- **无目标链路部分通过：** 后端状态、风险和补拍动作正确，但详情页标题仍可能展示 Qwen3-VL 的独立候选类别。这会让普通用户误以为系统已经确认了一个系统不支持的类别，属于需要优先修复的 P1 产品/安全问题。
+- **服务故障链路部分通过：** detector 关闭时能保留病例并返回 `service_unavailable`；Qwen3-VL 关闭时病例和检测证据保留，接口返回 HTTP `502`，恢复后“仅重试分析”成功，但还需要把该 502 收敛为结构化用户态不可用结果。
+- **持久化与数据隔离通过：** FastAPI 重启后健康、病例详情、报告和趋势可读；SQLite 完整性检查为 `ok`。当前 29 条记录全部为测试记录，普通历史/趋势不显示，管理区可追溯。
+- **浏览器检查：** 普通导航未暴露管理功能；首页上传入口、桌面 DOM、390×844 响应式视口和键盘焦点检查通过。Chrome/Edge 的真实人工关键用例仍是未完成验收项。
+- **模型结论保持不变：** 当前线上主模型官方冻结集基线为 Precision `0.839196`、Recall `0.776205`、mAP50 `0.827517`、mAP50-95 `0.548224`。六候选中 YOLO11s 仅在开发集综合分暂列第一，YOLO12s 最终冻结门失败（mAP50-95 `0.523463`），因此没有切换。类 10/13 专家产生证据但冻结集 active 反事实下降，继续 shadow；类 8/15 没有独立专家冻结数据，当前没有训练并上线专家模型的必要性证据。
+- **证据文件：** `artifacts/server/phase9-real-test-20260813.json`、`artifacts/server/phase9-detector-smoke-20260813.json`、`artifacts/server/phase9-detector-failure-20260813.json`、`artifacts/server/phase9-failure-recovery-v3-20260813.json`；自动化回归为后端 `24 passed`、前端 6 tests/build 通过、lint 0 errors/5 warnings。
+
+## 两项问题修复前分析 — 2026-08-13
+
+- 无目标页面问题的根因已确认：`web/app/cases/[id]/page.tsx`、首页和报告标题直接优先读取 `analysis.primary_diagnosis`，没有先判断 `resolution_status`；因此独立多模态候选可能被普通用户理解为最终诊断。
+- 同一问题还影响普通用户的内容边界：详情页症状/危害/可能原因和报告防治方向没有统一受 `conclusive` 限制；修复后非 `conclusive` 只显示状态、补拍/恢复提示和不确定性，不展示疾病特定建议。
+- 多模态故障问题的根因已确认：`backend/app/main.py` 只把 `MultimodalUnavailable` 转为病例状态，`httpx.HTTPError` 和 `ValueError` 直接转 HTTP 502；修复后所有已知上游/协议故障统一为结构化 HTTP 200。
+- 产品决策：不训练新专家模型，不改变 `shadow`；采用本机用户优先的结构化 200，而不是让前端解析 HTTP 错误后再找回病例。
+
+## 两项问题修复结果 — 2026-08-13
+
+- 新增 `userDiagnosisTitle`/`isConclusive` 用户展示边界；首页、历史、病例详情和报告统一使用状态优先标题，管理端仍保留原始候选供审计。
+- 无目标真实病例 `9607fad8942747a18736cff5b1ac006c` 已验证：首页、详情和报告主标题均为“无法可靠判断”；详情显示“暂不形成具体诊断”，报告不展示疾病特定防治方向；最后已标记测试记录。
+- 多模态故障统一为 `multimodal_unavailable` + `service_unavailable` + HTTP 200；用户提示为“图片识别结果已经保存，但综合分析暂时不可用”，分析按钮为“仅重试综合分析”。底层异常只记录日志，不直接返回。
+- 故障状态会强制 `diagnostic_risk=high`、`field_severity=unknown`，防止旧的成功分析结果在服务不可用时继续显示为可靠结论。
+- 实测关闭 8890 后 `/analyze` 返回 HTTP 200；恢复 8890 后对已有有目标测试病例仅重试分析成功，状态 `analyzed`、`conclusive`，无需重新上传或检测。
+- 未训练新专家、未切换主模型、未启用 `active`、未修改数据库结构；线上仍为主模型 + 类 10/13 shadow + Qwen3-VL。
+- 本轮修复汇总证据已保存为 `artifacts/server/phase9-remediation-20260813.json`。
+
+## Same-Frozen-Set Detector Comparison — 2026-08-13
+
+- 本次严格比较两个不同权重：昨天六模型实验中的 `phase9-yolo26n-e120-b32/weights/best.pt`，以及当前线上 `official-plus-public-weak-v1-e120-b64/weights/best.pt`。
+- 两者均使用服务器同一份 `phase9-unified-v4/dataset-frozen-eval.yaml`（官方 833 张冻结验证集）、640 输入和同一 `training/evaluate_detector.py` 评测逻辑；不调用专家、不调用 Qwen3-VL。
+- 评测前已核对权重 SHA：YOLO26n 候选 `fb71fab6c063be002ce9bc114235b5c9023635ec13b280661733e2ce9eb82f31`；当前主模型 `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`。冻结清单 SHA 为 `2e7f691de609c4a310549d1ac6fb98e99eedcec18160588729f8e1e38fef60b8`。
+- 服务器检查时 detector 与 Qwen3-VL 正在运行、显存约 22.2 GiB；正式评测前必须停止二者，完成后恢复并再次健康检查。
+
+### Same-Frozen-Set Results
+
+- 冻结清单实际为 833 行；两次直接 Ultralytics 评测均使用同一 `dataset-frozen-eval.yaml`、`imgsz=640`、`batch=32`、`workers=4`，不经过 8870 HTTP、不加载专家路由、不调用 Qwen3-VL。
+- 昨天六模型中的 YOLO26n 权重 SHA `fb71fab6c063be002ce9bc114235b5c9023635ec13b280661733e2ce9eb82f31`：Precision `0.829715`、Recall `0.756240`、mAP50 `0.806850`、mAP50-95 `0.519087`。
+- 当前线上主模型权重 SHA `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`：Precision `0.831993`、Recall `0.778327`、mAP50 `0.825132`、mAP50-95 `0.546065`。
+- 当前主模型相对 YOLO26n 的整体增益为 Precision `+0.002278`、Recall `+0.022087`、mAP50 `+0.018282`、mAP50-95 `+0.026978`。逐类 mAP50-95 有 11 类提升、5 类下降；类 8 `-0.054795`、类 10 `-0.014842`、类 13 `-0.003090`、类 15 `-0.000805`。
+- 这次同口径结果确认“当前主模型整体更好”，但不意味着每一类都更好；类 8 是最明显的回归，需要在后续弱类数据和专家决策中单独关注。由于专家和多模态未参与，本结论只针对视觉主检测权重。
+- 当前主模型本次同集 mAP50-95 `0.546065` 与历史官方报告 `0.548224` 有约 `0.002159` 差异；本次使用统一 v4 冻结清单、batch 32、workers 4 复测，历史报告使用旧数据 YAML/配置。两次数值不应混为同一运行记录，但两模型本次比较使用完全相同口径。
+- 评测证据文件：`artifacts/server/phase9-same-frozen-eval-20260813-yolo26n.json`、`artifacts/server/phase9-same-frozen-eval-20260813-current-main.json`、`artifacts/server/phase9-same-frozen-eval-20260813-dataset-frozen-eval.yaml`。
+
+## Remaining Five Detector Comparison — 2026-08-13
+
+- 本轮将评测六模型搜索中除 YOLO26n 外的五个候选：`yolo26s`、`yolo11s`、`yolo12s`、`yolov8s`、`yolov5su`。
+- 统一对象仍为官方 833 张冻结验证集；统一评测逻辑为 `training/evaluate_detector.py`，不调用专家、不调用 Qwen3-VL。
+- 结果必须与上一轮 YOLO26n/当前主模型对照保持同一数据清单、输入尺寸和 batch，才能放入同一张比较表。
+
+### Same-Frozen-Set Results
+
+- 五个候选均使用同一 `phase9-unified-v4/dataset-frozen-eval.yaml`、官方冻结 833 张、640 输入、batch 32、workers 4；每份结果包含 16 类指标和 17×17 混淆矩阵。
+- 总体结果：YOLO26s `P=0.834140/R=0.772209/mAP50=0.820916/mAP50-95=0.535458`；YOLO11s `0.811513/0.781263/0.822261/0.534951`；YOLO12s `0.805109/0.807891/0.822365/0.522652`；YOLOv8s `0.824542/0.795836/0.818483/0.530064`；YOLOv5su `0.807224/0.769482/0.810575/0.519336`。
+- 当前主模型在相同冻结集为 `P=0.831993/R=0.778327/mAP50=0.825132/mAP50-95=0.546065`，因此总体 mAP50-95 仍高于五个候选；YOLO26s 仅 Precision 高于主模型，YOLO12s 仅 Recall 高于主模型。
+- 按弱类加权对照分排序为：当前主模型 `0.487785`、YOLO26s `0.483844`、YOLO11s `0.483537`、YOLO26n `0.474415`、YOLOv8s `0.473773`、YOLO12s `0.466811`、YOLOv5su `0.464188`。这是同冻结集的补充排名，不替换原来基于开发集的架构搜索结果。
+- 与当前主模型相比，五候选的 mAP50-95 分别低 `0.010607`（YOLO26s）、`0.011114`（YOLO11s）、`0.023413`（YOLO12s）、`0.016001`（YOLOv8s）、`0.026730`（YOLOv5su）。因此没有候选满足“整体检测优于当前主模型”的替换理由。
+- 五个候选权重 SHA：YOLO26s `b7d328a47b594733289640a6d78b1a84449a1560ae33ff9e06e1749d7e0a5934`；YOLO11s `60e9a4c517c02abc19a36953a8aa6343280fb0a39856b4f2b8fb54814f314093`；YOLO12s `2da1dfa03b09a2631789eb71382b2b0f3fb807da55fa28551cfd4dccf1ff6adc`；YOLOv8s `6dd7416957d60fcc1ce380d1616ba8f86d66d419818a9d9db484997eb96e63b6`；YOLOv5su `ef7539200c552e9bcbd4f4db13af18663daae9c5acfa3d24383a80f7f95a88dd`。
+- 结论：当前主模型继续在线；五个候选全部保留为离线实验/答辩证据，不切换线上权重。该结论只涉及视觉主检测器，专家继续 `shadow`，Qwen3-VL 未参与本轮评测。
+
+## 4,490 全量训练与 833 冻结集统一比较前置记录 — 2026-08-13
+
+- 用户要求重新训练六个候选：YOLO26n、YOLO26s、YOLO11s、YOLO12s、YOLOv8s、YOLOv5su。统一训练数据为 `phase9-unified-v4/final-train.txt` 的 4,490 张，统一 120 epochs、640、batch 64、seed `20260729`、官方预训练权重。
+- 用户已确认训练期间不使用官方 833 张冻结集，也不使用任何验证集进行逐 epoch 选择；因此本轮不使用 `best.pt`，统一使用训练完成后的 `last.pt`，官方 833 张只在训练完成后各评测一次。
+- 当前主模型也要用同一冻结集、同一评测脚本、640/batch64/workers4 重新评测，作为七模型对照基线。专家和 Qwen3-VL 完全不参与。
+- 已有文件 SHA 检查结果：`final-train.txt` 4,490 条、路径和文件 SHA 均唯一、无缺失；`official-frozen-val.txt` 833 条、路径唯一、830 个唯一文件 SHA、无缺失；跨集合文件 SHA 交集为 0。冻结集内部 3 组重复内容需要如实保留为评测限制。
+- 文件 SHA 不能覆盖不同编码但相同图像内容，因此正式训练前仍需计算解码像素 SHA-256 和 16×16 感知哈希。跨集合像素完全相同将阻止训练；近似感知哈希只记录并人工审查。
+- 当前线上主模型不自动替换。候选排名只依据本轮同口径冻结评测；即使候选最高，也必须通过既有总体指标、弱类非回退、160 张系统评估、协议安全、P95 和显存等晋级门，并经用户确认后才可讨论上线。
+- 首次远程运行审计时服务器默认 PATH 未提供 `python` 命令；这是 shell 入口问题，未改变数据、模型或服务状态。后续使用已确认的服务器绝对解释器路径，不重复该命令。
+- 随后发现新增审计脚本的条件列表展开语法错误；属于本地脚本缺陷，未生成错误审计结论，已最小修正后再运行。
+- 首次完整审计的有效事实：训练 4,490 条、冻结清单 833 条均无解码错误；跨集合文件 SHA 和解码像素 SHA 均为 0；冻结集内部 3 组像素重复。脚本统计将冻结实际处理数显示为 830，原因是按唯一哈希计数，不能直接作为处理数使用；同时发现 43 组跨集合精确 pHash 与 43 组近似 pHash，需要保存完整路径并人工审查后才决定是否训练。
+
+## 全量训练前 pHash 人工复核结论 — 2026-08-13
+
+- 复核产物：`artifacts/server/phase9-fulltrain-independence-20260813.json`、`artifacts/server/phase9-fulltrain-phash-review-20260813/`、`artifacts/server/phase9-fulltrain-phash-review-all-20260813/`。
+- 硬检查结果：训练清单 4,490 条、冻结清单 833 条；两侧无缺失或解码错误；文件 SHA 跨集合交集 0；解码像素 SHA 跨集合交集 0；冻结集内部 3 组像素重复。
+- 人工复核结果：精确 pHash 实际配对 48 个、近似 pHash 配对 43 个；对应 74 张唯一训练图片。图像表现为同一叶片、虫体、场景的重新编码、轻微裁剪或同源变体，足以影响冻结评测独立性。
+- 受影响训练来源：PlantDoc 51 张、SciDB 3 张、官方训练集 20 张。若从训练清单排除这些唯一训练图，预计剩余 4,416 张；原始 4,490 清单保持不变作为审计原件。
+- 结论：不能在原 4,490 张清单上直接启动六模型训练，否则“官方 833 张冻结集一次评测”不再是严格独立测试。需要用户确认是否接受 4,416 张独立训练清单；在确认前不停止线上服务、不训练、不生成排名。
+
+## 用户授权后的独立训练清单 — 2026-08-13
+
+- 用户已授权：从原始 4,490 张训练清单中排除已人工确认的 74 张跨集合视觉重复候选，使用预计 4,416 张独立训练图片继续训练六个模型。
+- 原始 `final-train.txt`、官方 833 张冻结清单、原始图片和标签均保持不变；只新增派生清单和审计证据。
+- 继续执行前置门：生成清单时核对排除路径全部属于原训练清单；核对剩余图片/标签存在；重新运行文件 SHA、解码像素 SHA 和 pHash 审计；若任何跨集合 pHash 距离 `<=8` 的配对仍存在，停止训练并记录。
+- 用户授权不等于允许自动上线：六个新模型只作为离线候选，与当前主模型统一冻结评测后形成建议；不自动替换线上权重，专家和 Qwen3-VL不参与模型评测。
+
+## 4,416 独立训练清单二次审计通过 — 2026-08-13
+
+- 二次审计结果：训练 4,416/4,416 成功处理，冻结 833/833 成功处理；双方无解码错误。
+- 文件 SHA 跨集合交集 0；解码像素 SHA 跨集合交集 0；精确 pHash 交集 0；pHash 汉明距离 `<=8` 的近似配对 0；训练集内部像素重复 0。
+- 官方冻结集内部仍有 3 组像素重复（833 条中 830 个唯一像素哈希），作为评测集自身限制记录，不改变冻结清单。
+- 训练前数据独立性 gate 通过，可以按用户授权的 4,416 张训练集继续。证据：`artifacts/server/phase9-independent-v1-audit-20260813.json`。
+- 训练前服务器检查的第一条复合 SSH 命令因引号嵌套失败，未产生远程副作用；后续改用短命令，避免重复该错误。
+
+## 六模型训练启动状态 — 2026-08-13
+
+- 训练数据契约：`data/experiments/phase9-independent-v1/dataset-independent-frozen-eval.yaml`，训练列表 4,416 张；官方冻结列表仍为 `phase9-unified-v4/official-frozen-val.txt`，833 张，仅用于训练后一次评测。
+- 六个官方预训练权重均存在：`yolo26n.pt`、`yolo26s.pt`、`yolo11s.pt`、`yolo12s.pt`、`yolov8s.pt`、`yolov5su.pt`。
+- 停服前 RTX 5090 使用 22,110 MiB；停止远程 detector PID `8927` 和 Qwen3-VL PID `8969` 后显存为 0 MiB，满足 batch64 训练前置。
+- 本轮训练不使用 `best.pt`，不执行验证集早停；训练 120 轮完成后只采用 `last.pt`。训练期间禁止调用专家、Qwen3-VL、detector HTTP 和官方冻结评测。
+
+## 首次训练配置偏差 — 2026-08-13
+
+- 首次 YOLO26n 命令使用了同时含 `train=4,416` 与 `val=official-frozen-833` 的 YAML，并传入 `val=False`。日志确认 Ultralytics 仍在启动阶段扫描官方冻结集标签缓存；目前未看到验证指标计算，但严格来说不满足训练期间不读取验证集的要求。
+- 首次运行约到第 5/120 轮，未完成、未评测、权重不纳入最终结果；停止后保留其运行目录和日志，不删除用户证据。
+- 最小修复：新增仅含 `train` 与 16 类 `names` 的训练专用 YAML；官方冻结集 YAML 只用于训练完成后的统一评测。重新启动时必须检查日志不出现 `val: Scanning ... official/labels`。
+- 已在派生清单生成器中增加训练专用 YAML 输出；因 Ultralytics 强制要求 `val:`，该字段与 `train:` 同指 4,416 张训练清单作为占位，训练日志只允许出现独立训练路径，不允许出现官方冻结路径。
+
+## Ultralytics 训练 YAML 兼容性修正 — 2026-08-13
+
+- 仅含 `train` 与 `names` 的 YAML 无法启动：Ultralytics 在 `check_det_dataset` 阶段强制要求 `val:`，返回 `'val:' key missing`；该次没有训练进程和权重产物，GPU 保持 0 MiB。
+- 采用最小兼容方式：训练 YAML 的 `val:` 与 `train:` 指向同一份 4,416 张独立训练清单，仅作为框架占位；训练参数仍为 `val=False`，不运行验证、不读取官方 833 张冻结集。
+- 训练 YAML 与冻结评测 YAML 分离；任何训练日志出现 `official-frozen-val` 或官方冻结标签扫描都视为配置失败并停止。
+
+## 逐模型训练后即时评测 — 2026-08-13
+
+- 用户确认采用流水线方式：一个模型完成训练后立即在官方 833 张冻结集上评测并保存结果，不等待其余模型。
+- 每个候选模型使用独立运行目录和独立评测 JSON，保证中途即可与当前主模型比较，也便于单个模型失败后保留其余证据。
+- 评测严格不启用专家、Qwen3-VL 或 detector HTTP；统一使用 `last.pt`、640、batch64 和同一评测脚本。
+- 当前主模型需先/并行完成一次相同配置的冻结集基线评测；候选模型仅作为比较证据，不自动上线。
+
+## 用户停止剩余训练 — 2026-08-13
+
+- 用户明确要求停止全部训练，并继续使用当前主模型作为线上视觉模型，不进行候选权重替换。
+- 已停止最后的 YOLOv5su 训练和串行编排器；YOLOv5su 训练返回 `rc=143`，表示被主动终止，不作为完成或评测结果。
+- 已完成并保存的即时评测：YOLO26n、YOLO26s、YOLO11s、YOLO12s、YOLOv8s，以及当前主模型基线；这些证据不改变线上模型。
+- 服务器核验：训练进程为空、编排器为空、GPU 使用 `0 MiB`。后续只恢复既有主模型 detector/Qwen3-VL 服务，不加载新候选权重。
+## 最终收尾与线上模型冻结 — 2026-08-13
+
+- 用户明确要求停止所有训练，并以当前主模型作为视觉模型，不做权重切换。
+- 远端训练进程和串行编排器已确认不存在；YOLOv5su 的 `rc=143` 是本次主动停止造成的中止，不是可比较的完整结果。
+- 统一冻结集比较中，当前主模型仍明显优于已完成的五个候选：当前主模型 `mAP50-95=0.548224`；YOLO26n `0.410084`、YOLO26s `0.409398`、YOLO11s `0.401406`、YOLO12s `0.414133`、YOLOv8s `0.398096`。因此没有任何候选具备替换资格。
+- 当前线上 detector 与本机健康检查均返回主模型 SHA `cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071`、16 类、`routing.mode=shadow`、`reclassify=false`。
+- 远端 detector 和 Qwen3-VL 已恢复；本机 3000、8000、8870、8890 均监听并可用。GPU 当前占用属于恢复后的在线推理服务，不是训练任务。
+- 评测原始证据已保存到 `artifacts/server/phase9-fulltrain-eval-20260813-*.json`，供后续人工测试和答辩追溯。
+
+## 用户确认模型暂定与后续测试顺序 — 2026-08-13
+
+- 用户确认当前视觉主模型和 Qwen3-VL 暂不更换，后续以现有系统作为人工功能测试版本。
+- 当前没有新的模型训练、权重替换或多模态协议变更授权；候选模型不进入线上链路。
+- 后续优先处理用户实际测试发现的功能、结果展示、异常恢复和易用性问题。
+- UI 重构属于后置工作，须在功能问题整改并由用户确认测试结果后再开始。
+
+## Resume Check — 2026-08-14
+
+- 使用工作区依赖 Python 执行 `planning-with-files` 会话恢复脚本，退出码为 0，未返回未同步上下文。
+- 三个规划文件已按 UTF-8 完整读取。Git 当前位于 `codex/publish-audits-and-calibration-plan`，领先远端 1 个提交；工作区包含大量既有 Phase 9 改动，以及用户未跟踪的 `CLAUDE.md`，均不得清理、回滚或擅自提交。
+- 只读运行检查显示 FastAPI `127.0.0.1:8000/health` 返回 200，且仍配置为 remote detector/Qwen3-VL；但本机前端 `127.0.0.1:3000`、detector 隧道 `127.0.0.1:8870`、Qwen3-VL 隧道 `127.0.0.1:8890` 不可达。
+- 远程地址 `connect.bjb2.seetacloud.com` 解析到 `106.38.204.136`，但 TCP `10373` 当前失败。旧服务器不可达时不能默认沿用旧 PID、模型状态或隧道；需用户在平台恢复实例或提供新 SSH 地址后重新做只读核验。
+- 当前没有新的业务代码问题证据，也没有授权进行训练、模型切换或最终 UI 重构；本轮暂停在用户本机 Chrome/Edge 验收前置条件。
+
+## 实验室服务器初步部署审计 — 2026-08-14
+
+- 服务器为 CentOS 7、kernel 3.10、glibc 2.17；CPU 24 核/48 线程、RAM 125 GiB；4×Tesla K80（每卡约 11 GiB），驱动 470.161.03，`nvidia-smi` 报告 CUDA 11.4。
+- 根分区 414 GiB 已用 97%，只剩约 16 GiB；`/data` 3.6 TiB，仅用 17%。任何新环境、模型和容器必须放到 `/data`，不能继续占用根分区。
+- 项目后端声明 Python `>=3.11,<3.14`，服务器现有 Anaconda Python 3.9.13 不满足；前端声明 Node `>=22.13.0`，服务器当前没有 Node/npm。
+- 已验证的原运行环境为 Ubuntu/glibc 2.35、Python 3.12.3、PyTorch 2.8.0+cu128、CUDA 12.8、RTX 5090 32 GiB；与 K80/CUDA 11.4 存在根本代际差异。
+- 多模态启动脚本固定安装 vLLM 0.26.0 并加载 Qwen3-VL-8B；是否能在 K80 上运行需继续对照 vLLM/NVIDIA 官方硬件要求。
+- 本轮一次 `rg` 聚合命令因前置文件匹配返回 1 导致整体退出 1，但关键依赖输出已取得；后续改用直接读取依赖文件，不重复该失败方式。
+- 微软当前 Remote Development 基线为 kernel >=4.18、glibc >=2.28、libstdc++ >=3.4.25、binutils >=2.29；CentOS 7 被官方明确列为不支持。当前 kernel 3.10 与 glibc 2.17 同时不达标，不能靠补一个 RPM 正常解决。
+- VS Code 1.99 起预编译 Server 以 glibc 2.28 为最低线；官方提供自建 sysroot/patchelf 的临时技术方案，但明确不是受支持场景，而且本机 kernel 3.10 仍低于当前基线，故不作为正式部署方案。
+- vLLM 官方 NVIDIA GPU 基线为 compute capability >=7.0；Tesla K80 为 Kepler compute capability 3.7，不能运行当前 vLLM/Qwen3-VL 服务。
+- NVIDIA 官方矩阵说明 Kepler 3.7 的最后 CUDA Toolkit 支持为 CUDA 11.x、最后驱动分支为 R470；当前项目 PyTorch 2.8.0+cu128/CUDA 12.8 环境无法迁移到 K80。
+- Qwen3-VL-8B 官方权重仓库约 17.5 GB；本项目原来在 RTX 5090 32 GiB 上验证 detector 与 Qwen3-VL 共存。K80 单卡 11 GiB 且无当前 vLLM 支持，因此不能保持现有多模态链路。
+- 若保持现有 CUDA 12.8 软件栈，NVIDIA 官方要求 Linux 驱动至少 570.26（GA）；服务器 R470 既无法满足，也因 K80 架构不能通过简单升级驱动跨到 CUDA 12.8。
+- 当前 detector/专家权重只有约 3–10 MiB，历史 PT 推理峰值约 4.2 GiB；它们可在新系统上考虑 CPU 推理，或另建兼容旧 CUDA 的实验环境，但这不解决 Qwen3-VL。
+- 当前多模态整链路历史峰值约 22.5–24.0 GiB；24 GiB 显卡几乎没有余量。保持当前模型、8192 上下文和 detector 共存时，建议单卡 >=32 GiB，或使用 40/48 GiB 数据中心卡。
+- 推荐部署路径：重装为满足 VS Code 条件的现代 x86_64 Linux；将项目、Conda、Docker data-root、Hugging Face 缓存和模型全部放到 `/data`；安装 Python 3.11/3.12、Node >=22.13；若保持现有 `torch 2.8.0+cu128`，更换现代 GPU 并使用 >=570.26 驱动。
+- 若暂不换 GPU，可部署前端、FastAPI、SQLite 和 CPU detector/shadow 专家，但必须关闭或替换 Qwen3-VL；这属于降级版，不是当前完整系统。
+- 第二次组合读取因末尾 `rg` 无完整匹配而退出 1，但前置脚本、模型与显存证据均已成功读取；未产生任何服务器副作用。
+# 双服务器部署实现发现（2026-08-14）
+
+- 实验室服务器为 CentOS 7、glibc 2.17、kernel 3.10；根盘 97%，独立 `/data` 约 3 TiB 可用。
+- CPU 为双路 Xeon E5-2650 v4，支持 AVX2；4×Tesla K80 不满足当前 vLLM GPU 要求，因此本机多模态采用 llama.cpp CPU/GGUF。
+- 工作区已有大量用户修改和证据文件，本任务必须采用最小增量修改。
+- 当前阶段 GPU 服务器不在线；远端部署与双机联调必须在本地 CPU 全链路通过后进行。
+- 现有病例流程是上传、检测、分析三个请求；使用带实例前缀的病例 ID，并在前端同时发送 `X-Crop-Instance`，可避免切换发生在流程中间时串库。
+- 最小网关方案是在实验室 FastAPI 增加中间件：Admin/控制接口始终本地，病例列表/新建按活动实例，带实例前缀的病例请求按归属实例；GPU 后端运行相同代码但关闭网关模式。
+- 当前 SSH 别名 `ghl` 可达，但仅密码认证，非交互 BatchMode 被拒绝；实际部署前需要用户交互输入一次密码并配置专用密钥。
+- 前端要求 Node >=22.13；需先在旧 kernel 的容器内通过兼容门，失败时改为在本地构建产物后上传。
+- 后台执行环境无法把 SSH/Windows 凭据对话框可靠显示到用户桌面；两种内存凭据方案均在未认证前超时，服务器无改动。
+- 用户已有一个从 2026-08-14 15:43 建立且仍为 Established 的交互式 SSH 进程；最短解锁路径是在该窗口从临时局域网地址追加专用公钥。
+- 用户完成交互式安装后，服务器已接受专用 Ed25519 公钥；先前 `ssh ghl` 失败只是本机 SSH config 未声明该 IdentityFile，并非服务器丢失密钥。显式 `-i` 已验证成功，本机别名现已固定使用该专用密钥。
+- 公共 ECR 的 Docker 官方镜像镜像源可从本机访问，Python 3.12 slim、Node 22 bookworm slim、nginx 1.27 alpine 均已成功解析 digest，可绕过被污染/超时的 Docker Hub 路径。
+- 本机可访问 `ghcr.io/ggml-org/llama.cpp:server`，digest 为 `sha256:c88223e4...966ff`，可下载为离线镜像后导入实验室服务器。
+- Qwen 官方 GGUF 仓库中的目标文件已确认：`Qwen3VL-8B-Instruct-Q4_K_M.gguf` 为 5,027,784,800 字节，`mmproj-Qwen3VL-8B-Instruct-Q8_0.gguf` 为 752,289,728 字节；两者合计约 5.78 GB。
+- Crane 离线 tar 导入后保留了完整仓库名：`public.ecr.aws/docker/library/python:3.12-slim`、`.../node:22-bookworm-slim`、`.../nginx:1.27-alpine` 与 `ghcr.io/ggml-org/llama.cpp:server`。离线 Dockerfile/Compose 必须引用这些已导入名称，不能继续使用 Docker Hub 短名称，否则会再次尝试联网拉取。
+- 当前在线 Dockerfiles 仍含 Docker Hub `FROM`、apt-get、pip/npm 联网安装；实验室服务器外网 HTTPS 不可用，因此需新增离线构建覆盖：基础镜像改用已导入完整名称，Python wheelhouse 与 npm cache 由本机下载后放入 `/data/ghl/cache`。
+- Docker Compose 会对 `--env-file` 中 PBKDF2 哈希的 `$` 做变量插值；Admin 哈希写入 Compose 环境文件时必须转义为 `$$`，容器接收到的值才是原始单 `$` 哈希。
+- `ghcr.io/ggml-org/llama.cpp:server` 镜像自带探针访问 localhost:8080；本部署使用 8890，因此必须显式覆盖 healthcheck。模型实际在 8890 正常服务，健康接口和模型列表均已验证。
+- 本地已具备主检测器、类 10 检测专家和 10/13 作物分类专家权重；Qwen3-VL GGUF 与 mmproj 仍需下载/放置。
+- 实验室五个容器已稳定运行；Docker 服务为 `enabled/active`，容器采用 `unless-stopped`。空闲总内存约 5.4 GiB，其中 Qwen3-VL 约 5.0 GiB、detector 约 281 MiB。
+- CPU 多模态首次分析约 96.5 秒，紧接的稳定态复测约 96.1 秒，说明主要耗时是 CPU 生成而非首次模型加载。
+- 已知类 10/13 样本在实验室 CPU detector 上分别约 0.54/0.33 秒；主模型置信度约 0.9436/0.9307。两者专家候选均成功路由且动作均为 `shadow_keep`，专家只写入反事实证据，不覆盖主模型输出。
+- 2026-08-17 原 GPU 主机 `connect.bjb2.seetacloud.com:10373` 恢复，主机身份仍为 `autodl-container-4129428075-000fbcc8`；RTX 5090 32,607 MiB、驱动 580.105.08，检查时 0 MiB/0% 使用。
+- GPU 数据盘 `/root/autodl-tmp` 为 50 GiB，剩余约 18 GiB；旧 `/root/autodl-tmp/crop-pest-system` 与 `/root/autodl-tmp/crop-pest-vlm` 完整保留，新 `/root/autodl-tmp/ghl` 尚不存在。
+- GPU 开机后 detector、Qwen3-VL、FastAPI 均未启动。为避免 18 GiB 空间再次复制约 16 GiB 模型，联调应复用旧模型/虚拟环境，只新增轻量后端代码与独立业务存储。
+- GPU 独立后端现已部署到 `/root/autodl-tmp/ghl`，复用旧 detector/VLM，不复制模型；健康接口报告 `gpu_full`，独立存储初始 0 病例。
+- GPU 类 10 真实闭环：检测 0.48 秒、主模型置信度 0.943703、专家 `shadow_keep`；Qwen3-VL 两阶段总延迟约 12.17 秒、`conclusive`，报告快照重启前后稳定。GPU 当前独立病例数 1。
+- 实验室服务器虽有默认路由，但 DNS、百度 HTTPS、AutoDL HTTPS、`1.1.1.1:443` 和 GPU `10373` 均超时，属于无可用出站网络；不是单一 AutoDL 端口故障。
+- 实验室 SSH `AllowTcpForwarding=yes` 但 `GatewayPorts=no`。Windows 可做临时双 SSH 中继，但现有 backend 容器无法直接访问只绑定实验室 loopback 的反向端口；永久采用该方案还需增加受限桥接代理，并依赖 Windows 持续在线。
+- 用户选择 Windows 临时中继。实验室 backend 的 `host.docker.internal` 实际解析为 `172.17.0.1`；受限 Python relay 只绑定该地址的 18000，并转发到实验室 loopback SSH 18000，因此不开放 LAN 监听。
+- Windows 双 SSH 链路已建立：PID 26408 将本机 `127.0.0.1:18001` 转到 GPU `127.0.0.1:8000`；PID 20208 将实验室 `127.0.0.1:18000` 反向转到 Windows 18001。两者都启用 BatchMode、ExitOnForwardFailure 和 keepalive。
+- 统一入口已经能按 `gpu_full-...` 病例 ID 读取 GPU 病例和报告；实验室健康仍为 `lab_cpu`，说明前缀归属路由与当前活动实例互不混淆。
+- 用户从 Admin 成功切换 `lab_cpu → gpu_full`，控制状态和审计日志均已持久化。经实验室统一入口新建的类 13 病例为 `gpu_full-fcb09b112dbb4c79bf69d472a50cf5be`，检测 0.43 秒、多模态请求 4.92 秒、报告实例均为 GPU。
+- GPU 活动时 `/api/cases` 只列出 2 个 `gpu_full` 病例；按 ID 读取原 CPU 病例仍返回 `lab_cpu` 及原 CPU 报告。实验室上传目录只有 3 个 `lab_cpu` 文件，GPU 上传目录只有 2 个 `gpu_full` 文件，实际文件未交叉。
+- 用户切回 `lab_cpu` 后，统一入口新建病例 `lab_cpu-812db2c77557486585d17d3160cf3e5f`；检测类 10 约 0.35 秒，报告归属 CPU。活动列表变为 4 个且全部为 `lab_cpu`，GPU 仍保持 2 个病例，切换没有复制或移动数据。
+- 停止 Windows 中继后，Admin 实测 GPU 显示离线、按钮为“服务器不可用”，CPU 仍为“当前使用”；控制文件保持 `lab_cpu`，CPU 4 个病例正常。目标离线拒绝切换门通过。
+- 中继恢复后 GPU 再次在线，统一入口仍以 `lab_cpu` 为活动实例，并可按 GPU 病例前缀读取已分析病例。最终 Windows 隧道 PID 为 26660/25984，GPU 显存约 22,244 MiB、空闲利用率 0%。

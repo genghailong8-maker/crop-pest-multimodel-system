@@ -1,0 +1,1013 @@
+{
+  "pair_count": 48,
+  "pairs": [
+    {
+      "pair_index": 1,
+      "phash": "81ffbe7f3bfff8303100781c70e1c17833c0e1a727c14187d70f24fa270daf8b",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000283.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_ba3684464cb64d32.jpg",
+      "metrics": {
+        "left_size": [
+          900,
+          722
+        ],
+        "right_size": [
+          900,
+          722
+        ],
+        "gray_correlation": 0.9999830722808838,
+        "resized_rgb_mae": 0.0006460950244218111,
+        "resized_rgb_mse": 2.533706037866068e-06,
+        "channel_histogram_l1": 0.005045572916666642
+      }
+    },
+    {
+      "pair_index": 2,
+      "phash": "85481e4b6d78414da3cb4d0be01f0cf8fc69346fbda41767b3b2413cb20907bc",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000255.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_a3919d93bf999725.jpg",
+      "metrics": {
+        "left_size": [
+          640,
+          447
+        ],
+        "right_size": [
+          640,
+          447
+        ],
+        "gray_correlation": 0.9999804496765137,
+        "resized_rgb_mae": 0.0010940850479528308,
+        "resized_rgb_mse": 4.477007223613327e-06,
+        "channel_histogram_l1": 0.005452473958333313
+      }
+    },
+    {
+      "pair_index": 3,
+      "phash": "890b1a78f402a3511aa8ddbee4db8ede90f9756a816add74e39008d6b6db2470",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000106.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_2186b2a8390d5ecf.jpg",
+      "metrics": {
+        "left_size": [
+          1600,
+          1000
+        ],
+        "right_size": [
+          1600,
+          1000
+        ],
+        "gray_correlation": 0.9999916553497314,
+        "resized_rgb_mae": 0.0005267373635433614,
+        "resized_rgb_mse": 2.0656370907090604e-06,
+        "channel_histogram_l1": 0.003865559895833347
+      }
+    },
+    {
+      "pair_index": 4,
+      "phash": "896d48fff0e8bc69424f780a4e8e21b7ae06b7801aec7717aaea8739b94da470",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000282.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_b41b841288690f51.jpg",
+      "metrics": {
+        "left_size": [
+          900,
+          710
+        ],
+        "right_size": [
+          900,
+          710
+        ],
+        "gray_correlation": 0.9999946355819702,
+        "resized_rgb_mae": 0.0007065716199576855,
+        "resized_rgb_mse": 2.7746239084081026e-06,
+        "channel_histogram_l1": 0.004475911458333341
+      }
+    },
+    {
+      "pair_index": 5,
+      "phash": "91ceca467e8acc5aa39c3118e675c0f135f698d03bdbab8a3e409f99de01ee90",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000239.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_0156669b9d4a0fe6.jpg",
+      "metrics": {
+        "left_size": [
+          590,
+          443
+        ],
+        "right_size": [
+          590,
+          443
+        ],
+        "gray_correlation": 0.9999719858169556,
+        "resized_rgb_mae": 0.0014141806168481708,
+        "resized_rgb_mse": 5.8737055042001884e-06,
+        "channel_histogram_l1": 0.007893880208333329
+      }
+    },
+    {
+      "pair_index": 6,
+      "phash": "93c81a4639a3cf49c723b19b482d8fce638618e5f212279dc3e1379ac83c1bd7",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000043.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_0a7c537b5e1a5fc1.jpg",
+      "metrics": {
+        "left_size": [
+          1600,
+          1063
+        ],
+        "right_size": [
+          1600,
+          1063
+        ],
+        "gray_correlation": 0.9999712109565735,
+        "resized_rgb_mae": 0.00039636949077248573,
+        "resized_rgb_mse": 1.5543902236458962e-06,
+        "channel_histogram_l1": 0.0021972656250000256
+      }
+    },
+    {
+      "pair_index": 7,
+      "phash": "942351ad1847da9948a5469dc2f67658834f3a632b486b37c3eb4732cc3da369",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000168.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_82b74b935fd502b8.jpg",
+      "metrics": {
+        "left_size": [
+          2400,
+          2791
+        ],
+        "right_size": [
+          2400,
+          2791
+        ],
+        "gray_correlation": 0.9999942183494568,
+        "resized_rgb_mae": 0.0002739002520684153,
+        "resized_rgb_mse": 1.0741186997620389e-06,
+        "channel_histogram_l1": 0.0028076171875000178
+      }
+    },
+    {
+      "pair_index": 8,
+      "phash": "94513f3d4c7004195b9d83234783a7582326f84600ef763b218cdfffa33b6672",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000101.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_b7f4c61abf7b7d11.jpg",
+      "metrics": {
+        "left_size": [
+          350,
+          272
+        ],
+        "right_size": [
+          350,
+          272
+        ],
+        "gray_correlation": 0.9999666810035706,
+        "resized_rgb_mae": 0.0015052147209644318,
+        "resized_rgb_mse": 6.3608599703002255e-06,
+        "channel_histogram_l1": 0.006225585937500019
+      }
+    },
+    {
+      "pair_index": 9,
+      "phash": "94f40d3a6c044ee18739b35ef3c5b4d17c2ac3b734315b3c834cb5c3ee70b09a",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000056.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_8e5b272d2bcefa9a.jpg",
+      "metrics": {
+        "left_size": [
+          779,
+          800
+        ],
+        "right_size": [
+          779,
+          800
+        ],
+        "gray_correlation": 0.9999915957450867,
+        "resized_rgb_mae": 0.0006476109265349805,
+        "resized_rgb_mse": 2.602227141323965e-06,
+        "channel_histogram_l1": 0.004231770833333381
+      }
+    },
+    {
+      "pair_index": 10,
+      "phash": "9724a9bb62ca916f4f082cc92d3dd2b2bb694d2da096164edb352db242c5bc4d",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000199.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_68fade2bcd9da171.jpg",
+      "metrics": {
+        "left_size": [
+          1300,
+          1065
+        ],
+        "right_size": [
+          1300,
+          1065
+        ],
+        "gray_correlation": 0.9999783039093018,
+        "resized_rgb_mae": 0.0005568959750235081,
+        "resized_rgb_mse": 2.1839059627382085e-06,
+        "channel_histogram_l1": 0.002848307291666656
+      }
+    },
+    {
+      "pair_index": 11,
+      "phash": "9a467631f58aba70fe457d98810ae20544699cce67f689ed1b5b15aaaf148556",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_d50179a5dfe6d6d5.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_958e39298d99bff9.jpg",
+      "metrics": {
+        "left_size": [
+          550,
+          413
+        ],
+        "right_size": [
+          550,
+          413
+        ],
+        "gray_correlation": 0.9995601773262024,
+        "resized_rgb_mae": 0.006166066974401474,
+        "resized_rgb_mse": 7.814878335921094e-05,
+        "channel_histogram_l1": 0.011840820312500005
+      }
+    },
+    {
+      "pair_index": 12,
+      "phash": "9b0a83eb7d0f7d472096255545b067e0e70b6cbd4e7f1c8ed41d90d70ec892a1",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000002.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_77c23db52d82858b.jpg",
+      "metrics": {
+        "left_size": [
+          326,
+          196
+        ],
+        "right_size": [
+          326,
+          196
+        ],
+        "gray_correlation": 0.9999447464942932,
+        "resized_rgb_mae": 0.0037386224139481783,
+        "resized_rgb_mse": 3.08834933093749e-05,
+        "channel_histogram_l1": 0.01761881510416667
+      }
+    },
+    {
+      "pair_index": 13,
+      "phash": "9b5091773723b853c9d400ad14ea67dc98957f6be19cb888267743e83ebb1909",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000104.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_02dcbe3bfb27f2bd.jpg",
+      "metrics": {
+        "left_size": [
+          3008,
+          2000
+        ],
+        "right_size": [
+          313,
+          208
+        ],
+        "gray_correlation": 0.9975937008857727,
+        "resized_rgb_mae": 0.011136003769934177,
+        "resized_rgb_mse": 0.0002607758797239512,
+        "channel_histogram_l1": 0.033203124999999986
+      }
+    },
+    {
+      "pair_index": 14,
+      "phash": "9b5091773723b853c9d400ad14ea67dc98957f6be19cb888267743e83ebb1909",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000104.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_d40ceb43c9f63af1.jpg",
+      "metrics": {
+        "left_size": [
+          3008,
+          2000
+        ],
+        "right_size": [
+          3008,
+          2000
+        ],
+        "gray_correlation": 0.9999818801879883,
+        "resized_rgb_mae": 0.00035623786970973015,
+        "resized_rgb_mse": 1.3970114878247841e-06,
+        "channel_histogram_l1": 0.002929687500000006
+      }
+    },
+    {
+      "pair_index": 15,
+      "phash": "9b5091773723b853c9d400ad14ea67dc98957f6be19cb888267743e83ebb1909",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000139.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_02dcbe3bfb27f2bd.jpg",
+      "metrics": {
+        "left_size": [
+          313,
+          208
+        ],
+        "right_size": [
+          313,
+          208
+        ],
+        "gray_correlation": 0.9997667074203491,
+        "resized_rgb_mae": 0.0025983424857258797,
+        "resized_rgb_mse": 1.3742649571213406e-05,
+        "channel_histogram_l1": 0.006347656249999997
+      }
+    },
+    {
+      "pair_index": 16,
+      "phash": "9b5091773723b853c9d400ad14ea67dc98957f6be19cb888267743e83ebb1909",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000139.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_d40ceb43c9f63af1.jpg",
+      "metrics": {
+        "left_size": [
+          313,
+          208
+        ],
+        "right_size": [
+          3008,
+          2000
+        ],
+        "gray_correlation": 0.997776985168457,
+        "resized_rgb_mae": 0.010866810567677021,
+        "resized_rgb_mse": 0.00025091011775657535,
+        "channel_histogram_l1": 0.032633463541666685
+      }
+    },
+    {
+      "pair_index": 17,
+      "phash": "9b988243e1b7ed399f381ed2b9893154a21b99b75efa2664451966864e724be9",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000069.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_24611a79cd77ccdf.jpg",
+      "metrics": {
+        "left_size": [
+          480,
+          320
+        ],
+        "right_size": [
+          480,
+          320
+        ],
+        "gray_correlation": 0.9999757409095764,
+        "resized_rgb_mae": 0.001245595864020288,
+        "resized_rgb_mse": 5.014848284190521e-06,
+        "channel_histogram_l1": 0.0043945312499999965
+      }
+    },
+    {
+      "pair_index": 18,
+      "phash": "9e589da27c03b403683aa46f61fd37d3e2866c1f87c4e93eb30cce74301bce64",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000224.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_0b1228aa40618f67.jpg",
+      "metrics": {
+        "left_size": [
+          809,
+          521
+        ],
+        "right_size": [
+          809,
+          521
+        ],
+        "gray_correlation": 0.9999799132347107,
+        "resized_rgb_mae": 0.0010570650920271873,
+        "resized_rgb_mse": 4.166003691352671e-06,
+        "channel_histogram_l1": 0.004760742187499997
+      }
+    },
+    {
+      "pair_index": 19,
+      "phash": "a06c07cd9bcd1b24ec8634ff8064fda43bb3cc1216c38b7a76e6dcd202830b79",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000286.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_b98c9df73ea66e9f.jpg",
+      "metrics": {
+        "left_size": [
+          879,
+          355
+        ],
+        "right_size": [
+          879,
+          355
+        ],
+        "gray_correlation": 0.9999830722808838,
+        "resized_rgb_mae": 0.001192140276543796,
+        "resized_rgb_mse": 4.828997134609381e-06,
+        "channel_histogram_l1": 0.0050455729166666696
+      }
+    },
+    {
+      "pair_index": 20,
+      "phash": "a55dcd63d6aaab9e8bc4d5c2aa38aac6d0b51e8362fbdc7abc0fa0f8580f4601",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000181.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_03836c04e76a5f9d.jpg",
+      "metrics": {
+        "left_size": [
+          460,
+          330
+        ],
+        "right_size": [
+          460,
+          330
+        ],
+        "gray_correlation": 0.9999476075172424,
+        "resized_rgb_mae": 0.0017202339367941022,
+        "resized_rgb_mse": 7.383040156128118e-06,
+        "channel_histogram_l1": 0.006754557291666687
+      }
+    },
+    {
+      "pair_index": 21,
+      "phash": "a6e010b5a11b7d4b1ccaf0a73724cfe86898b6bd66dc4f66cd25389124dac2cb",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_e4e10df5a58611b6.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_806fa4935a17885d.jpg",
+      "metrics": {
+        "left_size": [
+          1920,
+          1280
+        ],
+        "right_size": [
+          800,
+          534
+        ],
+        "gray_correlation": 0.999630868434906,
+        "resized_rgb_mae": 0.005588905420154333,
+        "resized_rgb_mse": 5.467461232910864e-05,
+        "channel_histogram_l1": 0.028523763020833336
+      }
+    },
+    {
+      "pair_index": 22,
+      "phash": "a85622b630bc25a0c96198793563d3c1ef63c9d40b8fcf1cdc28f0e7b58f86a9",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_f4668e38a3ebcd17.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_54f537625fd00204.jpg",
+      "metrics": {
+        "left_size": [
+          800,
+          600
+        ],
+        "right_size": [
+          294,
+          221
+        ],
+        "gray_correlation": 0.9990559220314026,
+        "resized_rgb_mae": 0.013880272395908833,
+        "resized_rgb_mse": 0.0003488454967737198,
+        "channel_histogram_l1": 0.031494140625000014
+      }
+    },
+    {
+      "pair_index": 23,
+      "phash": "af6de90ad21a36b7c5978d6f210ac2c50ec9543eadd41a49fa8126875f0fb67e",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_91e9959ec2ec4588.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_8b59acc8b3bebee9.jpg",
+      "metrics": {
+        "left_size": [
+          800,
+          520
+        ],
+        "right_size": [
+          584,
+          379
+        ],
+        "gray_correlation": 0.9992892742156982,
+        "resized_rgb_mae": 0.008693560026586056,
+        "resized_rgb_mse": 0.0001603471755515784,
+        "channel_histogram_l1": 0.021199544270833343
+      }
+    },
+    {
+      "pair_index": 24,
+      "phash": "b198c76856923afa1f1e439d89d988e30cca072e2392e359596cd1b6e09be6cd",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_9b74555271a8ac02.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_bfeea70434991e9d.jpg",
+      "metrics": {
+        "left_size": [
+          295,
+          221
+        ],
+        "right_size": [
+          515,
+          386
+        ],
+        "gray_correlation": 0.9994153380393982,
+        "resized_rgb_mae": 0.008550985716283321,
+        "resized_rgb_mse": 0.00013961353397462517,
+        "channel_histogram_l1": 0.019042968750000003
+      }
+    },
+    {
+      "pair_index": 25,
+      "phash": "bba08572b2426aa5ad767a44f6363f28da355c90ec0b5ef9cabb18b0e8d3114b",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000296.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_5d44c69fb8578f81.jpg",
+      "metrics": {
+        "left_size": [
+          338,
+          470
+        ],
+        "right_size": [
+          338,
+          470
+        ],
+        "gray_correlation": 0.9999608993530273,
+        "resized_rgb_mae": 0.0014559078263118863,
+        "resized_rgb_mse": 6.0942861637158785e-06,
+        "channel_histogram_l1": 0.005981445312499998
+      }
+    },
+    {
+      "pair_index": 26,
+      "phash": "c25290ad8296a73d2d6d4fdec3d856e05ea8f1ab54288ed022563e35a975696c",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000081.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_7d4029f81a3aa2a2.jpg",
+      "metrics": {
+        "left_size": [
+          615,
+          346
+        ],
+        "right_size": [
+          615,
+          346
+        ],
+        "gray_correlation": 0.9999844431877136,
+        "resized_rgb_mae": 0.001287243445403874,
+        "resized_rgb_mse": 5.211337338550948e-06,
+        "channel_histogram_l1": 0.006551106770833355
+      }
+    },
+    {
+      "pair_index": 27,
+      "phash": "c2c35d2a371d61e59069742eb1ed52d49605b47baac4d2cfb2505b4b3525d758",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000078.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_7b20433e7c2aea6d.jpg",
+      "metrics": {
+        "left_size": [
+          667,
+          500
+        ],
+        "right_size": [
+          667,
+          500
+        ],
+        "gray_correlation": 0.9999650716781616,
+        "resized_rgb_mae": 0.0005956711829639971,
+        "resized_rgb_mse": 2.3365917058981722e-06,
+        "channel_histogram_l1": 0.0031738281249999827
+      }
+    },
+    {
+      "pair_index": 28,
+      "phash": "c55e53a87d4aed3d6546e17e2a9658126e5aba85d5f0e677a2d1510b063d3a85",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000288.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_ead0259d0fc3d55c.jpg",
+      "metrics": {
+        "left_size": [
+          500,
+          331
+        ],
+        "right_size": [
+          500,
+          331
+        ],
+        "gray_correlation": 0.9998630881309509,
+        "resized_rgb_mae": 0.001845575519837439,
+        "resized_rgb_mse": 8.168058229784947e-06,
+        "channel_histogram_l1": 0.004638671875000016
+      }
+    },
+    {
+      "pair_index": 29,
+      "phash": "c62f67000ae8fccd168c9bc0f907f590fa10b54753bcf6d6316305e5ab86fd43",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000028.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_ed9581d6d744d613.jpg",
+      "metrics": {
+        "left_size": [
+          300,
+          225
+        ],
+        "right_size": [
+          300,
+          225
+        ],
+        "gray_correlation": 0.9999527931213379,
+        "resized_rgb_mae": 0.0020386541727930307,
+        "resized_rgb_mse": 9.465259608987253e-06,
+        "channel_histogram_l1": 0.009236653645833343
+      }
+    },
+    {
+      "pair_index": 30,
+      "phash": "c7ab752560bf03b28fd31787e74f4f9a4f3298e1b38306063c0fc3b94c253b4e",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000171.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_6abf8e377c4da9b3.jpg",
+      "metrics": {
+        "left_size": [
+          3096,
+          2097
+        ],
+        "right_size": [
+          3096,
+          2097
+        ],
+        "gray_correlation": 0.9999902248382568,
+        "resized_rgb_mae": 0.000273022596957162,
+        "resized_rgb_mse": 1.0706770581236924e-06,
+        "channel_histogram_l1": 0.001831054687500022
+      }
+    },
+    {
+      "pair_index": 31,
+      "phash": "d0e8cb85272f252a8464564b3acaeba4a47b0df25fa73d4a5a9f830d590ef6a0",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000138.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_06c8fc7b3ab880f0.jpg",
+      "metrics": {
+        "left_size": [
+          3008,
+          2000
+        ],
+        "right_size": [
+          3008,
+          2000
+        ],
+        "gray_correlation": 0.9999919533729553,
+        "resized_rgb_mae": 0.00037490748218260705,
+        "resized_rgb_mse": 1.4702254702569917e-06,
+        "channel_histogram_l1": 0.003499348958333353
+      }
+    },
+    {
+      "pair_index": 32,
+      "phash": "d5e79554ad5949c9b2a466af99aa364a8c925337a8e9649bac665b99b5d3694c",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000263.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_52588a689ff8317f.jpg",
+      "metrics": {
+        "left_size": [
+          340,
+          320
+        ],
+        "right_size": [
+          340,
+          320
+        ],
+        "gray_correlation": 0.9999827742576599,
+        "resized_rgb_mae": 0.0010475707240402699,
+        "resized_rgb_mse": 4.24078189098509e-06,
+        "channel_histogram_l1": 0.0052897135416666696
+      }
+    },
+    {
+      "pair_index": 33,
+      "phash": "d79eb9ac695dc7df70a50401ba02a561e65bd76646e6d01b0a2796f91bf0647e",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000089.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_adc96fed6e596d4d.jpg",
+      "metrics": {
+        "left_size": [
+          640,
+          480
+        ],
+        "right_size": [
+          640,
+          480
+        ],
+        "gray_correlation": 0.9999828338623047,
+        "resized_rgb_mae": 0.0009123359341174364,
+        "resized_rgb_mse": 3.6015674140799092e-06,
+        "channel_histogram_l1": 0.004394531249999983
+      }
+    },
+    {
+      "pair_index": 34,
+      "phash": "da1cce262f2f3841dc9e2db984c384d22fc194fb86630969137b2b3f916dc1a7",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000238.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_f07997e05af1b178.jpg",
+      "metrics": {
+        "left_size": [
+          802,
+          532
+        ],
+        "right_size": [
+          802,
+          532
+        ],
+        "gray_correlation": 0.9999800324440002,
+        "resized_rgb_mae": 0.0009123359923250973,
+        "resized_rgb_mse": 3.5915554690291174e-06,
+        "channel_histogram_l1": 0.0033772786458333226
+      }
+    },
+    {
+      "pair_index": 35,
+      "phash": "daa2ada30e907f22ef17ad34e97d16d9a6602fd1ae4d9d5eb0531d63e50011a4",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000000.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_a1f7a31704a91526.jpg",
+      "metrics": {
+        "left_size": [
+          479,
+          640
+        ],
+        "right_size": [
+          479,
+          640
+        ],
+        "gray_correlation": 0.9999691247940063,
+        "resized_rgb_mae": 0.001093287137337029,
+        "resized_rgb_mse": 4.333707693149336e-06,
+        "channel_histogram_l1": 0.006591796875000007
+      }
+    },
+    {
+      "pair_index": 36,
+      "phash": "ddd8b2ec9fa9ad9a0fc6182631501573954a34ecc0d5e14efb2a751ee345ab1b",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000068.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_2e05ed4ac8ea6e84.jpg",
+      "metrics": {
+        "left_size": [
+          520,
+          320
+        ],
+        "right_size": [
+          520,
+          320
+        ],
+        "gray_correlation": 0.9999617338180542,
+        "resized_rgb_mae": 0.0012341069523245096,
+        "resized_rgb_mse": 5.038627477915725e-06,
+        "channel_histogram_l1": 0.004679361979166663
+      }
+    },
+    {
+      "pair_index": 37,
+      "phash": "df82c23d3ca767a5d1c386c0cbb36cf9cd38248162b4825e925bcc7b496c7dc9",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_344aa4fc2a63db4f.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_20b53be5517d0bb3.jpg",
+      "metrics": {
+        "left_size": [
+          300,
+          226
+        ],
+        "right_size": [
+          631,
+          476
+        ],
+        "gray_correlation": 0.9988842010498047,
+        "resized_rgb_mae": 0.013854023069143295,
+        "resized_rgb_mse": 0.0004285915056243539,
+        "channel_histogram_l1": 0.07242838541666664
+      }
+    },
+    {
+      "pair_index": 38,
+      "phash": "df82c23d3ca767a5d1c386c0cbb36cf9cd38248162b4825e925bcc7b496c7dc9",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_344aa4fc2a63db4f.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_7d3cc6396ca95faa.jpg",
+      "metrics": {
+        "left_size": [
+          300,
+          226
+        ],
+        "right_size": [
+          294,
+          222
+        ],
+        "gray_correlation": 0.9988290071487427,
+        "resized_rgb_mae": 0.012896209955215454,
+        "resized_rgb_mse": 0.0003178684273734689,
+        "channel_histogram_l1": 0.03967285156250003
+      }
+    },
+    {
+      "pair_index": 39,
+      "phash": "df82c23d3ca767a5d1c386c0cbb36cf9cd38248162b4825e925bcc7b496c7dc9",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_344aa4fc2a63db4f.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_a031fae8f534b6f4.jpg",
+      "metrics": {
+        "left_size": [
+          300,
+          226
+        ],
+        "right_size": [
+          253,
+          191
+        ],
+        "gray_correlation": 0.9985566139221191,
+        "resized_rgb_mae": 0.013967794366180897,
+        "resized_rgb_mse": 0.0003622927761171013,
+        "channel_histogram_l1": 0.03702799479166668
+      }
+    },
+    {
+      "pair_index": 40,
+      "phash": "e15fb51a566e6a3cdb0f4d9366de027ab83948249c13a6cba464f26e1f126dab",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/scidb-pests102/weak-subset-v1/train/images/scidb_train_000375.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_d219439c58ec752d.jpg",
+      "metrics": {
+        "left_size": [
+          640,
+          640
+        ],
+        "right_size": [
+          366,
+          500
+        ],
+        "gray_correlation": 0.9998074173927307,
+        "resized_rgb_mae": 0.003662109375,
+        "resized_rgb_mse": 2.6448413336765952e-05,
+        "channel_histogram_l1": 0.009277343749999993
+      }
+    },
+    {
+      "pair_index": 41,
+      "phash": "e2aceaf83cee00e0045c03dd5e01861e82c6984e6aac9f0a9df76ce3f077fee1",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000240.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_c55c2518fbf2e10b.jpg",
+      "metrics": {
+        "left_size": [
+          1280,
+          720
+        ],
+        "right_size": [
+          1280,
+          720
+        ],
+        "gray_correlation": 0.9999918937683105,
+        "resized_rgb_mae": 0.0007349749212153256,
+        "resized_rgb_mse": 2.9004022508161142e-06,
+        "channel_histogram_l1": 0.00431315104166665
+      }
+    },
+    {
+      "pair_index": 42,
+      "phash": "e444d1b7dadc6db4372164d80b259c104bb27f6b20dbb1204e8b6b36393176e3",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/scidb-pests102/weak-subset-v1/train/images/scidb_train_000094.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/ip_b4e715f86a29c041.jpg",
+      "metrics": {
+        "left_size": [
+          640,
+          640
+        ],
+        "right_size": [
+          208,
+          250
+        ],
+        "gray_correlation": 0.9996145367622375,
+        "resized_rgb_mae": 0.00511378888040781,
+        "resized_rgb_mse": 5.851459354744293e-05,
+        "channel_histogram_l1": 0.015014648437499993
+      }
+    },
+    {
+      "pair_index": 43,
+      "phash": "e8413662c664465c9e1d39a799e649f219329729cd99c69b8db2385a9c8db1cd",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000251.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_d7dbb8d49463bfd6.jpg",
+      "metrics": {
+        "left_size": [
+          800,
+          936
+        ],
+        "right_size": [
+          800,
+          936
+        ],
+        "gray_correlation": 0.9999870657920837,
+        "resized_rgb_mae": 0.00023648129717912525,
+        "resized_rgb_mse": 9.273776981899573e-07,
+        "channel_histogram_l1": 0.00341796875
+      }
+    },
+    {
+      "pair_index": 44,
+      "phash": "ed9e83c37d907f13242d849534a9b79d8e6fa3eeef67c4c20005ea187564955f",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000033.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_c60967e4d81ece87.jpg",
+      "metrics": {
+        "left_size": [
+          1024,
+          768
+        ],
+        "right_size": [
+          1024,
+          768
+        ],
+        "gray_correlation": 0.9999843835830688,
+        "resized_rgb_mae": 0.00063301034970209,
+        "resized_rgb_mse": 2.4830196707625873e-06,
+        "channel_histogram_l1": 0.005493164062500015
+      }
+    },
+    {
+      "pair_index": 45,
+      "phash": "ee9ba676c724d29bd0ed9bc49f5a6d28d985cc866c9627580fb858de78c83e05",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000291.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_893b32249df296fa.jpg",
+      "metrics": {
+        "left_size": [
+          1200,
+          900
+        ],
+        "right_size": [
+          1200,
+          900
+        ],
+        "gray_correlation": 0.9999491572380066,
+        "resized_rgb_mae": 0.0016294391825795174,
+        "resized_rgb_mse": 8.912399607652333e-06,
+        "channel_histogram_l1": 0.030029296875000007
+      }
+    },
+    {
+      "pair_index": 46,
+      "phash": "f7af9aa5070d07db64f46d5ba64b2965b926ec52e5926455d455e1fa47a2ada8",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000177.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_6f051f380ae881d0.jpg",
+      "metrics": {
+        "left_size": [
+          4000,
+          3000
+        ],
+        "right_size": [
+          4000,
+          3000
+        ],
+        "gray_correlation": 0.9999960660934448,
+        "resized_rgb_mae": 0.0001608455932000652,
+        "resized_rgb_mse": 6.307670901151141e-07,
+        "channel_histogram_l1": 0.0016276041666666878
+      }
+    },
+    {
+      "pair_index": 47,
+      "phash": "f95ff8512b1f3a8974a4d5f8c7ee842b922ddbd62b42417c53d247d60371aa2d",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000217.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_ec3806e260c85cd8.jpg",
+      "metrics": {
+        "left_size": [
+          480,
+          640
+        ],
+        "right_size": [
+          480,
+          640
+        ],
+        "gray_correlation": 0.999961256980896,
+        "resized_rgb_mae": 0.001086984295397997,
+        "resized_rgb_mse": 4.305860784370452e-06,
+        "channel_histogram_l1": 0.00472005208333334
+      }
+    },
+    {
+      "pair_index": 48,
+      "phash": "f9e3b2c3dea6c9726c3bcd3dd31b665ac60d39386c38c30c939e1c70ce4ce1a6",
+      "phash_distance": 0,
+      "train_path": "/root/autodl-tmp/crop-pest-system/artifacts/public/plantdoc-weak-v2/train/images/plantdoc_train_000094.jpg",
+      "frozen_path": "/root/autodl-tmp/crop-pest-system/data/official/images/all/pd_5484a8c69f878b8d.jpg",
+      "metrics": {
+        "left_size": [
+          4000,
+          3000
+        ],
+        "right_size": [
+          4000,
+          3000
+        ],
+        "gray_correlation": 0.9999970197677612,
+        "resized_rgb_mae": 0.00022347642516251653,
+        "resized_rgb_mse": 8.763781238485535e-07,
+        "channel_histogram_l1": 0.0017496744791666765
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "seed": 20260729,
+  "dev_val_fraction": 0.15,
+  "source_input_counts": {
+    "official": 3321,
+    "plantdoc": 303,
+    "scidb": 555,
+    "pest65-reviewed": 327
+  },
+  "source_kept_counts": {
+    "official": 3321,
+    "plantdoc": 303,
+    "scidb": 555,
+    "pest65-reviewed": 311
+  },
+  "accepted_total": 4490,
+  "dev_train_count": 3816,
+  "dev_val_count": 674,
+  "official_frozen_count": 833,
+  "official_frozen_split_sha256": "91a777a8818b8766f49f67891562d1cd808198a89586ec370b49a9e56d7096a4",
+  "class_box_counts": {
+    "0": 277,
+    "1": 299,
+    "2": 180,
+    "3": 529,
+    "4": 88,
+    "5": 415,
+    "6": 164,
+    "7": 412,
+    "8": 498,
+    "9": 1800,
+    "10": 800,
+    "11": 344,
+    "12": 344,
+    "13": 352,
+    "14": 459,
+    "15": 322
+  },
+  "exclusions": [
+    {
+      "source": "class13-grasshopper-train",
+      "reason": "excluded_missing_source",
+      "expected_count": "445"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_011_fa7fa5b13ff2.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p57_train_011_fa7fa5b13ff2.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_018_5d195145b191.jpg",
+      "reason": "invalid_image",
+      "detail": "JPEG 缺少完整结束标记：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_018_5d195145b191.jpg"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_067_3351622812fd.jpg",
+      "reason": "invalid_image",
+      "detail": "JPEG 缺少完整结束标记：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_067_3351622812fd.jpg"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_077_d6ffde9777c1.jpg",
+      "reason": "invalid_image",
+      "detail": "JPEG 缺少完整结束标记：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_077_d6ffde9777c1.jpg"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_130_2d26145303b3.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p57_train_130_2d26145303b3.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_203_e10e4347573b.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p57_train_203_e10e4347573b.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_226_e7425ac570ae.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p57_train_226_e7425ac570ae.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_249_a2d6be17a133.jpg",
+      "reason": "invalid_label",
+      "detail": "标签包含重复框：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p57_train_249_a2d6be17a133.txt:2"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p57_train_251_baa60500bdfc.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p57_train_251_baa60500bdfc.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p58_train_014_e03f3fd67ea5.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p58_train_014_e03f3fd67ea5.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p58_train_016_497ceba7571f.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p58_train_016_497ceba7571f.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p58_train_032_eb92ce849c06.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p58_train_032_eb92ce849c06.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p58_train_035_fccc250de311.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p58_train_035_fccc250de311.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p58_train_042_f94aaee1fe9c.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p58_train_042_f94aaee1fe9c.txt"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p58_train_108_3a5906bbc070.jpg",
+      "reason": "invalid_image",
+      "detail": "OpenCV 解码异常：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p58_train_108_3a5906bbc070.jpg: Corrupt JPEG data: premature end of data segment"
+    },
+    {
+      "source": "pest65-reviewed",
+      "path": "/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/images/p58_train_120_751456ba8157.jpg",
+      "reason": "invalid_label",
+      "detail": "标签为空：/root/autodl-tmp/crop-pest-system/artifacts/experiments/pest65-aphids-reviewed-v1/labels/p58_train_120_751456ba8157.txt"
+    }
+  ],
+  "official_frozen_used_for_model_selection": false
+}

@@ -1,0 +1,47 @@
+{
+  "case_id": "6d663acee3764099bace216578a4a078",
+  "before_vlm_down": {
+    "status": "detected",
+    "resolution_status": "conclusive",
+    "is_test": false,
+    "detection_count": 1,
+    "analysis_status": null
+  },
+  "vlm_down": {
+    "http_status": 502,
+    "response_status": null,
+    "resolution_status": null,
+    "detail": "多模态服务调用失败：多模态服务返回 502: ",
+    "diagnosis": null,
+    "schema_version": null
+  },
+  "after_vlm_down": {
+    "status": "detected",
+    "resolution_status": "conclusive",
+    "is_test": false,
+    "detection_count": 1,
+    "analysis_status": null
+  },
+  "before_vlm_up": {
+    "status": "detected",
+    "resolution_status": "conclusive",
+    "is_test": true,
+    "detection_count": 1,
+    "analysis_status": null
+  },
+  "vlm_up": {
+    "http_status": 200,
+    "response_status": "analyzed",
+    "resolution_status": "conclusive",
+    "detail": null,
+    "diagnosis": "盲蝽科",
+    "schema_version": "phase9-multimodal-v2"
+  },
+  "after_vlm_up": {
+    "status": "analyzed",
+    "resolution_status": "conclusive",
+    "is_test": true,
+    "detection_count": 1,
+    "analysis_status": "completed"
+  }
+}
