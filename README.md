@@ -22,6 +22,7 @@
 - Phase 6 知识契约位于 `backend/app/knowledge.py`：`GET /api/catalog/knowledge` 返回 16 类知识卡片、来源和安全边界；病例结果中的 `detector_summary.explainability` 保存检测框、置信度、模型/路由证据、来源和人工复核触发原因。
 - `POST /api/cases/{case_id}/review` 会记录 `accepted`、`needs_more_evidence` 或 `rejected` 决策及证据快照；`GET /api/cases/review-queue` 和 `GET /api/cases/{case_id}/review-events` 用于复核队列与审计追溯。知识卡片只提供综合防治方向，不生成具体药剂、剂量、混配或安全间隔。
 - Phase 8 已接入服务器自托管 `Qwen3-VL-8B-Instruct`：网页主操作一键完成“上传→目标检测→多模态分析→保存→查看”，分析失败时保留病例和检测结果并支持只重试分析；后端通过严格 JSON Schema/Pydantic 校验 C 项字段，已有质量和检测风险只能升级、不能被多模态结论清除。
+- Phase 9.9 已接入版本化自建知识库：识别成功后按 16 类 `class_id` 展示症状、特征和防治建议；完整报告保留知识库表格与图片，并将来源标注为百度百科。
 
 ## 目录
 
@@ -31,6 +32,7 @@
 - `tools/`：数据审计、划分和服务器数据视图工具。
 - `training/`：视觉模型训练与服务器运行脚本。
 - `inference/`：服务器 GPU 推理服务、启动脚本和本机 SSH 隧道。
+- `knowledge/`：16 类版本化 Markdown 知识文档、相对路径图片与完整性清单。
 - `artifacts/dataset-audit/`：数据质量审计结果。
 - `docs/competition/`：比赛架构、数据治理、演示、复现和提交包材料。
 
@@ -51,6 +53,12 @@ npm.cmd run dev
 ```
 
 默认访问 `http://localhost:3000`。模型权重和多模态服务地址通过 `backend/.env.example` 中的变量配置。
+
+## 自建知识库
+
+当前知识库版本为 `baidu-baike-20260818`，内容来源于百度百科并由项目组整理。后端通过 `GET /api/catalog/classes/{class_id}/knowledge-document` 提供详情页三段内容和报告完整内容，图片只允许从版本化知识目录读取。
+
+重新打包时使用 `scripts/package_baike_knowledge.py --source <Markdown目录>`；脚本要求 16 个类别文档完整对应、61 个图片引用存在，并拒绝在输出中保留 Windows 绝对路径。
 
 服务器推理服务与私有隧道说明见 `inference/README.md`。服务器有卡模式可用后，将推理设备设置为 `0` 并重启服务；无卡模式仅用于部署和 CPU 链路验证，不作为正式性能数据。
 

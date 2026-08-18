@@ -76,6 +76,19 @@ export type CaseRecord = {
   case_edit_token?: string;
 };
 
+export type KnowledgeDocument = {
+  schema_version: "baidu-knowledge-v1";
+  version: string;
+  class_id: number;
+  class_name: string;
+  title: string;
+  source: { title: string; url: string; attribution: string };
+  symptoms_html: string;
+  features_html: string;
+  prevention_html: string;
+  full_html: string;
+};
+
 export type TrendPayload = {
   scope: string;
   days: 7 | 30;

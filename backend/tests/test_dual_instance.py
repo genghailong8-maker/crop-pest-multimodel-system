@@ -93,7 +93,7 @@ def test_case_instance_prefix_and_immutable_report_snapshot(tmp_path, monkeypatc
 
     assert first == second
     assert first["instance_id"] == "lab_cpu"
-    assert first["snapshot"]["format"] == "crop-report-json-v1"
+    assert first["snapshot"]["format"] == "crop-report-json-v2"
     versions = [path for path in (tmp_path / "reports" / created["id"]).glob("*.json") if path.name != "latest.json"]
     assert len(versions) == 1
 

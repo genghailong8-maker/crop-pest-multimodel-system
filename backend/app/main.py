@@ -45,6 +45,7 @@ from .knowledge import (
     knowledge_contract,
     prioritized_guidance,
 )
+from .knowledge_documents import get_knowledge_document, resolve_knowledge_asset
 from .multimodal import MultimodalUnavailable, request_multimodal_analysis
 from .reports import load_latest, save_snapshot
 from .prelabels import detail as prelabel_detail
@@ -483,6 +484,22 @@ def class_knowledge(class_id: int) -> dict[str, Any]:
     return card
 
 
+@app.get("/api/catalog/classes/{class_id}/knowledge-document")
+def class_knowledge_document(class_id: int) -> dict[str, Any]:
+    document = get_knowledge_document(class_id)
+    if document is None:
+        raise HTTPException(status_code=404, detail="类别知识文档不存在")
+    return document
+
+
+@app.get("/api/catalog/knowledge/assets/{version}/{asset_path:path}")
+def knowledge_asset(version: str, asset_path: str) -> FileResponse:
+    path = resolve_knowledge_asset(version, asset_path)
+    if path is None:
+        raise HTTPException(status_code=404, detail="知识库图片不存在")
+    return FileResponse(path)
+
+
 @app.get("/api/prelabels/queue")
 def prelabel_queue_endpoint(
     priority: Annotated[str | None, Query(pattern="^(all|P0|P1|P2)$")] = "all",
@@ -648,11 +665,18 @@ def build_case_report(record: dict[str, Any]) -> dict[str, Any]:
     detections = record.get("detections") or []
     primary_id = detections[0].get("class_id") if detections else None
     knowledge = get_knowledge_card(primary_id) if isinstance(primary_id, int) else None
+    case_payload = present_case(record)
+    knowledge_document = (
+        get_knowledge_document(primary_id)
+        if isinstance(primary_id, int) and case_payload["resolution_status"] == "conclusive"
+        else None
+    )
     return {
         "report_number": f"TZ-{record['created_at'][:10].replace('-', '')}-{record['id'][:8].upper()}",
         "generated_at": datetime.now(UTC).isoformat(),
-        "case": present_case(record),
+        "case": case_payload,
         "knowledge": knowledge,
+        "knowledge_document": knowledge_document,
         "sources": get_knowledge_sources(knowledge["source_ids"]) if knowledge else [],
         "prioritized_guidance": prioritized_guidance(
             primary_id,
@@ -671,6 +695,7 @@ def snapshot_case_report(record: dict[str, Any]) -> dict[str, Any]:
         record["id"],
         record.get("instance_id") or settings.instance_id,
         build_case_report(record),
+        format_version="crop-report-json-v2",
     )
 
 
@@ -678,7 +703,11 @@ def snapshot_case_report(record: dict[str, Any]) -> dict[str, Any]:
 def case_report(case_id: str) -> dict[str, Any]:
     record = require_visible_case(case_id)
     existing = load_latest(settings.storage_dir / "reports", case_id)
-    return existing or snapshot_case_report(record)
+    if existing and existing.get("snapshot", {}).get("format") == "crop-report-json-v2":
+        return existing
+    if existing and build_case_report(record).get("knowledge_document") is None:
+        return existing
+    return snapshot_case_report(record)
 
 
 @app.get("/api/cases/{case_id}")

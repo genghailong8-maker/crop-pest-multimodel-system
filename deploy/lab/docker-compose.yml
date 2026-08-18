@@ -25,6 +25,7 @@ services:
     env_file: [.env]
     environment:
       CROP_STORAGE_DIR: /data/storage
+      CROP_KNOWLEDGE_DIR: /opt/ghl/knowledge/baidu-baike-20260818
       CROP_INSTANCE_ID: lab_cpu
       CROP_INSTANCE_LABEL: 实验室 CPU
       CROP_GATEWAY_MODE: "true"

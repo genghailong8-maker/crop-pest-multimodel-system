@@ -21,6 +21,8 @@ def save_snapshot(
     case_id: str,
     instance_id: str,
     report: dict[str, Any],
+    *,
+    format_version: str = "crop-report-json-v1",
 ) -> dict[str, Any]:
     if Path(case_id).name != case_id:
         raise ValueError("病例 ID 非法")
@@ -31,7 +33,7 @@ def save_snapshot(
         **body,
         "snapshot": {
             "sha256": hashlib.sha256(canonical).hexdigest(),
-            "format": "crop-report-json-v1",
+            "format": format_version,
         },
     }
     case_dir = report_dir / case_id

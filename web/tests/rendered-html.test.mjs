@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render(pathname = "/", extraEnv = {}) {
@@ -53,6 +54,17 @@ test("server-renders local history, trends, case and report routes", async () =>
     assert.equal(response.status, 200, pathname);
     assert.match(await response.text(), new RegExp(marker));
   }
+});
+
+test("case and report surfaces use the curated knowledge labels", async () => {
+  const caseSource = await readFile(new URL("../app/cases/[id]/page.tsx", import.meta.url), "utf8");
+  const reportSource = await readFile(new URL("../app/reports/[id]/page.tsx", import.meta.url), "utf8");
+  assert.match(caseSource, /症状、特征和防治建议/);
+  assert.match(caseSource, /防治建议/);
+  assert.doesNotMatch(caseSource, /查看技术证据|症状、危害与可能原因/);
+  assert.match(reportSource, /综合信息展示/);
+  assert.match(reportSource, /知识内容来源：百度百科/);
+  assert.doesNotMatch(reportSource, /查看技术证据|下一步与防治方向/);
 });
 
 test("public worker hides local admin routes", async () => {

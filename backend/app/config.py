@@ -59,6 +59,7 @@ class Settings:
     instance_label: str
     report_dir: Path
     control_dir: Path
+    knowledge_dir: Path
     gateway_mode: bool
     remote_instance_id: str
     remote_instance_label: str
@@ -117,6 +118,8 @@ def load_settings() -> Settings:
         instance_label=os.getenv("CROP_INSTANCE_LABEL", "实验室 CPU").strip() or instance_name,
         report_dir=storage_dir / "reports",
         control_dir=optional_path(os.getenv("CROP_CONTROL_DIR")) or storage_dir / "control",
+        knowledge_dir=optional_path(os.getenv("CROP_KNOWLEDGE_DIR"))
+        or (BACKEND_DIR.parent / "knowledge" / "baidu-baike-20260818").resolve(),
         gateway_mode=env_bool("CROP_GATEWAY_MODE"),
         remote_instance_id=remote_name,
         remote_instance_label=os.getenv("CROP_REMOTE_INSTANCE_LABEL", "原 GPU 服务器").strip() or remote_name,
