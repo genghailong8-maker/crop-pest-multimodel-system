@@ -1,5 +1,45 @@
 # Progress Log
 
+## UI Redesign V3 验证进展（2026-08-20）
+
+- V3 build、前端渲染测试（8/8）、ESLint（0 errors / 0 warnings）和 backend/tests（41 passed）已通过。
+- `git diff --check` 已通过；根目录 pytest 未作为通过依据，因为它会收集 `training/test_grasshopper_field_eval.py` 并因当前 backend venv 缺少 numpy 失败。
+- 浏览器已检查 1280px 首页、390px 首页、病例错误态和报告错误态；修复了报告头部容器与打印按钮复用类名导致的样式冲突。
+- `DESIGN.md` 已同步为 UI Redesign V3 的“临床田间证据台”设计语言；未修改后端接口、数据库、模型或业务数据。
+- Impeccable 双独立评估正在进行，完成后综合 critique / polish / audit 结果。
+- 最终回归：前端 8/8、backend/tests 41/41、build、ESLint 0 errors/0 warnings、`git diff --check` 全部通过。
+- Impeccable critique 快照已写入 `.impeccable/critique/2026-08-20T11-03-07Z__web-app-page-tsx.md`，本轮 Design Health 33/40；趋势为 35/40（前一阶段）→ 23/40（V2 基线）→ 33/40（V3，口径/范围不同需谨慎比较）。
+- Impeccable audit 快照已写入 `.impeccable/audit/2026-08-20T19-03-35+08-00__diagnosis-ui-redesign-v3.md`，17/20，P0/P1 为 0。
+- `impeccable polish`、`layout`、`typeset`、`quieter` 已按设计规则完成针对性复核；未新增依赖、未部署、未提交或推送 Git。
+
+## 诊断系统 UI Redesign V2 完成（2026-08-20）
+
+- 完成首页、结果状态、病例详情和专业报告的结构级重设计；保留全部接口、字段、验证、双服务器和数据逻辑。
+- 首页改为 7:5 图片/田间信息工作区；未生成病例时不再显示大型空结果区。
+- 新增共享 `DiagnosisSummary`，统一结论、可靠性、田间影响与下一步；处理中不提前显示结果和报告入口。
+- 综合分析改为证据台账，知识内容改为一般知识附录；高风险或待人工复核记录不展示完整知识压过风险声明。
+- 病例详情改为诊断档案，报告改为纸面结构，并补齐生成时间、编号异常、图片图注、打印分页与来源边界。
+- 1280、1440 和约 390px 浏览器检查无页面级横向溢出；移动端诊断路径为 3×2 节点。
+- 验证通过：backend `41 passed`；frontend `8 passed`；build、ESLint、`git diff --check` 均通过。
+- Impeccable polish 已移除通用字体、装饰网格、侧边强调条、低对比小字和全局 reduced-motion 清除；Audit 为 17/20，Design Health 为 35/40。
+- 未部署、未提交 Git；本地预览地址为 `http://localhost:3101/`。
+
+## 2026-08-20 参考图驱动诊断工作台改造启动
+
+- 已读取 Product Design image-to-code、Impeccable、redesign-existing-projects、design-taste-frontend、planning-with-files 和 Karpathy 指南。
+- 已确认用户选择的视觉目标为诊断记录工作台，而不是营销展示页；本轮公共页面按图片的左侧工作区、顶部诊断路径和三栏证据布局重排。
+- 已确认实验室 CPU 健康接口可达且 detector/VLM 已配置；本轮不触碰 GPU、backend、SQLite、病例图片、报告和模型。
+- 已创建本轮 task plan；当前进入公共组件与页面结构改造阶段。
+
+## 第二阶段 P2 前端优化完成（2026-08-20）
+
+- 已完成报告/详情正文层级、诊断完成行动主次、动态病例图片属性、移动端触控高度、CPU 提示外观和所触及颜色令牌的最小修改。
+- 自动回归通过：后端 `41 passed`；前端 Vinext 生产构建和 7 项页面测试通过；ESLint 为 0 errors / 0 warnings；`git diff --check` 通过。
+- 浏览器实测通过：桌面首页无横向溢出；390px 首页、病例详情和报告无横向溢出；报告正文 14px/24.5px，详情正文 14px/23.8px；两个原 P3 次要入口均达到 44px。
+- Impeccable detector 仅保留 `globals.css:280` 的训练监控 `transition: width` 警告；该项不属于公共诊断流程，按本轮约束只记录。
+- 新审计快照：`.impeccable/audit/2026-08-20T10-48-18+08-00__public-diagnosis-p2.md`；Audit 14/20 → 17/20，Design Health 32/40 → 35/40。
+- 本轮未部署服务器，未改后端、数据库、双服务器路由、Admin 或训练监控业务。
+
 ## Phase 9.9 知识库展示改造启动（2026-08-18）
 
 - 已恢复 planning-with-files 上下文并读取实施计划、现有知识/报告接口、Docker 离线部署和前端页面。
@@ -1057,3 +1097,202 @@
 - 发布审计发现未跟踪 `tmp/` 含约 5.8 GB Qwen GGUF、镜像、wheel/npm 缓存、Admin 配置和中继 PID；已将 `tmp/`、检查输出、`*.gguf`、`*.sqlite3` 加入 `.gitignore`，明确不上传密钥、病例、数据库、模型或缓存。
 - 敏感扫描未发现服务器密码、SSH 私钥或 GitHub/OpenAI Token；`CROP_ADMIN_*` 唯一命中为安全生成脚本中的变量名。忽略后未跟踪候选共约 3.44 MB。
 - 当前分支已有 draft PR #1（目标 master），本次应更新该 PR 而不是重复创建。工作树仍混有约 3.4 MB 旧训练评测 JSON/脚本；按发布安全流程，提交前需要用户确认“系统/部署范围”或“连同训练证据全部发布”。
+# 2026-08-18 Knowledge summary vertical layout
+
+- Assumption: “上下排列” means symptoms, features, and prevention advice each occupy one full-width row in the existing DOM order on every viewport.
+- Scope: `web/app/globals.css`, the existing rendered-source regression test, planning records, and laboratory web deployment only.
+- Success criteria: the scoped CSS is one column; web tests/build pass; the laboratory case page renders all three sections vertically; GPU remains untouched.
+- Error: the first `npm run build` attempt was blocked because local PowerShell execution policy rejects `C:\APP\npm.ps1`; resolution is to use `npm.cmd` without changing system policy.
+- Deployment error: the first laboratory `docker compose build web` could not resolve `docker.mirrors.ustc.edu.cn` while checking `node:22-bookworm-slim`; the existing web container remained running. Next attempt must use the already cached base image/offline build path rather than retrying the same network-dependent command.
+- Browser QA note: the in-app browser does not support `waitForLoadState({state: "networkidle"})`; switched to supported DOM readiness plus explicit element waiting before reading computed layout.
+- Browser QA error: the follow-up layout read timed out and reset the browser-control session, so no computed rectangle evidence was retained; final live verification uses the running container artifact and HTTP response instead of repeating the same browser path.
+- Remote verification error: a quoted `/dev/null` redirect was interpreted by local PowerShell as `C:\dev\null`, so that read-only command never reached the server; replaced with a redirect-free remote check.
+- Completed: `.knowledge-summary` now overrides the shared three-column grid with `grid-template-columns: 1fr`; the existing DOM order remains symptoms, features, prevention advice.
+- Local verification: production build passed, all 7 rendered-page tests passed, Impeccable layout detector returned no findings, and `git diff --check` passed.
+- Laboratory deployment: backed up the previous CSS, uploaded the new source, then used the existing `lab-web:latest` image as an offline parent after the registry DNS failure. Only `web` was recreated.
+- Live verification: the case URL returns HTTP 200 and its referenced `index-CPbZYvWS.css` contains `.knowledge-summary{grid-template-columns:1fr}`. Backend, detector, VLM, and gateway remained running; VLM is healthy.
+# 2026-08-19 自动元数据与表单精简
+
+- 已确认实施范围：删除上传页作物、拍摄部位、生育阶段、补充说明和“现在建议你”；保留环境、受害比例、扩散速度，但它们不得进入目标名称独立判断。
+- 数据策略：作物来自YOLO主候选目录；部位/阶段来自Qwen纯图片判断，非法或不确定输出规范为“系统未判断”；旧病例和报告快照不迁移。
+- 部署策略：先实验室CPU，验收后通知用户开启GPU/Windows中继，再部署同一版本；只重建backend/web。
+- 已保护此前未提交的知识栏目纵向布局与对应测试，不回滚、不覆盖。
+- 已完成后端自动元数据链路：YOLO目录写入关联作物，Qwen纯图片输出部位/阶段并做白名单规范化，provenance 记录三项来源。
+- 已完成首页及相关页面精简：首页只保留种植环境、受害比例、扩散速度，删除“现在建议你”；病例、历史、报告和趋势使用“系统匹配/系统判断”语义。
+- 本地验收：后端 33 项测试通过；前端构建与 7 项页面测试通过；ESLint 0 errors（5 个既有 `<img>` 警告）。Impeccable 扫描仅报告一处本次未改动的 `transition: width` 警告。
+- 实验室部署前备份位于 `/data/ghl/migration-backup/deploy-auto-metadata-20260819-1058`，包含 app、storage、容器/健康状态与 SHA-256；只重建 backend/web 并重启 gateway，detector/VLM 未重建。
+- 实验室蛴螬真实端到端验收通过，病例 `lab_cpu-2923d24176a84d5ab460f9a0fe2f0cde` 已标记 `is_test=1`。GPU端尚未发布，等待用户开启原 GPU 服务器和 Windows 中继。
+
+# 2026-08-19 Phase 9.12 证据绑定综合分析
+
+- 已读取用户桌面《功能修改.md》及引用截图，并通过两轮确认锁定字段清单、模型数据流、主页内嵌范围、状态提示、安全边界和实验室优先发布策略。
+- 当前工作树包含上一轮尚未提交的自动元数据与知识纵向布局改动；本轮必须在其上演进，不回滚、不覆盖旧病例和报告。
+- 后端已完成条件必填和白名单校验：作物/对象、环境、比例、扩散速度必填；植物病例部位/阶段必填，昆虫统一保存“不适用”；人工字段不再被检测或多模态结果覆盖。
+- 多模态协议升级为 `phase9-multimodal-v3`：第一阶段仅接收原图；第二阶段重新接收原图、YOLO/shadow 证据和人工田间字段，并输出 `grounded_assessment.harms/causes[].evidence[]`。
+- 增加证据真实性防线：田间依据必须包含实际提交值，YOLO依据必须包含真实主候选，图片依据受第一阶段可见结果约束；无证据后果、病原、传播、产量推断及阶段间矛盾统一降为“无法判断”。
+- 前端已恢复条件表单，首页第一/二步改为上下排列；删除正常绿色提示和可靠性卡片，内嵌综合分析及知识摘要；详情页增加同一综合分析组件；报告删除独立多模态判断与不确定性，展示危害、诱因和逐条来源。主页两个入口字号为 22px，历史/趋势/报告字段改为中性语义。
+- 本地验收：后端 `41 passed`；前端生产构建与 7 项页面测试通过；ESLint 0 errors（5 个既有 `<img>` 警告）；Impeccable 扫描仅报告旧训练样式中的一条 `transition: width` 警告。
+- 实验室部署前备份位于 `/data/ghl/migration-backup/deploy-grounded-analysis-20260819-172222`，包含应用、SQLite 一致性备份和报告，数据库备份 SHA-256 为 `d4076c4a71b72e9933e55b109f7e02018184e06a0342a16f74044775f2fbaca9`。
+- 仅重建并重启 backend/web/gateway；detector 与 Qwen3-VL 容器未重建。最终健康状态 `ok`、活动实例 `lab_cpu`、SQLite `quick_check=ok`，普通病例 43 条，6 条测试病例与普通历史隔离。
+- 真实植物病例 `lab_cpu-ae7c74ba992b43c2998987614721ed2d`：人工玉米/叶片/苗期原样保留，YOLO 为玉米叶枯病，危害仅保留原图可见黄褐色病斑，诱因因缺少病原和连续田间证据返回“无法判断”，v2 报告成功。
+- 最终昆虫门控病例 `lab_cpu-3d93dab64b804c8594f4f0b72c49a40e`：人工“昆虫”保存为部位/阶段“不适用”，YOLO 保持蛴螬；第一阶段全为“无法判断”时，第二阶段危害和诱因均被安全降为“无法判断”，v2 报告包含新证据结构。
+- 浏览器运行态检查：首页选择项均初始为空、分析按钮禁用、桌面两步为单列上下布局，页面不含“这个结果有多可靠”或正常绿色结论卡；条件字段进一步交互检查受浏览器控制会话超时中断，已由源码回归和后端真实昆虫条件病例共同覆盖。
+- GPU 服务器及 Windows 中继未修改，等待用户完成实验室 CPU 人工验收后再发布同一版本。
+
+# 2026-08-20 Impeccable document + critique
+
+- 已运行 planning-with-files session catch-up，补记上轮已完成的实验室 CPU 部署状态。
+- 已运行 Impeccable context 检查；确认没有既有 `DESIGN.md`，本轮使用现有实现做 Scan mode 文档化。
+- 已完整读取 `reference/document.md` 与 `reference/critique.md`；下一步扫描 CSS、核心组件和代表页面。
+- 已生成并校验 `DESIGN.md` 与 `.impeccable/design.json`：frontmatter 13 色/6 组件令牌，sidecar schema v2/7 个组件，JSON、规范标题顺序和 `git diff --check` 均通过。
+- 已完成 critique Assessment A，并在机械检测器运行前固定人工判断：当前最大风险是双服务器数据归属措辞、禁用按钮缺少缺项解释、CPU 长耗时无预期管理；Nielsen 初评分 25/40。
+- 浏览器能打开实验室首页并确认标题/URL，但两次响应式样式或截图采样均超时并重置；后续浏览器证据使用“可导航、不可稳定采样”的明确回退记录，不重复同一路径。
+- Assessment B 已完成：目标 slug 为 `web-app`，无 ignore list；CLI 仅发现训练进度条 `transition: width` 这一条 warning；6 组关键配色对比均通过 AA。
+- critique 已综合并持久化到 `.impeccable/critique/2026-08-20T01-36-53Z__web-app.md`；本目标首次评分为 25/40，无历史趋势可比较。
+- 最终校验：DESIGN frontmatter、sidecar JSON、critique 固定章节、临时文件清理与 `git diff --check` 全部通过。本轮没有修改前后端业务或 UI 样式。
+# 2026-08-20 三个 P1 可用性修复
+
+- 已按用户要求输出简短实施方案并直接开始执行。
+- 已完整读取 `redesign-existing-projects`、`design-taste-frontend`、`impeccable harden`、`planning-with-files` 和 `karpathy-guidelines` 指令；明确不使用 `gpt-taste`。
+- 已确认所有公共核心页面复用 `PublicHeader`，首页已有可复用的表单完整性布尔条件和阶段状态，改动可保持局部。
+- 正在核对活动实例的可靠公开读取方式和病例任务状态恢复边界。
+- 已完成核对：决定扩展现有 health 响应，不新增业务路由；刷新/返回后的自动任务恢复因缺少持久化运行状态而不安全，本轮只提供真实病例编号、阶段状态、离页说明和历史入口。
+- 已实现 `/health` 活动实例只读字段，并增加 CPU/GPU 切换状态测试。
+- 已改造共享 `PublicHeader`：展示当前识别服务器、保留服务状态、桌面/移动均可见，并为当前导航增加 `aria-current="page"`。
+- 已在首页增加动态“还需完成”清单、CPU 1–2 分钟预期、病例创建后即时编号、离页/历史说明和窄范围分析状态 live region；移除了整个结果区的宽泛 live region。
+- 已统一首页、历史、趋势和页脚的数据归属文案，并增强 Admin 切换提示；当前进入静态检查与回归测试阶段。
+- 自动回归通过：后端 `41 passed`；前端生产构建与 7 项渲染测试通过；ESLint 0 errors、5 个既有 `<img>` 性能警告。
+- 已启动本轮独立本地验证实例并完成 1280×720 桌面首屏检查；活动服务器、缺项提示、CPU 耗时和当前导航均按预期显示，无水平溢出。
+- 移动首轮发现底部导航受页头 `backdrop-filter` 包含块影响而错误出现在顶部；已作范围内最小修复，正在热更新后复测。
+- 移动热更新复测已通过；动态缺项在植物/昆虫条件切换下同步更新，未改变原提交校验。
+- Impeccable audit 已启动：源码 detector 完成；URL detector 因缺少 Puppeteer 降级为内置浏览器实测证据。按 audit 规则只记录剩余 P2/P3，不在审计阶段扩大修复范围。
+- 已读取修改前 25/40 的完整评分构成，并完成性能、主题、响应式和实现完整性静态证据收集。
+- 已完成移动可访问性抽检：表单标签、alt、标题层级与 live region 均通过；记录两个 40–42px 的次要链接触控目标作为 P3。
+- 已生成本轮范围 audit：14/20（Good），P0/P1 为 0，P2 为 3，P3 为 4；同口径 Design Health Score 从 25/40 提升到 32/40。
+- 最终校验通过：`git diff --check` 无错误，公共页面不再包含“当前电脑/本机保存/YOLO 决定/第二阶段证据比对”；本地 web 与 backend 均返回 HTTP 200，活动实例为 `lab_cpu/cpu`。
+# 2026-08-20 第三阶段：公共诊断流程视觉辨识度强化
+
+- 已完整读取本轮指定的五个技能；明确不使用 gpt-taste。
+- 已运行 Impeccable context，确认现有 `DESIGN.md` 可作为基线，任务属于保留式前端优化。
+- 已读取上一轮 planning-with-files 记录、P2 审计报告（17/20）和初始 critique（25/40），并确认当前 Design Health 基线为 35/40。
+- 已检查公共首页、PublicHeader、综合分析、知识摘要、病例详情、报告、公共 CSS、依赖和渲染测试；确认无需后端改动和新依赖。
+- 已读取 Impeccable `bolder` 指令作为视觉强化入口；代码编辑前仍需读取 `craft-floor`。
+- 当前工作树已有大量用户资产，已通过 `git diff --stat` 和 `git status --short` 记录，后续只修改本轮公共前端文件和测试。
+- 已输出《第三阶段视觉辨识度强化方案》并按方案完成第一轮实现；后端、Admin、训练监控、模型和数据库未修改。
+- 新增 `web/app/components/DiagnosisPath.tsx`，其余修改复用 PublicHeader、ComprehensiveAnalysis、KnowledgeSummary、首页、病例详情、报告和公共 CSS。
+- 前端 7 项渲染测试、production build、ESLint 与 `git diff --check` 第一轮通过。
+- 已完成 1280×900 和 390×844 浏览器验收、病例详情与报告抽检；无横向溢出，reduced-motion 已添加公共流程范围覆盖。
+- Impeccable critique 已获用户授权使用双代理：Assessment A=`01a01dfb-c39b-71a0-900c-aa9da19a463d`，Assessment B=`01a01dfb-c42e-7fd0-b800-50f06a631491`；等待时保持两项评估隔离。
+- Impeccable critique 已持久化到 `.impeccable/critique/2026-08-20T07-16-27Z__web-app-page-tsx.md`；因两个 Assessment A 子代理未返回而标注 degraded，Assessment B 独立证据完整。
+- 按 polish 优先级修复误导状态：新增失败路径“在此停止”，病例与报告不再把服务失败后的后续阶段标成完成；页头旧 health 兜底和报告来源链接 44px 基线同步修复。
+- 最终回归通过：后端 `41 passed`；前端 `7 passed`；production build 成功；ESLint 0 error；`git diff --check` 无 whitespace error。
+- 最终浏览器复核通过：1280×900 与 390×844 无横向溢出；失败病例停在信息核对；报告来源链接 49px；移动导航 46px；reduced-motion 规则已加载。
+- 最终 Impeccable detector 仅命中范围外训练监控 `transition: width`；Audit 已保存到 `.impeccable/audit/2026-08-20T15-25-40+08-00__public-diagnosis-phase3.md`。
+- 第三阶段完成：Design Health 36/40，Impeccable Audit 18/20，P0/P1/P2 均为 0，剩余 P3 为训练监控 width 动画与渐进颜色令牌化。
+# 2026-08-20 第四阶段：比赛展示页
+
+- 已恢复上一轮计划、发现与进度记录，确认第三阶段已完成且现有公共诊断流程为稳定基线。
+- 已完整读取 gpt-taste、design-taste-frontend、planning-with-files、karpathy-guidelines 与 Impeccable 新页面工作流。
+- 已确认当前前端无动画库或图标库；优先使用 CSS 与轻量 IntersectionObserver，不新增依赖。
+- Impeccable concept seed 首次因缺少 PRODUCT.md 停止，已记录并补齐产品事实基线。
+- 已完成 `/showcase` 独立比赛展示页，包含项目价值、六阶段诊断路径、多源证据、证据链、双服务器架构、真实系统截图、真实指标和诊断入口；未修改稳定诊断流程或后端。
+- 新增 `ShowcaseReveal`，使用原生 IntersectionObserver 与 CSS 动效；无新增依赖，并提供 `prefers-reduced-motion` 替代。
+- Impeccable critique 初评 21/28；随后 polish 关闭图片加载、首屏创新表达、指标解释、长页移动导航、辅助字号和品牌触控高度问题。
+- 浏览器验收通过：1280px 与 390px 均无横向溢出；Hero 与真实截图加载成功；移动固定入口均为 44px；控制台无错误；reduced-motion 规则已加载。
+- Impeccable audit 已保存到 `.impeccable/audit/2026-08-20T16-11-32+08-00__competition-showcase-phase4.md`，得分 18/20，P0/P1/P2 均为 0，仅保留 Hero 体积和局部颜色令牌两个 P3。
+- 当前阶段未部署、未提交 Git，等待用户决定发布时机。
+
+# 2026-08-20 UI Redesign V2
+
+- 用户重新定义范围：`/showcase` 不再是重点，真实智能诊断、结果状态、病例详情和报告允许重写布局、视觉、文案与 CSS；只保留功能和数据逻辑。
+- 已确认本轮使用 redesign-existing-projects、design-taste-frontend、impeccable、planning-with-files、karpathy-guidelines，不使用 gpt-taste。
+- Design Read 为面向种植者与植保人员的“现代农业检验台”Operate 模式，参数 6/4/5；目标是图片主导、结论优先、证据可扫读、技术信息下沉。
+- 已运行 planning-with-files session catch-up，并记录当前工具接口从旧 `shell_command` 切换为 `exec_command`。
+- 已启动当前 UI 的双代理 Impeccable critique；主流程批量三页截图超时，后续改用单页分批检查。
+
+# 2026-08-20 UI Redesign V3 启动
+
+- 用户明确允许替换现有公共诊断页面的 JSX、文案、CSS 和视觉结构，只保留功能、数据逻辑、API、模型、数据库、双服务器和病例归属行为。
+- 已读取并启用 redesign-existing-projects、design-taste-frontend、gpt-taste、impeccable、planning-with-files、karpathy-guidelines，以及 Product Design 的 index/get-context/ideate/audit 规范。
+- 已运行 planning catch-up、Product Design context preflight 和 Impeccable context；当前没有可用的 Product Design 保存上下文，`DESIGN.md` 为旧基线并不约束本轮替换视觉世界。
+- 已在 `http://localhost:3101/` 通过 Codex 内置浏览器检查首页真实空态和离线态：服务不可用提示、动态缺项提示、当前识别服务器、田间图片上传区和条件表单均可见；未上传文件、未提交表单、未改变后端状态。
+- 已生成三套独立方向参考：临床农业工作台、田间情报工作区、科研诊断记录。最终采用 A 70% + B 30%，报告借用 C 的排版语法。
+- 已记录 gpt-taste Python 方向探索与 Impeccable concept seed 决策；不采用 seed 产生的黑底无边框队列，因为它会降低现场阅读、证据分层和普通用户操作清晰度。
+- 当前进入 V3 代码实现：先建新的公共视觉组件和作用域 CSS，再把现有页面状态接入，不触碰后端与业务请求链。
+
+# 2026-08-20 参考图驱动诊断工作台改造完成
+
+- 已按参考图重做公共诊断工作区：桌面端深绿左侧工作区导航、顶部服务器状态、六步诊断路径，主区域为图片证据/证据来源/诊断结论三栏；移动端转为顶部导航和纵向阅读。
+- 新增并复用 `WorkspaceShell`、`WorkspaceRecordHeader`、`EvidenceRail`；首页、病例详情、报告、历史和趋势统一使用同一外壳，未新增依赖。
+- 保留原有上传字段、检测、分析、知识库、报告、趋势、病例归属和双服务器 API；参考图中的日期、姓名、地块和示例内容未写入业务。
+- 本地验证：`npm test` 8/8、`npm run lint` 通过、production build 通过、backend pytest 41 passed、`git diff --check` 通过。
+- 浏览器验证：本地 1280px 工作台截图通过；390px 移动端无横向溢出，表单与导航自然纵向排列；`prefers-reduced-motion` 规则保持生效。
+- 实验室部署：先备份前端，再只重建 `lab-web-1`；backend、detector、VLM、gateway 未重建，健康状态仍为 `ok/lab_cpu`，病例数从 51 增加到 52 仅因隔离 E2E 测试病例。
+- 真实线上 E2E：测试病例 `lab_cpu-eccc0ddefd40415abed5c18919e56467` 完成上传、检测、分析、报告、历史和趋势读取，分析耗时约 115 秒；最终结果按真实证据规则为 `retake_required`，已标记 `is_test=true`，没有删除既有病例。
+- Impeccable audit：历史/趋势视觉不一致 P2 已关闭；在线成功态真实验收 P2 已关闭；当前 18/20，P0/P1/P2 为 0。全量 detector 仅保留既有训练进度 `transition: width` 与报告 HTML 清洗器正则字符串的误报 warning。
+
+# 2026-08-20 GPU 同步部署
+
+- 已确认 GPU SSH 入口 `connect.bjb2.seetacloud.com:10373` 可用，使用现有本地密钥 `codex_autodl_nongxin_2026`；未保存密码。
+- 远端实例为 `autodl-container-4129428075-000fbcc8`，GPU 为 RTX 5090；当前 backend、detector 和 VLM 均未运行，但 detector 权重与 Qwen3-VL 模型目录存在。
+- 远端已有独立应用 `/root/autodl-tmp/ghl/app` 和存储 `/root/autodl-tmp/ghl/storage`，包含两条 GPU 记录图片；未发现运行中的 backend 进程。
+- 远端 SQLite 完整性检查通过：`ok`，包含 1 个用户表。
+- 已创建备份 `/root/autodl-tmp/ghl-migration-backup/gpu-pre-sync-20260820T140209Z.tar.gz`，SHA-256：`42386346d27f7aab7ef4cbad265f4cd73950de14cd10cf948ec662fcb372399d`。
+- 已同步当前 `backend/app`、`deploy/gpu` 和 `knowledge/baidu-baike-20260818`；归档 SHA-256：`9be966fa4a5451f146c9bef30dfc5169f1bfa127bd56e76583426d049110b864`。
+- 已安装当前后端声明依赖（补齐 `markdown-it-py`），源码导入确认知识库路径为 `/root/autodl-tmp/ghl/app/knowledge/baidu-baike-20260818`。
+- detector 已在 `127.0.0.1:8870` 启动，主模型及类 10/13 专家均加载；Qwen3-VL 已在 `127.0.0.1:8890` 启动并完成预热；GPU backend 已在 `127.0.0.1:8000` 返回 `gpu_full / 原 GPU 服务器 / ok`。
+- GPU 隔离 E2E 病例 `gpu_full-e785cdf41c52488599223ad98efc203e` 完成上传、检测、分析、报告；真实分析结果为 `retake_required`，已标记 `is_test=1`，报告快照已生成。
+- Windows 中继已启动：GPU 本地端口转发 PID `4044`，实验室反向转发 PID `16620`；从实验室服务器 `127.0.0.1:18000` 可返回 GPU 健康结果。
+- GPU 数据复核：共 3 条记录、1 条测试记录，全部 `instance_id=gpu_full`；SQLite 完整性 `ok`。本地后端 `41 passed`，前端 `npm test` 8/8，ESLint 通过，`git diff --check` 无错误。
+
+# 2026-08-20 实验室 backend health 快速修复
+
+- 已备份实验室 backend、SQLite、上传图片、报告和控制日志：`/data/ghl/migration-backup/backend-pre-health-fix-20260820T141656Z.tar.gz`，SHA-256：`6af56559710d0112a65ab5dbe513822dfa65e7fadc553f37408721a919a1d64c`。
+- 已同步当前 backend 与知识库，并仅重建/重启 `lab-backend-1`；`lab-web-1`、`lab-detector-1`、`lab-vlm-1`、`lab-gateway-1` 未重启。
+- 修复后实验室 `/health` 返回 `active_instance_id=gpu_full`、`active_instance_label=原 GPU 服务器`、`active_instance_mode=gpu`；控制文件仍为 `gpu_full`。
+- SQLite、病例、图片、报告和活动实例均保持不变；当前公共页面重新加载后应显示“原 GPU”。
+
+# 2026-08-20 公共诊断界面恢复旧版：开始
+
+- 已完成 planning-with-files session catch-up、Git 状态检查、`task_plan.md`/`findings.md`/`progress.md` 读取。
+- 已运行 Impeccable context，读取 `new-work.md` 与 `craft-floor.md`；本轮目标是既有公共界面的旧版视觉恢复，不生成新视觉世界。
+- 已确认 `HEAD` 旧版页面和旧版 `public-*` CSS 仍可作为准确基线；当前任务不修改后端、Admin、训练、审核、模型、数据库或服务器。
+- 已锁定“旧版外观 + 当前可用字段”，并保留历史/趋势的准确双服务器归属文案。
+
+# 2026-08-20 历史记录清理
+
+- 用户明确授权清理实验室 CPU 和原 GPU 两端全部原始历史记录。
+- 清理范围限定为 `diagnosis_cases` 病例行、`storage/uploads` 中的上传图片和 `storage/reports` 中的报告文件；模型、知识库、应用代码、配置、Docker 数据和数据库结构未删除。
+- 实验室删除 56 条病例，原 GPU 删除 6 条病例；两端上传与报告目录均清空。
+- 清理前已分别备份并记录 SHA-256；清理后两端 `PRAGMA integrity_check` 均为 `ok`、病例数均为 0。
+- 两端 backend 已恢复运行；实验室 compose 因 backend 依赖关系重建了 detector/VLM 容器，但模型文件和配置未修改。
+
+# 2026-08-20 公共诊断界面恢复旧版：完成
+
+- 首页、病例详情、报告、历史、趋势已切换为旧版 `public-*`/`report-*` 内容结构；当前侧边工作栏、`ProductMark`、病例归属、当前表单字段和 API 请求链保留。
+- 新增独立 `web/app/product-legacy.css`，不回滚全局样式；仅旧版公共模式覆盖公共页面。
+- 前端 production build、`npm test`（8/8）、ESLint、后端 pytest（41 passed）和 `git diff --check` 均通过。
+- 浏览器检查：1280px 与 390px 公共页面均无横向溢出；移动端工作栏隐藏、页头和底部导航正常；Admin/训练/审核未进入本轮修改范围。
+- Impeccable detector 仅保留报告 HTML 清洗器正则模板的误报 warning；未发现实际空图片地址。
+- 本轮界面仅完成本地构建与验收，未部署到实验室或 GPU；两端历史数据清理已完成且可由服务器备份恢复。
+
+# 2026-08-20 旧版公共界面双服务器部署：完成
+
+- 实验室 `/data/ghl/app/web` 已备份后更新；仅重建 `lab-web-1`，backend、detector、VLM、gateway 未因本次 UI 发布重建。
+- GPU `/root/autodl-tmp/ghl/app/backend` 与 `deploy/gpu` 已备份后同步，GPU backend 重启并返回 `gpu_full / 原 GPU 服务器 / ok`。
+- 实验室入口 `http://192.168.15.133:8080` 的 `/`、`/history`、`/trends`、`/cases/example-case`、`/reports/example-case` 均返回 HTTP 200 且包含旧版公共页面标记。
+- 两端病例数仍为 0，上传图片和报告文件仍为 0；活动实例保持 `gpu_full`，没有恢复或新增历史数据。
+- GPU 架构不直接运行 Web 前端，公共界面继续由实验室入口提供；切换到 GPU 时由该入口调用已同步的 GPU backend。
+
+# 2026-08-21 GitHub 项目完整同步：开始
+
+- 已读取 `planning-with-files` 和 GitHub 发布规范；本轮采用开发分支、显式暂存和提交前敏感文件审查。
+- 已确认用户要求 push 到 `LingmaFuture/plant-health-ai`，不创建 Pull Request，不删除或回滚本地文件。
+- 下一步：读取本地 Git 状态、远程、分支、未跟踪文件和大文件清单，再决定同步范围与必要文档。
+
+- 已完成本地/目标远程基线比对：目标 `main` 只有 13 个旧版文件；本地当前项目约 2705 个已跟踪文件，且工作树有既有 UI、后端、测试和设计文档改动。
+- 已确认本地没有 `best_model.pth`、`Image Data base/`、`example/`、根 `app.py`/`main.py`/`requirements.txt`；这些不会被从目标旧版分支复制回来。
+- 已确认大型模型、离线包、数据集压缩包和运行缓存在本地但被忽略；下一步审计模型候选、数据集清单和敏感内容，并准备必要说明文件。
+- 已创建并切换到本地开发分支 `competition-dev`，新增只读/发布 remote `target=https://github.com/LingmaFuture/plant-health-ai.git`；原 `origin` 保留不变。
+- 前端 `npm test`（build + 8 项页面测试）和 `npm run lint` 已通过；根目录 pytest 首次因收集训练测试缺少 numpy 失败，待按 `backend/tests` 重跑。
+- 后端边界测试已按 `backend/tests` 重跑并通过：41 passed，保留 1 条既有 Starlette/httpx 弃用警告；没有安装额外训练依赖。

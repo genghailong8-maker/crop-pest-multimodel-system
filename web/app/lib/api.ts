@@ -7,6 +7,22 @@ export type Detection = {
   bbox: [number, number, number, number];
 };
 
+export type GroundedEvidence = {
+  source: "image" | "yolo" | "field_input";
+  reference: string;
+  observation: string;
+};
+
+export type GroundedConclusion = {
+  conclusion: string;
+  evidence: GroundedEvidence[];
+};
+
+export type GroundedAssessment = {
+  harms: GroundedConclusion[];
+  causes: GroundedConclusion[];
+};
+
 export type CaseRecord = {
   id: string;
   instance_id: string;
@@ -61,6 +77,7 @@ export type CaseRecord = {
     harm_level?: string;
     possible_causes?: string[];
     evidence?: string[];
+    grounded_assessment?: GroundedAssessment;
     uncertainty?: string[];
     required_additional_photos?: string[];
     detector_alignment?: "agree" | "uncertain" | "conflict";
@@ -74,6 +91,18 @@ export type CaseRecord = {
   } | null;
   review: Record<string, unknown> | null;
   case_edit_token?: string;
+};
+
+export type HealthStatus = {
+  status: string;
+  instance_id: string;
+  instance_label: string;
+  active_instance_id: string;
+  active_instance_label: string;
+  active_instance_mode: "cpu" | "gpu";
+  model_configured?: boolean;
+  multimodal_configured?: boolean;
+  public_mode?: boolean;
 };
 
 export type KnowledgeDocument = {
@@ -141,6 +170,14 @@ export function editHeaders(caseId: string, json = false): HeadersInit {
 
 export function instanceHeaders(record: Pick<CaseRecord, "instance_id">): HeadersInit {
   return record.instance_id ? { "X-Crop-Instance": record.instance_id } : {};
+}
+
+export function instanceLabel(instanceId?: string | null) {
+  return ({ lab_cpu: "实验室 CPU", gpu_full: "原 GPU" } as Record<string, string>)[instanceId ?? ""] ?? "病例创建服务器";
+}
+
+export function publicResolutionReasons(reasons?: string[]) {
+  return (reasons ?? []).filter((reason) => !/https?:\/\/|server error|traceback|bad gateway/i.test(reason));
 }
 
 export function severityLabel(value?: string | null) {

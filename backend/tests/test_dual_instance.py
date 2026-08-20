@@ -79,6 +79,7 @@ def test_case_instance_prefix_and_immutable_report_snapshot(tmp_path, monkeypatc
                 "crop": "玉米",
                 "part": "叶片",
                 "growth_stage": "苗期",
+                "environment_json": '{"scene":"露地"}',
                 "affected_ratio_percent": "10",
                 "spread_speed": "slow",
             },
@@ -150,9 +151,13 @@ def test_gateway_routes_active_remote_and_keeps_local_case_affinity(tmp_path, mo
 
     monkeypatch.setattr(main.httpx, "AsyncClient", FakeClient)
     with TestClient(main.app) as client:
+        health = client.get("/health")
         remote = client.get("/api/cases?limit=5")
         local = client.get("/api/cases/lab_cpu-does-not-exist")
 
+    assert health.json()["active_instance_id"] == "gpu_full"
+    assert health.json()["active_instance_label"] == settings.remote_instance_label
+    assert health.json()["active_instance_mode"] == "gpu"
     assert remote.status_code == 200
     assert remote.json() == {"served_by": "gpu_full"}
     assert calls == ["GET http://gpu-backend.test:8000/api/cases?limit=5"]

@@ -17,6 +17,19 @@ def image_bytes() -> bytes:
     return buffer.getvalue()
 
 
+def valid_case_data(**overrides: str) -> dict[str, str]:
+    data = {
+        "crop": "玉米",
+        "part": "叶片",
+        "growth_stage": "苗期",
+        "environment_json": '{"scene":"露地"}',
+        "affected_ratio_percent": "12.5",
+        "spread_speed": "slow",
+    }
+    data.update(overrides)
+    return data
+
+
 def test_upload_history_and_model_unavailable(tmp_path, monkeypatch):
     test_settings = replace(
         config.settings,
@@ -36,22 +49,22 @@ def test_upload_history_and_model_unavailable(tmp_path, monkeypatch):
         assert health.status_code == 200
         assert health.json()["model_configured"] is False
         assert health.json()["detector_mode"] == "unconfigured"
+        assert health.json()["active_instance_id"] == test_settings.instance_id
+        assert health.json()["active_instance_label"] == test_settings.instance_label
+        assert health.json()["active_instance_mode"] == "cpu"
 
         upload = client.post(
             "/api/cases",
             files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
-            data={
-                "crop": "玉米",
-                "part": "叶片",
-                "growth_stage": "苗期",
-                "environment_json": '{"scene":"露地"}',
-                "notes": "叶片出现斑点",
-            },
+            data=valid_case_data(notes="叶片出现斑点"),
         )
         assert upload.status_code == 201
         created = upload.json()
         assert created["status"] == "uploaded"
         assert created["image_width"] == 640
+        assert created["crop"] == "玉米"
+        assert created["part"] == "叶片"
+        assert created["growth_stage"] == "苗期"
         assert created["public_consent"] is False
         assert created["expires_at"] is None
         assert created["is_test"] is False
@@ -114,14 +127,51 @@ def test_rejects_non_image(tmp_path, monkeypatch):
         response = client.post(
             "/api/cases",
             files={"image": ("fake.jpg", b"not an image", "image/jpeg")},
-            data={
-                "crop": "玉米",
-                "part": "叶片",
-                "growth_stage": "苗期",
-                "environment_json": "{}",
-            },
+            data=valid_case_data(),
         )
         assert response.status_code == 422
+
+
+def test_upload_validates_required_fields_and_insect_condition(tmp_path, monkeypatch):
+    test_settings = replace(
+        config.settings,
+        storage_dir=tmp_path,
+        database_path=tmp_path / "test.sqlite3",
+        upload_dir=tmp_path / "uploads",
+    )
+    monkeypatch.setattr(database, "settings", test_settings)
+    monkeypatch.setattr(main, "settings", test_settings)
+
+    with TestClient(main.app) as client:
+        missing_common = client.post(
+            "/api/cases",
+            files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
+            data={"crop": "玉米"},
+        )
+        assert missing_common.status_code == 422
+
+        missing_plant_context = client.post(
+            "/api/cases",
+            files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
+            data=valid_case_data(part="", growth_stage=""),
+        )
+        assert missing_plant_context.status_code == 422
+
+        invalid_scene = client.post(
+            "/api/cases",
+            files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
+            data=valid_case_data(environment_json='{"scene":"实验室"}'),
+        )
+        assert invalid_scene.status_code == 422
+
+        insect = client.post(
+            "/api/cases",
+            files={"image": ("insect.jpg", image_bytes(), "image/jpeg")},
+            data=valid_case_data(crop="昆虫", part="任意旧值", growth_stage="任意旧值"),
+        )
+        assert insect.status_code == 201
+        assert insect.json()["part"] == "不适用"
+        assert insect.json()["growth_stage"] == "不适用"
 
 
 def test_remote_detection_payload_validation():
@@ -223,12 +273,7 @@ def test_case_review_queue_and_audit_history(tmp_path, monkeypatch):
         upload = client.post(
             "/api/cases",
             files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
-            data={
-                "crop": "玉米",
-                "part": "叶片",
-                "growth_stage": "苗期",
-                "environment_json": "{}",
-            },
+            data=valid_case_data(),
         )
         case_id = upload.json()["id"]
         database.update_case(
@@ -299,10 +344,10 @@ def test_detection_attaches_phase6_explainability(tmp_path, monkeypatch):
         "detect",
         lambda _: [
             {
-                "class_id": 0,
-                "class_name": "玉米叶枯病",
-                "class_name_en": "Corn leaf blight",
-                "category_type": "病害",
+                "class_id": 14,
+                "class_name": "蛴螬",
+                "class_name_en": "White grub",
+                "category_type": "害虫",
                 "confidence": 0.41,
                 "bbox": [0.1, 0.2, 0.3, 0.4],
             }
@@ -322,18 +367,16 @@ def test_detection_attaches_phase6_explainability(tmp_path, monkeypatch):
         upload = client.post(
             "/api/cases",
             files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
-            data={
-                "crop": "玉米",
-                "part": "叶片",
-                "growth_stage": "苗期",
-                "environment_json": "{}",
-            },
+            data=valid_case_data(crop="番茄"),
         )
+        assert upload.status_code == 201
+        assert upload.json()["crop"] == "番茄"
         detected = client.post(f"/api/cases/{upload.json()['id']}/detect")
         assert detected.status_code == 200
+        assert detected.json()["crop"] == "番茄"
         explainability = detected.json()["detector_summary"]["explainability"]
         assert explainability["primary_confidence_band"] == "low"
-        assert explainability["knowledge_card"]["class_id"] == 0
+        assert explainability["knowledge_card"]["class_id"] == 14
         assert explainability["model_evidence"]["routing_is_shadow"] is True
         assert explainability["human_review"]["required"] is True
         assert explainability["safety"]["chemical_recommendations"] == "not_provided"
@@ -354,18 +397,46 @@ def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
         assert record["crop"] == "玉米"
         return {
             "status": "completed",
-            "schema_version": "phase8-multimodal-v1",
+            "schema_version": "phase9-multimodal-v3",
             "primary_diagnosis": "玉米叶枯病",
             "candidate_diagnoses": ["玉米叶枯病"],
             "symptoms": ["叶片出现斑点"],
             "harm_level": "medium",
-            "possible_causes": ["高湿环境"],
-            "evidence": ["视觉模型候选与原图症状一致"],
+            "grounded_assessment": {
+                "harms": [
+                    {
+                        "conclusion": "叶片可见区域存在受损",
+                        "evidence": [
+                            {
+                                "source": "image",
+                                "reference": "original_image",
+                                "observation": "原图可见叶片斑点",
+                            }
+                        ],
+                    }
+                ],
+                "causes": [
+                    {
+                        "conclusion": "当前证据支持玉米叶枯病候选",
+                        "evidence": [
+                            {
+                                "source": "yolo",
+                                "reference": "yolo_primary",
+                                "observation": "YOLO主候选为玉米叶枯病",
+                            }
+                        ],
+                    }
+                ],
+            },
             "uncertainty": [],
             "detector_alignment": "agree",
             "needs_human_review": False,
             "review_reasons": [],
             "provenance": {"model": "crop-pest-vlm", "latency_ms": 42.0},
+            "independent_judgment": {
+                "observed_part": "叶片",
+                "observed_growth_stage": "营养生长期",
+            },
         }
 
     monkeypatch.setattr(main, "request_multimodal_analysis", fake_analysis)
@@ -374,12 +445,7 @@ def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
         upload = client.post(
             "/api/cases",
             files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
-            data={
-                "crop": "玉米",
-                "part": "叶片",
-                "growth_stage": "苗期",
-                "environment_json": '{"scene":"露地"}',
-            },
+            data=valid_case_data(),
         )
         case_id = upload.json()["id"]
         database.update_case(
@@ -394,6 +460,8 @@ def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
         assert analyzed.status_code == 200
         assert analyzed.json()["status"] == "analyzed"
         assert analyzed.json()["analysis"]["primary_diagnosis"] == "玉米叶枯病"
+        assert analyzed.json()["part"] == "叶片"
+        assert analyzed.json()["growth_stage"] == "苗期"
 
         reloaded = client.get(f"/api/cases/{case_id}")
         assert reloaded.status_code == 200
@@ -420,12 +488,7 @@ def test_multimodal_failure_returns_saved_case_for_retry(tmp_path, monkeypatch):
         upload = client.post(
             "/api/cases",
             files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
-            data={
-                "crop": "玉米",
-                "part": "叶片",
-                "growth_stage": "苗期",
-                "environment_json": "{}",
-            },
+            data=valid_case_data(),
         )
         case_id = upload.json()["id"]
         database.update_case(

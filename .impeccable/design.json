@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-20T01:27:01.4761514Z",
+  "title": "Design System: 田诊协同",
+  "extensions": {
+    "colorMeta": {
+      "ink": { "role": "neutral", "displayName": "墨叶黑", "canonical": "#13251e", "tonalRamp": ["#070d0a", "#0a1410", "#0e1c16", "#11211b", "#13251e", "#4e5c56", "#959d9a", "#d5d8d6"] },
+      "muted": { "role": "neutral", "displayName": "灰叶绿", "canonical": "#66756e", "tonalRamp": ["#242926", "#38403d", "#4c5852", "#5c6963", "#66756e", "#8c9892", "#bac1be", "#e3e6e5"] },
+      "line": { "role": "neutral", "displayName": "雾线灰", "canonical": "#dce4df", "tonalRamp": ["#4d504e", "#797d7b", "#a5aba7", "#c6cdc9", "#dce4df", "#e5ebe7", "#eff3f1", "#f9faf9"] },
+      "paper": { "role": "neutral", "displayName": "暖纸白", "canonical": "#fbfcf8", "tonalRamp": ["#585857", "#8a8b88", "#bcbdba", "#e2e3df", "#fbfcf8", "#fcfdfa", "#fdfefc", "#fefefe"] },
+      "surface": { "role": "neutral", "displayName": "纯表面白", "canonical": "#ffffff", "tonalRamp": ["#595959", "#8c8c8c", "#bfbfbf", "#e6e6e6", "#ffffff", "#ffffff", "#ffffff", "#ffffff"] },
+      "green": { "role": "primary", "displayName": "田野深绿", "canonical": "#176b47", "tonalRamp": ["#082519", "#0d3b27", "#115035", "#156040", "#176b47", "#519075", "#97bcac", "#d5e4de"] },
+      "green-dark": { "role": "primary", "displayName": "林下深绿", "canonical": "#0f4d34", "tonalRamp": ["#051b12", "#082a1d", "#0b3a27", "#0e452f", "#0f4d34", "#4b7a67", "#93afa4", "#d4dfda"] },
+      "green-soft": { "role": "primary", "displayName": "嫩叶浅绿", "canonical": "#e9f4ed", "tonalRamp": ["#525553", "#808682", "#afb7b2", "#d2dcd5", "#e9f4ed", "#eef7f2", "#f5faf7", "#fbfdfc"] },
+      "lime": { "role": "secondary", "displayName": "检测黄绿", "canonical": "#b9d656", "tonalRamp": ["#414b1e", "#66762f", "#8ba040", "#a6c14d", "#b9d656", "#cae080", "#e0edb3", "#f2f8e1"] },
+      "amber": { "role": "tertiary", "displayName": "田间琥珀", "canonical": "#c77c24", "tonalRamp": ["#462b0d", "#6d4414", "#955d1b", "#b37020", "#c77c24", "#d59d5b", "#e6c49c", "#f5e7d8"] },
+      "amber-soft": { "role": "tertiary", "displayName": "浅田间琥珀", "canonical": "#fff3dd", "tonalRamp": ["#59554d", "#8c867a", "#bfb6a6", "#e6dbc7", "#fff3dd", "#fff6e6", "#fffaf0", "#fffdf9"] },
+      "red": { "role": "tertiary", "displayName": "克制风险红", "canonical": "#a8443e", "tonalRamp": ["#3b1816", "#5c2522", "#7e332e", "#973d38", "#a8443e", "#be736e", "#d8aba8", "#efdddc"] },
+      "red-soft": { "role": "tertiary", "displayName": "浅风险红", "canonical": "#fff0ee", "tonalRamp": ["#595453", "#8c8483", "#bfb4b2", "#e6d8d6", "#fff0ee", "#fff4f2", "#fff8f7", "#fffcfc"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "主命题", "purpose": "首页与页面英雄区标题。" },
+      "headline": { "displayName": "区块标题", "purpose": "诊断步骤与主要内容区标题。" },
+      "title": { "displayName": "卡片结论", "purpose": "局部标题、状态和诊断结论。" },
+      "body": { "displayName": "阅读正文", "purpose": "说明、知识和报告正文。" },
+      "label": { "displayName": "操作标签", "purpose": "字段、导航、眉题和状态。" }
+    },
+    "shadows": [
+      { "name": "ambient-card", "value": "0 18px 45px rgba(22, 64, 45, 0.08)", "purpose": "顶层工作卡片的轻环境阴影。" },
+      { "name": "public-card", "value": "0 20px 55px rgba(18, 62, 43, 0.07)", "purpose": "公共诊断流程的大卡片。" },
+      { "name": "primary-action", "value": "0 10px 24px rgba(23, 107, 71, 0.2)", "purpose": "主按钮和品牌标记。" },
+      { "name": "mobile-navigation", "value": "0 16px 38px rgba(19, 57, 39, 0.2)", "purpose": "固定移动导航。" }
+    ],
+    "motion": [
+      { "name": "state-fast", "value": "180ms ease", "purpose": "输入、按钮和常规状态变化。" },
+      { "name": "surface-hover", "value": "200ms ease", "purpose": "上传区和轻微悬停位移。" }
+    ],
+    "breakpoints": [
+      { "name": "mobile", "value": "620px" },
+      { "name": "navigation", "value": "900px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "诊断提交和其他唯一主操作。",
+      "html": "<button class=\"ds-btn-primary\">开始分析</button>",
+      "css": ".ds-btn-primary { width: 100%; min-height: 49px; padding: 0 14px; border: 0; border-radius: 12px; color: var(--surface); background: var(--green); font: 800 14px/1.6 \"PingFang SC\", \"Microsoft YaHei\", sans-serif; box-shadow: 0 10px 24px rgba(23,107,71,.2); cursor: pointer; transition: background 180ms ease, transform 180ms ease; } .ds-btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); } .ds-btn-primary:focus-visible { outline: 3px solid rgba(23,107,71,.38); outline-offset: 3px; } .ds-btn-primary:active { transform: translateY(0); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "重试、返回和非主线操作。",
+      "html": "<button class=\"ds-btn-secondary\">仅重试综合分析</button>",
+      "css": ".ds-btn-secondary { min-height: 44px; padding: 11px 14px; border: 0; border-radius: 12px; color: var(--green); background: var(--green-soft); font: 800 14px/1.6 \"PingFang SC\", \"Microsoft YaHei\", sans-serif; cursor: pointer; transition: background 180ms ease; } .ds-btn-secondary:hover { background: #d9eddf; } .ds-btn-secondary:focus-visible { outline: 3px solid rgba(23,107,71,.38); outline-offset: 3px; } .ds-btn-secondary:active { background: #cfe6d7; }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "田间信息选择和数值输入。",
+      "html": "<label class=\"ds-field\"><span>受害比例（%）</span><input type=\"number\" placeholder=\"请输入 0–100\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; color: var(--muted); font: 750 14px/1.6 \"PingFang SC\", \"Microsoft YaHei\", sans-serif; } .ds-field input { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid var(--line); border-radius: 11px; color: var(--ink); background: var(--paper); font-size: 16px; outline: none; transition: border-color 180ms ease, box-shadow 180ms ease; } .ds-field input:focus { border-color: #72a489; box-shadow: 0 0 0 3px rgba(23,107,71,.08); background: var(--surface); } .ds-field input:focus-visible { outline: 3px solid rgba(23,107,71,.38); outline-offset: 3px; }"
+    },
+    {
+      "name": "Navigation Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "桌面页头和移动导航的主要入口。",
+      "html": "<a class=\"ds-nav-link\" href=\"#\">开始诊断</a>",
+      "css": ".ds-nav-link { display: inline-flex; align-items: center; min-height: 44px; padding: 9px 13px; border-radius: 999px; color: var(--muted); background: transparent; font: 700 14px/1.6 \"PingFang SC\", \"Microsoft YaHei\", sans-serif; text-decoration: none; } .ds-nav-link:hover { color: var(--green); background: var(--green-soft); } .ds-nav-link:focus-visible { outline: 3px solid rgba(23,107,71,.38); outline-offset: 3px; } .ds-nav-link:active { color: var(--green-dark); }"
+    },
+    {
+      "name": "Public Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "上传、结果和主要公共内容的顶层容器。",
+      "html": "<article class=\"ds-card\"><span>第一步</span><h2>上传图片并补充田间情况</h2><p>人工田间信息用于第二阶段证据比对。</p></article>",
+      "css": ".ds-card { padding: 24px; border: 1px solid var(--line); border-radius: 22px; color: var(--ink); background: var(--surface); box-shadow: 0 20px 55px rgba(18,62,43,.07); font-family: \"PingFang SC\", \"Microsoft YaHei\", sans-serif; } .ds-card > span { color: var(--green); font-size: 14px; font-weight: 850; letter-spacing: .12em; } .ds-card h2 { margin: 6px 0 5px; font-size: 23px; letter-spacing: -.025em; } .ds-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.6; } .ds-card:focus-within { border-color: #9bbdad; }"
+    },
+    {
+      "name": "Status Pill",
+      "kind": "chip",
+      "refersTo": "status-pill",
+      "description": "在线、当前实例、来源或已确认状态。",
+      "html": "<span class=\"ds-status-pill\">当前使用</span>",
+      "css": ".ds-status-pill { display: inline-flex; align-items: center; min-height: 28px; padding: 5px 8px; border-radius: 999px; color: var(--green); background: var(--green-soft); font: 800 12px/1.4 \"PingFang SC\", \"Microsoft YaHei\", sans-serif; } .ds-status-pill:hover { background: #d9eddf; } .ds-status-pill:focus-visible { outline: 3px solid rgba(23,107,71,.38); outline-offset: 3px; }"
+    },
+    {
+      "name": "Upload Zone",
+      "kind": "custom",
+      "description": "显示选图入口和保持原比例的诊断图片预览。",
+      "html": "<label class=\"ds-upload\"><span aria-hidden=\"true\">＋</span><strong>拍照或选择图片</strong><small>JPG / PNG / WebP，最大 15 MB</small></label>",
+      "css": ".ds-upload { min-height: 250px; display: grid; place-content: center; justify-items: center; gap: 10px; padding: 30px; border: 1.5px dashed #9bbdad; border-radius: 18px; color: var(--ink); background: linear-gradient(145deg,#f4faf6,#eef6f0); font-family: \"PingFang SC\", \"Microsoft YaHei\", sans-serif; cursor: pointer; } .ds-upload > span { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 16px; color: var(--surface); background: var(--green); font-size: 25px; } .ds-upload small { color: var(--muted); font-size: 14px; } .ds-upload:hover { border-color: var(--green); } .ds-upload:focus-visible { outline: 3px solid rgba(23,107,71,.38); outline-offset: 3px; } .ds-upload:active { background: var(--green-soft); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "田间诊断工作台",
+    "overview": "田诊协同把农业识别任务呈现为一张安静、可信、可复核的田间工作台。视觉语言以深叶绿、暖白纸面和低对比边界为主，先让用户完成拍照与田间信息补充，再逐层阅读检测、风险、证据和知识内容。\n\n界面强调辅助判断而非权威确诊：正常状态克制，警告和拒答使用暖琥珀色，错误使用低饱和红色，检测框使用高可见度黄绿色。大圆角容器与轻柔环境阴影降低技术系统的压迫感，但结论、来源和边界仍保持清晰的结构感。",
+    "keyCharacteristics": ["暖白底色上的深绿单主色系统", "大标题、短标签和长篇证据内容之间的清晰层级", "主任务上下推进，复杂证据按卡片和折叠区逐层展开", "圆角、细边框、浅色分层和轻环境阴影", "警告、拒答、来源与数据边界优先可见"],
+    "rules": [
+      { "name": "The One Green Voice Rule", "body": "深叶绿负责操作和可信状态；同一屏幕不再引入第二个竞争性的品牌主色。", "section": "colors" },
+      { "name": "The Risk Colors Carry Meaning Rule", "body": "黄绿只标检测，琥珀只标不确定或待处理，红色只标错误或高风险。", "section": "colors" },
+      { "name": "The Evidence Must Stay Readable Rule", "body": "面向用户的字段、说明和证据正文不得低于 14px；技术 JSON 是唯一允许使用 12px 等宽式密度的区域。", "section": "typography" },
+      { "name": "The Flat Inside, Lifted Outside Rule", "body": "顶层工作区可以轻抬起，卡片内部一律通过色阶和边框分组，不叠加多层阴影。", "section": "elevation" },
+      { "name": "The Radius Hierarchy Rule", "body": "容器越大圆角越大；操作控件保持 10–12px；只把短状态、筛选和导航做成胶囊。", "section": "shapes" }
+    ],
+    "dos": ["Do 保持“上传与田间信息 → 检测结果 → 综合证据 → 知识与报告”的自然阅读顺序。", "Do 让主操作保持唯一，并为异步保存、定位、分析提供明确状态文本。", "Do 使用 14px 以上的用户正文、44px 以上的交互高度和可见键盘焦点。", "Do 让警告、拒答和来源说明同时依靠颜色与文字表达。", "Do 在移动端将多列证据、表单和报告内容收为单列，并保留底部导航空间。"],
+    "donts": ["Don't 用多种高饱和色装饰普通卡片；黄绿、琥珀和红色都有固定语义。", "Don't 给内部信息块重复添加阴影，或把每个区块都做成同等重量的顶层卡片。", "Don't 裁切用户上传的原始诊断图片或知识库图片。", "Don't 只用颜色表示在线、冲突、错误或严重度。", "Don't 将技术证据、模型术语或原始 JSON 放在主阅读路径中。"]
+  }
+}

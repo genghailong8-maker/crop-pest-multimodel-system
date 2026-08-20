@@ -29,6 +29,8 @@
 - `backend/`：API、SQLite 记录、图片存储、视觉模型和多模态服务适配器。
 - `web/`：诊断工作台网页。
 - `data/official/`：官方数据的只读映射以及本地划分文件。
+- `DATASET.md`：官方数据目录、16 类清单、划分数量和外部数据获取说明；完整图片/标签不提交。
+- `PROJECT_ASSETS.md`：`best_model.pth`、YOLO 权重、Qwen3-VL GGUF 和 Work 真实运行所需外部资产说明。
 - `tools/`：数据审计、划分和服务器数据视图工具。
 - `training/`：视觉模型训练与服务器运行脚本。
 - `inference/`：服务器 GPU 推理服务、启动脚本和本机 SSH 隧道。
@@ -84,8 +86,7 @@ npm.cmd run dev
 - 最终复现与公开边界审计：
 
   ```powershell
-  $py = "C:\Users\genghailong\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe"
-  & $py scripts\final_repro_check.py --output artifacts\release\final-repro-check-20260810.json
+  python scripts\final_repro_check.py --output artifacts/release/final-repro-check-20260810.json
   ```
 
   默认只做静态门并可离线运行；需要强制检查本机后端、推理隧道和网页时追加 `--require-services`。正式性能仍以服务器证据清单为准，当前路由保持 `shadow`。

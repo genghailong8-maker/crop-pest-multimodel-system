@@ -53,6 +53,8 @@ def independent_content() -> dict:
         "evidence": ["叶片有长条形病斑"],
         "uncertainty": ["缺少叶背近照"],
         "required_additional_photos": ["补拍叶背和整株"],
+        "observed_part": "叶片",
+        "observed_growth_stage": "苗期",
     }
 
 
@@ -61,10 +63,48 @@ def final_content(**overrides) -> dict:
         "primary_diagnosis": "玉米叶枯病",
         "candidate_diagnoses": ["玉米叶枯病"],
         "symptoms": ["叶片出现病斑"],
-        "harm": ["可能影响叶片光合作用"],
         "harm_level": "medium",
-        "possible_causes": ["高湿环境"],
-        "evidence": ["独立判断与检测框一致"],
+        "grounded_assessment": {
+            "harms": [
+                {
+                    "conclusion": "叶片可见区域存在受损",
+                    "evidence": [
+                        {
+                            "source": "image",
+                            "reference": "original_image",
+                            "observation": "原图可见叶片长条形病斑",
+                        },
+                        {
+                            "source": "field_input",
+                            "reference": "field.affected_ratio_percent",
+                            "observation": "用户填写受害比例12.5%",
+                        },
+                    ],
+                }
+            ],
+            "causes": [
+                {
+                    "conclusion": "当前证据支持玉米叶枯病候选",
+                    "evidence": [
+                        {
+                            "source": "image",
+                            "reference": "original_image",
+                            "observation": "原图可见叶片长条形病斑",
+                        },
+                        {
+                            "source": "yolo",
+                            "reference": "yolo_primary",
+                            "observation": "YOLO主候选为玉米叶枯病",
+                        },
+                        {
+                            "source": "field_input",
+                            "reference": "field.crop",
+                            "observation": "用户选择作物为玉米",
+                        },
+                    ],
+                }
+            ],
+        },
         "uncertainty": ["单张图片无法确认田间分布"],
         "required_additional_photos": ["补拍叶背和整株"],
         "detector_alignment": "agree",
@@ -132,7 +172,7 @@ def test_two_stage_payload_is_independent_then_compared(tmp_path, monkeypatch):
     result = asyncio.run(multimodal.request_multimodal_analysis(case_record(), image_path))
 
     assert result["status"] == "completed"
-    assert result["schema_version"] == "phase9-multimodal-v2"
+    assert result["schema_version"] == "phase9-multimodal-v3"
     assert result["primary_diagnosis"] == "玉米叶枯病"
     assert result["field_severity"] == "medium"
     assert "受害比例 12.5%" in result["severity_basis"]
@@ -144,17 +184,55 @@ def test_two_stage_payload_is_independent_then_compared(tmp_path, monkeypatch):
     ]
     assert len(FakeAsyncClient.requests) == 2
     first_text = FakeAsyncClient.requests[0]["json"]["messages"][1]["content"][0]["text"]
-    second_text = FakeAsyncClient.requests[1]["json"]["messages"][1]["content"]
+    second_content = FakeAsyncClient.requests[1]["json"]["messages"][1]["content"]
+    second_text = second_content[0]["text"]
     assert "yolo_detections" not in first_text
     assert "玉米叶枯病" not in first_text
-    assert "affected_ratio_percent" in first_text
+    for excluded_field in (
+        "crop",
+        "part",
+        "growth_stage",
+        "notes",
+        "environment",
+        "affected_ratio_percent",
+        "spread_speed",
+    ):
+        assert excluded_field not in first_text
     assert "yolo_detections" in second_text
     assert "shadow_expert_evidence" in second_text
+    assert "affected_ratio_percent" in second_text
+    assert '"crop":"玉米"' in second_text
+    assert '"part":"叶片"' in second_text
+    assert '"growth_stage":"苗期"' in second_text
+    assert '"environment":{"scene":"露地","humidity":"80"}' in second_text
+    assert '"spread_speed":"slow"' in second_text
+    assert '"notes"' not in second_text
     assert FakeAsyncClient.requests[0]["json"]["response_format"]["type"] == "json_schema"
     assert FakeAsyncClient.requests[0]["json"]["max_tokens"] == 500
-    assert FakeAsyncClient.requests[1]["json"]["max_tokens"] == 700
-    assert "image_url" not in second_text
+    assert FakeAsyncClient.requests[1]["json"]["max_tokens"] == 900
+    assert second_content[1]["type"] == "image_url"
     assert result["provenance"]["primary_diagnosis_source"] == "detector_primary"
+    assert result["independent_judgment"]["observed_part"] == "叶片"
+    assert result["provenance"]["input_metadata"]["part"]["source"] == "user_input"
+    assert result["provenance"]["independent_observations"]["part"] == "叶片"
+
+
+def test_invalid_or_missing_observations_become_system_undetermined(tmp_path, monkeypatch):
+    image_path = tmp_path / "grub.jpg"
+    image_path.write_bytes(b"image-bytes")
+    configure(monkeypatch)
+    invalid = independent_content()
+    invalid["observed_part"] = "叶片和根部"
+    invalid["observed_growth_stage"] = "猜测为苗期"
+    FakeAsyncClient.response_payloads = [
+        response(invalid),
+        response(final_content()),
+    ]
+
+    result = asyncio.run(multimodal.request_multimodal_analysis(case_record(), image_path))
+
+    assert result["independent_judgment"]["observed_part"] == "系统未判断"
+    assert result["independent_judgment"]["observed_growth_stage"] == "系统未判断"
 
 
 def test_existing_risk_cannot_be_lowered_and_conflict_is_deterministic(tmp_path, monkeypatch):
@@ -191,9 +269,36 @@ def test_missing_field_inputs_force_unknown_inside_protocol(tmp_path, monkeypatc
     record = case_record()
     record["affected_ratio_percent"] = None
     record["spread_speed"] = "unknown"
+    final = final_content(field_severity="high")
+    final["grounded_assessment"] = {
+        "harms": [
+            {
+                "conclusion": "无法判断",
+                "evidence": [
+                    {
+                        "source": "image",
+                        "reference": "original_image",
+                        "observation": "原图无法显示田间受害范围",
+                    }
+                ],
+            }
+        ],
+        "causes": [
+            {
+                "conclusion": "当前证据支持玉米叶枯病候选",
+                "evidence": [
+                    {
+                        "source": "yolo",
+                        "reference": "yolo_primary",
+                        "observation": "YOLO主候选为玉米叶枯病",
+                    }
+                ],
+            }
+        ],
+    }
     FakeAsyncClient.response_payloads = [
         response(independent_content()),
-        response(final_content(field_severity="high")),
+        response(final),
     ]
 
     result = asyncio.run(multimodal.request_multimodal_analysis(record, image_path))
@@ -214,6 +319,79 @@ def test_empty_critical_content_is_rejected():
         )
 
 
+def test_invalid_field_evidence_is_removed_when_valid_image_evidence_remains():
+    invalid = final_content()
+    invalid["grounded_assessment"]["harms"][0]["evidence"][1]["observation"] = (
+        "用户填写受害比例88%"
+    )
+    parsed = multimodal.MultimodalContent.model_validate(invalid)
+    validated = multimodal.validate_grounded_assessment(case_record(), parsed)
+    harm = validated.grounded_assessment.harms[0]
+    assert harm.conclusion == "叶片可见区域存在受损"
+    assert [item.source for item in harm.evidence] == ["image"]
+
+
+def test_speculative_evidence_is_replaced_with_safe_fallback():
+    invalid = final_content()
+    invalid["grounded_assessment"]["harms"][0]["evidence"][0]["observation"] = (
+        "模型认为叶片受损"
+    )
+    parsed = multimodal.MultimodalContent.model_validate(invalid)
+    validated = multimodal.validate_grounded_assessment(case_record(), parsed)
+    assert validated.grounded_assessment.harms[0].conclusion == "无法判断"
+
+
+def test_unobserved_consequence_is_replaced_with_safe_fallback():
+    invalid = final_content()
+    invalid["grounded_assessment"]["harms"][0]["conclusion"] = (
+        "蛴螬啃食根系导致植株萎蔫"
+    )
+    parsed = multimodal.MultimodalContent.model_validate(invalid)
+    validated = multimodal.validate_grounded_assessment(case_record(), parsed)
+    assert validated.grounded_assessment.harms[0].conclusion == "无法判断"
+
+
+def test_cause_requires_image_and_yolo_evidence():
+    invalid = final_content()
+    invalid["grounded_assessment"]["causes"][0]["evidence"] = [
+        {
+            "source": "field_input",
+            "reference": "field.environment",
+            "observation": "用户填写环境为露地",
+        }
+    ]
+    parsed = multimodal.MultimodalContent.model_validate(invalid)
+    validated = multimodal.validate_grounded_assessment(case_record(), parsed)
+    assert validated.grounded_assessment.causes[0].conclusion == "无法判断"
+    assert "病原检测" in validated.grounded_assessment.causes[0].evidence[0].observation
+
+
+def test_stage_two_cannot_invent_image_evidence_after_stage_one_saw_nothing():
+    stage_one = multimodal.IndependentImageContent.model_validate(
+        {
+            **independent_content(),
+            "primary_diagnosis": "无法判断",
+            "candidate_diagnoses": ["无法判断"],
+            "symptoms": ["无法判断"],
+            "evidence": ["无法判断"],
+        }
+    )
+    parsed = multimodal.MultimodalContent.model_validate(final_content())
+    validated = multimodal.validate_grounded_assessment(case_record(), parsed, stage_one)
+    assert validated.grounded_assessment.harms[0].conclusion == "无法判断"
+    assert validated.grounded_assessment.causes[0].conclusion == "无法判断"
+
+
+def test_indoor_sample_cannot_be_reported_as_field_presence():
+    record = case_record()
+    record["environment"] = {"scene": "室内样本"}
+    invalid = final_content()
+    invalid["grounded_assessment"]["causes"][0]["conclusion"] = "田间存在蛴螬幼虫"
+    parsed = multimodal.MultimodalContent.model_validate(invalid)
+    validated = multimodal.validate_grounded_assessment(record, parsed)
+    assert validated.grounded_assessment.causes[0].conclusion == "无法判断"
+
+
 def test_detector_alignment_longest_name_resolution():
     result = multimodal.MultimodalContent.model_validate(final_content())
     assert multimodal.reconcile_detector_alignment(case_record(), result).detector_alignment == "agree"
@@ -229,6 +407,19 @@ def test_detector_alignment_can_use_independent_judgment():
         case_record(), result, independent_primary_diagnosis="玉米锈病"
     )
     assert reconciled.detector_alignment == "conflict"
+
+
+def test_crop_conflict_is_recorded_without_changing_detector_class():
+    record = case_record()
+    record["crop"] = "番茄"
+    result = multimodal.MultimodalContent.model_validate(final_content())
+    reconciled = multimodal.reconcile_field_input_consistency(record, result)
+    integrated, source = multimodal.apply_detector_primary_diagnosis(
+        record, reconciled, "玉米锈病"
+    )
+    assert integrated.primary_diagnosis == "玉米叶枯病"
+    assert integrated.field_input_consistency == "conflict"
+    assert source == "detector_primary"
 
 
 def test_no_detection_keeps_multimodal_primary():

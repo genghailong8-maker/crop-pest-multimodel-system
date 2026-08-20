@@ -56,6 +56,11 @@ from .prelabels import save_review as save_prelabel_review
 
 MAX_UPLOAD_BYTES = 15 * 1024 * 1024
 ALLOWED_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
+CROP_OPTIONS = {"玉米", "番茄", "南瓜", "马铃薯", "昆虫"}
+PART_OPTIONS = {"叶片", "茎秆", "果实", "根部", "整株"}
+GROWTH_STAGE_OPTIONS = {"苗期", "营养生长期", "开花期", "结果期", "成熟期"}
+ENVIRONMENT_OPTIONS = {"露地", "温室", "大棚", "室内样本", "未知"}
+NOT_APPLICABLE = "不适用"
 logger = logging.getLogger(__name__)
 
 
@@ -320,6 +325,16 @@ def present_case(record: dict[str, Any]) -> dict[str, Any]:
         user_summary = "两种识别方法给出了不同候选，当前不能可靠确定。"
         next_action = "请补拍叶片正反面、受害部位近照和整株照片。"
         reasons = ["两种识别方法的候选不一致"]
+    elif analysis.get("field_input_consistency") == "conflict":
+        resolution_status = "retake_required"
+        user_summary = "图片识别结果与填写的作物或识别对象不一致。"
+        next_action = "请核对田间信息并重新拍摄目标及其生长环境。"
+        reasons = ["人工田间信息与视觉候选不一致"]
+    elif analysis.get("content_sufficiency") == "incomplete":
+        resolution_status = "retake_required"
+        user_summary = "当前证据不足以形成可靠的综合分析。"
+        next_action = "请按分析提示补拍目标近照和生长环境照片。"
+        reasons = ["图片或田间信息不足"]
     else:
         resolution_status = "conclusive"
         user_summary = "现有图片和信息足以给出可参考的辅助判断。"
@@ -354,10 +369,19 @@ def multimodal_unavailable_case(case_id: str, reason: Exception | None = None) -
 @app.get("/health")
 def health() -> dict[str, Any]:
     usage = shutil.disk_usage(settings.storage_dir)
+    active_instance_id = (
+        control_store().active_instance() if settings.gateway_mode else settings.instance_id
+    )
+    active_is_remote = active_instance_id == settings.remote_instance_id
     return {
         "status": "ok",
         "instance_id": settings.instance_id,
         "instance_label": settings.instance_label,
+        "active_instance_id": active_instance_id,
+        "active_instance_label": (
+            settings.remote_instance_label if active_is_remote else settings.instance_label
+        ),
+        "active_instance_mode": "gpu" if active_is_remote else "cpu",
         "model_configured": bool(
             settings.detector_endpoint or (settings.model_path and settings.model_path.exists())
         ),
@@ -729,14 +753,14 @@ async def upload_case(
     request: Request,
     image: Annotated[UploadFile, File(...)],
     crop: Annotated[str, Form(min_length=1, max_length=100)],
-    part: Annotated[str, Form(min_length=1, max_length=100)],
-    growth_stage: Annotated[str, Form(min_length=1, max_length=100)],
-    environment_json: Annotated[str, Form()] = "{}",
-    notes: Annotated[str, Form(max_length=2000)] = "",
-    affected_ratio_percent: Annotated[float | None, Form(ge=0, le=100)] = None,
+    environment_json: Annotated[str, Form(min_length=1)],
+    affected_ratio_percent: Annotated[float, Form(ge=0, le=100)],
     spread_speed: Annotated[
         str, Form(pattern="^(unknown|none|slow|moderate|rapid)$")
-    ] = "unknown",
+    ],
+    part: Annotated[str, Form(max_length=100)] = "",
+    growth_stage: Annotated[str, Form(max_length=100)] = "",
+    notes: Annotated[str, Form(max_length=2000)] = "",
     public_consent: Annotated[bool, Form()] = False,
 ) -> dict[str, Any]:
     enforce_rate(request, "upload", settings.public_uploads_per_hour)
@@ -751,6 +775,20 @@ async def upload_case(
         raise HTTPException(status_code=422, detail="环境信息格式错误") from exc
     if not isinstance(environment, dict):
         raise HTTPException(status_code=422, detail="环境信息必须是对象")
+    normalized_crop = crop.strip()
+    if normalized_crop not in CROP_OPTIONS:
+        raise HTTPException(status_code=422, detail="作物或识别对象选项无效")
+    scene = environment.get("scene")
+    if scene not in ENVIRONMENT_OPTIONS:
+        raise HTTPException(status_code=422, detail="必须选择有效的种植环境")
+    normalized_part = part.strip()
+    normalized_growth_stage = growth_stage.strip()
+    if normalized_crop == "昆虫":
+        normalized_part = NOT_APPLICABLE
+        normalized_growth_stage = NOT_APPLICABLE
+    elif normalized_part not in PART_OPTIONS or normalized_growth_stage not in GROWTH_STAGE_OPTIONS:
+        raise HTTPException(status_code=422, detail="植物病例必须选择有效的部位和生长阶段")
+    environment = {"scene": scene}
 
     case_id = f"{settings.instance_id}-{uuid.uuid4().hex}"
     destination = settings.upload_dir / f"{case_id}{suffix}"
@@ -779,9 +817,9 @@ async def upload_case(
         {
             "id": case_id,
             "instance_id": settings.instance_id,
-            "crop": crop.strip(),
-            "part": part.strip(),
-            "growth_stage": growth_stage.strip(),
+            "crop": normalized_crop,
+            "part": normalized_part,
+            "growth_stage": normalized_growth_stage,
             "environment": environment,
             "notes": notes.strip(),
             "image_filename": image.filename or destination.name,

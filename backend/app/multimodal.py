@@ -17,7 +17,7 @@ class MultimodalUnavailable(RuntimeError):
     pass
 
 
-ANALYSIS_SCHEMA_VERSION = "phase9-multimodal-v2"
+ANALYSIS_SCHEMA_VERSION = "phase9-multimodal-v3"
 ShortText = Annotated[str, Field(min_length=1, max_length=160)]
 RiskLevel = Literal["low", "medium", "high", "unknown"]
 ModelT = TypeVar("ModelT", bound=BaseModel)
@@ -30,6 +30,36 @@ SPREAD_SPEED_LABELS = {
     "moderate": "中等",
     "rapid": "快速",
 }
+EvidenceSource = Literal["image", "yolo", "field_input"]
+EvidenceReference = Literal[
+    "original_image",
+    "yolo_primary",
+    "field.crop",
+    "field.part",
+    "field.growth_stage",
+    "field.environment",
+    "field.affected_ratio_percent",
+    "field.spread_speed",
+]
+SYSTEM_UNDETERMINED = "系统未判断"
+OBSERVED_PARTS = {
+    "叶片",
+    "茎秆",
+    "果实",
+    "根部",
+    "整株",
+    "田间环境",
+    "虫体",
+    SYSTEM_UNDETERMINED,
+}
+OBSERVED_GROWTH_STAGES = {
+    "苗期",
+    "营养生长期",
+    "开花期",
+    "结果期",
+    "成熟期",
+    SYSTEM_UNDETERMINED,
+}
 
 
 class IndependentImageContent(BaseModel):
@@ -40,16 +70,32 @@ class IndependentImageContent(BaseModel):
     evidence: list[ShortText] = Field(min_length=1, max_length=6)
     uncertainty: list[ShortText] = Field(min_length=1, max_length=5)
     required_additional_photos: list[ShortText] = Field(min_length=1, max_length=4)
+    observed_part: str = Field(default=SYSTEM_UNDETERMINED, max_length=160)
+    observed_growth_stage: str = Field(default=SYSTEM_UNDETERMINED, max_length=160)
+
+
+class GroundedEvidence(BaseModel):
+    source: EvidenceSource
+    reference: EvidenceReference
+    observation: ShortText
+
+
+class GroundedConclusion(BaseModel):
+    conclusion: ShortText
+    evidence: list[GroundedEvidence] = Field(min_length=1, max_length=4)
+
+
+class GroundedAssessment(BaseModel):
+    harms: list[GroundedConclusion] = Field(min_length=1, max_length=3)
+    causes: list[GroundedConclusion] = Field(min_length=1, max_length=3)
 
 
 class MultimodalContent(BaseModel):
     primary_diagnosis: ShortText
     candidate_diagnoses: list[ShortText] = Field(min_length=1, max_length=4)
     symptoms: list[ShortText] = Field(min_length=1, max_length=5)
-    harm: list[ShortText] = Field(min_length=1, max_length=4)
     harm_level: RiskLevel
-    possible_causes: list[ShortText] = Field(min_length=1, max_length=5)
-    evidence: list[ShortText] = Field(min_length=1, max_length=6)
+    grounded_assessment: GroundedAssessment
     uncertainty: list[ShortText] = Field(min_length=1, max_length=5)
     required_additional_photos: list[ShortText] = Field(min_length=1, max_length=4)
     detector_alignment: Literal["agree", "uncertain", "conflict"]
@@ -98,6 +144,157 @@ def parse_model(content: str, model: type[ModelT], stage: str) -> ModelT:
 
 def parse_content(content: str) -> MultimodalContent:
     return parse_model(content, MultimodalContent, "证据比对")
+
+
+def normalize_observed_value(value: Any, allowed: set[str]) -> str:
+    if not isinstance(value, str):
+        return SYSTEM_UNDETERMINED
+    normalized = value.strip()
+    if normalized in allowed:
+        return normalized
+    return SYSTEM_UNDETERMINED
+
+
+def normalize_independent_observations(
+    result: IndependentImageContent,
+) -> IndependentImageContent:
+    return result.model_copy(
+        update={
+            "observed_part": normalize_observed_value(result.observed_part, OBSERVED_PARTS),
+            "observed_growth_stage": normalize_observed_value(
+                result.observed_growth_stage, OBSERVED_GROWTH_STAGES
+            ),
+        }
+    )
+
+
+def validate_grounded_assessment(
+    case_record: dict[str, Any],
+    result: MultimodalContent,
+    independent: IndependentImageContent | None = None,
+) -> MultimodalContent:
+    field_values: dict[str, tuple[str, ...]] = {
+        "field.crop": (str(case_record.get("crop") or ""),),
+        "field.part": (str(case_record.get("part") or ""),),
+        "field.growth_stage": (str(case_record.get("growth_stage") or ""),),
+        "field.environment": tuple(
+            str(value) for value in (case_record.get("environment") or {}).values() if value
+        ),
+        "field.affected_ratio_percent": (
+            f"{float(case_record['affected_ratio_percent']):g}",
+        )
+        if case_record.get("affected_ratio_percent") is not None
+        else (),
+        "field.spread_speed": (
+            str(case_record.get("spread_speed") or ""),
+            SPREAD_SPEED_LABELS.get(
+                str(case_record.get("spread_speed") or ""),
+                str(case_record.get("spread_speed") or ""),
+            ),
+        ),
+    }
+    detections = case_record.get("detections") or []
+    summary = case_record.get("detector_summary") or {}
+    primary = summary.get("primary_candidate") or (detections[0] if detections else {})
+    primary_name = str(primary.get("class_name") or "")
+    speculative_markers = ("模型认为", "通常", "推测", "可能导致", "可能造成", "会导致", "会造成")
+    unsupported_consequence_markers = (
+        "导致",
+        "造成",
+        "影响产量",
+        "产量损失",
+        "光合作用",
+        "传播原因",
+        "病原",
+        "真菌",
+        "细菌",
+        "病毒",
+    )
+    insufficient_markers = ("无法", "不足", "缺少", "未提供", "未显示", "不能判断")
+    independent_has_visible_evidence = not independent or any(
+        value != "无法判断"
+        for value in [*independent.symptoms, *independent.evidence]
+    )
+
+    def valid_evidence(evidence: GroundedEvidence) -> bool:
+        if any(marker in evidence.observation for marker in speculative_markers):
+            return False
+        if evidence.source == "image":
+            return evidence.reference == "original_image" and (
+                independent_has_visible_evidence
+                or any(marker in evidence.observation for marker in insufficient_markers)
+            )
+        if evidence.source == "yolo":
+            return (
+                evidence.reference == "yolo_primary"
+                and bool(primary_name)
+                and primary_name in evidence.observation
+            )
+        if not evidence.reference.startswith("field."):
+            return False
+        actual_values = tuple(value for value in field_values[evidence.reference] if value)
+        return bool(actual_values) and any(
+            value in evidence.observation for value in actual_values
+        )
+
+    def fallback(section_name: str) -> GroundedConclusion:
+        observation = (
+            "原图未显示可核验的受害后果或受害范围"
+            if section_name == "harms"
+            else "原图缺少病原检测、连续田间观察或管理记录"
+        )
+        return GroundedConclusion(
+            conclusion="无法判断",
+            evidence=[
+                GroundedEvidence(
+                    source="image",
+                    reference="original_image",
+                    observation=observation,
+                )
+            ],
+        )
+
+    def sanitize(
+        section_name: Literal["harms", "causes"], claims: list[GroundedConclusion]
+    ) -> list[GroundedConclusion]:
+        sanitized: list[GroundedConclusion] = []
+        for claim in claims:
+            evidence = [item for item in claim.evidence if valid_evidence(item)]
+            sources = {item.source for item in evidence}
+            conclusion_is_insufficient = any(
+                marker in claim.conclusion for marker in insufficient_markers
+            )
+            unsupported = any(
+                marker in claim.conclusion for marker in unsupported_consequence_markers
+            )
+            scene = str((case_record.get("environment") or {}).get("scene") or "")
+            context_contradiction = scene == "室内样本" and "田间" in claim.conclusion
+            required_sources_present = (
+                "image" in sources
+                if section_name == "harms"
+                else {"image", "yolo"}.issubset(sources)
+            )
+            if (
+                claim.conclusion == "无法判断"
+                or conclusion_is_insufficient
+                or unsupported
+                or context_contradiction
+                or not evidence
+                or not required_sources_present
+            ):
+                sanitized.append(fallback(section_name))
+            else:
+                sanitized.append(claim.model_copy(update={"evidence": evidence}))
+        return sanitized
+
+    return result.model_copy(
+        update={
+            "grounded_assessment": GroundedAssessment(
+                harms=sanitize("harms", result.grounded_assessment.harms),
+                causes=sanitize("causes", result.grounded_assessment.causes),
+            )
+        }
+    )
 
 
 def diagnosis_class_id(value: str | None) -> int | None:
@@ -157,6 +354,29 @@ def apply_detector_primary_diagnosis(
         ),
         "detector_primary",
     )
+
+
+def reconcile_field_input_consistency(
+    case_record: dict[str, Any], result: MultimodalContent
+) -> MultimodalContent:
+    detections = case_record.get("detections") or []
+    if not detections:
+        return result
+    summary = case_record.get("detector_summary") or {}
+    candidate = summary.get("primary_candidate") or detections[0]
+    class_id = candidate.get("class_id")
+    if class_id is None or int(class_id) not in CLASS_BY_ID:
+        return result
+    selected = str(case_record.get("crop") or "")
+    catalog_item = CLASS_BY_ID[int(class_id)]
+    compatible = (
+        catalog_item["type"] == "害虫"
+        if selected == "昆虫"
+        else bool(selected) and selected in str(catalog_item["crop"])
+    )
+    if compatible:
+        return result
+    return result.model_copy(update={"field_input_consistency": "conflict"})
 
 
 def build_review_reasons(case_record: dict[str, Any], result: MultimodalContent) -> list[str]:
@@ -266,12 +486,10 @@ async def request_multimodal_analysis(
         headers["Authorization"] = f"Bearer {settings.vlm_api_key}"
     image_url = image_data_url(image_path)
     field_context = {
-        "case_id": case_record["id"],
         "crop": case_record["crop"],
         "part": case_record["part"],
         "growth_stage": case_record["growth_stage"],
         "environment": case_record["environment"],
-        "notes": case_record.get("notes", ""),
         "affected_ratio_percent": case_record.get("affected_ratio_percent"),
         "spread_speed": case_record.get("spread_speed", "unknown"),
     }
@@ -279,14 +497,16 @@ async def request_multimodal_analysis(
         schema_name="crop_pest_independent_image_analysis",
         schema=independent_response_schema(),
         system_prompt=(
-            "你是农作物病虫害图像分析助手。本阶段必须独立观察原图和田间信息，"
-            "不会收到也不得猜测 YOLO 结论。无法判断时在列表中明确写‘无法判断’而不是留空。"
+            "你是农作物病虫害图像分析助手。本阶段只能独立观察原图，"
+            "不会收到也不得猜测 YOLO 结论或任何人工填写信息。无法判断时在列表中明确写‘无法判断’而不是留空。"
             f"primary_diagnosis 必须严格使用以下规范名称之一或‘无法判断’：{CANONICAL_DIAGNOSIS_TEXT}。"
+            "observed_part 只能填写叶片、茎秆、果实、根部、整株、田间环境、虫体或系统未判断；"
+            "observed_growth_stage 只能填写苗期、营养生长期、开花期、结果期、成熟期或系统未判断。"
+            "只有图片中存在直接可见证据时才能判断部位和植株阶段，否则必须填写‘系统未判断’。"
             "每个列表只写 1 至 2 条最重要的短句，每条不超过 30 个汉字。"
             "禁止给出农药产品、剂量、混配、施用次数、复入或采收间隔。只返回指定 JSON。"
         ),
-        user_text="请独立分析原图与田间信息：\n"
-        + json.dumps(field_context, ensure_ascii=False, separators=(",", ":")),
+        user_text="请只根据这张原图完成独立图像判断。",
         image_url=image_url,
         max_tokens=500,
     )
@@ -314,6 +534,7 @@ async def request_multimodal_analysis(
             IndependentImageContent,
             "独立图像判断",
         )
+        independent = normalize_independent_observations(independent)
         comparison_evidence["independent_image_judgment"] = independent.model_dump()
         comparison_payload = make_payload(
             schema_name="crop_pest_evidence_comparison",
@@ -325,6 +546,16 @@ async def request_multimodal_analysis(
                 "primary_diagnosis 是综合结论，不是独立判断的复制；YOLO 已对目标完成定位，主候选置信度可靠时"
                 "应优先采用，只有独立证据给出具体且充分的反证时才改用其他规范类别。"
                 "detector_alignment 只描述独立判断与 YOLO 的关系，不要求综合结论跟随独立判断。"
+                "grounded_assessment 中每条危害和诱因必须绑定 1 至 4 条本次输入依据。"
+                "图片依据使用 source=image、reference=original_image；YOLO依据使用 source=yolo、"
+                "reference=yolo_primary 且 observation 必须写出实际主候选名称；田间依据使用"
+                "source=field_input，并按 field.crop、field.part、field.growth_stage、field.environment、"
+                "field.affected_ratio_percent 或 field.spread_speed 引用，observation 必须写出实际字段值。"
+                "不得把百度百科、常识、‘模型认为’或‘通常会导致’当作输入依据。若输入不足，"
+                "conclusion 必须准确写‘无法判断’，并用图片依据说明缺少的可见证据。"
+                "危害的肯定结论必须至少有图片依据，且只能描述原图直接可见的损伤，禁止写产量、"
+                "光合作用、传播或未来后果；诱因的肯定结论必须同时有图片与YOLO依据，禁止凭类别"
+                "补写病原、真菌、细菌或病毒。不能满足这些条件时必须写‘无法判断’。"
                 "每个列表只写 1 至 2 条最重要的短句，每条不超过 30 个汉字。"
                 "缺任一字段时 field_severity 必须为 unknown。已有低质量、低置信度、无目标或冲突风险只能升级，"
                 "不得清除。无法判断时写明原因，所有列表不得留空。禁止具体农药产品、剂量、混配、次数和安全间隔。"
@@ -332,8 +563,8 @@ async def request_multimodal_analysis(
             ),
             user_text="请完成第二阶段证据比对：\n"
             + json.dumps(comparison_evidence, ensure_ascii=False, separators=(",", ":")),
-            image_url=None,
-            max_tokens=700,
+            image_url=image_url,
+            max_tokens=900,
         )
         result, stage2_ms = await post_structured(
             client,
@@ -342,6 +573,7 @@ async def request_multimodal_analysis(
             MultimodalContent,
             "证据比对",
         )
+        result = validate_grounded_assessment(case_record, result, independent)
 
     raw_alignment = result.detector_alignment
     raw_primary_diagnosis = result.primary_diagnosis
@@ -349,6 +581,7 @@ async def request_multimodal_analysis(
     result, primary_diagnosis_source = apply_detector_primary_diagnosis(
         case_record, result, independent.primary_diagnosis
     )
+    result = reconcile_field_input_consistency(case_record, result)
     updates: dict[str, Any] = {}
     if field_context["affected_ratio_percent"] is None or field_context["spread_speed"] == "unknown":
         updates.update(
@@ -391,6 +624,24 @@ async def request_multimodal_analysis(
                 "alignment_reconciled": raw_alignment != result.detector_alignment,
                 "raw_primary_diagnosis": raw_primary_diagnosis,
                 "primary_diagnosis_source": primary_diagnosis_source,
+                "input_metadata": {
+                    "crop": {
+                        "value": case_record.get("crop", SYSTEM_UNDETERMINED),
+                        "source": "user_input",
+                    },
+                    "part": {
+                        "value": case_record.get("part", SYSTEM_UNDETERMINED),
+                        "source": "user_input",
+                    },
+                    "growth_stage": {
+                        "value": case_record.get("growth_stage", SYSTEM_UNDETERMINED),
+                        "source": "user_input",
+                    },
+                },
+                "independent_observations": {
+                    "part": independent.observed_part,
+                    "growth_stage": independent.observed_growth_stage,
+                },
             },
         }
     )

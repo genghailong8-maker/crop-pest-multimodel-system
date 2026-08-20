@@ -86,7 +86,14 @@ def test_v1_report_is_upgraded_once_without_overwriting_history(tmp_path, monkey
         created = client.post(
             "/api/cases",
             files={"image": ("leaf.jpg", image_bytes(), "image/jpeg")},
-            data={"crop": "玉米", "part": "叶片", "growth_stage": "苗期"},
+            data={
+                "crop": "玉米",
+                "part": "叶片",
+                "growth_stage": "苗期",
+                "environment_json": '{"scene":"露地"}',
+                "affected_ratio_percent": "10",
+                "spread_speed": "slow",
+            },
         ).json()
         record = database.update_case(
             created["id"],

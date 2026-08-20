@@ -50,7 +50,14 @@ def test_public_consent_token_visibility_and_trends(tmp_path, monkeypatch):
             "/api/cases",
             headers=headers(),
             files={"image": ("leaf.jpg", image_bytes(), "image/jpeg")},
-            data={"crop": "玉米", "part": "叶片", "growth_stage": "苗期"},
+            data={
+                "crop": "玉米",
+                "part": "叶片",
+                "growth_stage": "苗期",
+                "environment_json": '{"scene":"露地"}',
+                "affected_ratio_percent": "10",
+                "spread_speed": "slow",
+            },
         )
         assert rejected.status_code == 422
 
@@ -62,6 +69,7 @@ def test_public_consent_token_visibility_and_trends(tmp_path, monkeypatch):
                 "crop": "玉米",
                 "part": "叶片",
                 "growth_stage": "苗期",
+                "environment_json": '{"scene":"露地"}',
                 "affected_ratio_percent": "12.5",
                 "spread_speed": "slow",
                 "public_consent": "true",
@@ -132,6 +140,9 @@ def test_public_upload_rate_limit_returns_429(tmp_path, monkeypatch):
         "crop": "玉米",
         "part": "叶片",
         "growth_stage": "苗期",
+        "environment_json": '{"scene":"露地"}',
+        "affected_ratio_percent": "10",
+        "spread_speed": "slow",
         "public_consent": "true",
     }
     with TestClient(main.app) as client:
@@ -151,7 +162,7 @@ def test_public_upload_rate_limit_returns_429(tmp_path, monkeypatch):
         assert second.status_code == 429
 
 
-def test_missing_field_inputs_force_unknown_severity(tmp_path, monkeypatch):
+def test_unknown_spread_forces_unknown_severity(tmp_path, monkeypatch):
     settings = public_settings(tmp_path)
     monkeypatch.setattr(database, "settings", settings)
     monkeypatch.setattr(detector, "settings", settings)
@@ -176,6 +187,9 @@ def test_missing_field_inputs_force_unknown_severity(tmp_path, monkeypatch):
                 "crop": "玉米",
                 "part": "叶片",
                 "growth_stage": "苗期",
+                "environment_json": '{"scene":"露地"}',
+                "affected_ratio_percent": "10",
+                "spread_speed": "unknown",
                 "public_consent": "true",
             },
         ).json()

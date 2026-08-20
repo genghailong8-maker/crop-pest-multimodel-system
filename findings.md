@@ -1,5 +1,35 @@
 # Findings & Decisions
 
+## UI Redesign V3 视觉复核（2026-08-20）
+
+- 视觉方向按 Product Design 探索后的 Clinical Agriculture 70% + Field Intelligence 30% 落地；Scientific Minimal 只吸收报告的纸面排版语法。
+- 真实核心路径已替换为 V3：`v3-app` 工作台、`ProductMark` 证据汇流标、`ImageEvidenceFrame` 图片证据舞台、`FieldFacts` 田间字段、`DiagnosisPath` 诊断路径、`DiagnosisSummary` 结论块、来源化 `ComprehensiveAnalysis` 和纵向 `KnowledgeSummary`。
+- 首页截图核验：1280px 为图片/田间信息双栏，390px 为图片→田间信息→提交；服务不可用时保留警告与禁用态，不展示虚假模型结果或进度。
+- 病例/报告错误态核验：报告页头部与打印按钮的类名冲突已修复；病例错误提示已从原始 `Failed to fetch` 改为普通用户可理解的服务器/病例读取提示。
+- `ImageEvidenceFrame` 已把检测框绑定到实际图片舞台，避免背景留白造成坐标偏移；报告知识库图片补齐缺失 alt、lazy loading 和 async decoding。
+- 浏览器 390px 未观察到横向溢出；公共导航、表单、状态和错误均有语义化 DOM。品牌首页链接从约 42px 调整到 44px 触控高度。
+- Assessment B 检测器命中 `reports/[id]/page.tsx:25` 的 `<img>` 字符串替换两次；源码核验为给知识库图片补 alt/加载属性的正则字面量，不是破损图片，判定为误报。由于 Assessment A 子代理超时关闭，本轮由主上下文补充设计审阅，最终 critique 标记为 degraded。
+
+## UI Redesign V2 发现（2026-08-20）
+
+- 旧首页最大问题不是颜色，而是任务结构：大介绍区延迟操作、图片与字段缺少空间关系、空结果区占据第二块大卡片。
+- V2 使用图片/田间信息双栏后，1280px 工作区可同时看到采样图和全部主要字段；390px 自然降为单列，无页面级横向溢出。
+- 统一 `DiagnosisSummary` 能避免首页、病例和报告对同一病例采用不同阅读顺序。
+- `resolution_status=conclusive` 与 `analysis=null` 可能同时出现；展示层必须将其视为“定位完成、等待综合核对”，不能提前标记为参考结果。
+- 结果高风险或需人工复核时，长篇知识附录会压过风险声明，因此 V2 只在分析完成且不属于高风险/人工复核状态时展示。
+- Impeccable detector 最初命中 Inter、装饰网格和侧边强调条；polish 后三项均已移除。
+- 当前剩余主要债务是 V2 与历史 `globals.css` 共用少量基础类，以及精确受害比例输入对普通用户仍有估算压力；二者不阻断本轮交付。
+
+## 公共诊断流程 P2 复审（2026-08-20）
+
+- 报告页屏幕正文由大量 11px 提升到 14px/约 1.75 行高，打印正文统一为 11pt；病例详情建立 12px 标签、14px 正文、20px 分节标题三级层级，保留表格的高信息密度。
+- Vinext 的 `next/image` 会把图片请求送到 `/_vinext/image`；病例图片来自动态、无缓存 API，且包含检测框覆盖和打印要求，机械迁移会改变真实显示链路。因此保留原生 `<img>`，补齐原始尺寸、语义化 alt、`loading`、`decoding` 和关键图片优先级，并为 ESLint 例外写明原因。
+- 结果页行动顺序与视觉权重已固定为“打开诊断报告”主按钮、“查看病例详情”次级入口；移动端主按钮占满宽度，次级入口保持 44px 触控高度。
+- 390px 浏览器验证：首页、病例详情和报告均无横向溢出；报告正文实测 14px/24.5px，详情正文 14px/23.8px；品牌入口和历史入口实测高度均为 44px。
+- CPU 耗时提示已改为完整边框的现有 surface/border token，不再使用单侧强调线；本轮触及的报告与行动颜色均改用现有语义令牌。
+- 训练进度的 `transition: width` 仅存在于 Admin/训练监控，按用户约束不修改；全局 CSS 仍有未完全令牌化的历史颜色，二者作为 P3 保留。
+- 本轮没有后端代码或接口修改；动态 API 图片策略、双服务器归属和既有业务状态保持不变。
+
 ## 自建知识库接入审计（2026-08-18）
 
 - 用户知识库包含 16 个 UTF-8 Markdown，与 `CLASS_CATALOG` 的 0–15 类按中文名一一对应。
@@ -705,3 +735,201 @@
 - 用户切回 `lab_cpu` 后，统一入口新建病例 `lab_cpu-812db2c77557486585d17d3160cf3e5f`；检测类 10 约 0.35 秒，报告归属 CPU。活动列表变为 4 个且全部为 `lab_cpu`，GPU 仍保持 2 个病例，切换没有复制或移动数据。
 - 停止 Windows 中继后，Admin 实测 GPU 显示离线、按钮为“服务器不可用”，CPU 仍为“当前使用”；控制文件保持 `lab_cpu`，CPU 4 个病例正常。目标离线拒绝切换门通过。
 - 中继恢复后 GPU 再次在线，统一入口仍以 `lab_cpu` 为活动实例，并可按 GPU 病例前缀读取已分析病例。最终 Windows 隧道 PID 为 26660/25984，GPU 显存约 22,244 MiB、空闲利用率 0%。
+# 2026-08-18 Knowledge summary vertical layout
+
+- The case-detail knowledge block reuses `.public-three`, whose desktop rule creates three columns.
+- The scoped `.knowledge-summary` class is already present, so a one-rule override can create a single-column reading order without affecting other three-column surfaces or the report page.
+# 2026-08-19 自动元数据与表单精简
+
+- 当前上传API和SQLite要求 `crop/part/growth_stage` 非空；无需改表，可用“系统未判断”作为新病例占位并在检测/分析后覆盖。
+- 当前Qwen独立阶段同时收到作物、部位、阶段、环境、说明、比例和扩散速度；最新蛴螬病例因此被“玉米/叶片/苗期/30%”诱导为玉米叶枯病。
+- 16类目录已有稳定的 `class_id -> crop` 映射；部位和生育期没有可靠目录映射，必须由图片推断并允许“系统未判断”。
+- “现在建议你”是首页 `.public-next` 区块；技术证据中的“需要补拍”和拒答状态提示是独立安全信息，按用户选择保留。
+- 实验室CPU当前在线；Windows到GPU的 `127.0.0.1:18001` 中继离线，GPU部署需在CPU验收后通知用户开启。
+- 实验室真实蛴螬回归：仅上传图片及比例/扩散速度即可建例；创建时三项元数据均为“系统未判断”，YOLO 类别 14 检测后关联作物自动更新为“玉米”。
+- Qwen3-VL 纯图片第一阶段对该图返回“无法判断”，部位和阶段规范为“系统未判断”；最终主类别固定为 YOLO 的“蛴螬”，旧默认“叶片/苗期”已不再参与识别。
+- 部署后健康状态为 `ok`、活动实例仍为 `lab_cpu`、普通病例数保持 22；SQLite `PRAGMA quick_check` 返回 `ok`，detector/VLM 容器未重建。
+- Phase 9.12 已确认：作物选项为玉米/番茄/南瓜/马铃薯/昆虫；非昆虫必须选择部位与阶段，昆虫保存“不适用”；所有田间字段初始为空并由前后端共同校验。
+- 人工字段不覆盖 YOLO 最终类别；作物冲突只进入一致性风险。第一阶段仍只看原图，第二阶段重新接收原图、YOLO、shadow 与人工字段。
+- 新综合分析必须使用带明确关联的结构化输出，每条危害/诱因绑定 `image|yolo|field_input` 依据；证据不足返回“无法判断”，百度百科不得作为该阶段依据。
+- 主页采用上下两步，内嵌综合分析与知识摘要；仅删除成功绿色提示和可靠性卡，错误/冲突/补拍提示继续保留。
+- 真实 CPU 验收发现仅做字段/来源白名单仍不足：Qwen 曾把“啃食根系导致萎蔫”作为图片危害依据，并在第一阶段全为“无法判断”时于第二阶段补写“根部蛀食痕迹”。因此增加保守语义门：禁止产量、传播、病原和因果后果推断；第二阶段正向图片依据必须通过第一阶段可见证据门，否则整条危害/诱因固定降为“无法判断”。
+- 第二阶段田间依据若未引用本次请求的真实字段值会被过滤；无剩余充分依据时不再把整例标记为服务失败，而是生成明确的“无法判断”及缺失证据说明。
+
+# 2026-08-20 Impeccable 设计文档与 UI 审查
+
+- 项目根目录当前没有 `DESIGN.md`、`PRODUCT.md` 或 Impeccable surface brief；现有前端代码和已部署页面足以使用 Scan mode 提取设计系统。
+- `impeccable document` 要求同时生成规范化 `DESIGN.md` 与 `.impeccable/design.json` sidecar；令牌必须来自真实复用值，不能发明不存在的视觉系统。
+- `impeccable critique` 要求设计审查与机械/浏览器证据两项评估相互隔离；当前没有子代理工具，因此必须顺序执行并显式标注 degraded。
+- 当前工作树有 18 个既有修改文件和 2 个未跟踪前端组件；这些都是上轮功能实现资产，本轮不得覆盖或回滚。
+- `DESIGN.md` 已按现有 CSS 提取 13 个颜色令牌、5 级文字角色、5 级圆角、7 级间距和 6 个组件令牌；sidecar 提供 7 个可渲染组件、阴影、动效与 620/900px 断点。
+
+## Critique Assessment A — 独立设计审查（检测器运行前）
+
+- **设计特异性：** 绿色农业语义、田间拍照、检测框、证据绑定、知识库与拒答边界形成了可信的产品特征；但整体仍是常见的“浅色大圆角卡片 + 绿色 SaaS 工作台”结构，缺少把田间采样、证据强弱和病例归属做成独特视觉语法的进一步表达。
+- **主要优点：** 单一深绿主色和风险色语义稳定；上传→结果→证据→知识顺序符合任务；全局 `:focus-visible`、44px 交互高度、移动底栏和拒答文本构成良好可访问性基础。
+- **P1 数据归属语义不准确：** 历史、趋势和页脚反复写“当前电脑”，但双服务器系统实际按当前活动实例隔离数据；公共页又不显示当前实例，切换后病例列表变化容易被误解为数据丢失。
+- **P1 必填状态不可诊断：** 首页最多要求上传图片并完成 6 个田间决策；主按钮在缺项时直接禁用，没有缺失项汇总或逐字段提示，首次用户只能反复查找原因。
+- **P1 长耗时缺少预期管理：** CPU 多模态历史稳定耗时约 96 秒；界面只显示阶段名，没有预计时长、继续等待说明、离开页面影响或恢复入口。
+- **P2 技术术语进入主路径：** “YOLO 决定最终类别”“第二阶段证据”“技术证据/provenance”面向普通用户缺少解释；折叠技术区虽降低影响，但步骤说明仍承担翻译成本。
+- **P2 层级过度与纵向负担：** 空结果区桌面最小高 610px、移动端 420px；结果形成后又连续展示摘要、综合分析、知识、两个 22px 链接和技术区，主结果与后续动作的优先级变得模糊。
+- **P2 导航缺少当前位置：** 公共页头没有 active class 或 `aria-current`；历史和趋势页只能靠大标题判断所在位置。
+- **认知负荷：** 8 项清单中“≤4 个可见决策”和“一次只做一件事”失败，属于 2 项失败的中等负荷；植物病例会同时呈现 6 个字段选择/输入加图片上传。
+- **初步 Nielsen 评分：** 3/2/2/3/3/3/1/3/3/2，总计 25/40（Acceptable）。机械检测尚未运行，评分将在综合报告中复核。
+- **相关角色：** Jordan 会被禁用按钮和 YOLO 术语阻塞；Sam 会受缺失 `aria-current` 与非 live 的进度/服务状态影响；Casey 会受表单不保存、约 96 秒等待和长页面影响。
+
+## Critique Assessment B — 机械检测与浏览器证据
+
+- 审查目标解析为 `web-app`；`.impeccable/critique/ignore.md` 不存在，没有静默忽略项。
+- `detect.mjs --json web/app` 返回 1 条 `layout-transition` warning：`web/app/globals.css:280` 的训练进度条使用 `transition: width .4s ease`。这是有效的 P3 性能/动效问题，但位于训练监控，不影响公共诊断主任务。
+- 主要文本组合对比度：muted/surface 4.84、green/green-soft 5.77、white/green 6.50、amber-text/amber-soft 7.20、red/red-soft 5.32、nav/paper 6.35，均达到普通文本 AA 的 4.5:1。
+- 浏览器自动化成功打开 `http://192.168.15.133:8080/` 并读取正确标题；桌面/响应式截图与样式采样两次超时并重置。Codex Browser 的 evaluate 为只读且没有可用的 DOM 脚本注入能力，因此没有可靠的人类可见 overlay；回退证据为成功 URL/标题导航、源码结构、CSS 响应式规则和 CLI 检测。
+- Assessment A 在检测器之前完成并持久化；B 未改变 A 的判断，只补充了进度条动画与色彩对比证据。
+- 用户选择“昆虫”时部位/阶段在真实病例中均保存为“不适用”；人工字段与目录冲突只把 `field_input_consistency` 升为 `conflict`，YOLO 最终类别不会被覆盖。
+# 2026-08-20 三个 P1 实施发现
+
+- 当前三个 P1 的基准分来自既有 Impeccable critique：Design Health Score 为 25/40。
+- 公共页头已被首页、历史、趋势、病例详情和报告复用，适合集中增加当前服务器标签和当前导航状态，无需重写各页。
+- 双服务器路由只代理 `/api/cases`、病例子路由和 `/api/trends`；普通 `/health` 是实验室本地健康，不足以单独代表当前活动实例，需要继续核对是否已有公开活动实例字段或最小只读接口。
+- 病例目前只有 `created`、`detected`、`analyzed` 等持久状态，分析请求完成前没有明确的 `analyzing/queued` 持久状态；在未证明可安全恢复前，不实现虚假进度或自动重放。
+- `/health` 当前只返回本地 `instance_id/instance_label`，而活动实例由 `ControlStore.active_instance()` 决定；因此切换到 GPU 后直接展示现有 health 标签会错误地显示 CPU。
+- 采用最小的后端加法修改：在原 `/health` 响应增加 `active_instance_id`、`active_instance_label` 和 `active_instance_mode`。不更改现有字段、路由规则或鉴权接口，也不暴露 IP/端口。
+- 首页创建病例后已经立即执行 `setRecord(created)`，可直接复用这一时点显示病例编号；无需等待目标定位或综合分析完成。
+- Admin 现有确认框只说明“新病例保存在目标服务器”，还需明确补充“病例历史列表会变化，切回后仍可查看”，以避免被理解为数据丢失。
+- 本地桌面验收使用独立的 3002/8002 实例，避免覆盖用户已有的 3000/8000 开发进程。1280×720 下无水平溢出。
+- 桌面动态证据：页头显示“当前识别服务器：实验室 CPU”；桌面与移动导航的“开始诊断”均带 `aria-current="page"`；缺项提示完整；CPU 1–2 分钟说明可见；提交按钮仍由原有验证禁用。
+- 整个结果卡片已不再设置 `aria-live`，仅服务器状态、缺项状态和运行阶段使用窄范围 polite live region，降低重复播报风险。
+- 首轮 390×844 验收发现既有 `backdrop-filter` 会让页头内的 fixed 手机导航以 sticky header 为定位容器，导航跑到顶部并遮住品牌/服务器标签。该问题直接影响本轮服务器归属可见性，已在 <=900px 关闭页头 backdrop-filter，待复测。
+- 移动复测通过：390×844 下底部导航位于 y=774–832，服务器标签位于页头 y=15–48，二者不重叠；页面无水平溢出，提交按钮最小高度 44px。
+- 缺项交互复测通过：选择“玉米”后动态增加“植物部位、生长阶段”；切换为“昆虫”后两项控件与缺项文字同时移除，其余缺项继续保留。
+- Impeccable 源码 detector 报告 2 个 warning：旧训练进度条的 `transition: width`，以及本轮 CPU 耗时提示的单侧 3px 琥珀边框。前者是既有性能 P3；后者需在 audit 中判断为状态提示的低影响 P3 或设计反模式。
+- Impeccable URL detector 因本机未安装 Puppeteer 无法运行；不为审计临时引入依赖，改用已完成的真实浏览器桌面/移动证据，并在报告中明确降级。
+- 修改前 critique 的 10 项分数为 `3,2,2,3,3,3,1,3,3,2`，总分 25/40；本轮可直接改善系统状态可见性、真实世界匹配、一致性、错误预防、识别优于回忆、错误恢复和帮助说明。
+- 审计静态扫描确认仍有 5 个 ESLint `<img>` 性能警告、报告正文 11px、结果区两个 22px 同权入口、较多未令牌化硬编码颜色；这些不属于本轮三个 P1，作为 P2/P3 保留。
+- 移动可访问性抽检：5/5 当前表单控件均有关联标签，图片无缺失 alt，标题层级为 H1→H2/H3，polite live region 仅 2 个；品牌链接高 40px、历史预览文字链接高 42px，低于 44px，作为 P3 记录。
+- 本轮 audit 预计无 P0/P1；剩余问题集中在报告小字号、结果行动层级、图片优化，以及设计令牌/孤立动画/小触控目标等 P2/P3。
+# 2026-08-20 第三阶段视觉辨识度发现
+
+- 上一轮审计已关闭全部 P0/P1/P2；本轮不是修复轮，而是从“通用暖白绿色农业工作台”提升为“证据驱动诊断工具”。
+- 可保留资产：暖白纸张底色、深绿色主色、“田”字品牌标、克制圆角、现有 PublicHeader、ComprehensiveAnalysis、KnowledgeSummary、结果主次行动与打印报告层级。
+- 主要缺口：缺少贯穿页面的真实诊断路径；证据来源虽有数据结构但视觉语义不统一；病例归属和知识参考仍像普通元数据，尚未形成产品识别符号。
+- 建议视觉母题：以“田”字方格和细线轨迹表达田间采样与证据流；来源使用单字方形标记（图、田、定、核、知、报）和统一排版，不增加彩虹标签。
+- 当前 `ComprehensiveAnalysis` 在普通可见区域把 `yolo` 标为“YOLO”，应改为“目标定位”；原始技术术语仅保留在折叠技术详情中。
+- 当前工作树包含用户此前多个阶段的未提交修改；本轮必须做叠加式局部修改，不回滚、不格式化无关文件。
+- 恢复记录时系统 `python` 别名和 `py` 不可用；已改用 `backend/.venv/Scripts/python.exe` 成功运行 planning-with-files session catch-up。第一次并行恢复无有效输出，未影响文件。
+- 桌面 1280×900 实测：诊断路径为六个横向节点，当前步骤仅“田间采样”；页面 `scrollWidth == clientWidth`，主按钮 44px。首版标题三行过重，已收敛到 54px、两行。
+- 390×844 实测：诊断路径自然转为六个纵向节点，底部导航触控高度 46px，主按钮 44px，`scrollWidth == clientWidth`。
+- 病例详情实测发现旧后端 `resolution_reasons` 会把 502 URL 暴露在普通路径；已在前端过滤 URL/server error/traceback/bad gateway，原始内容移入折叠技术详情。
+- 报告实测：病例归属显示“实验室 CPU”，路径当前节点为“诊断报告”，桌面与 390px 均无横向溢出。
+- 第一次 production QA 服务只返回 HTML、静态 CSS 404；改用构建产物自带的 Wrangler assets 配置后完成视觉检查。重建时临时 QA 进程锁定 `dist/server/.wrangler`，停止本轮启动的 4173/4174/4175 进程后构建恢复通过。
+- Impeccable critique 的 Assessment B 独立完成；两次 Assessment A 子代理均未在等待与中断后返回，因此 critique 按规则标注单上下文降级，不把未返回结果冒充双代理共识。
+- Critique 发现失败病例会把未执行阶段标成完成；polish 后按 `resolution_status`、检测结果和分析状态停在真实的“目标定位”或“信息核对”，同时显示“在此停止”并设置 `aria-current="step"`。
+- 旧 health 响应缺少实例 label 时，页头在线状态现在回退到 id/mode 映射或“当前实例”，避免“服务开放”与“正在读取”长期并存。
+- 最终 390px 抽检：报告来源链接 49px、移动导航 46px、主按钮 44px、上传区 250px；首页、病例、报告 `scrollWidth == clientWidth`。
+- 最终 detector 仅报告 `web/app/globals.css:284` 的训练监控 `transition: width`；该项为用户明确排除范围的 P3。公共状态仍有少量硬编码警告色，为渐进令牌化 P3。
+- 最终评分：Design Health 36/40，Impeccable Audit 18/20；P0/P1/P2 为 0。
+# 2026-08-20 第四阶段比赛展示页最终发现
+
+- 最终视觉方向采用“田间证据图谱”：不是通用 SaaS 卡片堆叠，而是以证据节点、细线轨迹与诊断路径串联图片、定位、田间信息、知识参考和报告。
+- 首屏在 10 秒信息范围内同时给出项目定义、真实诊断入口和三项创新；指标区给出技术数值及普通语言解释，避免评委必须理解 mAP 才能判断价值。
+- 页面真实数据为 16 类、4,164 张审计训练图、5,920 个目标框、833 张冻结评测图、mAP50-95 0.5482，以及 160/160 固定重测成功、Top-1 87.50%、内容完整率 100%、冲突识别 15/17。
+- 页面使用真实实验室诊断界面截图；未生成假系统 UI，未编造用户数、满意度或准确率。
+- 本地 Vinext 生产启动没有正确提供 CSS 静态资源，浏览器验收改用构建产物只读静态服务；这属于本地 QA 运行路径问题，不应为消除现象而更改业务或迁移技术栈。
+- Next 图片优化在当前构建运行时无法稳定取图，最终采用带 width/height、alt、decoding 和 eager/lazy 策略的静态 `<img>`；detector 返回空结果，ESLint 通过。
+- 最终 Audit 为 18/20：A11y 4、Performance 3、Responsive 4、Theming 3、Implementation Integrity 4；P0/P1/P2 为 0，P3 为首屏图片体积与局部展示色令牌化。
+
+# 2026-08-20 UI Redesign V2 初始约束
+
+- 用户明确撤销“保留当前设计”约束；旧 JSX、文案、CSS、卡片、布局和视觉层级都不是权威，只保留产品功能与数据契约。
+- 重点页面为智能诊断首页、诊断结果状态、病例详情和诊断报告；Admin、训练监控、showcase 和后端不在范围。
+- 桌面目标拓扑为图片与田间信息左右工作区；移动端为图片、田间信息、提交的自然纵向流。
+- 结果首屏必须先回答问题名称、风险、下一步行动，再展示综合分析、证据、知识和技术详情。
+- 病例详情按诊断档案组织；报告依靠 Typography、分隔线和留白而非连续卡片。
+- 1440px 现有首页截图显示：首屏被 54px 大标题和独立三步提示占据，真正的上传工作区落到视口下半部；用户的第一任务是拍照，但视觉第一焦点却是宣传式标题。
+- 当前首页上传与田间字段仍在一个纵向大卡片中，图片区只有约 250px 高，桌面没有形成“图片主区域 + 田间信息侧栏”的操作工作区。
+- 大量圆角边框、浅绿表面、状态胶囊和说明文本叠加，使页面更像精致后台表单，而不是面向田间任务的图像诊断工具。
+# 2026-08-20 UI Redesign V3 initial inspection
+
+- User explicitly allows replacing the current JSX layout, copy, CSS and visual system while preserving every existing function, API, database field, model path, dual-server behavior, case ownership and recovery state.
+- Product Design context preflight returned no saved user context; current project context comes from `PRODUCT.md`, `DESIGN.md`, source code and the local runtime.
+- Impeccable context identifies the target as an existing web app with no surface brief. The current `DESIGN.md` is an older visual baseline, not a constraint for this replacement-world redesign.
+- The local preview at `http://localhost:3101/` is reachable in the Codex in-app browser. The current home visibly shows the established green header, a large `智能诊断` title, a top service-unavailable warning, a large rounded workbench, an upload zone, and a two-column field area. The current service is unavailable, so no result record can be created during this read-only inspection.
+- Current empty state is truthful: the action is disabled and the missing-items status lists image, object, environment, affected ratio and spread speed. The new V3 must preserve this state logic while making the workbench more decisive and less card-like.
+- Design direction decision for V3: a light clinical-agriculture workspace with a deep agricultural green as the only brand accent, warm neutral surfaces, evidence/source marks, a slim instance status, and a record-like result/report language. Use a 70% Clinical Agriculture / 30% Field Intelligence blend; avoid landing-page hero treatment, gradients, glass, neon and invented metrics.
+- Browser inspection limitation: the first auto-selected browser binding produced empty DOM/screenshot responses; the Codex in-app binding worked after creating a fresh tab. No upload or form submission was performed, so no user file was transmitted and no backend state was changed.
+
+# 2026-08-20 参考图驱动诊断工作台改造初始发现
+
+- 用户选择的参考图是一个“诊断记录工作台”，核心构成为深绿色左侧工作区、顶部病例标识与服务器归属、六步诊断路径、中间图片证据/来源栏和右侧结论/风险/行动栏。
+- 参考图中的日期、姓名、地块、示例病例和额外导航属于示例内容，不应写入真实业务，也不应因此创建新业务路由。
+- 当前公共首页已经有真实上传、田间字段、状态提示和 API 数据链路；当前病例详情已有 `DiagnosisSummary`、`DiagnosisPath`、`ImageEvidenceFrame`、`ComprehensiveAnalysis` 和 `FieldFacts`，可直接重排为目标三栏结构。
+- 当前 `/history` 和 `/trends` 使用旧的 `public-*` 视觉体系，与 V3 核心页不同；这是既有 Impeccable audit 记录的第一个 P2。
+- 实验室入口 `http://192.168.15.133:8080/health` 当前返回 `ok`、`instance_id=lab_cpu`、`detector_mode=remote`、`multimodal_configured=true`，可用于真实成功态验收。
+- 本轮只应更新实验室 `web`；API 契约、SQLite、上传图片、报告、detector、Qwen3-VL、GPU 服务器及 Windows 中继均保持不变。
+
+# 2026-08-20 参考图驱动诊断工作台验收发现
+
+- 参考图的有效结构是“左侧工作区 + 顶部真实路径 + 图片证据/来源/结论三栏”，而不是复制日期、姓名、地块等示例数据；实现仅复用了结构和视觉关系。
+- 首页、病例详情、报告已共用 `workspace-v4-shell`；历史和趋势不再使用独立旧页头，统一显示当前识别服务器、切换后列表/统计会变化的说明和相同的标题层级。
+- 左侧归属栏在历史、趋势、病例详情和报告页会单独读取 `/health`，因此不会停留在“按病例固定”；首页继续复用已有 health 请求，避免改变后端接口。
+- 图片证据区仍使用原始图片 API 与现有检测框坐标；`EvidenceRail` 只显示实际病例字段、检测结果、grounded evidence 和知识来源，不生成参考图中的虚构病例信息。
+- 本地 390px 检查 `body.scrollWidth == clientWidth`；工作台导航、提交按钮、返回和报告动作均保持可用触控高度。
+- 全量 Impeccable detector 的两个报告图片 warning 命中的是 `normalizeKnowledgeHtml` 里的 HTML 清洗正则/模板字符串，不是页面发出的空 `src`；已核验为误报，不改动安全清洗逻辑。
+- 全量 detector 仍报告 `web/app/globals.css:284` 的训练监控 `transition: width`；该项在 Admin/训练监控范围外，本轮不修改。
+- 实验室健康与容器状态：`lab-backend-1`、`lab-detector-1`、`lab-vlm-1`、`lab-gateway-1` 保持原运行；仅 `lab-web-1` 在部署时重建。SQLite 文件仍位于 `/data/ghl/storage/crop-pest.sqlite3`。
+
+# 2026-08-20 公共诊断界面恢复旧版：实施前发现
+
+- 首次 Impeccable 改造前的公共页面基线为 Git `HEAD`（`7f24239`），目标页面的旧版 JSX 可直接读取，不应使用中间 V2/V3 版本作为回滚目标。
+- 当前 `globals.css` 仍包含旧版 `public-*` 样式；V4 样式主要通过 `.workspace-v4-page` 和 `.workspace-v4-*` 选择器覆盖，因此可用独立 legacy 覆盖层隔离恢复，不必替换整个全局 CSS。
+- `WorkspaceShell` 当前同时负责侧边栏、Logo、服务器状态和主内容；旧版模式应只替换主内容顶部 Header/容器，不修改侧边栏 DOM、导航和 `ProductMark`。
+- 当前后端白名单为作物 `玉米/番茄/南瓜/马铃薯/昆虫`、环境 `露地/温室/大棚/室内样本/未知`、部位 `叶片/茎秆/果实/根部/整株`、阶段 `苗期/营养生长期/开花期/结果期/成熟期`；受害比例和扩散速度必填。旧版数组包含已失效作物和“未知”部位/阶段，必须使用当前值替换。
+- 当前首页的 API 请求链和病例字段已经可靠，视觉恢复不应重新设计 `/api/cases`、`detect`、`analyze`、`report` 或 `/api/trends`。
+- 用户已明确选择：旧版外观，但历史/趋势保留“当前识别服务器/实验室 CPU/原 GPU”等准确归属文案。
+
+# 2026-08-20 公共诊断界面恢复旧版：验收发现
+
+- 公共页面已通过 `visualMode="legacy"` 使用独立旧版承载模式；默认 `WorkspaceShell` 仍是当前工作台模式，因此 Admin、训练和审核页未被切换。
+- 1280px 下侧边工作栏和当前 `ProductMark` 保留，首页恢复旧版 Hero、两栏诊断区、结果卡片、病例历史预览；390px 下工作栏按原响应式行为隐藏，顶部页头与底部移动导航可用。
+- 第一版移动导航在 in-app browser 中因 `position: fixed` 的静态定位产生顶部偏移；改为显式 `top: calc(100vh - 70px)` 后，390px 视口稳定落在底部且无横向溢出。
+- Impeccable detector 对报告页 `normalizeKnowledgeHtml` 中生成 `<img>` 的正则/模板字符串给出 broken-image warning；实际图片仍来自 `apiUrl(record.image_url)` 或知识库安全 HTML，未发现空 `src`。
+
+# 2026-08-20 旧版公共界面双服务器部署发现
+
+- 实验室服务器是统一 Web 入口；GPU 服务器只运行独立 backend、detector 和 VLM，不直接提供 Web 页面。因此本次“部署到两端”采用实验室更新 `web`、GPU 同步 backend/deploy 并重启 backend 的架构正确实现。
+- 部署后实验室入口所有公共路由均为 200，`/health` 为 `lab_cpu`，活动路由为 `gpu_full`；GPU `/health` 为 `gpu_full`，两端病例数均为 0。
+- 使用旧版公共页面的 SSR 标记、当前侧边工作栏和 `ProductMark` 作为发布验收信号；模型、知识库、SQLite、上传图片和报告目录未被发布过程修改。
+
+# 2026-08-20 GPU 同步部署发现
+
+- GPU 服务器不是 Docker 部署：独立后端位于 `/root/autodl-tmp/ghl/app/backend`，由 `/root/autodl-tmp/ghl/app/deploy/gpu/run_backend.sh` 管理；独立存储位于 `/root/autodl-tmp/ghl/storage`。
+- 原检测器启动脚本位于 `/root/autodl-tmp/crop-pest-system/inference/run_server.sh`，默认 `127.0.0.1:8870`；Qwen3-VL 启动脚本位于 `/root/autodl-tmp/crop-pest-system/inference/run_vlm_server.sh`，默认 `127.0.0.1:8890`。
+- 当前端口 8000、8870、8890 均未监听；“GPU 服务器可用”目前表示 SSH/GPU 可用，不等于三个推理服务已启动。
+- GPU 端已有模型资产：RTX 5090、多个 detector `best.pt`、Qwen3-VL 8B 权重目录；本轮不重新上传或重建模型资产。
+- 部署前 SQLite `PRAGMA integrity_check` 返回 `ok`，已做应用/存储/日志归档备份。
+
+# 2026-08-20 GPU 切换后公共页面仍显示 CPU 的诊断
+
+- 实验室控制文件 `/data/control/active-instance.json` 已记录 `active_instance=gpu_full`，后台 `/api/admin/instances/activate` 日志返回 `200 OK`，说明切换动作实际写入成功。
+- Windows 两段中继在线，GPU 端 `/health` 返回 `gpu_full / 原 GPU 服务器 / ok`；远端 backend、detector、VLM 均可访问。
+- 实验室 `http://192.168.15.133:8080/health` 仍只返回 `instance_id=lab_cpu` 和 `instance_label=实验室 CPU`，缺少 `active_instance_id`、`active_instance_label`、`active_instance_mode`。
+- 由于本轮 GPU 发布时只重建了 GPU backend，实验室 `lab-backend-1` 未随最新双服务器 health 契约更新；公共 `PublicHeader`、`WorkspaceShell` 和首页会按 `health.instance_label` 回退为 CPU，因此截图中的两个 CPU 标签都属于同一后端版本不一致问题。
+- 正确修复方向是备份后仅更新/重建实验室 `backend`，不动 SQLite、病例图片、报告、detector、VLM 和 gateway；重启后重新验证控制文件、`/health` 和公共页面。
+
+# 2026-08-21 GitHub 项目同步：待检查
+
+- 目标仓库为 `LingmaFuture/plant-health-ai`；用户授权本轮提交并 push，但不创建 Pull Request。
+- 需要先确认本地当前 remote 是否已指向目标仓库；如果不是，只添加/更新明确的目标 remote，不覆盖原有 remote 信息。
+- 需要区分“源码/配置模板/部署脚本”与“运行数据/模型权重/缓存”；后者必须按大小、敏感性和可复现性单独处理。
+- `best_model.pth` 的上传方式必须以实际字节大小和仓库限制为依据，不能仅按扩展名判断。
+- `Image Data base/` 不应上传完整训练集；需要保留能说明类别、目录结构、数量、训练代码路径和获取方式的文档或清单。
+
+# 2026-08-21 GitHub 项目同步：基线审计结果
+
+- 本地当前分支为 `codex/publish-audits-and-calibration-plan`，HEAD 为 `7f24239 feat: add curated Baidu knowledge reports`；工作树存在既有修改和多个最新 UI/设计文档未跟踪目录，不能重置或覆盖。
+- 本地 `origin` 指向 `genghailong8-maker/crop-pest-multimodel-system`，不是本次目标；目标 `LingmaFuture/plant-health-ai` 当前只存在 `main`，HEAD 为 `2dfd6d0 Update README.md`，包含 13 个旧版 Gradio 项目文件。
+- 本地已跟踪约 2705 个文件，内容明显比目标 `main` 完整；相对目标 `main` 存在大量新增项目源码/文档/部署/知识库文件，同时目标旧版 `app.py`、`main.py`、`requirements.txt`、`best_model.pth` 等不在当前本地树中。
+- 本地根目录不存在 `best_model.pth`、`Image Data base/`、`example/`、`app.py`、`main.py` 或根 `requirements.txt`；不能把目标仓库旧模型或旧示例误报为当前系统资产，也不应恢复/复制旧文件覆盖当前架构。
+- 当前 `.gitignore` 已排除 `.env`、运行时、虚拟环境、`node_modules`、缓存、模型格式和大部分数据/训练图片；需要补充的重点是文档化当前数据集与模型资产，而不是放宽这些忽略规则。
+- 工作区存在约 5.0 GB Qwen GGUF、近 1 GB PlantDoc 压缩包、离线镜像/wheel/npm 缓存和实验归档等大型运行资产，均不应进入普通 Git 分支；应保留现有忽略规则并在资产说明中记录提供方式。
+- 提交前第一次从项目根目录运行 `pytest` 会收集训练测试，并因后端虚拟环境没有 `numpy` 在训练测试收集阶段失败；后端 API 测试应按项目边界从 `backend/tests` 单独运行，训练依赖不应为 GitHub 同步强行装入后端环境。

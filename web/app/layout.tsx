@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./product-v3.css";
+import "./product-v4.css";
+import "./product-legacy.css";
 
 export const metadata: Metadata = {
   title: "田诊协同｜农作物病虫害识别与防治系统",

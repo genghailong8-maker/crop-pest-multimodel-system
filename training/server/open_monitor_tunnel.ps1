@@ -2,11 +2,14 @@ param(
     [string]$SshHost = "connect.bjb2.seetacloud.com",
     [int]$SshPort = 10373,
     [string]$SshUser = "root",
-    [string]$IdentityFile = "C:\Users\genghailong\.ssh\codex_autodl_nongxin_2026",
+    [string]$IdentityFile = $env:CROP_SSH_IDENTITY_FILE,
     [int]$LocalPort = 8765
 )
 
 $ErrorActionPreference = "Stop"
+if ([string]::IsNullOrWhiteSpace($IdentityFile)) {
+    throw "Pass -IdentityFile or set CROP_SSH_IDENTITY_FILE; the SSH private key is never stored in the repository."
+}
 $existing = Get-NetTCPConnection -State Listen -LocalPort $LocalPort -ErrorAction SilentlyContinue
 if ($existing) {
     Write-Host "Training monitor tunnel is already available: http://localhost:3000/training"
