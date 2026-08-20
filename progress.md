@@ -1296,3 +1296,4 @@
 - 已创建并切换到本地开发分支 `competition-dev`，新增只读/发布 remote `target=https://github.com/LingmaFuture/plant-health-ai.git`；原 `origin` 保留不变。
 - 前端 `npm test`（build + 8 项页面测试）和 `npm run lint` 已通过；根目录 pytest 首次因收集训练测试缺少 numpy 失败，待按 `backend/tests` 重跑。
 - 后端边界测试已按 `backend/tests` 重跑并通过：41 passed，保留 1 条既有 Starlette/httpx 弃用警告；没有安装额外训练依赖。
+- 本地提交 `4c8fa20 chore: publish complete project for Work analysis` 已完成；推送 `competition-dev` 到目标仓库因当前账号无写权限返回 HTTP 403，待用户授权后继续。

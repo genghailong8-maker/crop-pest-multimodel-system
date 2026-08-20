@@ -933,3 +933,4 @@
 - 当前 `.gitignore` 已排除 `.env`、运行时、虚拟环境、`node_modules`、缓存、模型格式和大部分数据/训练图片；需要补充的重点是文档化当前数据集与模型资产，而不是放宽这些忽略规则。
 - 工作区存在约 5.0 GB Qwen GGUF、近 1 GB PlantDoc 压缩包、离线镜像/wheel/npm 缓存和实验归档等大型运行资产，均不应进入普通 Git 分支；应保留现有忽略规则并在资产说明中记录提供方式。
 - 提交前第一次从项目根目录运行 `pytest` 会收集训练测试，并因后端虚拟环境没有 `numpy` 在训练测试收集阶段失败；后端 API 测试应按项目边界从 `backend/tests` 单独运行，训练依赖不应为 GitHub 同步强行装入后端环境。
+- 本地提交 `4c8fa20` 已包含 64 个确认文件；`git push -u target competition-dev` 返回 HTTP 403，GitHub 连接器确认当前账号 `genghailong8-maker` 对目标仓库权限为 `push: false`。
