@@ -1298,3 +1298,35 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 - 真实隔离病例：`lab_cpu-da980cfd48b54d4c9f775897ee560d73`；YOLO 主类别蛴螬、置信度约 0.918622；Tavily/Qwen/病例/报告闭环成功。
 - 真实重启恢复：5 个 source_id 与 5 份正文快照恢复；重复读取报告未修改快照文件，未重新检索。
 - 当前保持未提交、未推送。
+
+# 2026-08-21 P0-3 比赛启动链与健康检查：in_progress
+
+## Scope and constraints
+
+- 只新增比赛现场统一启动、状态、最小 smoke 和安全停止能力；不修改外部证据业务、YOLO、Qwen、Tavily provider、knowledge、数据库或公共 UI。
+- 保持 `competition-dev`，不修改 master/main；本轮不 commit、不 push。
+- 复用 `inference/open_tunnel.ps1` 建立 GPU 隧道；脚本只管理自己创建的本地进程和 PID 文件，不停止远端推理服务。
+
+## Phases
+
+- [x] 1. 审计现有启动脚本、服务端点、运行环境、端口和状态接口
+- [x] 2. 实现 competition start/status/smoke/stop、预检、健康分类和 PID 安全边界
+- [x] 3. 更新 `.env.example`、README 和比赛演示 runbook
+- [x] 4. 运行脚本单元测试、预检、真实本地链路和故障降级模拟
+- [x] 5. 运行 backend/frontend 全量回归、构建、Lint、diff-check 和安全扫描
+- [x] 6. 输出 P0-3 报告，保持未提交、未推送
+
+## Success criteria
+
+- 新电脑按文档执行统一入口即可预检并启动 backend、frontend 和必要隧道。
+- status 能区分 READY、DEGRADED、FAILED、NOT RUNNING；核心服务失败阻止完整演示，Tavily 失败只降级。
+- `tmp/competition` 只保存脚本自有 PID/log 状态；stop 不批量杀 Python/Node，不停止远端服务。
+- 本地真实链路和至少一个真实病例可验证；搜索失败、模型离线和端口占用都有可解释提示。
+
+## Verification results
+
+- `scripts/competition.tests.ps1`：PASS；健康分类覆盖 Tavily DEGRADED、Backend/Detector/Qwen FAILED 和 PID 误匹配保护。
+- 统一入口实际启动 Backend 8000；使用临时 3110 端口完成 production build/start/status/stop，回收后 8000/3110 无监听，远端 Detector/Qwen 未停止。
+- `status -CheckTavilyNetwork` 与 `smoke` 在核心服务 READY 时通过；Backend 停止时正确报告 FAILED。
+- Backend pytest：70 passed；Frontend tests/render：8 passed；ESLint、production build、`git diff --check` 和候选文件 secret/path 扫描通过。
+- 真实图片 API 链路完成上传、YOLO、Qwen、病例详情和报告；默认 5 来源复现既有 Qwen 8192 上下文超限并安全降级，临时单来源配置下分析 API 完成且 treatment 仍来自 `local_knowledge_base`。该既有上下文问题未在本轮修改。

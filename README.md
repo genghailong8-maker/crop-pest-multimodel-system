@@ -40,6 +40,23 @@
 
 ## 本机运行
 
+比赛现场推荐使用统一入口：
+
+```powershell
+cd "C:\Users\genghailong\Documents\编程大赛"
+.\scripts\competition.ps1 start
+.\scripts\competition.ps1 status
+.\scripts\competition.ps1 smoke
+```
+
+默认访问 `http://localhost:3000/`。入口会预检 Python、Node、依赖和 SSH，复用或建立 8870/8890 私有隧道，启动后端和生产前端，并输出状态与访问地址。`stop` 只停止入口记录的本机进程和 SSH 隧道，不停止远程 detector 或 Qwen3-VL：
+
+```powershell
+.\scripts\competition.ps1 stop
+```
+
+GPU 私钥路径通过 `CROP_GPU_SSH_IDENTITY_FILE` 传入；它必须是 GPU/AutoDL 专用私钥，不要把 GitHub SSH key 当作 GPU key。Tavily 是增强能力，缺少密钥或网络失败时状态为 `DEGRADED`，核心诊断仍可用。入口不会打印密钥。
+
 后端：
 
 ```powershell
@@ -55,6 +72,8 @@ npm.cmd run dev
 ```
 
 默认访问 `http://localhost:3000`。模型权重和多模态服务地址通过 `backend/.env.example` 中的变量配置。
+
+如果统一入口无法使用，可按 `docs/competition/demo-runbook.md` 的人工恢复流程分别启动隧道、后端和网页。
 
 ## 自建知识库
 

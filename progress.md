@@ -1451,3 +1451,18 @@
 - 实际保存 5 个 `source_id` 与 5 份正文快照，长度约 349、666、816、1873、3826 字符；危害/可能诱因各 1 条且引用有效 source_id；防治措施来源 `local_knowledge_base`。
 - 隔离后端停止并重启后，病例和 report 仍恢复正文；两次读取 report 的快照文件时间不变，历史读取未重新执行 Tavily。临时后端已停止，仓库无运行时测试产物。
 - P0-2 目标已完成；当前工作区保持未提交、未推送，等待用户审阅。
+
+## P0-3 比赛启动链与健康检查：开始（2026-08-21）
+
+- 已确认本轮只处理统一入口、健康状态、依赖预检、故障提示和安全停止；不改动业务诊断链路。
+- 已新增 `scripts/competition.ps1` 与 `scripts/competition.tests.ps1`，统一提供 `start/status/smoke/stop`，状态分为核心 READY/FAILED 与增强项 DEGRADED，并复用既有 `inference/open_tunnel.ps1`。
+- 已为隧道脚本增加可选 PID 文件，不影响原有手动调用；已将 `backend/.env.example` 的主搜索 provider 更新为 Tavily。
+- 已更新 README 和比赛演示 runbook，下一步执行 PowerShell 语法/分类测试、真实服务链路、故障降级模拟及完整回归。
+
+## P0-3 验收完成（2026-08-21）
+
+- `competition.tests.ps1` PASS；`status`、`smoke`、`start`、`stop` 均真实执行。核心服务就绪时 Overall READY，Backend 停止时 Overall FAILED；Tavily 网络检查不输出密钥。
+- 使用临时 3110 验证前端 production build/start/stop；首次发现 npm/vinext 脱离父进程树的残留，已补充基于项目命令与端口的精确孤儿回收，并复测 8000/3110 无残留监听。
+- Backend pytest 70 passed（1 条既有弃用警告）；Frontend/render 8 passed；ESLint、production build、`git diff --check`、候选文件安全扫描通过。
+- 真实病例链路已执行；默认五来源触发既有 Qwen 8192 上下文限制并安全降级，临时单来源配置下完成分析、详情和报告，knowledge treatment 隔离保持正确。未修改该既有上下文问题。
+- P0-3 本轮实现与启动/健康/停止目标完成；当前工作区保持未提交、未推送，等待用户确认。

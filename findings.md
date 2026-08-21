@@ -1077,3 +1077,20 @@
 - 真实隔离病例 `lab_cpu-da980cfd48b54d4c9f775897ee560d73`：YOLO 识别蛴螬；5 个来源、5 个正文快照（单份约 349–3826 字符）；危害和可能诱因各 1 条，source_id 均有效；treatment 为 `local_knowledge_base`。
 - 停止并重新启动隔离后端后，病例详情和 report 仍恢复 5 份正文；重复 GET report 文件未更新，证明历史读取不重新调用 Tavily。
 - 完整 backend pytest 在临时 disabled provider 下为 70 passed；前端 8/8、Lint、Build、diff-check 通过；工作区仍未提交。
+
+# 2026-08-21 P0-3 启动链审计
+
+- `inference/open_tunnel.ps1` 已是现有 GPU 隧道入口，默认转发本地 `8870/8890` 到远端同端口；本轮仅补充可选 PID 文件记录和安全回收，不重写隧道逻辑。
+- Backend 健康端点为 `/health`，Detector 使用 `/health` 并要求 `status=ok`、`class_count=16`、主模型 loaded，Qwen 使用 `/v1/models` 并要求 `crop-pest-vlm`，Frontend 通过根路径 HTTP 检查。
+- 生产前端 API 在未设置 `NEXT_PUBLIC_API_BASE_URL` 时开发环境默认 8000；统一入口启动 build/start 前显式注入本机 backend 地址，避免把本地开发地址带入比赛构建。
+- Tavily 属于外部证据增强项：配置存在性检查失败为 `DEGRADED`，核心 Backend/Detector/Qwen/Frontend 失败为 `FAILED`；status 不输出 key 值。
+- `.gitignore` 已忽略 `tmp/`、backend runtime、node_modules、.venv 等运行产物；统一入口 PID/log 固定写入 `tmp/competition`。
+
+# 2026-08-21 P0-3 实现与验收
+
+- 新增 `scripts/competition.ps1`：`start` 进行 Python/venv/Node/npm/node_modules/ssh/身份文件预检，按需复用 `open_tunnel.ps1`，启动 Backend 8000 和生产 Frontend 3000；`status` 只检查；`smoke` 额外做一次 Tavily 网络检查；`stop` 只回收脚本自有本地进程。
+- 状态策略为核心 Backend/Detector/Qwen/Frontend 任一非 READY 即 `FAILED`；Tavily、Knowledge、Storage 不可用时为 `DEGRADED`，不阻断核心诊断。状态输出只显示 key 是否 configured/missing，不显示值。
+- `inference/open_tunnel.ps1` 增加可选 `PidFile`，保留原有 SSH 参数、健康等待和远端服务行为。Frontend stop 增加项目 `vinext` + 端口的孤儿进程精确清理；不使用全量 Python/Node 杀进程。
+- 新增 `scripts/competition.tests.ps1`，分类、降级策略和 PID 误匹配保护通过；真实 start/status/smoke/stop 与临时 3110 production start/stop 通过。
+- 真实 API 链路中，默认 5 来源样本复现既有 Qwen 8192 上下文超限，系统返回 `multimodal_unavailable` 而未伪造结论；临时单来源配置下上传、YOLO、Qwen、详情、报告均返回成功，treatment 仍为 `local_knowledge_base`。这属于既有证据上下文容量问题，不在本轮修复范围。
+- 本轮候选文件未包含 API key、密码、token 值、私钥、模型、数据集、runtime、tmp、dist、node_modules 或 `.venv`；未 commit/push。

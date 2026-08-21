@@ -6,7 +6,8 @@ param(
     [int]$LocalPort = 8870,
     [int]$RemotePort = 8870,
     [int]$VlmLocalPort = 8890,
-    [int]$VlmRemotePort = 8890
+    [int]$VlmRemotePort = 8890,
+    [string]$PidFile = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -50,8 +51,14 @@ if (-not $vlmReady) {
 $arguments += "${SshUser}@${SshHost}"
 
 $process = Start-Process -FilePath "ssh.exe" -ArgumentList $arguments -WindowStyle Hidden -PassThru
+if ($PidFile) {
+    $pidDirectory = Split-Path -Parent $PidFile
+    New-Item -ItemType Directory -Force -Path $pidDirectory | Out-Null
+    Set-Content -LiteralPath $PidFile -Value $process.Id -Encoding ASCII
+}
 foreach ($attempt in 1..300) {
     if ($process.HasExited) {
+        if ($PidFile) { Remove-Item -LiteralPath $PidFile -Force -ErrorAction SilentlyContinue }
         throw "SSH inference tunnel exited with code $($process.ExitCode)."
     }
     try {
@@ -68,4 +75,5 @@ foreach ($attempt in 1..300) {
 if (-not $process.HasExited) {
     Stop-Process -Id $process.Id
 }
+if ($PidFile) { Remove-Item -LiteralPath $PidFile -Force -ErrorAction SilentlyContinue }
 throw "SSH tunnel started, but detector/VLM readiness did not complete within 5 minutes."

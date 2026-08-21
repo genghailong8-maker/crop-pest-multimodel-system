@@ -14,7 +14,26 @@
 
 架构讲解、数据治理、知识卡片、安全边界、公开仓库审计和静态复现检查均可离线完成。没有 GPU 时不要把 CPU 结果写成正式性能数据。
 
-### 本机启动
+### 本机启动（比赛现场推荐）
+
+比赛现场优先使用项目统一入口，先做依赖预检，再启动本地后端、网页和必要的 GPU 隧道：
+
+```powershell
+cd "C:\Users\genghailong\Documents\编程大赛"
+.\scripts\competition.ps1 start
+.\scripts\competition.ps1 status
+.\scripts\competition.ps1 smoke
+```
+
+默认页面为 `http://localhost:3000/`。`status` 只检查，不启动服务；`smoke` 会执行核心链路检查，并将 Tavily 网络不可用标为 `DEGRADED`，不会阻止核心诊断服务启动。停止时执行：
+
+```powershell
+.\scripts\competition.ps1 stop
+```
+
+统一入口只停止它自己创建的本地 backend、web 和 SSH 隧道，不会停止远端 detector/Qwen。若 GPU 隧道使用非默认密钥或地址，请在启动前设置 `CROP_GPU_SSH_HOST`、`CROP_GPU_SSH_PORT`、`CROP_GPU_SSH_USER`、`CROP_GPU_SSH_IDENTITY_FILE`；密钥内容不要写入脚本、日志或文档。
+
+### 人工恢复流程（统一入口失败时）
 
 ```powershell
 # 终端 1：后端
@@ -40,6 +59,15 @@ Invoke-WebRequest http://127.0.0.1:8870/health | Select-Object -ExpandProperty C
 Invoke-WebRequest http://127.0.0.1:8890/v1/models | Select-Object -ExpandProperty Content
 Invoke-WebRequest http://localhost:3000/ | Select-Object -ExpandProperty StatusCode
 ```
+
+统一入口失败时，按以下顺序人工恢复：
+
+A. SSH 隧道：按 `inference/open_tunnel.ps1` 的既定流程建立本地 `8870` 和 `8890` 转发，不直接停止远端服务。
+B. Backend：在 `backend` 的项目虚拟环境中启动 `uvicorn app.main:app --host 127.0.0.1 --port 8000`，并确认 `/health` 返回 `status=ok`。
+C. Frontend：在 `web` 执行 `npm.cmd run dev -- --host 127.0.0.1 --port 3000`，再访问 `http://localhost:3000/`。
+D. 依次检查 `8870/health`、`8890/v1/models`、`8000/health` 和网页根路径。
+E. 只要 detector、Qwen、backend 或 frontend 任一核心项失败，就不要把演示结果说成完整诊断；按页面状态提示展示降级边界。
+F. Tavily 仅是外部证据增强项；其 key 缺失或网络失败时可以继续核心演示，并在状态页标为 `DEGRADED`。
 
 ## 3. 5 分钟讲解脚本
 
