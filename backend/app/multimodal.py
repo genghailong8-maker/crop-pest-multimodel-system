@@ -11,7 +11,14 @@ from pydantic import BaseModel, Field, ValidationError
 
 from .catalog import CLASS_BY_ID
 from .config import settings
-from .search import SearchEvidence, build_qwen_context, collect_external_evidence, public_sources, source_ids
+from .search import (
+    SearchEvidence,
+    build_qwen_context,
+    collect_external_evidence,
+    persisted_evidence_snapshots,
+    public_sources,
+    source_ids,
+)
 
 
 class MultimodalUnavailable(RuntimeError):
@@ -675,6 +682,7 @@ async def request_multimodal_analysis(
             "review_reasons": review_reasons,
             "evidence_analysis": external_analysis.model_dump(),
             "sources": public_sources(external_evidence),
+            "evidence_snapshots": persisted_evidence_snapshots(external_evidence),
             "provenance": {
                 "model": settings.vlm_model,
                 "protocol": ANALYSIS_SCHEMA_VERSION,

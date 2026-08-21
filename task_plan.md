@@ -1264,3 +1264,37 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 - 待提交源码为 `web/build/sites-vite-plugin.ts`；没有 `.env`、API key、密码、token、SSH 私钥、node_modules、.venv、模型、数据集或 runtime 临时数据。
 - 独立 worktree：修复前 build 失败；修复后 `npm ci`、production build、render tests 8/8 通过。
 - 最终判断：PASS；本轮仅允许提交 `.gitignore`、`web/build/sites-vite-plugin.ts`、`task_plan.md`、`findings.md`、`progress.md` 五个文件。
+
+# 2026-08-21 P0-2 外部证据正文持久化：in_progress
+
+## Scope and constraints
+
+- 只处理最终 EvidenceNormalizer 来源正文的病例/报告持久化与重启恢复。
+- 保持 `competition-dev`；不修改 master/main，不 commit/push。
+- 不修改 SearchProvider、Tavily 策略、Normalizer 排序、YOLO、Qwen 第一阶段、knowledge 或公共 UI。
+- 不新增 SQLite 表或列；优先复用现有 `analysis_json` 与报告 JSON 快照。
+
+## Phases
+
+- [x] 1. 审计 SearchSource、病例保存、SQLite、报告和历史读取链路
+- [x] 2. 设计并实现可选 evidence snapshot 兼容结构
+- [x] 3. 增加持久化、source_id、重启、旧病例、报告和安全测试
+- [x] 4. 运行 backend/frontend 回归、diff 与安全扫描
+- [x] 5. 如服务可用，执行一个真实最小病例；否则明确无法进行真实 E2E
+- [x] 6. 输出 P0-2 报告，保持未提交状态
+
+## Success criteria
+
+- `source_id -> sources metadata -> evidence_snapshots.content` 一一对应。
+- 列表接口不携带完整正文；病例详情和报告可恢复最终有效正文。
+- 进程重启后正文、URL、标题、站点、检索时间和 source_id 仍存在。
+- 历史病例不重新调用 Tavily；旧病例无快照时不报错。
+- treatment 继续标记 `local_knowledge_base`。
+
+## Verification checkpoint
+
+- Backend pytest：70 passed（临时 `CROP_SEARCH_PROVIDER=disabled`，避免既有 mock 测试误调用本机 Tavily）。
+- Frontend tests/render：8 passed；ESLint、production build、`git diff --check` 通过。
+- 真实隔离病例：`lab_cpu-da980cfd48b54d4c9f775897ee560d73`；YOLO 主类别蛴螬、置信度约 0.918622；Tavily/Qwen/病例/报告闭环成功。
+- 真实重启恢复：5 个 source_id 与 5 份正文快照恢复；重复读取报告未修改快照文件，未重新检索。
+- 当前保持未提交、未推送。

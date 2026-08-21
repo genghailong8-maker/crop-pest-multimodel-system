@@ -305,13 +305,45 @@ def local_treatment_payload(record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def present_case(record: dict[str, Any]) -> dict[str, Any]:
+def evidence_snapshots_for_record(record: dict[str, Any]) -> list[dict[str, Any]]:
+    analysis = record.get("analysis") or {}
+    snapshots = analysis.get("evidence_snapshots")
+    sources = analysis.get("sources") or []
+    source_ids = {
+        source.get("id")
+        for source in sources
+        if isinstance(source, dict) and source.get("id")
+    }
+    if not isinstance(snapshots, list):
+        return []
+    return [
+        snapshot
+        for snapshot in snapshots
+        if isinstance(snapshot, dict)
+        and snapshot.get("source_id") in source_ids
+        and isinstance(snapshot.get("content"), str)
+        and snapshot.get("content")
+    ]
+
+
+def public_analysis_payload(analysis: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: value
+        for key, value in analysis.items()
+        if key != "evidence_snapshots"
+    }
+
+
+def present_case(
+    record: dict[str, Any], *, include_evidence_snapshots: bool = False
+) -> dict[str, Any]:
     """Translate technical evidence into one honest user-facing outcome."""
     status = record.get("status")
     quality_flags = list((record.get("quality") or {}).get("flags") or [])
     detections = record.get("detections")
     summary = record.get("detector_summary") or {}
     analysis = record.get("analysis") or {}
+    public_analysis = public_analysis_payload(analysis)
     primary = summary.get("primary_candidate") or {}
     confidence = primary.get("max_confidence")
     reasons: list[str] = []
@@ -360,19 +392,23 @@ def present_case(record: dict[str, Any]) -> dict[str, Any]:
         user_summary = "现有图片和信息足以给出可参考的辅助判断。"
         next_action = "查看发现位置、判断依据和下一步处理建议。"
 
-    return {
+    response = {
         **record,
-        "evidence_analysis": analysis.get(
+        "analysis": public_analysis,
+        "evidence_analysis": public_analysis.get(
             "evidence_analysis",
             {"status": "unavailable", "harms": [], "possible_causes": []},
         ),
-        "sources": list(analysis.get("sources") or []),
+        "sources": list(public_analysis.get("sources") or []),
         "treatment": local_treatment_payload(record),
         "resolution_status": resolution_status,
         "user_summary": user_summary,
         "next_action": next_action,
         "resolution_reasons": reasons,
     }
+    if include_evidence_snapshots:
+        response["evidence_snapshots"] = evidence_snapshots_for_record(record)
+    return response
 
 
 def multimodal_unavailable_case(case_id: str, reason: Exception | None = None) -> dict[str, Any]:
@@ -730,6 +766,7 @@ def build_case_report(record: dict[str, Any]) -> dict[str, Any]:
         "sources": get_knowledge_sources(knowledge["source_ids"]) if knowledge else [],
         "evidence_analysis": case_payload["evidence_analysis"],
         "external_sources": case_payload["sources"],
+        "evidence_snapshots": evidence_snapshots_for_record(record),
         "treatment": case_payload["treatment"],
         "prioritized_guidance": prioritized_guidance(
             primary_id,
@@ -760,6 +797,7 @@ def case_report(case_id: str) -> dict[str, Any]:
         existing
         and existing.get("snapshot", {}).get("format") == "crop-report-json-v2"
         and "evidence_analysis" in existing
+        and ("evidence_snapshots" in existing or not evidence_snapshots_for_record(record))
     ):
         return existing
     if existing and build_case_report(record).get("knowledge_document") is None:
@@ -769,7 +807,7 @@ def case_report(case_id: str) -> dict[str, Any]:
 
 @app.get("/api/cases/{case_id}")
 def case_detail(case_id: str) -> dict[str, Any]:
-    return present_case(require_visible_case(case_id))
+    return present_case(require_visible_case(case_id), include_evidence_snapshots=True)
 
 
 @app.get("/api/cases/{case_id}/image")

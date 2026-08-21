@@ -1062,3 +1062,18 @@
 - 本地与修复后独立 worktree 的前端测试、Lint、build、render tests 均通过；结论 PASS。
 
 - 本轮已获得用户授权创建独立 P0-1 原子提交；提交范围严格限定为 `.gitignore`、`web/build/sites-vite-plugin.ts`、`task_plan.md`、`findings.md`、`progress.md`。
+
+# 2026-08-21 P0-2 审计
+
+- `SearchSource.content` 在搜索抓取和 Normalizer 后仍存在，Qwen 只使用其 1600 字符摘录；`public_metadata()` 明确排除 `content`，多模态输出的 `analysis.sources` 因此只有公开元数据。
+- `diagnosis_cases.analysis_json` 保存完整分析 JSON blob，现有 SQLite 无需新增列；报告由 `build_case_report()` 生成并由 `reports.save_snapshot()` 保存为独立 JSON。
+- 列表和上传/检测/分析接口均通过 `present_case()` 返回轻量数据；病例详情可增加按需正文快照，报告可在根部保存快照，避免列表 API 携带长正文。
+
+# 2026-08-21 P0-2 实现与验收
+
+- 新增 `persisted_evidence_snapshots()`，只复制 Normalizer 最终接受且有正文的来源字段：`source_id/title/site_name/url/retrieved_at/reliability_level/content`；不复制 provider headers、密钥、cookie 或被过滤来源。
+- `analysis_json` 保存快照；`GET /api/cases/{id}` 按需返回快照，`GET /api/cases` 继续只返回公开来源元数据；报告 v2 根节点同步保存快照。
+- 不需要 SQLite schema migration；旧病例/旧报告缺少快照时返回空列表并继续读取既有 sources、harms、possible_causes。
+- 真实隔离病例 `lab_cpu-da980cfd48b54d4c9f775897ee560d73`：YOLO 识别蛴螬；5 个来源、5 个正文快照（单份约 349–3826 字符）；危害和可能诱因各 1 条，source_id 均有效；treatment 为 `local_knowledge_base`。
+- 停止并重新启动隔离后端后，病例详情和 report 仍恢复 5 份正文；重复 GET report 文件未更新，证明历史读取不重新调用 Tavily。
+- 完整 backend pytest 在临时 disabled provider 下为 70 passed；前端 8/8、Lint、Build、diff-check 通过；工作区仍未提交。

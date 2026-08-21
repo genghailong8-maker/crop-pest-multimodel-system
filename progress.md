@@ -1431,3 +1431,23 @@
 - `web/build` 仅保留待纳入 Git 的必要源码 `sites-vite-plugin.ts`；不提交整个 build 目录。
 - 修复前 clean worktree build FAIL；修复后 clean-equivalent worktree install/build/render PASS；本地 frontend tests 8 passed、ESLint PASS、production build PASS。
 - 最终判断：PASS；已获得用户授权创建独立原子提交并推送至 `origin/competition-dev`。
+
+## P0-2 外部证据正文持久化：开始（2026-08-21）
+
+- 已读取 planning-with-files 规则并完成会话恢复检查；当前 HEAD 为 P0-1 原子提交，工作区初始干净。
+- 已完成 SearchSource、Normalizer、multimodal 输出、SQLite blob、病例 API 和报告快照链路审计。
+- 下一步采用不迁移 SQLite 的最小方案：在 analysis JSON 保存最终来源正文快照，详情/报告按需返回，列表保持元数据。
+
+## P0-2 实现与首轮测试
+
+- 新增 `persisted_evidence_snapshots()`，只保存 Normalizer 最终接受且有正文的来源；`public_metadata()` 和列表 API 仍不包含正文。
+- 多模态分析结果保存正文快照；病例详情按需返回，报告根节点保存快照；旧报告/旧病例没有快照时返回空列表，不重新检索。
+- 新增 4 项持久化测试全部通过。完整回归首轮为 66 passed、4 failed；失败由当前 Tavily 环境变量与既有多模态 mock 的全局 httpx 替换冲突造成，准备使用临时 disabled provider 重跑。
+
+## P0-2 验收完成（2026-08-21）
+
+- 临时 `CROP_SEARCH_PROVIDER=disabled` 下 backend 全量回归 70 passed；新增持久化测试 4 passed；前端 tests/render 8 passed、ESLint PASS、production build PASS、`git diff --check` PASS。
+- 真实隔离后端使用项目 16 类中的蛴螬样本完成上传→YOLO→Tavily→原始网页抓取→EvidenceNormalizer→Qwen→病例→报告；病例 ID 为 `lab_cpu-da980cfd48b54d4c9f775897ee560d73`。
+- 实际保存 5 个 `source_id` 与 5 份正文快照，长度约 349、666、816、1873、3826 字符；危害/可能诱因各 1 条且引用有效 source_id；防治措施来源 `local_knowledge_base`。
+- 隔离后端停止并重启后，病例和 report 仍恢复正文；两次读取 report 的快照文件时间不变，历史读取未重新执行 Tavily。临时后端已停止，仓库无运行时测试产物。
+- P0-2 目标已完成；当前工作区保持未提交、未推送，等待用户审阅。
