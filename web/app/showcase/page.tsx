@@ -125,7 +125,7 @@ export default function ShowcasePage() {
             </article>
             <article className={styles.evidenceFeature} data-showcase-reveal>
               <h3>证据驱动结果</h3>
-              <p>危害和诱因逐条关联依据。证据不足时明确返回“无法判断”，不补写看不见的事实。</p>
+              <p>危害和可能诱因逐条关联依据。证据不足时明确返回“无法判断”，不补写看不见的事实。</p>
               <a href="#evidence">查看证据如何组织<span aria-hidden="true">↓</span></a>
             </article>
             <article className={styles.serverFeature} data-showcase-reveal>

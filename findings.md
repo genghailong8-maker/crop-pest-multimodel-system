@@ -934,3 +934,98 @@
 - 工作区存在约 5.0 GB Qwen GGUF、近 1 GB PlantDoc 压缩包、离线镜像/wheel/npm 缓存和实验归档等大型运行资产，均不应进入普通 Git 分支；应保留现有忽略规则并在资产说明中记录提供方式。
 - 提交前第一次从项目根目录运行 `pytest` 会收集训练测试，并因后端虚拟环境没有 `numpy` 在训练测试收集阶段失败；后端 API 测试应按项目边界从 `backend/tests` 单独运行，训练依赖不应为 GitHub 同步强行装入后端环境。
 - 本地提交 `4c8fa20` 已包含 64 个确认文件；`git push -u target competition-dev` 返回 HTTP 403，GitHub 连接器确认当前账号 `genghailong8-maker` 对目标仓库权限为 `push: false`。
+# 2026-08-21 外部证据增强诊断：初始发现
+
+# 2026-08-21 Gemini Grounding provider 调整：官方接口核对
+
+- 官方当前文档推荐 Gemini API 的 `google_search` 工具；REST 使用 `POST https://generativelanguage.googleapis.com/v1beta/interactions`、`x-goog-api-key`、`model`、`input` 和 `tools: [{"type":"google_search"}]`。
+- Interactions 响应通过 `steps[].type=model_output` 的文本块 `annotations[].type=url_citation` 返回 URL、标题及引用文本区间；旧 Generate Content 响应通过 `candidates[].groundingMetadata.groundingChunks` 和 `groundingSupports` 返回来源与关联关系。
+- Grounding 返回的是 Gemini 的搜索整合文本和引用，而本项目不能把 Gemini 文本直接当作最终危害/可能诱因。因此 provider 只提取 citation 元数据，再抓取引用 URL 的原始网页正文；只有抓到可核验原文的来源才能进入 Qwen 外部证据上下文。
+- 为避免新增 SDK 依赖，采用现有 `httpx` 调用官方 REST；配置 `GEMINI_API_KEY`、`CROP_GEMINI_MODEL`、`CROP_GEMINI_ENDPOINT`。真实密钥不写入源码、测试、日志或 Git。
+- Custom Search JSON API 保留为 `legacy` provider，仅为已有资格用户兼容；`CROP_SEARCH_PROVIDER=google_grounding` 才启用当前推荐实现，默认仍为 `disabled`。
+
+# 2026-08-21 Gemini Grounding 真实 E2E：环境阻塞
+
+- 当前分支为 `competition-dev`，HEAD 为 `f53ed24`；工作区已有未提交改动，未触碰 master/main。
+- 当前工具进程中 `CROP_SEARCH_PROVIDER`、`GEMINI_API_KEY`、`CROP_GEMINI_MODEL`、`CROP_GEMINI_ENDPOINT`、搜索超时和来源上限变量均缺失；没有本地 `.env` 文件，只有 `.env.example`。
+- 本地 backend `127.0.0.1:8000/health` 返回正常，但 detector `127.0.0.1:8870` 与 VLM `127.0.0.1:8890` 不可访问，因此无法完成 YOLO→Grounding→Qwen 的真实闭环。
+- 本轮不发送、打印或落盘 API key；不使用 mock/历史结果代替真实验收。需用户在本机安全设置变量并恢复两个推理服务后继续。
+
+- 为支持独立连通性验收，新增测试入口 `backend/scripts/test_gemini_grounding_connectivity.py`；它只调用当前 `GeminiGoogleGroundingProvider`，不会启动或依赖 8870/8890。
+
+# 2026-08-21 Gemini Grounding 独立真实连通性结果
+
+- 真实临时环境变量已加载，Provider 为 `google_grounding`，模型为 `gemini-3.7-flash`，endpoint 为配置的 `https://generativelanguage.googleapis.com/v1beta/interactions`；8870/8890 均未启动。
+- “蛴螬 危害 危害症状 农业”和“蛴螬 发生条件 发病条件 发生原因 农业”均收到 HTTP 403，错误 `permission_denied`，消息为 `Your project has been denied access. Please contact support.`。
+- 这是 Gemini 项目访问权限拒绝；endpoint 可达且请求进入 Google API，但 Grounding 未实际执行，citation 数量为 0，原始网页抓取数量为 0，Normalizer 最终 0 来源、状态 `unavailable`。
+- 未打印或保存 GEMINI_API_KEY；未调用 YOLO/Qwen；未创建病例；未修改 master/main；未 commit/push。
+
+# 2026-08-21 Tavily SearchProvider 调整：接口核对
+
+- 当前 SearchProvider 尚未注册 `tavily`，因此仅设置 `CROP_SEARCH_PROVIDER=tavily` 会回退到 disabled；需要做最小 provider 接入后才能执行真实连通性测试。
+- Tavily 官方 Search API 当前使用 `POST https://api.tavily.com/search`、`Authorization: Bearer <TAVILY_API_KEY>`；请求支持 `query`、`search_depth`、`max_results`、`include_answer` 和 `include_raw_content`。
+- 本项目将 `include_answer=false`，只把每个 result 的 `raw_content`（优先）或 `content` 转成 SearchSource.content；不把 Tavily LLM answer 传给 Qwen或用户结论。
+
+# 2026-08-21 Tavily 独立真实连通性结果
+
+- 真实环境变量已加载，使用类别“蛴螬”；未启动 8870/8890，未调用 Qwen，未创建病例。
+- 危害查询和可能诱因查询均调用 `https://api.tavily.com/search` 成功返回 HTTP 200，各返回 5 条结果；请求包含 `include_answer=false`、`include_raw_content=text`、`max_results=5`。
+- 两次结果均包含可用 `content` 或 `raw_content`；provider 转成 SearchSource 后，EvidenceNormalizer 各保留 5 个来源并生成连续 `source-1`…`source-5`；Tavily answer 未进入 evidence/Qwen context。
+- 真实来源中出现 `zhuanlan.zhihu.com`、`m.3456.tv`、`jin-cang.com` 等低质量信号，但当前 `is_obviously_low_quality` 未过滤，两个查询均过滤 0 条；这是本次整体 FAIL 的唯一验收缺口，暂不在本阶段修复。
+
+- 当前工作树干净，分支为 `competition-dev`，与 `origin/competition-dev` 对齐；未修改 `master/main`。
+- 后端依赖已有 `httpx`，没有独立搜索目录；`backend/app/multimodal.py` 当前协议版本为 `phase9-multimodal-v3`，`grounded_assessment` 的危害/诱因依据只允许 image、yolo、field。
+- 现有多模态输出字段包含 `possible_causes` 和 `grounded_assessment.causes`，用户可见首页仍存在“诱因”字样和技术详情，需统一为“可能诱因”但保留旧字段兼容。
+- `knowledge.py` 已有逐类知识卡片及来源；`knowledge_documents.py` 已有版本化 Markdown 知识文档接口。防治措施应继续复用它们，不能从外部检索填充。
+- `database.py` 以 `analysis_json`（数据库列名 `analysis`）保存分析 JSON，未发现独立 JSON 列；可以在现有 analysis / report snapshot 中增量保存新结构，不迁移表。
+- 当前首页 `web/app/page.tsx` 直接读取 `record.analysis`，病例/报告组件需继续检查；前端无独立 API client 类型文件，类型主要集中在 `web/app/lib/api.ts`。
+- 粘贴方案要求真实 Google/Gemini 没有密钥时只实现 provider 接口、disabled/mock 和测试；不可伪造真实请求成功。
+
+## 2026-08-21 实施结果
+
+- 新增 `backend/app/search/`：`SearchProvider` 协议、Google Custom Search JSON provider、disabled/mock provider、来源模型和 EvidenceNormalizer。
+- Legacy Google Custom Search provider 只在显式选择 `CROP_SEARCH_PROVIDER=google_legacy`（兼容别名 `google`）且存在 `GOOGLE_API_KEY`/`GOOGLE_SEARCH_ENGINE_ID` 时工作；会尝试抓取原始 HTML 正文，只有抓到原文的来源才能作为 Qwen 的结论依据。前端永远看不到密钥或原始 API 请求。
+- 新病例分析协议升级为 `phase9-multimodal-v4-external-evidence`；`evidence_analysis.harms` 与 `evidence_analysis.possible_causes` 的每条结论都必须绑定有效 `source_ids`。没有有效原文来源时强制返回 `status=unavailable` 和空列表。
+- `present_case` 增加 `evidence_analysis`、外部 `sources` 和 `treatment`；`treatment.source` 固定为 `local_knowledge_base`。报告保留原有知识库 `sources`，另增 `external_sources`，避免两类来源混淆。
+- 首页、病例详情、报告新增“危害 / 可能诱因 / 参考来源 / 防治措施”展示；防治说明明确来自本地审核知识库；外部链接使用新标签页和 `noopener noreferrer`。
+- 当前本地配置默认 `CROP_SEARCH_PROVIDER=disabled`，实测 `collect_external_evidence("蛴螬")` 返回 `unavailable`，没有伪造真实搜索结果。
+- `npx tsc --noEmit` 仍报告 `web/app/review/page.tsx`、`web/db/index.ts`、`web/worker/index.ts` 的既有工程错误；本轮未修改这些文件。Vinext production build、ESLint 和页面测试均通过。
+- 最终回归新增明显低质量论坛/商城 URL 过滤测试后，backend 测试为 `52 passed`。
+
+# 2026-08-21 Tavily 来源质量过滤修复与真实验收
+
+- `EvidenceNormalizer` 新增基于主域名/子域名的黑名单：知乎、贴吧、百度知道、3456.tv、jin-cang.com；并补充问答、论坛、自媒体、商城、农资销售、营销软文、内容农场和明显 SEO 信号过滤。
+- 来源排序使用可解释分数：政府农业部门 100、农业科研院所 80、高校/农技推广/植保机构 70、权威农业数据库及其他农业专业来源 60、普通网页 0；黑名单来源直接过滤。
+- 最大来源数仍是上限而非填充目标，Normalizer 最多保留 5 条，且同一主域名最多保留 2 条；空结果返回 `unavailable`。
+- 真实 Tavily 两次查询均 HTTP 200。危害查询过滤知乎与 3456.tv 各 1 条，保留 3 条陕西/上海/怀化农业农村部门来源；可能诱因查询过滤 jin-cang.com 与知乎各 1 条，保留 2 条农业农村部门来源和 1 条农业研究数字图书馆来源。两次 source IDs 均从 `source-1` 连续生成，Tavily answer 未进入 evidence。
+- 自动化 SearchProvider 测试 22 passed；将外部 provider 在进程级设为 disabled 后 backend 全量测试 66 passed。后者是为避免真实 Tavily 临时环境污染旧多模态测试，不是生产配置变更。
+
+# 2026-08-21 完整真实验收：启动前配置核对
+
+- 用户授权在不 commit/push、不修改 master/main、不暴露 secret 的前提下，由本地负责启动 YOLO/Qwen、建立隧道并完成三病例真实闭环。
+- 项目文档确认 YOLO 使用 `inference/run_server.sh`，默认监听远端 `127.0.0.1:8870`；Qwen 使用 `inference/run_vlm_server.sh`，默认监听远端 `127.0.0.1:8890`；本地通过 `inference/open_tunnel.ps1` 转发两个端口。
+- 当前分支为 `competition-dev`，HEAD 为 `f53ed24`，工作区存在既有未提交改动，不能使用 reset/clean/checkout 覆盖。
+- 当前进程安全检查只显示 `CROP_SEARCH_PROVIDER=tavily`、`TAVILY_API_KEY=set`；未输出 key 值。detector/VLM endpoint 未在当前进程变量中出现，需根据运行方式和项目 `.env`/部署配置继续确认。
+
+# 2026-08-21 完整验收：Qwen 上下文预算问题
+
+- 三个真实上传均完成 YOLO：蛴螬 class 14（0.918622）、番茄样本被识别为马铃薯晚疫病 class 7（0.915291）、马铃薯早疫病 class 3（0.663122）。
+- 番茄样本首次完成 Tavily→EvidenceNormalizer→Qwen→报告快照；其余两例因 Qwen 结构化请求超过 8192 上下文或输出 JSON 截断而降级，未伪造结论。
+- Qwen 日志显示旧请求为 7293+900、重试后为 7493+700；分别触发 8192 超限和不完整 JSON。已将 Qwen 外部原文上下文单来源上限从 6000 调到 4000 字符，并保留 700 输出上限，待重启后复验。
+
+# 2026-08-21 完整真实验收：最终结果
+
+- 远端 RTX 5090 上的 YOLO 8870 与 Qwen3-VL 8890 已真实启动并通过健康检查；本地 SSH 隧道、backend 8000 和 frontend 3103 均可用。
+- 为适配 Qwen 8192 上下文，`build_qwen_context` 仅将每个外部来源的 1600 字符摘录送入第二阶段；完整网页正文仍保留在 SearchSource/病例快照中。第二阶段 `max_tokens=700`，没有改变证据协议或业务字段。
+- 三个真实病例均完成 YOLO→Tavily→EvidenceNormalizer→Qwen→knowledge/treatment→病例 API→前端/报告闭环：蛴螬 class 14（0.918622）、马铃薯晚疫病 class 7（0.915291）、马铃薯早疫病 class 3（0.663122）。
+- 每例均有 5 个真实来源、1 条危害、1 条可能诱因；所有 `source_ids` 都存在于该例 sources，且 `treatment.source` 均为 `local_knowledge_base`。人工番茄字段与 YOLO class 7 的冲突被保留并记录，未覆盖 YOLO 结果。
+- 浏览器真实页面确认首页/病例详情/报告可访问；详情和报告显示危害、可能诱因、参考来源、检索时间、防治措施与完整知识库内容。外部链接为新标签并带 `noopener noreferrer`。
+- 独立隔离降级测试中，YOLO 仍成功，分析 API 为 200，外部 evidence 为 unavailable，危害/可能诱因为空，知识库防治措施仍可用。
+- 自动化：backend `66 passed`（1 条既有弃用警告）；frontend `8 passed`；ESLint、production build、`git diff --check` 均通过。未 commit/push，未输出密钥。
+- 结论：本轮真实 Tavily 外部证据闭环 PASS。当前仅保留一个本轮隔离降级用的未跟踪 `backend/runtime-fallback` 测试目录，删除操作被本机安全策略拒绝；它不属于业务数据，也未进入 Git。
+
+# 2026-08-21 最终提交准备
+
+- `backend/runtime-fallback` 已确认仅为本轮隔离测试数据，并已安全删除；没有未跟踪运行数据残留。
+- 29 个确认文件已通过 staged diff 检查并创建本地 commit `5bad8b0`（`feat: add evidence-grounded diagnosis with Tavily sources`）。
+- 暂不 push；用户将手动执行 `git push origin competition-dev`。

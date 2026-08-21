@@ -75,6 +75,17 @@ class Settings:
     public_uploads_per_hour: int = 10
     public_analyses_per_hour: int = 20
     vlm_max_concurrency: int = 2
+    search_provider: str = "disabled"
+    search_timeout_seconds: float = 10.0
+    search_max_sources: int = 5
+    gemini_api_key: str | None = None
+    gemini_model: str = "gemini-3.7-flash"
+    gemini_endpoint: str = "https://generativelanguage.googleapis.com/v1beta/interactions"
+    tavily_api_key: str | None = None
+    tavily_endpoint: str = "https://api.tavily.com/search"
+    # Legacy Google Custom Search JSON API compatibility only.
+    google_api_key: str | None = None
+    google_search_engine_id: str | None = None
 
 
 def load_settings() -> Settings:
@@ -135,6 +146,20 @@ def load_settings() -> Settings:
         public_uploads_per_hour=max(1, int(os.getenv("CROP_PUBLIC_UPLOADS_PER_HOUR", "10"))),
         public_analyses_per_hour=max(1, int(os.getenv("CROP_PUBLIC_ANALYSES_PER_HOUR", "20"))),
         vlm_max_concurrency=max(1, int(os.getenv("CROP_VLM_MAX_CONCURRENCY", "2"))),
+        search_provider=os.getenv("CROP_SEARCH_PROVIDER", "disabled").strip().lower() or "disabled",
+        search_timeout_seconds=max(1.0, float(os.getenv("CROP_SEARCH_TIMEOUT_SECONDS", "10"))),
+        search_max_sources=min(5, max(1, int(os.getenv("CROP_SEARCH_MAX_SOURCES", "5")))),
+        gemini_api_key=optional_text(os.getenv("GEMINI_API_KEY")),
+        gemini_model=os.getenv("CROP_GEMINI_MODEL", "gemini-3.7-flash").strip() or "gemini-3.7-flash",
+        gemini_endpoint=optional_text(os.getenv("CROP_GEMINI_ENDPOINT"))
+        or "https://generativelanguage.googleapis.com/v1beta/interactions",
+        tavily_api_key=optional_text(os.getenv("TAVILY_API_KEY")),
+        tavily_endpoint=optional_text(os.getenv("CROP_TAVILY_ENDPOINT"))
+        or "https://api.tavily.com/search",
+        google_api_key=optional_text(os.getenv("GOOGLE_API_KEY")),
+        google_search_engine_id=optional_text(
+            os.getenv("GOOGLE_SEARCH_ENGINE_ID") or os.getenv("GOOGLE_SEARCH_CX")
+        ),
     )
 
 

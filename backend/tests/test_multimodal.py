@@ -8,6 +8,7 @@ import httpx
 import pytest
 
 from app import config, multimodal
+from app.search import SearchSource
 
 
 class FakeResponse:
@@ -172,7 +173,7 @@ def test_two_stage_payload_is_independent_then_compared(tmp_path, monkeypatch):
     result = asyncio.run(multimodal.request_multimodal_analysis(case_record(), image_path))
 
     assert result["status"] == "completed"
-    assert result["schema_version"] == "phase9-multimodal-v3"
+    assert result["schema_version"] == "phase9-multimodal-v4-external-evidence"
     assert result["primary_diagnosis"] == "玉米叶枯病"
     assert result["field_severity"] == "medium"
     assert "受害比例 12.5%" in result["severity_basis"]
@@ -206,15 +207,37 @@ def test_two_stage_payload_is_independent_then_compared(tmp_path, monkeypatch):
     assert '"growth_stage":"苗期"' in second_text
     assert '"environment":{"scene":"露地","humidity":"80"}' in second_text
     assert '"spread_speed":"slow"' in second_text
+    assert "external_evidence" in second_text
     assert '"notes"' not in second_text
     assert FakeAsyncClient.requests[0]["json"]["response_format"]["type"] == "json_schema"
     assert FakeAsyncClient.requests[0]["json"]["max_tokens"] == 500
-    assert FakeAsyncClient.requests[1]["json"]["max_tokens"] == 900
+    assert FakeAsyncClient.requests[1]["json"]["max_tokens"] == 700
     assert second_content[1]["type"] == "image_url"
     assert result["provenance"]["primary_diagnosis_source"] == "detector_primary"
     assert result["independent_judgment"]["observed_part"] == "叶片"
     assert result["provenance"]["input_metadata"]["part"]["source"] == "user_input"
     assert result["provenance"]["independent_observations"]["part"] == "叶片"
+
+
+def test_mock_external_evidence_is_passed_to_qwen_and_source_bound(tmp_path, monkeypatch):
+    image_path = tmp_path / "leaf.jpg"
+    image_path.write_bytes(b"image-bytes")
+    monkeypatch.setattr(config, "settings", replace(config.settings, search_provider="mock"))
+    configure(monkeypatch)
+    final = final_content(
+        evidence_analysis={
+            "status": "available",
+            "harms": [{"conclusion": "原始资料描述叶片可能受损", "source_ids": ["source-1"]}],
+            "possible_causes": [{"conclusion": "原始资料描述高湿可能相关", "source_ids": ["source-1"]}],
+        }
+    )
+    FakeAsyncClient.response_payloads = [response(independent_content()), response(final)]
+
+    result = asyncio.run(multimodal.request_multimodal_analysis(case_record(), image_path))
+
+    assert result["evidence_analysis"]["status"] == "available"
+    assert result["evidence_analysis"]["harms"][0]["source_ids"] == ["source-1"]
+    assert result["sources"][0]["id"] == "source-1"
 
 
 def test_invalid_or_missing_observations_become_system_undetermined(tmp_path, monkeypatch):
@@ -339,6 +362,67 @@ def test_speculative_evidence_is_replaced_with_safe_fallback():
     parsed = multimodal.MultimodalContent.model_validate(invalid)
     validated = multimodal.validate_grounded_assessment(case_record(), parsed)
     assert validated.grounded_assessment.harms[0].conclusion == "无法判断"
+
+
+def test_external_evidence_requires_real_source_ids():
+    result = multimodal.MultimodalContent.model_validate(
+        final_content(
+            evidence_analysis={
+                "status": "available",
+                "harms": [
+                    {"conclusion": "根部受害可能影响植株稳定", "source_ids": ["source-1", "missing"]}
+                ],
+                "possible_causes": [
+                    {"conclusion": "高湿环境可能与发生有关", "source_ids": ["missing"]}
+                ],
+            }
+        )
+    )
+    evidence = multimodal.SearchEvidence(
+        class_name="蛴螬",
+        status="available",
+        sources=[
+            SearchSource(
+                id="source-1",
+                title="农业资料",
+                site_name="测试来源",
+                url="https://agri.gov.cn/pest",
+                content="根部受害可能影响植株稳定。",
+            )
+        ],
+    )
+    normalized = multimodal.normalize_external_evidence_analysis(result, evidence)
+    assert normalized.status == "available"
+    assert normalized.harms[0].source_ids == ["source-1"]
+    assert normalized.possible_causes == []
+
+
+def test_external_evidence_without_content_cannot_create_claims():
+    result = multimodal.MultimodalContent.model_validate(
+        final_content(
+            evidence_analysis={
+                "status": "available",
+                "harms": [{"conclusion": "外部资料结论", "source_ids": ["source-1"]}],
+                "possible_causes": [],
+            }
+        )
+    )
+    evidence = multimodal.SearchEvidence(
+        class_name="蛴螬",
+        status="unavailable",
+        sources=[
+            SearchSource(
+                id="source-1",
+                title="只有摘要",
+                site_name="测试来源",
+                url="https://example.com/snippet",
+                snippet="只有搜索摘要，没有原文正文。",
+            )
+        ],
+    )
+    normalized = multimodal.normalize_external_evidence_analysis(result, evidence)
+    assert normalized.status == "unavailable"
+    assert normalized.harms == []
 
 
 def test_unobserved_consequence_is_replaced_with_safe_fallback():

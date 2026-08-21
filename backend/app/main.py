@@ -285,6 +285,26 @@ def derive_diagnostic_risk(record: dict[str, Any], analysis: dict[str, Any] | No
     return "low"
 
 
+def local_treatment_payload(record: dict[str, Any]) -> dict[str, Any]:
+    detections = record.get("detections") or []
+    primary = (record.get("detector_summary") or {}).get("primary_candidate") or (
+        detections[0] if detections else {}
+    )
+    class_id = primary.get("class_id") if isinstance(primary, dict) else None
+    card = get_knowledge_card(int(class_id)) if isinstance(class_id, int) else None
+    if card is None:
+        return {"source": "local_knowledge_base", "content": {}, "source_ids": []}
+    return {
+        "source": "local_knowledge_base",
+        "content": {
+            "prevention": card.get("prevention", []),
+            "first_actions": card.get("first_actions", []),
+            "management": card.get("management", {}),
+        },
+        "source_ids": list(card.get("source_ids", [])),
+    }
+
+
 def present_case(record: dict[str, Any]) -> dict[str, Any]:
     """Translate technical evidence into one honest user-facing outcome."""
     status = record.get("status")
@@ -342,6 +362,12 @@ def present_case(record: dict[str, Any]) -> dict[str, Any]:
 
     return {
         **record,
+        "evidence_analysis": analysis.get(
+            "evidence_analysis",
+            {"status": "unavailable", "harms": [], "possible_causes": []},
+        ),
+        "sources": list(analysis.get("sources") or []),
+        "treatment": local_treatment_payload(record),
         "resolution_status": resolution_status,
         "user_summary": user_summary,
         "next_action": next_action,
@@ -702,6 +728,9 @@ def build_case_report(record: dict[str, Any]) -> dict[str, Any]:
         "knowledge": knowledge,
         "knowledge_document": knowledge_document,
         "sources": get_knowledge_sources(knowledge["source_ids"]) if knowledge else [],
+        "evidence_analysis": case_payload["evidence_analysis"],
+        "external_sources": case_payload["sources"],
+        "treatment": case_payload["treatment"],
         "prioritized_guidance": prioritized_guidance(
             primary_id,
             record.get("diagnostic_risk") or "unknown",
@@ -727,7 +756,11 @@ def snapshot_case_report(record: dict[str, Any]) -> dict[str, Any]:
 def case_report(case_id: str) -> dict[str, Any]:
     record = require_visible_case(case_id)
     existing = load_latest(settings.storage_dir / "reports", case_id)
-    if existing and existing.get("snapshot", {}).get("format") == "crop-report-json-v2":
+    if (
+        existing
+        and existing.get("snapshot", {}).get("format") == "crop-report-json-v2"
+        and "evidence_analysis" in existing
+    ):
         return existing
     if existing and build_case_report(record).get("knowledge_document") is None:
         return existing

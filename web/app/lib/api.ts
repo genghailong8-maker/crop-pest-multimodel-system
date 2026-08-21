@@ -23,6 +23,37 @@ export type GroundedAssessment = {
   causes: GroundedConclusion[];
 };
 
+export type EvidenceSource = {
+  id: string;
+  title: string;
+  site_name: string;
+  url: string;
+  snippet?: string | null;
+  retrieved_at: string;
+  reliability_level?: string | null;
+};
+
+export type EvidenceConclusion = {
+  conclusion: string;
+  source_ids: string[];
+};
+
+export type EvidenceAnalysis = {
+  status: "available" | "unavailable";
+  harms: EvidenceConclusion[];
+  possible_causes: EvidenceConclusion[];
+};
+
+export type Treatment = {
+  source: "local_knowledge_base";
+  content: {
+    prevention?: string[];
+    first_actions?: string[];
+    management?: Record<string, string[]>;
+  };
+  source_ids: string[];
+};
+
 export type CaseRecord = {
   id: string;
   instance_id: string;
@@ -66,6 +97,9 @@ export type CaseRecord = {
     };
     inference?: Record<string, unknown>;
   } | null;
+  evidence_analysis?: EvidenceAnalysis;
+  sources?: EvidenceSource[];
+  treatment?: Treatment;
   analysis: {
     status?: string;
     message?: string;
@@ -78,6 +112,8 @@ export type CaseRecord = {
     possible_causes?: string[];
     evidence?: string[];
     grounded_assessment?: GroundedAssessment;
+    evidence_analysis?: EvidenceAnalysis;
+    sources?: EvidenceSource[];
     uncertainty?: string[];
     required_additional_photos?: string[];
     detector_alignment?: "agree" | "uncertain" | "conflict";

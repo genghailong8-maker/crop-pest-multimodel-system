@@ -11,13 +11,14 @@ from pydantic import BaseModel, Field, ValidationError
 
 from .catalog import CLASS_BY_ID
 from .config import settings
+from .search import SearchEvidence, build_qwen_context, collect_external_evidence, public_sources, source_ids
 
 
 class MultimodalUnavailable(RuntimeError):
     pass
 
 
-ANALYSIS_SCHEMA_VERSION = "phase9-multimodal-v3"
+ANALYSIS_SCHEMA_VERSION = "phase9-multimodal-v4-external-evidence"
 ShortText = Annotated[str, Field(min_length=1, max_length=160)]
 RiskLevel = Literal["low", "medium", "high", "unknown"]
 ModelT = TypeVar("ModelT", bound=BaseModel)
@@ -90,6 +91,17 @@ class GroundedAssessment(BaseModel):
     causes: list[GroundedConclusion] = Field(min_length=1, max_length=3)
 
 
+class ExternalEvidenceConclusion(BaseModel):
+    conclusion: ShortText
+    source_ids: list[str] = Field(default_factory=list, max_length=4)
+
+
+class ExternalEvidenceAnalysis(BaseModel):
+    status: Literal["available", "unavailable"] = "unavailable"
+    harms: list[ExternalEvidenceConclusion] = Field(default_factory=list, max_length=3)
+    possible_causes: list[ExternalEvidenceConclusion] = Field(default_factory=list, max_length=3)
+
+
 class MultimodalContent(BaseModel):
     primary_diagnosis: ShortText
     candidate_diagnoses: list[ShortText] = Field(min_length=1, max_length=4)
@@ -105,6 +117,7 @@ class MultimodalContent(BaseModel):
     field_severity: RiskLevel
     severity_basis: str = Field(min_length=1, max_length=320)
     needs_human_review: bool
+    evidence_analysis: ExternalEvidenceAnalysis = Field(default_factory=ExternalEvidenceAnalysis)
 
 
 def response_schema() -> dict[str, Any]:
@@ -297,6 +310,35 @@ def validate_grounded_assessment(
     )
 
 
+def normalize_external_evidence_analysis(
+    result: MultimodalContent,
+    evidence: SearchEvidence,
+) -> ExternalEvidenceAnalysis:
+    """Keep only claims that point to content fetched from a real source URL."""
+    valid_ids = source_ids(evidence)
+    if not valid_ids:
+        return ExternalEvidenceAnalysis()
+
+    def claims(items: list[ExternalEvidenceConclusion]) -> list[ExternalEvidenceConclusion]:
+        accepted: list[ExternalEvidenceConclusion] = []
+        for item in items:
+            references = list(
+                dict.fromkeys(source_id for source_id in item.source_ids if source_id in valid_ids)
+            )
+            if not references or item.conclusion.strip() in {"无法判断", ""}:
+                continue
+            if any(marker in item.conclusion for marker in ("模型认为", "通常会", "一定会", "必然")):
+                continue
+            accepted.append(item.model_copy(update={"source_ids": references}))
+        return accepted
+
+    harms = claims(result.evidence_analysis.harms)
+    possible_causes = claims(result.evidence_analysis.possible_causes)
+    if not harms and not possible_causes:
+        return ExternalEvidenceAnalysis()
+    return ExternalEvidenceAnalysis(status="available", harms=harms, possible_causes=possible_causes)
+
+
 def diagnosis_class_id(value: str | None) -> int | None:
     normalized = "".join(character for character in (value or "").lower() if character.isalnum())
     matches: list[tuple[int, int]] = []
@@ -435,7 +477,7 @@ def make_payload(
         ],
         "temperature": 0.1,
         "max_tokens": max_tokens,
-        "mm_processor_kwargs": {"max_pixels": 1003520},
+        "mm_processor_kwargs": {"max_pixels": 501760},
         "response_format": {
             "type": "json_schema",
             "json_schema": {"name": schema_name, "strict": True, "schema": schema},
@@ -521,6 +563,20 @@ async def request_multimodal_analysis(
         "shadow_expert_evidence": (case_record.get("detector_summary") or {}).get("inference", {}).get("routing"),
         "field_context": field_context,
     }
+    detector_summary = case_record.get("detector_summary") or {}
+    primary_candidate = detector_summary.get("primary_candidate") or (
+        (case_record.get("detections") or [None])[0] or {}
+    )
+    primary_class_name = str(primary_candidate.get("class_name") or "")
+    if primary_class_name:
+        external_evidence = await collect_external_evidence(primary_class_name)
+    else:
+        external_evidence = SearchEvidence(
+            class_name="未知",
+            status="unavailable",
+            message="没有可用于外部检索的 YOLO 主候选",
+        )
+    comparison_evidence["external_evidence"] = build_qwen_context(external_evidence)
     timeout = httpx.Timeout(
         settings.vlm_timeout_seconds,
         connect=min(10.0, settings.vlm_timeout_seconds),
@@ -546,7 +602,7 @@ async def request_multimodal_analysis(
                 "primary_diagnosis 是综合结论，不是独立判断的复制；YOLO 已对目标完成定位，主候选置信度可靠时"
                 "应优先采用，只有独立证据给出具体且充分的反证时才改用其他规范类别。"
                 "detector_alignment 只描述独立判断与 YOLO 的关系，不要求综合结论跟随独立判断。"
-                "grounded_assessment 中每条危害和诱因必须绑定 1 至 4 条本次输入依据。"
+                "grounded_assessment 中每条危害和可能诱因必须绑定 1 至 4 条本次输入依据。"
                 "图片依据使用 source=image、reference=original_image；YOLO依据使用 source=yolo、"
                 "reference=yolo_primary 且 observation 必须写出实际主候选名称；田间依据使用"
                 "source=field_input，并按 field.crop、field.part、field.growth_stage、field.environment、"
@@ -554,8 +610,12 @@ async def request_multimodal_analysis(
                 "不得把百度百科、常识、‘模型认为’或‘通常会导致’当作输入依据。若输入不足，"
                 "conclusion 必须准确写‘无法判断’，并用图片依据说明缺少的可见证据。"
                 "危害的肯定结论必须至少有图片依据，且只能描述原图直接可见的损伤，禁止写产量、"
-                "光合作用、传播或未来后果；诱因的肯定结论必须同时有图片与YOLO依据，禁止凭类别"
+                "光合作用、传播或未来后果；可能诱因的肯定结论必须同时有图片与YOLO依据，禁止凭类别"
                 "补写病原、真菌、细菌或病毒。不能满足这些条件时必须写‘无法判断’。"
+                "evidence_analysis 只允许总结 external_evidence.sources 中实际提供的原文；"
+                "每条危害和可能诱因必须填写对应 source_ids，且 source_ids 必须来自输入来源。"
+                "external_evidence.status 为 unavailable 时，evidence_analysis.status 必须为 unavailable，"
+                "harms 和 possible_causes 必须为空，禁止使用模型自身知识补写。"
                 "每个列表只写 1 至 2 条最重要的短句，每条不超过 30 个汉字。"
                 "缺任一字段时 field_severity 必须为 unknown。已有低质量、低置信度、无目标或冲突风险只能升级，"
                 "不得清除。无法判断时写明原因，所有列表不得留空。禁止具体农药产品、剂量、混配、次数和安全间隔。"
@@ -564,7 +624,7 @@ async def request_multimodal_analysis(
             user_text="请完成第二阶段证据比对：\n"
             + json.dumps(comparison_evidence, ensure_ascii=False, separators=(",", ":")),
             image_url=image_url,
-            max_tokens=900,
+            max_tokens=700,
         )
         result, stage2_ms = await post_structured(
             client,
@@ -582,6 +642,7 @@ async def request_multimodal_analysis(
         case_record, result, independent.primary_diagnosis
     )
     result = reconcile_field_input_consistency(case_record, result)
+    external_analysis = normalize_external_evidence_analysis(result, external_evidence)
     updates: dict[str, Any] = {}
     if field_context["affected_ratio_percent"] is None or field_context["spread_speed"] == "unknown":
         updates.update(
@@ -612,6 +673,8 @@ async def request_multimodal_analysis(
             "independent_judgment": independent.model_dump(),
             "needs_human_review": bool(review_reasons),
             "review_reasons": review_reasons,
+            "evidence_analysis": external_analysis.model_dump(),
+            "sources": public_sources(external_evidence),
             "provenance": {
                 "model": settings.vlm_model,
                 "protocol": ANALYSIS_SCHEMA_VERSION,
@@ -641,6 +704,12 @@ async def request_multimodal_analysis(
                 "independent_observations": {
                     "part": independent.observed_part,
                     "growth_stage": independent.observed_growth_stage,
+                },
+                "external_search": {
+                    "status": external_evidence.status,
+                    "queries": external_evidence.queries,
+                    "source_ids": sorted(source_ids(external_evidence)),
+                    "message": external_evidence.message,
                 },
             },
         }

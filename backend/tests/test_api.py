@@ -462,6 +462,8 @@ def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
         assert analyzed.json()["analysis"]["primary_diagnosis"] == "玉米叶枯病"
         assert analyzed.json()["part"] == "叶片"
         assert analyzed.json()["growth_stage"] == "苗期"
+        assert analyzed.json()["evidence_analysis"]["status"] == "unavailable"
+        assert analyzed.json()["treatment"]["source"] == "local_knowledge_base"
 
         reloaded = client.get(f"/api/cases/{case_id}")
         assert reloaded.status_code == 200

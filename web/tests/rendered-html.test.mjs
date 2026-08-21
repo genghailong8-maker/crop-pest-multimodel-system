@@ -116,7 +116,7 @@ test("case and report surfaces use the curated knowledge labels", async () => {
   assert.match(homeSource, /!conclusive/);
   assert.match(homeSource, /这个结果有多可靠/);
   assert.match(groundedSource, /支持危害/);
-  assert.match(groundedSource, /支持诱因/);
+  assert.match(groundedSource, /支持可能诱因/);
   assert.match(groundedSource, /图片观察/);
   assert.match(groundedSource, /目标定位/);
   assert.match(groundedSource, /田间信息/);
@@ -128,6 +128,11 @@ test("case and report surfaces use the curated knowledge labels", async () => {
   assert.match(reportSource, /综合信息展示/);
   assert.match(reportSource, /知识内容来源：百度百科/);
   assert.doesNotMatch(reportSource, /查看技术证据|下一步与防治方向|独立多模态判断/);
+  const externalEvidenceSource = await readFile(new URL("../app/components/ExternalEvidenceSummary.tsx", import.meta.url), "utf8");
+  assert.match(externalEvidenceSource, /暂未检索到可靠资料/);
+  assert.match(externalEvidenceSource, /可能诱因/);
+  assert.match(externalEvidenceSource, /local_knowledge_base/);
+  assert.match(externalEvidenceSource, /noopener noreferrer/);
 });
 
 test("public worker hides local admin routes", async () => {

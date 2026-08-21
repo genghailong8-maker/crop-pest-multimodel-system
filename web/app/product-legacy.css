@@ -88,6 +88,34 @@
 .legacy-public-shell .public-case-created a { color: var(--green); font-weight: 800; }
 .legacy-public-shell .legacy-runtime-note { margin: 13px 0 0; padding: 11px 13px; border: 1px solid var(--line); border-radius: 12px; color: var(--ink); background: var(--amber-soft); font-size: 14px; line-height: 1.6; }
 .legacy-public-shell .public-form-status { margin-top: 13px; font-size: 14px; line-height: 1.6; }
+.legacy-public-shell .public-external-evidence { display: grid; gap: 18px; margin-top: 20px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #fbfdf9; }
+.legacy-public-shell .public-external-evidence > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding-bottom: 13px; border-bottom: 1px solid var(--line); }
+.legacy-public-shell .public-external-evidence > header span { color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: .04em; }
+.legacy-public-shell .public-external-evidence > header h2 { margin: 4px 0 0; font-size: 20px; }
+.legacy-public-shell .public-external-evidence > header p { max-width: 280px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; text-align: right; }
+.legacy-public-shell .public-external-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.legacy-public-shell .public-external-group { min-width: 0; }
+.legacy-public-shell .public-external-group h3,
+.legacy-public-shell .public-external-sources h3,
+.legacy-public-shell .public-treatment-summary h3 { margin: 0 0 8px; font-size: 15px; }
+.legacy-public-shell .public-external-group ol { display: grid; gap: 10px; margin: 0; padding-left: 22px; }
+.legacy-public-shell .public-external-group li { padding-left: 3px; line-height: 1.6; }
+.legacy-public-shell .public-external-group li strong { font-size: 14px; font-weight: 750; }
+.legacy-public-shell .public-source-links { display: flex; flex-wrap: wrap; gap: 6px 10px; margin-top: 4px; }
+.legacy-public-shell .public-source-links a,
+.legacy-public-shell .public-external-sources a { color: var(--green); font-size: 12px; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+.legacy-public-shell .public-external-sources { padding-top: 14px; border-top: 1px solid var(--line); }
+.legacy-public-shell .public-external-sources ul { display: grid; gap: 6px; margin: 0; padding-left: 18px; }
+.legacy-public-shell .public-external-sources li { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; }
+.legacy-public-shell .public-external-sources li span { color: var(--muted); font-size: 12px; }
+.legacy-public-shell .public-external-unavailable { padding: 12px 14px; border-radius: 10px; background: var(--amber-soft); }
+.legacy-public-shell .public-external-unavailable p { margin: 0; font-weight: 750; }
+.legacy-public-shell .public-external-unavailable small,
+.legacy-public-shell .public-treatment-summary p,
+.legacy-public-shell .public-treatment-summary > span { color: var(--muted); font-size: 13px; line-height: 1.6; }
+.legacy-public-shell .public-treatment-summary { padding-top: 14px; border-top: 1px solid var(--line); }
+.legacy-public-shell .public-treatment-summary p { margin: 0 0 8px; }
+.legacy-public-shell .public-treatment-summary ul { display: grid; gap: 5px; margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.6; }
 
 .workspace-v4-shell-legacy .public-page-body,
 .workspace-v4-shell-legacy .public-page-hero,
@@ -147,6 +175,7 @@
   .legacy-public-shell .public-result { padding: 17px; }
   .legacy-public-shell .public-form-grid,
   .legacy-public-shell .public-answer-grid,
+  .legacy-public-shell .public-external-grid,
   .legacy-public-shell .public-case-grid,
   .legacy-public-shell .public-chart-grid,
   .legacy-public-shell .public-three,

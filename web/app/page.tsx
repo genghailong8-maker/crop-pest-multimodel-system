@@ -6,6 +6,7 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } fro
 import Link from "next/link";
 
 import WorkspaceShell from "./components/WorkspaceShell";
+import ExternalEvidenceSummary from "./components/ExternalEvidenceSummary";
 import {
   apiUrl,
   CaseRecord,
@@ -247,10 +248,11 @@ export default function Home() {
                 <article className={`risk-${record?.diagnostic_risk ?? "unknown"}`}><span>这个结果有多可靠？</span><h3>{riskLabel(record?.diagnostic_risk)}</h3><p>{analysis?.detector_alignment === "conflict" ? "两种识别方法给出的候选不一致" : "由图片质量、识别把握和两种方法是否一致共同决定"}</p></article>
                 <article><span>田里受影响的程度</span><h3>{severityLabel(record?.field_severity)}</h3><p>{analysis?.severity_basis ?? "这是基于用户信息和图片的辅助判断，不等同经济阈值。"}</p></article>
               </div>
+              {record && <ExternalEvidenceSummary record={record} />}
               <div className="public-next"><span>现在建议你</span><ol>{(conclusive ? nextActions : [record?.next_action ?? "请根据页面提示继续操作"]).slice(0, 3).map((item) => <li key={item}>{item}</li>)}</ol></div>
               {(record?.status === "multimodal_unavailable" || (record?.status === "detected" && !analysis)) && <button className="public-secondary" type="button" onClick={retryAnalysis} disabled={retrying}>{retrying ? "正在重试…" : "仅重试综合分析"}</button>}
               {record && <div className="public-result-links"><Link href={`/cases/${record.id}`}>查看病例详情</Link><Link href={`/reports/${record.id}`}>打开诊断报告</Link></div>}
-              <details className="public-technical"><summary>查看其他候选和技术证据</summary><div><p>候选：{(analysis?.candidate_diagnoses ?? summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p>{!conclusive && <p>以上候选未确认，不作为最终诊断。</p>}<p>不确定性：{(analysis?.uncertainty ?? ["历史记录未提供"]).join("；")}</p><p>需要补拍：{(analysis?.required_additional_photos ?? ["叶背、整株和周边植株"]).join("；")}</p>{analysis?.grounded_assessment?.harms?.length ? <p>有依据的危害：{analysis.grounded_assessment.harms.map((item) => item.conclusion).join("；")}</p> : null}{analysis?.grounded_assessment?.causes?.length ? <p>有依据的诱因：{analysis.grounded_assessment.causes.map((item) => item.conclusion).join("；")}</p> : null}<pre>{JSON.stringify({ quality: record?.quality, detector: summary?.inference, provenance: analysis?.provenance }, null, 2)}</pre></div></details>
+              <details className="public-technical"><summary>查看其他候选和技术证据</summary><div><p>候选：{(analysis?.candidate_diagnoses ?? summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p>{!conclusive && <p>以上候选未确认，不作为最终诊断。</p>}<p>不确定性：{(analysis?.uncertainty ?? ["历史记录未提供"]).join("；")}</p><p>需要补拍：{(analysis?.required_additional_photos ?? ["叶背、整株和周边植株"]).join("；")}</p>{analysis?.grounded_assessment?.harms?.length ? <p>有依据的危害：{analysis.grounded_assessment.harms.map((item) => item.conclusion).join("；")}</p> : null}{analysis?.grounded_assessment?.causes?.length ? <p>有依据的可能诱因：{analysis.grounded_assessment.causes.map((item) => item.conclusion).join("；")}</p> : null}<pre>{JSON.stringify({ quality: record?.quality, detector: summary?.inference, provenance: analysis?.provenance }, null, 2)}</pre></div></details>
             </>}
           </section>
         </section>
