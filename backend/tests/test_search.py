@@ -91,6 +91,149 @@ def test_qwen_context_excludes_grounding_model_excerpt():
     assert "snippet" not in context["sources"][0]
 
 
+def test_qwen_context_selects_bounded_subset_without_changing_snapshots():
+    evidence = SearchEvidence(
+        class_name="蛴螬",
+        status="available",
+        sources=[
+            source(f"source-{index}", f"https://agri-{index}.gov.cn/pest", content="完整正文。" * 1200)
+            for index in range(1, 6)
+        ],
+    )
+    original_lengths = [len(item.content or "") for item in evidence.sources]
+    context = build_qwen_context(evidence)
+
+    assert len(evidence.sources) == 5
+    assert [len(item.content or "") for item in evidence.sources] == original_lengths
+    assert 1 <= len(context["sources"]) <= 2
+    assert context["selection"]["evidence_sources_total"] == 5
+    assert context["selection"]["selected_source_ids"] == [
+        item["id"] for item in context["sources"]
+    ]
+    assert context["selection"]["estimated_tokens"] <= context["selection"]["evidence_budget_tokens"]
+
+
+def test_qwen_context_uses_normalizer_priority_before_budget(monkeypatch):
+    monkeypatch.setattr(
+        config,
+        "settings",
+        replace(
+            config.settings,
+            vlm_evidence_token_budget=1500,
+            vlm_max_evidence_sources=2,
+            vlm_evidence_excerpt_max_chars=500,
+        ),
+    )
+    normalized = normalize_search_results(
+        [
+            SearchEvidence(
+                class_name="蛴螬",
+                status="available",
+                sources=[
+                    source("government", "https://nynct.example.gov.cn/pest", content="政府正文。" * 200),
+                    source("ordinary", "https://example.com/pest", content="普通正文。" * 200),
+                    source("research", "https://www.caas.cn/pest", content="科研正文。" * 200),
+                ],
+            )
+        ]
+    )
+    context = build_qwen_context(normalized)
+
+    assert [item["id"] for item in context["sources"]] == ["source-1", "source-2"]
+    assert normalized.sources[0].reliability_level == "政府农业部门"
+    assert normalized.sources[1].reliability_level == "农业科研院所"
+
+
+def test_qwen_context_preserves_nonconsecutive_source_ids():
+    evidence = SearchEvidence(
+        class_name="蛴螬",
+        status="available",
+        sources=[
+            source("source-2", "https://a.gov.cn/pest", content="来源二正文"),
+            source("source-5", "https://b.gov.cn/pest", content="来源五正文"),
+        ],
+    )
+    context = build_qwen_context(evidence)
+
+    assert context["selection"]["selected_source_ids"] == ["source-2", "source-5"]
+    assert [item["id"] for item in context["sources"]] == ["source-2", "source-5"]
+
+
+def test_qwen_context_truncates_excerpt_but_not_original_content(monkeypatch):
+    monkeypatch.setattr(
+        config,
+        "settings",
+        replace(config.settings, vlm_evidence_token_budget=900, vlm_evidence_excerpt_max_chars=900),
+    )
+    content = "原始网页正文。" * 1500
+    evidence = SearchEvidence(
+        class_name="蛴螬",
+        status="available",
+        sources=[source("source-1", "https://a.gov.cn/pest", content=content)],
+    )
+    context = build_qwen_context(evidence)
+
+    assert len(evidence.sources[0].content or "") == len(content)
+    assert len(context["sources"][0]["content"]) < len(content)
+    assert context["selection"]["estimated_tokens"] <= 900
+
+
+def test_qwen_context_returns_unavailable_for_empty_evidence():
+    context = build_qwen_context(
+        SearchEvidence(class_name="蛴螬", status="unavailable", sources=[])
+    )
+
+    assert context["status"] == "unavailable"
+    assert context["sources"] == []
+    assert context["selection"]["selected_source_ids"] == []
+
+
+def test_qwen_context_never_exceeds_configured_budget(monkeypatch):
+    monkeypatch.setattr(
+        config,
+        "settings",
+        replace(
+            config.settings,
+            vlm_context_window=8192,
+            vlm_output_tokens=700,
+            vlm_reserved_input_tokens=5892,
+            vlm_evidence_token_budget=1000,
+            vlm_max_evidence_sources=5,
+        ),
+    )
+    evidence = SearchEvidence(
+        class_name="蛴螬",
+        status="available",
+        sources=[
+            source(f"source-{index}", f"https://{index}.gov.cn/pest", content="长正文" * 2000)
+            for index in range(1, 6)
+        ],
+    )
+    context = build_qwen_context(evidence)
+
+    assert context["selection"]["evidence_budget_tokens"] == 1000
+    assert context["selection"]["estimated_tokens"] <= 1000
+
+
+def test_qwen_context_marks_budget_exhaustion_unavailable(monkeypatch):
+    monkeypatch.setattr(
+        config,
+        "settings",
+        replace(config.settings, vlm_evidence_token_budget=0),
+    )
+    evidence = SearchEvidence(
+        class_name="蛴螬",
+        status="available",
+        sources=[source("source-1", "https://a.gov.cn/pest", content="正文")],
+    )
+
+    context = build_qwen_context(evidence)
+
+    assert context["status"] == "unavailable"
+    assert context["sources"] == []
+    assert context["selection"]["selected_source_ids"] == []
+
+
 def test_collection_with_disabled_settings_returns_unavailable(monkeypatch):
     monkeypatch.setattr(config, "settings", replace(config.settings, search_provider="disabled"))
     result = asyncio.run(collect_external_evidence("蛴螬"))

@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+import json
+import logging
 import re
+from math import ceil
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
+from .. import config
 from .models import SearchEvidence, SearchSource
+
+
+logger = logging.getLogger(__name__)
 
 
 _LOW_QUALITY_DOMAINS = {
@@ -60,6 +67,18 @@ _AGRICULTURE_TITLE_TOKENS = (
     "农业技术",
 )
 _AGRICULTURE_SITE_TOKENS = ("agri", "agriculture", "nongye", "nongji", "nync", "plant", "crop", "pest")
+_EVIDENCE_EXCERPT_TOKENS = (
+    "危害",
+    "为害",
+    "症状",
+    "发生",
+    "原因",
+    "条件",
+    "幼虫",
+    "根部",
+    "传播",
+    "防治",
+)
 
 
 def _canonical_url(url: str) -> str | None:
@@ -198,26 +217,132 @@ def normalize_search_results(results: list[SearchEvidence]) -> SearchEvidence:
     )
 
 
-def build_qwen_context(evidence: SearchEvidence) -> dict:
-    sources = [
-        {
-            **{
-                key: value
-                for key, value in source.public_metadata().items()
-                if key != "snippet"
-            },
-            # Keep the Qwen context bounded for the deployed 8k-context model.
-            # The full fetched article remains in the normalized SearchSource;
-            # this is only the evidence excerpt sent to the second-stage model.
-            "content": source.content[:1600] if source.content else None,
-        }
-        for source in evidence.sources
-        if source.content
-    ]
+def _conservative_token_estimate(value: str) -> int:
+    """Upper-bound estimate for evidence JSON when the Qwen tokenizer is unavailable."""
+    return max(1, ceil(len(value)))
+
+
+def _qwen_evidence_budget() -> int:
+    configured_budget = config.settings.vlm_evidence_token_budget
+    residual_budget = (
+        config.settings.vlm_context_window
+        - config.settings.vlm_output_tokens
+        - config.settings.vlm_reserved_input_tokens
+    )
+    return max(0, min(configured_budget, residual_budget))
+
+
+def _source_excerpt(source: SearchSource, content: str) -> dict:
     return {
-        "status": "available" if sources else "unavailable",
+        **{
+            key: value
+            for key, value in source.public_metadata().items()
+            if key != "snippet"
+        },
+        "content": content,
+    }
+
+
+def _bounded_excerpt(content: str, limit: int) -> str:
+    """Keep a prefix plus short evidence windows without altering stored content."""
+    if len(content) <= limit:
+        return content
+    prefix_length = max(80, min(limit // 3, 240))
+    pieces = [content[:prefix_length]]
+    used = prefix_length
+    windows: list[str] = []
+    for token in _EVIDENCE_EXCERPT_TOKENS:
+        start = 0
+        while used < limit and (position := content.find(token, start)) >= 0:
+            window_start = max(prefix_length, position - 80)
+            window_end = min(len(content), position + len(token) + 120)
+            window = content[window_start:window_end]
+            if window and window not in windows:
+                windows.append(window)
+            start = position + len(token)
+    for window in windows:
+        remaining = limit - used
+        if remaining <= 0:
+            break
+        pieces.append(window[:remaining])
+        used += min(len(window), remaining)
+    return "".join(pieces)[:limit]
+
+
+def _evidence_payload(
+    evidence: SearchEvidence,
+    sources: list[dict],
+) -> dict:
+    return {
+        "status": evidence.status,
         "class_name": evidence.class_name,
         "queries": evidence.queries,
         "sources": sources,
         "message": evidence.message,
+    }
+
+
+def build_qwen_context(evidence: SearchEvidence) -> dict:
+    """Select bounded excerpts without changing the persisted SearchEvidence."""
+    total_sources = len(evidence.sources)
+    budget_tokens = _qwen_evidence_budget()
+    max_sources = min(config.settings.vlm_max_evidence_sources, total_sources)
+    max_chars = config.settings.vlm_evidence_excerpt_max_chars
+    selected: list[dict] = []
+    selected_ids: list[str] = []
+
+    candidate_sources = [source for source in evidence.sources if source.content][:max_sources]
+    minimum_chars = max(120, min(320, max_chars // 4))
+    for candidate_count in range(len(candidate_sources), 0, -1):
+        candidates = candidate_sources[:candidate_count]
+        low, high = minimum_chars, max_chars
+        best_sources: list[dict] | None = None
+        while low <= high:
+            middle = (low + high) // 2
+            excerpts = [
+                _source_excerpt(source, _bounded_excerpt(source.content or "", middle))
+                for source in candidates
+            ]
+            estimated = _conservative_token_estimate(
+                json.dumps(_evidence_payload(evidence, excerpts), ensure_ascii=False)
+            )
+            if estimated <= budget_tokens:
+                best_sources = excerpts
+                low = middle + 1
+            else:
+                high = middle - 1
+        if best_sources is not None:
+            selected = best_sources
+            selected_ids = [source.id for source in candidates]
+            break
+
+    context = _evidence_payload(evidence, selected)
+    if evidence.status == "available" and not selected:
+        context["status"] = "unavailable"
+        context["message"] = "证据预算不足，未向 Qwen 发送可安全容纳的来源正文"
+    estimated_tokens = _conservative_token_estimate(
+        json.dumps(context, ensure_ascii=False)
+    )
+    selection = {
+        "evidence_sources_total": total_sources,
+        "evidence_sources_selected": len(selected),
+        "evidence_budget_tokens": budget_tokens,
+        "estimated_tokens": estimated_tokens,
+        "selected_source_ids": selected_ids,
+        "max_evidence_sources": max_sources,
+        "excerpt_max_chars": max_chars,
+        "token_estimator": "conservative_character_upper_bound",
+    }
+    logger.info(
+        "evidence_sources_total=%s evidence_sources_selected=%s evidence_budget_tokens=%s "
+        "estimated_tokens=%s selected_source_ids=%s",
+        total_sources,
+        len(selected),
+        budget_tokens,
+        estimated_tokens,
+        selected_ids,
+    )
+    return {
+        **context,
+        "selection": selection,
     }

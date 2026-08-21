@@ -1466,3 +1466,26 @@
 - Backend pytest 70 passed（1 条既有弃用警告）；Frontend/render 8 passed；ESLint、production build、`git diff --check`、候选文件安全扫描通过。
 - 真实病例链路已执行；默认五来源触发既有 Qwen 8192 上下文限制并安全降级，临时单来源配置下完成分析、详情和报告，knowledge treatment 隔离保持正确。未修改该既有上下文问题。
 - P0-3 本轮实现与启动/健康/停止目标完成；当前工作区保持未提交、未推送，等待用户确认。
+
+## P0-4 Qwen 证据上下文预算：开始（2026-08-21）
+
+- 已确认当前基准为 P0-3 commit `057f6c5`，分支 `competition-dev`，工作区初始干净；本轮不提交、不推送。
+- 已读取当前配置、Normalizer、`build_qwen_context()`、两阶段 multimodal prompt 和相关测试。
+- 根因已定位为第二阶段同时发送全部最多 5 个来源 excerpt，另叠加长 system prompt、田间/YOLO JSON、图片 token 和 700 输出预留，触发 Qwen 8192 上下文限制。
+- 下一步实现只影响 Qwen evidence context：保留完整 `sources/evidence_snapshots`，按照 Normalizer 排序选择高可信来源，保留原 source ID，并用配置化预算截断 excerpt。
+
+## P0-4 预算实现与首轮真实验证（2026-08-21）
+
+## P0-4 验收完成（2026-08-21）
+
+- 已完成默认 5 来源的蛴螬、马铃薯晚疫病、马铃薯早疫病真实端到端复核；三例均成功完成 Qwen 证据分析，未触发 8192 context overflow。
+- 已确认搜索/持久化边界未改变：每例保留 5 个标准化来源和 5 份完整正文快照；仅第二阶段 Qwen 使用 2 个预算内 excerpt，source ID 不重新编号。
+- 已完成后端重启恢复、历史读取不重新搜索、source ID、local knowledge treatment、无来源/预算耗尽降级和安全边界复核。
+- 已完成 backend 77 passed、frontend/render 8 passed、ESLint、production build、diff-check；根目录训练评测收集的 NumPy 缺失不属于后端回归，未修改训练代码。
+- P0-4 已完成，当前分支 `competition-dev`，不 commit、不 push，等待用户确认。
+
+- 已新增配置化 Qwen context/evidence 预算和保守字符上界估算；完整来源正文仍由 `SearchEvidence` 和 `evidence_snapshots` 保留。
+- 已新增来源子集、Normalizer 优先级、非连续 source ID、长正文截断、预算边界、预算耗尽和非法 source ID 测试；搜索/多模态相关测试 49 passed。
+- 首轮默认 5 来源中，晚疫病/早疫病通过但蛴螬因贪心分配导致有效内容不足；已改为公平分配两条来源并增加正文证据窗口，再次测试蛴螬通过。
+- 默认最多 5 个搜索来源重新执行：蛴螬 class 14、马铃薯晚疫病 class 7、马铃薯早疫病 class 3 均完成分析；每例 normalized sources=5、Qwen selected=2、估算不超过 1600、危害/可能诱因均有输出、treatment 为 `local_knowledge_base`。
+- 蛴螬连续重复分析 2 次均无 overflow，均使用 `source-1/source-2`，危害和可能诱因各 1 条。

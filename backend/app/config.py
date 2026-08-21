@@ -75,6 +75,12 @@ class Settings:
     public_uploads_per_hour: int = 10
     public_analyses_per_hour: int = 20
     vlm_max_concurrency: int = 2
+    vlm_context_window: int = 8192
+    vlm_output_tokens: int = 700
+    vlm_reserved_input_tokens: int = 5892
+    vlm_evidence_token_budget: int = 1600
+    vlm_max_evidence_sources: int = 2
+    vlm_evidence_excerpt_max_chars: int = 900
     search_provider: str = "disabled"
     search_timeout_seconds: float = 10.0
     search_max_sources: int = 5
@@ -146,6 +152,12 @@ def load_settings() -> Settings:
         public_uploads_per_hour=max(1, int(os.getenv("CROP_PUBLIC_UPLOADS_PER_HOUR", "10"))),
         public_analyses_per_hour=max(1, int(os.getenv("CROP_PUBLIC_ANALYSES_PER_HOUR", "20"))),
         vlm_max_concurrency=max(1, int(os.getenv("CROP_VLM_MAX_CONCURRENCY", "2"))),
+        vlm_context_window=max(1024, int(os.getenv("CROP_VLM_CONTEXT_WINDOW", "8192"))),
+        vlm_output_tokens=max(128, int(os.getenv("CROP_VLM_OUTPUT_TOKENS", "700"))),
+        vlm_reserved_input_tokens=max(0, int(os.getenv("CROP_VLM_RESERVED_INPUT_TOKENS", "5892"))),
+        vlm_evidence_token_budget=max(0, int(os.getenv("CROP_VLM_EVIDENCE_TOKEN_BUDGET", "1600"))),
+        vlm_max_evidence_sources=max(1, min(5, int(os.getenv("CROP_VLM_MAX_EVIDENCE_SOURCES", "2")))),
+        vlm_evidence_excerpt_max_chars=max(120, int(os.getenv("CROP_VLM_EVIDENCE_EXCERPT_MAX_CHARS", "900"))),
         search_provider=os.getenv("CROP_SEARCH_PROVIDER", "disabled").strip().lower() or "disabled",
         search_timeout_seconds=max(1.0, float(os.getenv("CROP_SEARCH_TIMEOUT_SECONDS", "10"))),
         search_max_sources=min(5, max(1, int(os.getenv("CROP_SEARCH_MAX_SOURCES", "5")))),

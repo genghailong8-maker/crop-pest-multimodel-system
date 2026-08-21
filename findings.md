@@ -1094,3 +1094,28 @@
 - 新增 `scripts/competition.tests.ps1`，分类、降级策略和 PID 误匹配保护通过；真实 start/status/smoke/stop 与临时 3110 production start/stop 通过。
 - 真实 API 链路中，默认 5 来源样本复现既有 Qwen 8192 上下文超限，系统返回 `multimodal_unavailable` 而未伪造结论；临时单来源配置下上传、YOLO、Qwen、详情、报告均返回成功，treatment 仍为 `local_knowledge_base`。这属于既有证据上下文容量问题，不在本轮修复范围。
 - 本轮候选文件未包含 API key、密码、token 值、私钥、模型、数据集、runtime、tmp、dist、node_modules 或 `.venv`；未 commit/push。
+
+# 2026-08-21 P0-4 初始审计
+
+- 当前 `SearchEvidence.sources` 最多 5 个，Normalizer 已按可靠性排序并重编号为 `source-1...source-5`；`persisted_evidence_snapshots()` 保存这些最终来源的完整正文，不能削减搜索或持久化数量。
+- 当前 `build_qwen_context()` 会把所有有正文来源送入第二阶段，每个正文固定取前 1600 字符；这与 Qwen 的 system prompt、字段/YOLO JSON、第一阶段结果和图片 token 叠加，默认 5 来源可能达到 8192 上限。
+- 第二阶段固定 `max_tokens=700`；第一阶段固定 `max_tokens=500`。图片通过 `data:image/...` 发送，不能把 base64 文本按普通字符计入 evidence 预算，但必须为视觉 token 预留安全空间。
+- 当前 Qwen 服务不提供可复用 tokenizer 接口；本轮采用保守估算器，不引入 Transformers 或模型权重依赖。估算只用于证据 excerpt 选择，不宣称精确 tokenizer 计数。
+- 当前已知真实失败：默认 5 来源下 Qwen 返回 `maximum context length is 8192`；将搜索最大来源数改为 1 能绕过但违反业务约束，因此必须在 Qwen 输入层解决。
+
+# 2026-08-21 P0-4 实现决策
+
+## P0-4 最终验收（2026-08-21）
+
+- 三条默认最多 5 来源的真实病例均返回 `analyzed`：蛴螬 class 14（0.918622）、马铃薯晚疫病 class 7（0.915291）、马铃薯早疫病 class 3（0.663122）。每条病例 API 与报告 API 均为 HTTP 200；原始来源数组和正文快照均为 5 条。
+- 三条病例的 provenance 均记录 `evidence_sources_total=5`、`evidence_sources_selected=2`、`selected_source_ids=[source-1, source-2]`，估算值分别为 1600、1600、1599，未超过 1600 证据预算。病例中的危害/可能诱因引用均通过 source ID 存在性校验。
+- 蛴螬病例重复分析两次均完成，未再出现 Qwen 8192 context overflow。后端重启后详情和报告读取恢复 5 个来源、5 份正文快照，读取过程未触发重新检测或重新分析。
+- 三例的防治措施均来自 `local_knowledge_base`；外部网页正文仅进入证据快照和 Qwen 证据摘录，未替换本地知识库防治内容。
+- `backend` 测试 77 passed（1 条既有 Starlette/httpx 弃用警告）；前端 tests/render 8 passed；ESLint、production build、`git diff --check` 均通过。根目录 pytest 的训练评测收集因环境缺少 NumPy 报错，按项目实际 `backend` 测试目录复跑通过，未修改训练代码。
+- 本轮改动 9 个文件；精确安全扫描确认没有真实 API key、私钥、运行时目录、模型、数据集或依赖目录进入改动范围。测试中的 `test-*` 凭据仅为 mock 字符串，未使用真实密钥。
+
+- 新增 `CROP_VLM_CONTEXT_WINDOW`、`CROP_VLM_OUTPUT_TOKENS`、`CROP_VLM_RESERVED_INPUT_TOKENS`、`CROP_VLM_EVIDENCE_TOKEN_BUDGET`、`CROP_VLM_MAX_EVIDENCE_SOURCES` 和 `CROP_VLM_EVIDENCE_EXCERPT_MAX_CHARS`；默认 8192 / 700 / 5892 / 1600 / 2 / 900。
+- 1600 证据预算是 `8192 - 700 output - 5892 system/field/YOLO/image/safety reserve` 的保守残余；估算器使用字符上界，不宣称等同 Qwen tokenizer，也不引入大模型 tokenizer 依赖。
+- 选择按 Normalizer 已有来源顺序进行，先尝试 2 个来源并公平分配 excerpt；若两条无法放入预算，再退到 1 条。excerpt 保留前缀和“危害/为害/症状/发生/原因/条件/幼虫/根部/传播/防治”附近窗口，原始正文不变。
+- Qwen prompt 内保留原始 source ID；技术 provenance 记录总来源数、选中数、选中 ID、估算 token、预算和估算方法；日志不记录正文或密钥。
+- 首轮公平分配修正后，蛴螬、马铃薯晚疫病、马铃薯早疫病默认搜索最多 5 个来源均完成 Qwen 分析；每例保留 5 个来源，Qwen 使用 2 个来源，treatment 仍为 `local_knowledge_base`。

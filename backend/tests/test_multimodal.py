@@ -373,7 +373,7 @@ def test_external_evidence_requires_real_source_ids():
                     {"conclusion": "根部受害可能影响植株稳定", "source_ids": ["source-1", "missing"]}
                 ],
                 "possible_causes": [
-                    {"conclusion": "高湿环境可能与发生有关", "source_ids": ["missing"]}
+                    {"conclusion": "高湿环境可能与发生有关", "source_ids": ["missing", "source-99"]}
                 ],
             }
         )

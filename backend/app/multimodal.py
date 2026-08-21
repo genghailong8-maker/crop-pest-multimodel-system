@@ -583,7 +583,8 @@ async def request_multimodal_analysis(
             status="unavailable",
             message="没有可用于外部检索的 YOLO 主候选",
         )
-    comparison_evidence["external_evidence"] = build_qwen_context(external_evidence)
+    qwen_evidence_context = build_qwen_context(external_evidence)
+    comparison_evidence["external_evidence"] = qwen_evidence_context
     timeout = httpx.Timeout(
         settings.vlm_timeout_seconds,
         connect=min(10.0, settings.vlm_timeout_seconds),
@@ -631,7 +632,7 @@ async def request_multimodal_analysis(
             user_text="请完成第二阶段证据比对：\n"
             + json.dumps(comparison_evidence, ensure_ascii=False, separators=(",", ":")),
             image_url=image_url,
-            max_tokens=700,
+            max_tokens=settings.vlm_output_tokens,
         )
         result, stage2_ms = await post_structured(
             client,
@@ -649,7 +650,10 @@ async def request_multimodal_analysis(
         case_record, result, independent.primary_diagnosis
     )
     result = reconcile_field_input_consistency(case_record, result)
-    external_analysis = normalize_external_evidence_analysis(result, external_evidence)
+    if qwen_evidence_context.get("status") != "available":
+        external_analysis = ExternalEvidenceAnalysis()
+    else:
+        external_analysis = normalize_external_evidence_analysis(result, external_evidence)
     updates: dict[str, Any] = {}
     if field_context["affected_ratio_percent"] is None or field_context["spread_speed"] == "unknown":
         updates.update(
@@ -719,6 +723,7 @@ async def request_multimodal_analysis(
                     "source_ids": sorted(source_ids(external_evidence)),
                     "message": external_evidence.message,
                 },
+                "qwen_evidence_context": qwen_evidence_context.get("selection", {}),
             },
         }
     )

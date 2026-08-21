@@ -1323,6 +1323,38 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 - `tmp/competition` 只保存脚本自有 PID/log 状态；stop 不批量杀 Python/Node，不停止远端服务。
 - 本地真实链路和至少一个真实病例可验证；搜索失败、模型离线和端口占用都有可解释提示。
 
+# 2026-08-21 P0-4 Qwen 证据上下文预算：in_progress
+
+## Scope and constraints
+
+- 只处理第二阶段 Qwen 证据上下文的预算、来源选择和 excerpt 截断；不改变 Tavily 最多 5 个来源、Normalizer 排序/过滤、完整 evidence_snapshots、source ID、knowledge treatment、P0-1/P0-3 或前端。
+- 保持 `competition-dev`，不修改 master/main；本轮不 commit、不 push。
+- 完整正文继续保存和展示；Qwen 只接收独立的有预算 excerpt。
+
+## Phases
+
+- [x] 1. 恢复工作区上下文并审计当前 prompt、图像、字段、证据和输出预算
+- [x] 2. 设计并实现可配置的上下文预算、可靠来源选择和保守 token 估算
+- [x] 3. 增加来源优先级、source ID、长正文、预算边界和无来源测试
+- [x] 4. 使用默认 5 来源完成三病例真实 E2E 与重复稳定性验证
+- [x] 5. 运行 backend/frontend 回归、重启恢复、降级和安全检查
+- [x] 6. 输出 P0-4 报告，保持未提交、未推送
+
+## Success criteria
+
+- 默认 `CROP_SEARCH_MAX_SOURCES=5` 仍保留、持久化和展示全部最终来源。
+- 第二阶段只发送预算允许的 1～2 个高可信来源 excerpt，并保留原始 source ID，不重新编号。
+- 真实请求不再触发 Qwen 8192 context overflow；证据不足时安全返回 unavailable，不伪造危害或可能诱因。
+- 三个真实病例均有 harms、possible_causes、有效 source_ids 和 `local_knowledge_base` treatment。
+
+## Final verification
+
+- Backend tests from `backend/`: 77 passed, 1 pre-existing Starlette/httpx deprecation warning; frontend tests/render: 8 passed; ESLint and production build passed.
+- Default `CROP_SEARCH_MAX_SOURCES=5` real cases completed for grub (class 14), potato late blight (class 7), and potato early blight (class 3). Each retained 5 normalized sources and 5 persisted正文快照; Qwen received 2 selected excerpts with original source IDs and estimated evidence tokens at or below 1600.
+- Repeated grub analysis completed twice without context overflow. After backend restart, detail/report reads returned HTTP 200 with 5 sources and 5正文快照 without triggering detect/analyze; treatment remained `local_knowledge_base`.
+- Search-disabled, no-source, budget exhaustion, invalid source ID, long正文 and multimodal degradation cases are covered by automated tests. Security/path scan found no real secret, private key, runtime, model, dataset or dependency artifact in the nine changed files.
+- P0-4 is complete on `competition-dev`; worktree remains uncommitted and unpushed.
+
 ## Verification results
 
 - `scripts/competition.tests.ps1`：PASS；健康分类覆盖 Tavily DEGRADED、Backend/Detector/Qwen FAILED 和 PID 误匹配保护。
