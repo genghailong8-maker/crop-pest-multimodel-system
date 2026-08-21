@@ -1097,6 +1097,23 @@
 
 # 2026-08-21 P0-4 初始审计
 
+## P1 比赛配置与启动路径收口：初始审计（2026-08-21）
+
+- 当前正式基准为 `a37ac675d56cf87476392779b29942a3fff4e95d`，分支为 `competition-dev`，工作区初始干净。
+- `backend/.env.example` 的实际值已是 `CROP_SEARCH_PROVIDER=tavily`，但注释仍写“当前推荐：google_grounding”，且 Tavily 仍被描述为可替代 provider；README/runbook 只强调 Tavily 增强能力，缺少三种 provider 的统一定位。
+- `backend/app/config.py` 将非绝对 `CROP_STORAGE_DIR` 解析为 `backend/` 下路径，将非绝对 `CROP_KNOWLEDGE_DIR` 解析为 `backend/` 下路径；因此 `.env.example` 的 `runtime` 应为 `backend/runtime`，`../knowledge/...` 应为仓库根目录 `knowledge/...`。
+- `scripts/competition.ps1` 已正确使用 `$PSScriptRoot` 推导仓库根和 `backend/`，但 `Get-StorageStatus` 直接使用配置字符串，导致从仓库外 cwd 调用时相对 storage/knowledge 路径可能被错误解释并产生假性 DEGRADED。
+- 本轮将新增基于脚本目录的统一路径解析函数，不改变调用者 cwd；测试覆盖 root、外部 cwd、绝对路径、中文空格和真实不存在目录。
+
+## P1 比赛配置与启动路径收口：验收（2026-08-21）
+
+- `backend/.env.example`、README 和 `docs/competition/demo-runbook.md` 已统一说明 `CROP_SEARCH_PROVIDER=tavily`；Tavily 是比赛默认外部证据 provider，Google Grounding 是 optional/compatible，Google Custom Search 是 legacy；API Key 示例均为空。
+- `scripts/competition.ps1` 新增 `Resolve-BackendPath`：相对路径以 `backend/` 为基准，绝对路径原样规范化为 full path；未使用 `Set-Location` 修复，也未改变启动、PID 或远程停止逻辑。
+- `scripts/competition.tests.ps1` 新增 root、外部 cwd、绝对 storage、绝对 knowledge、中文/空格路径和真实缺失 knowledge 的测试；PowerShell tests PASS。
+- 项目根目录和 `C:\Windows\Temp` 外部 cwd 的 `status`、`smoke` 均 READY，二者 Knowledge/Storage 路径一致，不再出现假性 DEGRADED。
+- Backend pytest 77 passed（1 条既有弃用警告）；frontend/render 8 passed；ESLint、production build、`git diff --check` 均通过。
+- 本轮只改文档、启动脚本、PowerShell 测试和规划记录；未修改核心诊断、搜索算法、YOLO/Qwen/Tavily provider、UI 或远程服务。
+
 - 当前 `SearchEvidence.sources` 最多 5 个，Normalizer 已按可靠性排序并重编号为 `source-1...source-5`；`persisted_evidence_snapshots()` 保存这些最终来源的完整正文，不能削减搜索或持久化数量。
 - 当前 `build_qwen_context()` 会把所有有正文来源送入第二阶段，每个正文固定取前 1600 字符；这与 Qwen 的 system prompt、字段/YOLO JSON、第一阶段结果和图片 token 叠加，默认 5 来源可能达到 8192 上限。
 - 第二阶段固定 `max_tokens=700`；第一阶段固定 `max_tokens=500`。图片通过 `data:image/...` 发送，不能把 base64 文本按普通字符计入 evidence 预算，但必须为视觉 token 预留安全空间。

@@ -31,6 +31,14 @@ cd "C:\Users\genghailong\Documents\编程大赛"
 .\scripts\competition.ps1 stop
 ```
 
+比赛外部证据搜索默认使用 Tavily：
+
+```powershell
+$env:CROP_SEARCH_PROVIDER = "tavily"
+```
+
+Google Grounding（`google_grounding`）是可选兼容 provider；Google Custom Search（`google_legacy`）仅作为 legacy provider，适用于已有 Custom Search JSON API 资格的用户。三种 provider 的 API Key 示例均保持为空，真实密钥只通过本机环境变量或部署环境注入，不写入仓库。
+
 统一入口只停止它自己创建的本地 backend、web 和 SSH 隧道，不会停止远端 detector/Qwen。若 GPU 隧道使用非默认密钥或地址，请在启动前设置 `CROP_GPU_SSH_HOST`、`CROP_GPU_SSH_PORT`、`CROP_GPU_SSH_USER`、`CROP_GPU_SSH_IDENTITY_FILE`；密钥内容不要写入脚本、日志或文档。
 
 ### 人工恢复流程（统一入口失败时）

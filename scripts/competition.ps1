@@ -49,6 +49,15 @@ function Get-ConfiguredValue([string]$Name) {
     return $null
 }
 
+function Resolve-BackendPath([string]$ConfiguredPath, [string]$DefaultPath) {
+    $value = if ([string]::IsNullOrWhiteSpace($ConfiguredPath)) { $DefaultPath } else { $ConfiguredPath }
+    $value = [Environment]::ExpandEnvironmentVariables($value.Trim())
+    if ([IO.Path]::IsPathRooted($value)) {
+        return [IO.Path]::GetFullPath($value)
+    }
+    return [IO.Path]::GetFullPath((Join-Path $script:BackendRoot $value))
+}
+
 function Import-CompetitionEnv {
     foreach ($path in Get-EnvFilePaths) {
         foreach ($line in Get-Content -LiteralPath $path -ErrorAction SilentlyContinue) {
@@ -274,10 +283,9 @@ function Test-WritableDirectory([string]$Path) {
 }
 
 function Get-StorageStatus {
-    $storage = Get-ConfiguredValue "CROP_STORAGE_DIR"
-    if (-not $storage) { $storage = Join-Path $script:BackendRoot "runtime" }
-    $knowledge = Get-ConfiguredValue "CROP_KNOWLEDGE_DIR"
-    if (-not $knowledge) { $knowledge = Join-Path $script:WorkspaceRoot "knowledge\baidu-baike-20260818" }
+    # Match backend/app/config.py: every relative path is relative to backend/.
+    $storage = Resolve-BackendPath (Get-ConfiguredValue "CROP_STORAGE_DIR") "runtime"
+    $knowledge = Resolve-BackendPath (Get-ConfiguredValue "CROP_KNOWLEDGE_DIR") "..\knowledge\baidu-baike-20260818"
     $writable = Test-WritableDirectory $storage
     $knowledgeReady = Test-Path -LiteralPath (Join-Path $knowledge "manifest.json")
     [pscustomobject]@{

@@ -55,7 +55,7 @@ cd "C:\Users\genghailong\Documents\编程大赛"
 .\scripts\competition.ps1 stop
 ```
 
-GPU 私钥路径通过 `CROP_GPU_SSH_IDENTITY_FILE` 传入；它必须是 GPU/AutoDL 专用私钥，不要把 GitHub SSH key 当作 GPU key。Tavily 是增强能力，缺少密钥或网络失败时状态为 `DEGRADED`，核心诊断仍可用。入口不会打印密钥。
+GPU 私钥路径通过 `CROP_GPU_SSH_IDENTITY_FILE` 传入；它必须是 GPU/AutoDL 专用私钥，不要把 GitHub SSH key 当作 GPU key。比赛默认外部证据 provider 为 Tavily（`CROP_SEARCH_PROVIDER=tavily`），缺少密钥或网络失败时状态为 `DEGRADED`，核心诊断仍可用。Google Grounding 是可选兼容 provider（`google_grounding`）；Google Custom Search 仅作为 legacy provider，适用于已有 Custom Search JSON API 资格的用户。入口不会打印密钥。
 
 后端：
 

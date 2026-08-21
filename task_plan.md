@@ -1355,6 +1355,37 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 - Search-disabled, no-source, budget exhaustion, invalid source ID, long正文 and multimodal degradation cases are covered by automated tests. Security/path scan found no real secret, private key, runtime, model, dataset or dependency artifact in the nine changed files.
 - P0-4 is complete on `competition-dev`; worktree remains uncommitted and unpushed.
 
+# 2026-08-21 P1 比赛配置与启动路径收口：in_progress
+
+## Scope and constraints
+
+- 只处理比赛文档中 Tavily/Google provider 定位，以及 `competition.ps1` 对 `CROP_STORAGE_DIR`、`CROP_KNOWLEDGE_DIR` 相对路径的解析；不修改核心诊断、搜索算法、YOLO、Qwen、UI 或远程服务。
+- Backend 的真实路径语义以 `backend/app/config.py` 为准：相对 `CROP_STORAGE_DIR` 和 `CROP_KNOWLEDGE_DIR` 均相对于 `backend/`；绝对路径保持原样并规范化。
+- 保持 `competition-dev`，不修改 master/main；本轮不 commit、不 push。
+
+## Phases
+
+- [x] 1. 审计 provider 文案、脚本根目录定位和 Backend 相对路径语义
+- [x] 2. 统一 Tavily 主 provider、Google Grounding optional、Custom Search legacy 文案
+- [x] 3. 实现脚本路径解析并增加 root/外部 cwd/绝对路径/中文空格/不存在目录测试
+- [x] 4. 运行 PowerShell、root/外部 cwd status/smoke 和完整回归
+- [x] 5. 更新 findings/progress，输出 P1 报告，保持未提交、未推送
+
+## Success criteria
+
+- `CROP_SEARCH_PROVIDER=tavily` 在 `.env.example`、README 和演示 runbook 中一致作为比赛默认 provider。
+- Google Grounding 仅标记为 optional/compatible，Google Custom Search 仅标记为 legacy。
+- 无论调用者当前 cwd 如何，脚本均按 Backend 的相对路径语义检查 knowledge/storage；绝对路径和不存在目录行为正确。
+- P0-1～P0-4 回归通过，且没有秘密或运行时文件进入差异。
+
+## P1 Final verification
+
+- Provider 文案已统一：Tavily 为比赛默认，Google Grounding 为 optional/compatible，Google Custom Search 为 legacy；三个比赛入口均保留空 API Key 示例。
+- `Resolve-BackendPath` 基于脚本所在目录和 `backend/` 解析相对路径，绝对路径经 `GetFullPath` 规范化，不修改调用者 cwd。
+- PowerShell tests、项目根目录 status/smoke、项目外 cwd status/smoke 均通过；两种 cwd 下 Knowledge/Storage 均 READY 且路径一致。
+- Backend pytest 77 passed（1 条既有 Starlette/httpx 弃用警告）；frontend/render 8 passed；ESLint、production build、`git diff --check` 通过。
+- P1 已完成，当前工作区保持未提交、未推送。
+
 ## Verification results
 
 - `scripts/competition.tests.ps1`：PASS；健康分类覆盖 Tavily DEGRADED、Backend/Detector/Qwen FAILED 和 PID 误匹配保护。

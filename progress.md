@@ -1469,6 +1469,19 @@
 
 ## P0-4 Qwen 证据上下文预算：开始（2026-08-21）
 
+## P1 比赛配置与启动路径收口：开始（2026-08-21）
+
+- 已确认本轮只处理 Tavily/Google provider 文案和 competition.ps1 路径解析；不修改核心诊断、搜索算法、模型、UI 或远程服务。
+- 已确认 Backend 的相对路径基准为 `backend/`，当前脚本的 `Get-StorageStatus` 尚未复用该语义。
+- 当前阶段：先统一 `.env.example`、README、demo-runbook 和必要的比赛说明，再实现脚本解析与 PowerShell 回归测试。
+
+## P1 比赛配置与启动路径收口：完成（2026-08-21）
+
+- 已完成 Tavily 默认、Google Grounding optional/compatible、Custom Search legacy 的文案统一，并保持所有密钥示例为空。
+- 已完成 `competition.ps1` 相对路径修复：Backend 相对路径以 `backend/` 为基准，绝对路径保持绝对路径并规范化。
+- PowerShell 路径/健康分类测试、项目根目录 status/smoke、项目外 cwd status/smoke 均通过；Knowledge/Storage 均 READY。
+- Backend 77 passed、frontend/render 8 passed、ESLint、production build、diff-check 均通过；工作区保持未提交、未推送。
+
 - 已确认当前基准为 P0-3 commit `057f6c5`，分支 `competition-dev`，工作区初始干净；本轮不提交、不推送。
 - 已读取当前配置、Normalizer、`build_qwen_context()`、两阶段 multimodal prompt 和相关测试。
 - 根因已定位为第二阶段同时发送全部最多 5 个来源 excerpt，另叠加长 system prompt、田间/YOLO JSON、图片 token 和 700 输出预留，触发 Qwen 8192 上下文限制。
