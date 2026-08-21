@@ -998,6 +998,7 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 
 | Error | Attempt | Resolution |
 |---|---|---|
+| 修复后 worktree 目标目录不存在 | 首次复制 `sites-vite-plugin.ts` | 清理临时 worktree，先创建 `web/build` 目录，再执行同一套独立验证 |
 
 ### Live verification errors
 
@@ -1215,3 +1216,51 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 - 隔离搜索失败测试中，YOLO 仍识别蛴螬，分析接口返回 HTTP 200，外部证据 `unavailable`、危害/可能诱因为空，防治仍来自本地知识库。
 - 后端全量 pytest：66 passed，1 条既有 Starlette/httpx 弃用警告；前端测试：8 passed；production build、ESLint、`git diff --check` 均通过。
 - 本阶段已创建本地 commit `5bad8b0`，尚未推送；分支仍为 `competition-dev`，未修改 `master/main`。真实验收结论：PASS。
+
+# 2026-08-21 P0-1 GitHub 可复现前端构建修复：in_progress
+
+## Scope and assumptions
+
+- 只处理 GitHub `competition-dev` 干净环境无法构建前端的问题；不修改 master/main，不处理其他 P0。
+- 优先确认 `web/build/sites-vite-plugin` 是源码、生成物、依赖或历史遗留，再选择最小 A/B/C 修复。
+- 不提交 `node_modules`、`.env`、模型、数据集、缓存、runtime 或临时构建目录。
+
+## Phases
+
+- [x] 1. 确认分支、基准 commit、当前状态并读取工作区规划记录
+- [x] 2. 定位 `sites-vite-plugin` 真实来源、忽略规则和构建引用
+- [x] 3. 采用最小方案修复干净 clone 构建缺失
+- [x] 4. 运行本地前端测试、Lint、build、render tests
+- [x] 5. 使用不带 ignored 文件的独立 worktree 完成 install/build/render 验证
+- [x] 6. 完成安全审计、记录结果并准备 P0-1 原子提交
+
+## Success criteria
+
+- 仅从 Git 仓库源码和锁定依赖安装后，前端 production build 与 render tests 均通过。
+- `sites-vite-plugin` 必要源码已纳入 Git，或引用已被证明安全移除；不通过静默跳过功能绕过构建。
+- 工作区没有本轮新增 secret、模型、数据集、缓存、node_modules、.venv 或 runtime。
+
+## Errors Encountered
+
+| Error | Attempt | Resolution |
+|---|---|---|
+
+## Phase 2 finding
+
+- `web/build/sites-vite-plugin.ts` 是约 1.3 KB 的项目源码 Vite plugin，使用 Node `fs/promises` 和 Vite `Plugin` 类型，在 `closeBundle` 阶段复制 `.openai/hosting.json` 与 `drizzle/` 到 `dist/.openai`。
+- 根 `.gitignore` 的 `web/build/` 忽略了整个目录；`git check-ignore -v` 命中该规则，`git ls-files web/build` 为空；`web/vite.config.ts` 又直接静态 import 它。
+- 采用方案 A：保留 `web/build/` 的默认忽略，仅通过两个最小例外规则放行 `web/build/` 目录和 `sites-vite-plugin.ts` 这个源码文件。
+
+## Verification results
+
+- 修复前 HEAD worktree：`npm ci` 通过，build 失败于 `UNRESOLVED_IMPORT ./build/sites-vite-plugin`。
+- 修复后独立 worktree：只补入候选 `.gitignore` 和 `web/build/sites-vite-plugin.ts`，未复制当前 `node_modules` 或 ignored 文件；`npm ci`、production build、8 项 render tests 全部通过。
+- 当前工作区：frontend tests 8 passed、ESLint、production build、render tests 和 `git diff --check` 通过。
+
+## Final audit
+
+- 当前分支 `competition-dev`，基准 HEAD `eb7ba9480b5df65a84f1e6f182d0ee62dec27a4d`；未修改 master/main，未 commit/push。
+- `git diff --check` 通过；`git status --ignored` 仅显示既有 ignored 数据/模型/缓存，未将其加入待提交范围。
+- 待提交源码为 `web/build/sites-vite-plugin.ts`；没有 `.env`、API key、密码、token、SSH 私钥、node_modules、.venv、模型、数据集或 runtime 临时数据。
+- 独立 worktree：修复前 build 失败；修复后 `npm ci`、production build、render tests 8/8 通过。
+- 最终判断：PASS；本轮仅允许提交 `.gitignore`、`web/build/sites-vite-plugin.ts`、`task_plan.md`、`findings.md`、`progress.md` 五个文件。

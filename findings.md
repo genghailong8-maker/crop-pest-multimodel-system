@@ -1029,3 +1029,36 @@
 - `backend/runtime-fallback` 已确认仅为本轮隔离测试数据，并已安全删除；没有未跟踪运行数据残留。
 - 29 个确认文件已通过 staged diff 检查并创建本地 commit `5bad8b0`（`feat: add evidence-grounded diagnosis with Tavily sources`）。
 - 暂不 push；用户将手动执行 `git push origin competition-dev`。
+
+# 2026-08-21 P0-1 初始定位
+
+- Work 报告干净 clone 在 `vite.config.ts` 找不到 `web/build/sites-vite-plugin`；本地开发环境曾能 build，说明需要区分本地生成物与仓库源码。
+- 当前开始前工作区干净，分支为 `competition-dev`；本轮基线为 `eb7ba9480b5df65a84f1e6f182d0ee62dec27a4d`，不修改 master/main。
+- 需要先读取 `web/vite.config.ts`、`web/build/`、两处 `.gitignore`、package/lock 文件，并执行 `git status --ignored`、`git check-ignore -v web/build/sites-vite-plugin`、`git ls-files web/build`，再决定 A/B/C。
+
+# 2026-08-21 P0-1 根因确认
+
+- `web/build/sites-vite-plugin.ts` 是项目自己的必要源码，不是 dist/cache，也不是第三方依赖复制物；它导出 `sites()` Vite plugin，在 build closeBundle 时复制 `.openai/hosting.json` 与 `drizzle/` 到 `dist/.openai`。
+- 当前根 `.gitignore` 第 28 行 `web/build/` 忽略整个目录；`git check-ignore -v` 命中该规则，`git ls-files web/build` 无输出；`web/vite.config.ts` 第 4 行静态引用该文件。
+- package-lock 存在且项目依赖已锁定；该插件只使用 Node 内置模块和已存在的 Vite 类型，不需新增依赖。
+- 最小修复：在根 `.gitignore` 紧邻 `web/build/` 后加入 `!web/build/` 和 `!web/build/sites-vite-plugin.ts`，只纳入这一个必要源码文件。
+
+# 2026-08-21 P0-1 干净环境基线复现
+
+- 基于当前 HEAD `eb7ba94` 创建的独立 worktree 未包含 ignored 的 `web/build`；`npm ci` 成功，`npm run build` 真实失败，错误为 `UNRESOLVED_IMPORT: Could not resolve './build/sites-vite-plugin'`。
+- 第一次修复后 worktree 夹具复制文件时目标目录尚未创建，导致复制动作失败，随后 build/render 均失败；该错误仅属于测试夹具，下一次验证会先创建目标目录并重新执行。
+
+# 2026-08-21 P0-1 修复后验证
+
+- 在独立 detached worktree 中创建 `web/build` 后只复制候选 `sites-vite-plugin.ts` 和 `.gitignore`，没有复制当前工作区 `node_modules`、dist 或其他 ignored 文件。
+- `npm ci` 安装锁定依赖成功；production build 成功；render tests 8/8 通过。
+- 本地工作区 frontend tests 8/8、ESLint、production build 和 render tests 均通过；插件源码没有新增依赖，也未触及外部证据、模型或知识库。
+
+# 2026-08-21 P0-1 最终审计
+
+- 当前未跟踪目录 `web/build/` 仅包含 `sites-vite-plugin.ts`（1299 字节）；没有其他 build 输出。
+- `.gitignore` 的最小例外使该源码不再被忽略，同时继续忽略该目录中未来可能产生的其他文件。
+- 当前 `git status` 无 runtime 测试目录；ignored 的模型、数据集、缓存和 node_modules 未进入候选范围。
+- 本地与修复后独立 worktree 的前端测试、Lint、build、render tests 均通过；结论 PASS。
+
+- 本轮已获得用户授权创建独立 P0-1 原子提交；提交范围严格限定为 `.gitignore`、`web/build/sites-vite-plugin.ts`、`task_plan.md`、`findings.md`、`progress.md`。

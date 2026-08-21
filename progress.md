@@ -1401,3 +1401,33 @@
 - 已删除隔离测试目录 `backend/runtime-fallback`，未跟踪文件清零。
 - 29 个确认文件已通过 staged secret/path 审计、`git diff --cached --check` 和完整回归，并创建本地 commit `5bad8b0`。
 - 当前不执行 push；手动推送命令为 `git push origin competition-dev`。
+
+## P0-1 GitHub 可复现前端构建修复：开始（2026-08-21）
+
+- 已确认本轮范围只包含 `web/build/sites-vite-plugin` 的干净 clone 可复现构建问题；不处理外部证据正文持久化或比赛一键启动。
+- 已确认当前 `competition-dev` 工作区干净，下一步读取真实引用、忽略规则和依赖来源，再进行最小修复。
+
+## P0-1 定位完成（2026-08-21）
+
+- 已执行用户要求的 `git status --ignored`、`git check-ignore -v web/build/sites-vite-plugin`、`git ls-files web/build`。
+- 已确认插件是项目必要源码，当前被根 `.gitignore` 的 `web/build/` 整体规则排除；没有 lock/dependency 缺失问题。
+- 已选择方案 A：只放行 `web/build/sites-vite-plugin.ts`，不放行整个 build 目录，也不提交 build 输出。
+
+## P0-1 基线验证
+
+- 已创建并清理一个不带 ignored 文件的 HEAD worktree；`npm ci` 通过，build 失败于 `vite.config.ts` 无法解析 `./build/sites-vite-plugin`，确认 Work 报告的 P0。
+- 修复后 worktree 首次复制候选源码时因目标目录不存在失败，已记录并准备重试；未修改业务代码。
+
+## P0-1 验证完成（2026-08-21）
+
+- 修复前 clean worktree 已复现 build 失败；修复后 clean-equivalent worktree 的 `npm ci`、production build 和 8 项 render tests 全部通过。
+- 当前工作区 `npm test`（build + render tests）通过，frontend tests 8 passed；`npm run lint` 与显式 `npm run build` 通过。
+- 只修改根 `.gitignore`，并准备纳入 `web/build/sites-vite-plugin.ts`；不加入整个 `web/build`、node_modules、dist 或缓存。
+
+## P0-1 最终审计：完成（2026-08-21）
+
+- `git status`、`git diff --stat`、`git diff --check`、`git status --ignored` 已执行；本轮待提交范围严格限定为五个 P0-1 文件。
+- 安全检查确认无非空 API key、密码、token、SSH 私钥、模型、数据集、node_modules、.venv 或 runtime 测试数据进入待提交范围。
+- `web/build` 仅保留待纳入 Git 的必要源码 `sites-vite-plugin.ts`；不提交整个 build 目录。
+- 修复前 clean worktree build FAIL；修复后 clean-equivalent worktree install/build/render PASS；本地 frontend tests 8 passed、ESLint PASS、production build PASS。
+- 最终判断：PASS；已获得用户授权创建独立原子提交并推送至 `origin/competition-dev`。

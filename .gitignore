@@ -26,6 +26,8 @@ web/node_modules/
 web/.next/
 web/dist/
 web/build/
+!web/build/
+!web/build/sites-vite-plugin.ts
 web/.vinext/
 web/.wrangler/
 web/coverage/
