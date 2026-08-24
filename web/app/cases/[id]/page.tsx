@@ -1,13 +1,12 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element -- Case images are served by the no-store diagnostic API. */
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
 import WorkspaceShell from "../../components/WorkspaceShell";
 import ExternalEvidenceSummary from "../../components/ExternalEvidenceSummary";
+import ImageEvidenceFrame from "../../components/ImageEvidenceFrame";
 import { apiUrl, CaseRecord, editHeaders, formatTime, instanceHeaders, isConclusive, KnowledgeDocument, publicResolutionReasons, readJson, resolutionLabel, riskLabel, severityLabel, userDiagnosisTitle } from "../../lib/api";
 
 function GroundedAssessment({ record }: { record: CaseRecord }) {
@@ -54,24 +53,24 @@ export default function CasePage() {
   }
 
   return <WorkspaceShell service={error && !record ? "offline" : "online"} visualMode="legacy">
-    <main className="legacy-public-shell">
-      <section className="public-page-body public-detail">
+    <main className="legacy-public-shell final-public-shell">
+      <section className="final-brief final-case-brief">
         {error && <div className="public-alert error" role="alert">{error}</div>}
         {!record ? <p className="public-muted">正在读取病例…</p> : <>
-          <div className="public-detail-head">
-            <div><span>病例 {record.id.slice(0, 8).toUpperCase()}</span><h1>{userDiagnosisTitle(record)}</h1><p>{record.crop} · {record.part} · {record.growth_stage}</p><small className="public-case-owner">病例属于：{record.instance_id === "lab_cpu" ? "实验室 CPU" : record.instance_id === "gpu_full" ? "原 GPU" : "创建它的识别服务器"} · 创建于 {formatTime(record.created_at)}</small></div>
-            <Link href={`/reports/${record.id}`}>查看可打印报告</Link>
+          <header className="final-brief-head">
+            <div><span>专业诊断简报</span><h1>{userDiagnosisTitle(record)}</h1><dl><div><dt>病例编号</dt><dd>{record.id.slice(0, 12).toUpperCase()}</dd></div><div><dt>诊断时间</dt><dd>{formatTime(record.created_at)}</dd></div><div><dt>置信度</dt><dd>{Math.round((record.detections?.[0]?.confidence ?? 0) * 100)}%</dd></div></dl><small className="public-case-owner">病例属于：{record.instance_id === "lab_cpu" ? "实验室 CPU" : record.instance_id === "gpu_full" ? "原 GPU" : "创建它的识别服务器"}</small></div>
+            <Link className="final-outline-button" href={`/reports/${record.id}`}>打印 / 导出报告</Link>
+          </header>
+          <div className="final-brief-core">
+            <div className="final-brief-image"><p>检测图片</p><ImageEvidenceFrame src={apiUrl(record.image_url)} alt="病例原图及目标定位结果" detections={record.detections} loading="eager" fetchPriority="high" /></div>
+            <div className="final-brief-summary"><div className="final-brief-summary-head"><h2>诊断摘要</h2><span>辅助诊断</span></div><div className={`final-resolution resolution-${record.resolution_status}`} role="status"><strong>{resolutionLabel(record.resolution_status)}</strong><span>{record.user_summary} {record.next_action}</span>{visibleResolutionReasons.length > 0 && <small>原因：{visibleResolutionReasons.join("；")}</small>}</div><ExternalEvidenceSummary record={record} variant="report" /></div>
           </div>
-          <div className={`public-resolution resolution-${record.resolution_status}`} role="status"><strong>{resolutionLabel(record.resolution_status)}</strong><span>{record.user_summary} {record.next_action}</span>{visibleResolutionReasons.length > 0 && <small>原因：{visibleResolutionReasons.join("；")}</small>}</div>
-          <div className="public-detail-grid"><div className="public-detail-image"><img src={apiUrl(record.image_url)} alt="病例原图及目标定位结果" loading="eager" decoding="async" />{(record.detections ?? []).map((item, index) => { const [left, top, width, height] = item.bbox; return <span className="public-box" key={`${item.class_id}-${index}`} style={{ left: `${left * 100}%`, top: `${top * 100}%`, width: `${width * 100}%`, height: `${height * 100}%` }}><b>{item.class_name} {Math.round(item.confidence * 100)}%</b></span>; })}</div><div className="public-detail-summary"><article><span>诊断风险</span><strong>{riskLabel(record.diagnostic_risk)}</strong></article><article><span>田间严重度</span><strong>{severityLabel(record.field_severity)}</strong><p>{record.analysis?.severity_basis || "历史记录未提供严重度依据"}</p></article><article><span>不确定性</span><ul>{(record.analysis?.uncertainty ?? ["历史记录未提供"]).map((item) => <li key={item}>{item}</li>)}</ul></article></div></div>
-          {record.analysis && <section className="public-detail-section"><h2>综合分析</h2><GroundedAssessment record={record} /></section>}
-          {record.analysis && <ExternalEvidenceSummary record={record} />}
-          {isConclusive(record) ? <section className="public-detail-section"><h2>症状、特征和防治建议</h2><div className="public-three knowledge-summary"><article><span>症状</span><div className="knowledge-prose" dangerouslySetInnerHTML={{ __html: knowledge?.symptoms_html ?? "<p>知识库暂时无法读取</p>" }} /></article><article><span>特征</span><div className="knowledge-prose" dangerouslySetInnerHTML={{ __html: knowledge?.features_html ?? "<p>知识库暂时无法读取</p>" }} /></article><article><span>防治建议</span><div className="knowledge-prose" dangerouslySetInnerHTML={{ __html: knowledge?.prevention_html ?? "<p>知识库暂时无法读取</p>" }} /></article></div></section> : <section className="public-detail-section"><h2>暂不形成具体诊断</h2><p>当前证据不足，页面不会把候选病虫害当作已经确认的结论。请按照上方提示补拍图片，或等待识别服务恢复后重试。</p></section>}
-          <div className="public-detail-actions">{(record.status === "multimodal_unavailable" || (record.status === "detected" && !record.analysis)) && <button className="public-secondary" onClick={retry} disabled={retrying}>{retrying ? "正在重试…" : "仅重试综合分析"}</button>}{record.resolution_status === "retake_required" && <Link className="public-secondary action-link" href="/">重新拍一张图片</Link>}</div>
-          <details className="public-technical"><summary>查看技术详情</summary><div><p>候选：{(record.analysis?.candidate_diagnoses ?? record.detector_summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p><p>系统记录：{record.resolution_reasons.length ? record.resolution_reasons.join("；") : "无"}</p><pre>{JSON.stringify({ detector: record.detector_summary?.inference, provenance: record.analysis?.provenance }, null, 2)}</pre></div></details>
+          {isConclusive(record) ? <section className="final-knowledge-overview"><h2>完整知识库</h2><div className="final-knowledge-links"><details><summary>症状与特征</summary><div className="knowledge-prose" dangerouslySetInnerHTML={{ __html: `${knowledge?.symptoms_html ?? "<p>知识库暂时无法读取</p>"}${knowledge?.features_html ?? ""}` }} /></details><details><summary>防治建议</summary><div className="knowledge-prose" dangerouslySetInnerHTML={{ __html: knowledge?.prevention_html ?? "<p>知识库暂时无法读取</p>" }} /></details></div></section> : <section className="final-knowledge-overview"><h2>暂不形成具体诊断</h2><p>当前证据不足，页面不会把候选病虫害当作已经确认的结论。请按照上方提示补拍图片，或等待识别服务恢复后重试。</p></section>}
+          <div className="final-brief-actions">{(record.status === "multimodal_unavailable" || (record.status === "detected" && !record.analysis)) && <button className="final-secondary" onClick={retry} disabled={retrying}>{retrying ? "正在重试…" : "仅重试综合分析"}</button>}{record.resolution_status === "retake_required" && <Link className="final-secondary action-link" href="/">重新拍一张图片</Link>}</div>
+          <details className="final-technical"><summary>技术详情</summary><div>{record.analysis && <GroundedAssessment record={record} />}<p>诊断风险：{riskLabel(record.diagnostic_risk)}；田间严重度：{severityLabel(record.field_severity)}</p><p>候选：{(record.analysis?.candidate_diagnoses ?? record.detector_summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p><p>系统记录：{record.resolution_reasons.length ? record.resolution_reasons.join("；") : "无"}</p><pre>{JSON.stringify({ detector: record.detector_summary?.inference, provenance: record.analysis?.provenance }, null, 2)}</pre></div></details>
         </>}
       </section>
-      <footer className="public-footer"><p>本页为辅助识别记录；发生程度和处置阈值需由当地植保人员结合田间调查确认。病例保存在创建它的识别服务器。</p></footer>
+      <footer className="final-footer"><p>本页为辅助识别记录；发生程度和处置阈值需由当地植保人员结合田间调查确认。病例保存在创建它的识别服务器。</p></footer>
     </main>
   </WorkspaceShell>;
 }

@@ -1386,6 +1386,66 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 - Backend pytest 77 passed（1 条既有 Starlette/httpx 弃用警告）；frontend/render 8 passed；ESLint、production build、`git diff --check` 通过。
 - P1 已完成，当前工作区保持未提交、未推送。
 
+# 跨对话工作交接记录（2026-08-23）
+
+## 当前仓库状态
+
+- 项目目录：`C:\Users\genghailong\Documents\编程大赛`
+- 分支：`competition-dev`
+- 当前 HEAD：`8807b90aa135d97549d463c37807f81de7300daa`
+- 远端：`origin/competition-dev` 已同步
+- 记录交接前代码工作区：clean；本次交接新增的未提交改动仅限 `findings.md`、`progress.md`、`task_plan.md` 三份规划文件。
+- 最近提交：`fix: align competition config and runtime paths`
+- 不修改 `master/main`；后续新对话默认继续在 `competition-dev` 工作。
+
+## 已完成并固化的阶段
+
+- P0-1 `5de74a7`：GitHub clean clone 可复现前端 build；纳入 `web/build/sites-vite-plugin.ts`，未提交依赖或构建缓存。
+- P0-2 `0ae9571`：外部证据正文随病例持久化，历史读取不重新调用 Tavily，旧病例兼容。
+- P0-3 `057f6c5`：比赛启动链与健康检查，提供 `scripts/competition.ps1 start/status/smoke/stop`；核心服务失败为 FAILED，Tavily/knowledge/storage 异常为 DEGRADED；stop 不停止远程 Detector/Qwen。
+- P0-4 `a37ac67`：Qwen 8192 上下文预算控制；搜索/快照仍最多保留 5 个来源，Qwen 默认最多选 2 个来源，证据预算默认 1600，source ID 不重编号，预算不足安全 unavailable。
+- P1 `8807b90`：比赛 provider 文案统一、competition.ps1 相对路径解析修复及 PowerShell 路径回归测试。
+
+## 当前业务/配置基线
+
+- 比赛默认外部证据 provider：`CROP_SEARCH_PROVIDER=tavily`
+- Google Grounding：`google_grounding`，optional/compatible provider
+- Google Custom Search：`google_legacy`，legacy，仅兼容已有资格用户
+- `backend/app/config.py` 的相对 `CROP_STORAGE_DIR`、`CROP_KNOWLEDGE_DIR` 均相对于 `backend/`；`scripts/competition.ps1` 已保持一致。
+- 当前 Qwen 预算配置默认：context 8192、output 700、reserved input 5892、evidence 1600、max evidence sources 2、excerpt 900 字符。
+- 完整来源正文继续保存在 `sources`/`evidence_snapshots`，防治措施继续只来自 `knowledge/` 的 `local_knowledge_base`。
+- 所有真实 API Key 只允许存在于本机运行环境；仓库模板为空，不提交密钥。
+
+## 当前服务状态（交接时刻）
+
+- Backend `127.0.0.1:8000`：READY
+- Frontend `localhost:3000`：READY
+- Knowledge：READY
+- Storage：READY，路径为 `backend/runtime`
+- Detector `8870`：NOT RUNNING
+- Qwen3-VL `8890`：NOT RUNNING
+- Tavily：配置存在，状态 READY；当前总状态因 Detector/Qwen 未运行而为 FAILED
+- 新对话如需真实识别，先执行 `scripts/competition.ps1 start` 或按 runbook 启动，不要把当前 NOT RUNNING 误判为代码回归。
+
+## 最近完整验证基线
+
+- P1 PowerShell tests：PASS
+- 项目根目录 `status/smoke`：READY
+- 项目外 cwd `C:\Windows\Temp` 调用 `status/smoke`：READY
+- Backend pytest：77 passed，1 条既有 Starlette/httpx 弃用警告
+- Frontend/render：8 passed
+- ESLint：PASS
+- Production build：PASS
+- `git diff --check`：PASS
+- security/path scan：PASS
+
+## 已知限制与下一步入口
+
+- 根目录 pytest 会额外收集训练评测脚本 `training/test_grasshopper_field_eval.py`，当前环境缺少 NumPy；正式后端验收以 `backend` 目录测试为准，未修改 training。
+- P0-4 使用保守字符上界估算器，不等同 Qwen 精确 tokenizer；目标是避免超上下文并在不足时安全降级。
+- `findings.md`、`progress.md`、`task_plan.md` 保留历史阶段记录；其中旧阶段的 provider 描述是审计历史，当前有效配置以 P1 章节、README、runbook 和 `.env.example` 为准。
+- 当前没有用户指定的下一项 P1/P2 改动。新对话开始时先读取本交接记录、`findings.md`、`progress.md`，检查 `git status`，再等待/确认新的工作范围。
+
 ## Verification results
 
 - `scripts/competition.tests.ps1`：PASS；健康分类覆盖 Tavily DEGRADED、Backend/Detector/Qwen FAILED 和 PID 误匹配保护。
@@ -1393,3 +1453,56 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 - `status -CheckTavilyNetwork` 与 `smoke` 在核心服务 READY 时通过；Backend 停止时正确报告 FAILED。
 - Backend pytest：70 passed；Frontend tests/render：8 passed；ESLint、production build、`git diff --check` 和候选文件 secret/path 扫描通过。
 - 真实图片 API 链路完成上传、YOLO、Qwen、病例详情和报告；默认 5 来源复现既有 Qwen 8192 上下文超限并安全降级，临时单来源配置下分析 API 完成且 treatment 仍来自 `local_knowledge_base`。该既有上下文问题未在本轮修改。
+
+# UI / 比赛展示优化第一阶段：视觉方案探索（2026-08-23）
+
+## Scope and constraints
+
+- 只做当前 UI 只读审计、公开参考研究、4 套视觉方案与展示版结构草图。
+- 不修改 `web` 前端、backend、配置、模型或部署文件；不 commit、不 push、不创建 PR。
+- 方案必须覆盖诊断首页、诊断结果页、病例详情/报告页，并保持真实业务边界与证据来源语义。
+
+## Phases
+
+- [x] 1. 阅读前端页面结构并捕获当前首页、病例详情、报告真实状态
+- [x] 2. 研究 Apple / Google / AI SaaS / 极简报告型参考风格
+- [x] 3. 形成 4 套明显不同的视觉方向与页面草图
+- [x] 4. 给出比赛展示、低风险实现、结构保留和综合推荐排序
+
+## Current evidence
+
+- 首页：双栏上传与空结果工作区，Hero 和字段说明偏长。
+- 病例详情：图片与状态清晰，但综合分析、外部来源、本地防治和知识库长文重复拉长页面。
+- 报告：报告头与指标网格成立，后半段偏“资料归档”，现场讲解需要更强的摘要层级。
+
+## Reference research result
+
+- Apple：层级来自字号/字重/颜色，保持可读性与少量字体角色。
+- Google / Gemini：入口轻、结果模块化、复杂输出可探索。
+- Material：卡片只承载有明确主体的内容，均质来源更适合列表；长内容按需展开。
+- Linear：降低导航和边界的视觉噪声，让核心工作获得注意力。
+- Ada：摘要、下一步、可分享报告优先，安全边界仍保留但不抢主结论。
+
+## Errors recorded
+
+| Error | Attempt | Resolution |
+|---|---|---|
+| Browser runtime path not found | Initial browser setup | Switched from skill subdirectory path to browser plugin root `scripts/browser-client.mjs`; browser connection succeeded. |
+| PowerShell wildcard path rejected for `[id]` route files | Read-only source inspection | Existing DOM capture and earlier source scan were sufficient; no retry or source change made. |
+
+# UI 最终视觉方案前端落地（2026-08-24）
+
+## Scope and constraints
+
+- 以用户提供的首页、诊断结果、病例详情/报告三张定稿为最高视觉依据，重构现有 `web` 公共诊断页面。
+- 保持既有 API、检测/分析、病例/报告、来源、知识库、打印和降级状态；不修改 backend、模型、检索、训练、部署脚本。
+- 保持 `competition-dev`，不 commit、不 push、不创建 PR；仅修改直接相关的前端源文件与交接/QA 文档。
+
+## Phases
+
+- [x] 1. 审计现有页面、复用组件与 CSS 入口，确定最小 Design Tokens 和变更范围。
+- [x] 2. 落地统一 tokens、公共导航和首页双栏上传/表单视觉。
+- [x] 3. 落地诊断成功结果的图片、摘要行、来源展开和异常状态层级。
+- [x] 4. 落地病例详情/报告简报结构、知识库/技术详情降级及打印样式。
+- [x] 5. 用已有病例在本地桌面端检查首页、可参考蛴螬结果、病例、报告和来源不可用状态；执行前端回归、lint、build、diff-check。移动端由 820px / 560px 响应式规则覆盖；未调用 GPU。
+- [x] 6. 截图对照三张定稿，完成 `design-qa.md` 与验收报告，不提交。

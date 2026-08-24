@@ -1114,11 +1114,39 @@
 - Backend pytest 77 passed（1 条既有弃用警告）；frontend/render 8 passed；ESLint、production build、`git diff --check` 均通过。
 - 本轮只改文档、启动脚本、PowerShell 测试和规划记录；未修改核心诊断、搜索算法、YOLO/Qwen/Tavily provider、UI 或远程服务。
 
+## 跨对话交接摘要（2026-08-23）
+
+- 当前正式基线是 `competition-dev` / `8807b90aa135d97549d463c37807f81de7300daa`，远端已同步；交接后仅三份规划文件有未提交记录改动。
+- P0-1～P0-4 与 P1 均已独立提交并通过验收；不要在新对话中重复实现或回滚这些阶段。
+- 当前最重要的运行事实：Backend、Frontend、Knowledge、Storage 正常；Detector 8870 与 Qwen 8890 当前未运行，因此 `competition.ps1 status` 的 Overall 为 FAILED，这是服务状态而非代码状态。
+- 继续工作前应先阅读 `task_plan.md` 的“跨对话工作交接记录”、本文件和 `progress.md`，再检查分支与工作区。
+- 任何新功能或部署动作都需要用户明确范围；当前没有授权自动开始 P2/P3、部署、commit 或 push。
+
 - 当前 `SearchEvidence.sources` 最多 5 个，Normalizer 已按可靠性排序并重编号为 `source-1...source-5`；`persisted_evidence_snapshots()` 保存这些最终来源的完整正文，不能削减搜索或持久化数量。
 - 当前 `build_qwen_context()` 会把所有有正文来源送入第二阶段，每个正文固定取前 1600 字符；这与 Qwen 的 system prompt、字段/YOLO JSON、第一阶段结果和图片 token 叠加，默认 5 来源可能达到 8192 上限。
 - 第二阶段固定 `max_tokens=700`；第一阶段固定 `max_tokens=500`。图片通过 `data:image/...` 发送，不能把 base64 文本按普通字符计入 evidence 预算，但必须为视觉 token 预留安全空间。
 - 当前 Qwen 服务不提供可复用 tokenizer 接口；本轮采用保守估算器，不引入 Transformers 或模型权重依赖。估算只用于证据 excerpt 选择，不宣称精确 tokenizer 计数。
 - 当前已知真实失败：默认 5 来源下 Qwen 返回 `maximum context length is 8192`；将搜索最大来源数改为 1 能绕过但违反业务约束，因此必须在 Qwen 输入层解决。
+
+# UI / 比赛展示优化第一阶段：当前视觉审计（2026-08-23）
+
+- 本轮仅做只读审计与视觉方案探索，不修改 `web` 源码、不提交、不推送。
+- 当前前端可访问：`http://localhost:3000/`；真实审计截图保存于 `tmp/ui-audit-round1/`：`01-home-current.png`、`02-case-current.png`、`03-report-current.png`。
+- 首页现状：深绿色左侧导航、米白背景、双栏上传/结果工作区；品牌识别清晰，但 Hero 文案较长，上传表单字段与说明连续堆叠，空结果面板占据大面积，评委第一眼难以看到“识别结果/证据链”。
+- 病例详情现状：真实图片与检测框很突出，状态横幅清楚；随后依次出现综合分析、外部资料、5 条来源、防治措施、知识库长文，证据与知识内容重复呈现，信息节奏偏平。
+- 报告现状：报告头、图片、指标网格和打印入口成立；后半段包含逐条分析、外部来源、本地防治、综合信息、百科长文、来源与边界，报告感有但过长，不利于比赛现场快速讲解。
+- 真实业务不可丢失：结果必须突出病虫害名称、置信度、检测图、危害、可能诱因、防治措施、来源证据；`treatment.source=local_knowledge_base` 与外部来源边界需保留。
+- 方案探索应优先解决：一屏一个主结论、证据层级分组、长知识内容折叠/摘要、异常状态短文案、首页上传与结果的视觉比例。
+- 浏览器审计首次尝试使用错误插件路径失败，随后改用浏览器插件根目录成功；未影响项目文件。
+
+## UI / 比赛展示优化第一阶段：参考研究（2026-08-23）
+
+- Apple HIG 的可迁移原则：用字体大小、字重和颜色建立少量明确层级；避免轻字重与过多字体；长内容与大字体应能自然换行，不依赖截断。[Apple Typography](https://developer.apple.com/design/human-interface-guidelines/typography)
+- Material Cards 的可迁移原则：卡片适合承载不同类型内容、可变高度或操作入口；同质、快速扫描的内容应使用列表而不是大量卡片；卡片内应先放主内容，避免塞入无关操作；长内容可以展开而不是在首页全部展开。[Material Cards](https://m1.material.io/components/cards.html)
+- Google Gemini 的产品方向：入口简洁、结果更易读、更短；图片/视频/报告等生成结果进入独立的资料空间；复杂任务用可探索的模块化结果承载，而不是一段长文本。[Google Gemini redesign](https://blog.google/products-and-platforms/products/gemini/gemini-3-gemini-app/)
+- Linear 的近期设计复盘：导航和辅助结构应退后；减少图标和不必要的装饰；结构应“被感知而不是被看见”；软化边界、减少分隔线，让工作内容优先。[Linear interface refresh](https://linear.app/now/behind-the-latest-design-refresh)
+- Ada 的数字健康产品启发：评估结果应提供面向用户的摘要、下一步和可分享/可打印报告；“不确定”也要导向下一步，而不是堆叠免责声明。[Ada enterprise assessment](https://about.ada.com/enterprise/)
+- 方案原则：本项目应把“诊断结论”设为第一视觉层，把“证据依据”设为第二视觉层，把“完整知识库”设为可展开的第三层；搜索来源与本地防治必须使用不同视觉标签，避免评委误以为外部网页生成了防治建议。
 
 # 2026-08-21 P0-4 实现决策
 
@@ -1136,3 +1164,10 @@
 - 选择按 Normalizer 已有来源顺序进行，先尝试 2 个来源并公平分配 excerpt；若两条无法放入预算，再退到 1 条。excerpt 保留前缀和“危害/为害/症状/发生/原因/条件/幼虫/根部/传播/防治”附近窗口，原始正文不变。
 - Qwen prompt 内保留原始 source ID；技术 provenance 记录总来源数、选中数、选中 ID、估算 token、预算和估算方法；日志不记录正文或密钥。
 - 首轮公平分配修正后，蛴螬、马铃薯晚疫病、马铃薯早疫病默认搜索最多 5 个来源均完成 Qwen 分析；每例保留 5 个来源，Qwen 使用 2 个来源，treatment 仍为 `local_knowledge_base`。
+
+## UI 最终视觉方案前端落地：验收事实（2026-08-24）
+
+- 可参考的既有蛴螬病例为 `lab_cpu-4361d9fada86434ba588b5031e3a8961`：`analyzed` / `conclusive` / 92% / 5 条来源 / `local_knowledge_base` 防治内容；只读 GET 即可复现结果、病例和报告。
+- `lab_cpu-11b0747fc0b04e429f4942be15d067af` 提供现成的“来源不可用 / 需要补拍”降级验收数据，不需要触发模型推理。
+- 新视觉以低密度暖白、深绿标题、细分割线和三段语义色条组织内容；不展示 YOLO、Qwen、Tavily 或 `source-1` 等技术链路。
+- 首页没有本地样例图片时保留真实上传入口的空态；上传后仍直接使用用户本地预览，病例/报告仍直接读取真实 API 图片。GPU 真实 E2E 按用户限制未执行，待可用后以一条蛴螬病例复验。

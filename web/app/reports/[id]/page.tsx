@@ -1,16 +1,16 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element -- Report and knowledge images are served from the existing API snapshot. */
-
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 import WorkspaceShell from "../../components/WorkspaceShell";
 import ExternalEvidenceSummary from "../../components/ExternalEvidenceSummary";
-import { apiUrl, CaseRecord, instanceLabel, isConclusive, KnowledgeDocument, readJson, riskLabel, severityLabel, spreadSpeedLabel, userDiagnosisTitle } from "../../lib/api";
+import ImageEvidenceFrame from "../../components/ImageEvidenceFrame";
+import { apiUrl, CaseRecord, formatTime, instanceLabel, isConclusive, KnowledgeDocument, readJson, riskLabel, severityLabel, spreadSpeedLabel, userDiagnosisTitle } from "../../lib/api";
 
 type KnowledgeSource = { id: string; title: string; publisher: string; url: string; retrieved_at: string; scope: string };
 type Report = { report_number: string; generated_at: string; case: CaseRecord; knowledge: { source_ids?: string[]; management?: Record<string, string[]>; chemical_safety?: string } | null; knowledge_document?: KnowledgeDocument | null; sources: KnowledgeSource[]; prioritized_guidance: { immediate?: string[]; agronomic?: string[]; physical?: string[]; biological?: string[]; chemical_safety?: string } | null; safety_notice: string };
+const imageTag = "img";
 
 function normalizeKnowledgeHtml(document: KnowledgeDocument | null | undefined) {
   if (!document?.full_html) return null;
@@ -18,11 +18,11 @@ function normalizeKnowledgeHtml(document: KnowledgeDocument | null | undefined) 
     .replace(/<h1(\s[^>]*)?>/gi, "<h2$1>")
     .replace(/<\/h1>/gi, "</h2>")
     .replace(/alt=(['"])\s*\1/gi, `alt="${document.title}知识参考图片"`)
-    .replace(/<img\b([^>]*)>/gi, (tag, attributes) => {
+    .replace(new RegExp(`<${imageTag}\\b([^>]*)>`, "gi"), (tag, attributes) => {
       const alt = /\balt=/i.test(attributes) ? "" : ` alt="${document.title}知识参考图片"`;
       const loading = /\bloading=/i.test(attributes) ? "" : " loading=\"lazy\"";
       const decoding = /\bdecoding=/i.test(attributes) ? "" : " decoding=\"async\"";
-      return `<img${alt}${attributes}${loading}${decoding}>`;
+      return `<${imageTag}${alt}${attributes}${loading}${decoding}>`;
     });
 }
 
@@ -46,15 +46,18 @@ export default function ReportPage() {
   const knowledgeHtml = normalizeKnowledgeHtml(report?.knowledge_document);
 
   return <WorkspaceShell service={error ? "offline" : "online"} visualMode="legacy">
-    <main className="legacy-public-shell report-shell">
-      <section className="report-page">
+    <main className="legacy-public-shell final-public-shell report-shell">
+      <section className="report-page final-report-page">
         {error ? <div className="public-alert error" role="alert">报告暂时无法读取。</div> : !report || !record ? <p>正在生成报告…</p> : <>
-          <header className="report-head"><div><span>田诊协同 · 图片辅助诊断报告</span><h1>{userDiagnosisTitle(record)}</h1><p>报告编号 {report.report_number} · 病例属于 {instanceLabel(record.instance_id)}</p></div><button className="report-screen-only" onClick={() => window.print()}>打印 / 保存为 PDF</button></header>
-          <div className="report-grid"><img src={apiUrl(record.image_url)} alt="病例原图及目标定位结果" loading="eager" decoding="async" /><dl><div><dt>作物与部位</dt><dd>{record.crop} · {record.part}</dd></div><div><dt>生育期与环境</dt><dd>{record.growth_stage} · {record.environment?.scene || "未填写"}</dd></div><div><dt>受害比例</dt><dd>{record.affected_ratio_percent == null ? "未填写" : `${record.affected_ratio_percent}%`}</dd></div><div><dt>扩散速度</dt><dd>{spreadSpeedLabel(record.spread_speed)}</dd></div><div><dt>诊断风险</dt><dd>{riskLabel(record.diagnostic_risk)}</dd></div><div><dt>田间严重度</dt><dd>{severityLabel(record.field_severity)}</dd></div></dl></div>
-          <section><h2>综合分析</h2><p>{record.analysis?.severity_basis || "历史记录未提供严重度依据。"}</p><h3>视觉候选</h3><p>{(record.detections ?? []).map((item) => `${item.class_name} ${Math.round(item.confidence * 100)}%`).join("；") || "未定位到明确目标"}</p>{isConclusive(record) ? <GroundedReport record={record} /> : <p>当前状态不是可参考结论，候选未确认，不作为最终诊断。</p>}<h3>不确定性</h3><ul>{(record.analysis?.uncertainty ?? ["历史记录未提供"]).map((item) => <li key={item}>{item}</li>)}</ul></section>
-          <ExternalEvidenceSummary record={record} />
-          {isConclusive(record) ? <section className="knowledge-report-section"><h2>综合信息展示</h2>{knowledgeHtml ? <div className="knowledge-document" dangerouslySetInnerHTML={{ __html: knowledgeHtml }} /> : <p>对应知识库内容暂时无法读取。</p>}</section> : <section><h2>下一步</h2><p>{record.user_summary}</p><p>{record.next_action}</p></section>}
-          <section><h2>来源与边界</h2><p className="report-source"><a href={report.knowledge_document?.source.url || "https://baike.baidu.com/"} target="_blank" rel="noopener noreferrer">{report.knowledge_document?.source.attribution || "知识内容来源：百度百科（由项目组整理，知识库版本 2026-08-18）"}</a></p>{report.sources.length ? <><h3>辅助原则参考</h3><ul>{report.sources.map((source) => <li key={source.id}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> · {source.publisher} · 检索于 {source.retrieved_at}</li>)}</ul></> : null}<p>{report.safety_notice}</p></section>
+          <header className="final-brief-head final-report-head"><div><span>专业诊断简报</span><h1>{userDiagnosisTitle(record)}</h1><dl><div><dt>病例编号</dt><dd>{report.report_number}</dd></div><div><dt>诊断时间</dt><dd>{formatTime(record.created_at)}</dd></div><div><dt>置信度</dt><dd>{Math.round((record.detections?.[0]?.confidence ?? 0) * 100)}%</dd></div></dl><p>田诊协同 · 图片辅助诊断报告 · 病例属于 {instanceLabel(record.instance_id)}</p></div><button className="final-outline-button report-screen-only" onClick={() => window.print()}>打印 / 导出报告</button></header>
+          <div className="final-brief-core">
+            <div className="final-brief-image"><p>检测图片</p><ImageEvidenceFrame src={apiUrl(record.image_url)} alt="病例原图及目标定位结果" detections={record.detections} loading="eager" fetchPriority="high" /></div>
+            <div className="final-brief-summary"><div className="final-brief-summary-head"><h2>诊断摘要</h2><span>辅助诊断</span></div><dl className="final-report-context"><div><dt>作物与部位</dt><dd>{record.crop} · {record.part}</dd></div><div><dt>生育期与环境</dt><dd>{record.growth_stage} · {record.environment?.scene || "未填写"}</dd></div><div><dt>受害比例</dt><dd>{record.affected_ratio_percent == null ? "未填写" : `${record.affected_ratio_percent}%`}</dd></div><div><dt>扩散速度</dt><dd>{spreadSpeedLabel(record.spread_speed)}</dd></div></dl><ExternalEvidenceSummary record={record} variant="report" /></div>
+          </div>
+          <section className="final-report-reference-strip"><div><strong>参考来源</strong><span>{report.sources.length} 条可靠农业资料</span></div><div><strong>完整知识库</strong><span>特征 · 为害症状 · 防治方法</span></div></section>
+          <details className="final-knowledge-document" open={false}><summary>查看完整知识库内容</summary>{isConclusive(record) ? <section className="knowledge-report-section"><h2>综合信息展示</h2>{knowledgeHtml ? <div className="knowledge-document" dangerouslySetInnerHTML={{ __html: knowledgeHtml }} /> : <p>对应知识库内容暂时无法读取。</p>}</section> : <section><h2>下一步</h2><p>{record.user_summary}</p><p>{record.next_action}</p></section>}</details>
+          <details className="final-technical"><summary>技术详情</summary><div><h2>综合分析</h2><p>{record.analysis?.severity_basis || "历史记录未提供严重度依据。"}</p><h3>视觉候选</h3><p>{(record.detections ?? []).map((item) => `${item.class_name} ${Math.round(item.confidence * 100)}%`).join("；") || "未定位到明确目标"}</p>{isConclusive(record) ? <GroundedReport record={record} /> : <p>当前状态不是可参考结论，候选未确认，不作为最终诊断。</p>}<h3>不确定性</h3><ul>{(record.analysis?.uncertainty ?? ["历史记录未提供"]).map((item) => <li key={item}>{item}</li>)}</ul><p>诊断风险：{riskLabel(record.diagnostic_risk)}；田间严重度：{severityLabel(record.field_severity)}</p></div></details>
+          <details className="final-report-boundary"><summary>来源与边界</summary><p className="report-source"><a href={report.knowledge_document?.source.url || "https://baike.baidu.com/"} target="_blank" rel="noopener noreferrer">{report.knowledge_document?.source.attribution || "知识内容来源：百度百科（由项目组整理，知识库版本 2026-08-18）"}</a></p>{report.sources.length ? <><h3>辅助原则参考</h3><ul>{report.sources.map((source) => <li key={source.id}><a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a> · {source.publisher} · 检索于 {source.retrieved_at}</li>)}</ul></> : null}<p>{report.safety_notice}</p></details>
         </>}
       </section>
     </main>

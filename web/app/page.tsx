@@ -4,6 +4,7 @@
 
 import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 import WorkspaceShell from "./components/WorkspaceShell";
 import ExternalEvidenceSummary from "./components/ExternalEvidenceSummary";
@@ -17,9 +18,7 @@ import {
   isConclusive,
   publicResolutionReasons,
   readJson,
-  riskLabel,
   saveEditToken,
-  severityLabel,
   userDiagnosisTitle,
 } from "./lib/api";
 
@@ -41,6 +40,8 @@ const stageText = {
 type PipelineStage = keyof typeof stageText;
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const requestedCaseId = searchParams.get("case");
   const [service, setService] = useState<"checking" | "online" | "offline">("checking");
   const [publicMode, setPublicMode] = useState(false);
   const [health, setHealth] = useState<HealthStatus | null>(null);
@@ -83,6 +84,18 @@ export default function Home() {
   }, []);
 
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
+
+  useEffect(() => {
+    if (!requestedCaseId) return;
+    let active = true;
+    fetch(apiUrl(`/api/cases/${requestedCaseId}`)).then(readJson<CaseRecord>).then((existing) => {
+      if (!active) return;
+      setRecord(existing);
+      setPipeline("complete");
+      setError(null);
+    }).catch(() => active && setError("当前识别服务器暂时无法读取这份病例。"));
+    return () => { active = false; };
+  }, [requestedCaseId]);
 
   const imageUrl = useMemo(() => record ? apiUrl(record.image_url) : preview, [record, preview]);
   const detections = record?.detections ?? [];
@@ -197,72 +210,67 @@ export default function Home() {
 
   return (
     <WorkspaceShell service={service} health={health} visualMode="legacy">
-      <main className="legacy-public-shell">
-        <section className="public-hero">
-          <div>
-            <p className="public-eyebrow">拍一张田间照片，先看清风险再行动</p>
-            <h1>发现了什么，风险多大，下一步怎么做</h1>
-            <p>系统会先定位可疑病斑或害虫，再用第二种方法核对图片。证据足够时给出参考结果，不足时会说明原因并告诉你怎样补拍。</p>
-          </div>
-          <ol className="public-steps" aria-label="诊断步骤">
-            <li><b>1</b><span>拍照或选图</span></li><li><b>2</b><span>填写田间情况</span></li><li><b>3</b><span>查看风险与建议</span></li>
-          </ol>
+      <main className="legacy-public-shell final-public-shell">
+        {!requestedCaseId && <><section className="final-home-hero">
+          <h1>识别病虫害，先看清风险</h1>
+          <p>上传田间图片，获得可追溯的辅助诊断。</p>
+          <p className="final-visually-hidden">系统会先定位可疑病斑或害虫，再用第二种方法核对图片。证据足够时给出参考结果，不足时会说明原因并告诉你怎样补拍。</p>
+          <p className="final-visually-hidden">第一步：拍照并告诉我们田里的情况。第二步：查看结果与下一步。大约有多少叶片或植株受影响？问题扩散得快吗？</p>
         </section>
 
-        {service === "offline" && <div className="public-alert warning"><strong>识别服务暂时未开放</strong><span>当前识别服务器可能处于关机或模型维护状态。页面不会生成虚假结果，请稍后再试。</span></div>}
-        {error && <div className="public-alert error" role="alert">{error}</div>}
+        {service === "offline" && <div className="final-system-state final-system-state-warning"><strong>识别服务暂不可用</strong><span>服务恢复后即可继续上传并分析。</span></div>}
+        {error && <div className="final-system-state final-system-state-error" role="alert">{error}</div>}
 
-        <section className="public-workspace">
-          <form className="public-card public-intake" onSubmit={submit}>
-            <div className="public-section-title"><span>第一步</span><h2>拍照并告诉我们田里的情况</h2><p>不知道的内容可以选择“不清楚”，系统不会凭空猜测。</p></div>
-            <label className={`public-upload ${preview ? "selected" : ""}`}>
+        <form className="final-diagnosis-entry" onSubmit={submit}>
+          <div className="final-upload-column">
+            <label className={`final-upload-frame ${preview ? "selected" : ""}`}>
               <input type="file" accept="image/jpeg,image/png,image/webp" capture="environment" onClick={(event) => { event.currentTarget.value = ""; }} onChange={chooseFile} />
-              {preview ? <img src={preview} alt="待分析图片预览" loading="eager" decoding="async" /> : <div><b aria-hidden="true">＋</b><strong>拍照或选择图片</strong><span>尽量同时拍清病斑、叶背、整株和周边植株</span><small>JPG / PNG / WebP，最大 15 MB</small></div>}
+              {preview ? <img src={preview} alt="待分析图片预览" loading="eager" decoding="async" /> : <div className="final-upload-empty"><span aria-hidden="true" /><strong>拍照或选择图片</strong><small>尽量拍清病斑、叶背、整株和周边植株</small></div>}
+              <div className="final-upload-overlay"><b>上传田间图片</b><span>JPG / PNG / WebP</span></div>
             </label>
-            <div className="public-form-grid">
+          </div>
+          <section className="final-form-panel" aria-labelledby="start-diagnosis-title">
+            <h2 id="start-diagnosis-title">开始诊断</h2>
+            <div className="final-form-grid">
               <label><span>作物 / 识别对象</span><select required value={crop} onChange={(event) => { setCrop(event.target.value); setPart(""); setGrowthStage(""); }}><option value="" disabled>请选择</option>{cropOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
               <label><span>种植环境</span><select required value={scene} onChange={(event) => setScene(event.target.value)}><option value="" disabled>请选择</option>{sceneOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
               {crop && !isInsect && <>
                 <label><span>植物部位</span><select required value={part} onChange={(event) => setPart(event.target.value)}><option value="" disabled>请选择</option>{partOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
                 <label><span>生长阶段</span><select required value={growthStage} onChange={(event) => setGrowthStage(event.target.value)}><option value="" disabled>请选择</option>{growthStageOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
               </>}
-              <label><span>大约有多少叶片或植株受影响？（%）</span><input required type="number" min="0" max="100" step="0.1" inputMode="decimal" value={affectedRatio} onChange={(event) => setAffectedRatio(event.target.value)} placeholder="例如 12.5" /></label>
-              <label><span>问题扩散得快吗？</span><select required value={spreadSpeed} onChange={(event) => setSpreadSpeed(event.target.value)}><option value="" disabled>请选择</option>{spreadOptions.map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label>
+              <label><span>受害比例</span><input required type="number" min="0" max="100" step="0.1" inputMode="decimal" value={affectedRatio} onChange={(event) => setAffectedRatio(event.target.value)} placeholder="例如 12.5%" /></label>
+              <label><span>扩散速度</span><select required value={spreadSpeed} onChange={(event) => setSpreadSpeed(event.target.value)}><option value="" disabled>请选择</option>{spreadOptions.map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label>
             </div>
-            <label className="public-notes"><span>补充说明（可选）</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="例如：连续降雨后出现，先从下部叶片开始……" /></label>
-            {publicMode && <label className="public-consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>我同意图片、田间备注和诊断报告在公共历史中展示 30 天。请勿上传人脸、车牌或其他个人信息。</span></label>}
-            <div className={`public-form-status ${formReady ? "ready" : ""}`} role="status" aria-live="polite" aria-atomic="true">{!formReady ? `还需完成：${missingItems.join("、")}` : service !== "online" ? "识别服务暂不可用，请稍后再试" : "信息完整，可以开始分析"}</div>
+            <label className="final-notes"><span>补充说明（可选）</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="例如：连续降雨后出现，先从下部叶片开始……" /></label>
+            {publicMode && <label className="public-consent final-consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>我同意图片、田间备注和诊断报告在公共历史中展示 30 天。请勿上传人脸、车牌或其他个人信息。</span></label>}
+            <p className="final-field-note">图片与田间信息共同构成诊断依据</p>
+            <div className={`final-form-status ${formReady ? "ready" : ""}`} role="status" aria-live="polite" aria-atomic="true">{!formReady ? `还需完成：${missingItems.join("、")}` : service !== "online" ? "识别服务暂不可用，请稍后再试" : "信息完整，可以开始分析"}</div>
             {activeMode === "cpu" && <p className="legacy-runtime-note">使用实验室 CPU 时，综合分析通常需要约 1–2 分钟；提交后可离开页面，稍后从病例历史查看结果。</p>}
-            <button className="public-primary" disabled={busy || service !== "online" || !formReady}>{stageText[pipeline]}</button>
-            {busy && <div className="public-progress"><span className={pipeline === "uploading" ? "active" : "done"}>保存</span><i /><span className={pipeline === "detecting" ? "active" : pipeline === "analyzing" ? "done" : ""}>定位</span><i /><span className={pipeline === "analyzing" ? "active" : ""}>综合分析</span></div>}
-            {record && <div className="public-case-created" aria-live={busy ? "polite" : "off"} aria-atomic="true"><strong>病例编号：{record.id}</strong><span>你可以离开当前页面，稍后从 <Link href="/history">病例历史</Link> 查看结果。</span></div>}
-          </form>
-
-          <section className="public-card public-result" aria-live="polite">
-            <div className="public-section-title"><span>第二步</span><h2>查看结果与下一步</h2><p>绿色不是“确诊”，风险和不确定性必须一起看。</p></div>
-            {!imageUrl ? <div className="public-empty"><div aria-hidden="true">叶</div><h3>结果会显示在这里</h3><p>先完成左侧信息。系统不会用历史结果代替本次识别。</p><small>证据不足时会提示“无法可靠判断”，不会把候选当作确诊。</small></div> : <>
-              <div className="public-image-stage"><div className="public-annotated"><img src={imageUrl} alt="本次诊断图片" loading="eager" decoding="async" />{detections.map((item, index) => { const [left, top, width, height] = item.bbox; return <span className="public-box" key={`${item.class_id}-${index}`} style={{ left: `${left * 100}%`, top: `${top * 100}%`, width: `${width * 100}%`, height: `${height * 100}%` }}><b>{item.class_name} {Math.round(item.confidence * 100)}%</b></span>; })}</div></div>
-              {record && <div className={`public-resolution resolution-${record.resolution_status}`} role="status"><strong>{record.user_summary}</strong><span>{record.next_action}</span>{visibleResolutionReasons.length > 0 && <small>原因：{visibleResolutionReasons.join("；")}</small>}</div>}
-              <div className="public-answer-grid">
-                <article><span>发现了什么</span><h3>{diagnosis}</h3><p>{detections.length ? `定位到 ${detections.length} 个可疑区域` : "视觉模型没有定位到明确目标"}</p></article>
-                <article className={`risk-${record?.diagnostic_risk ?? "unknown"}`}><span>这个结果有多可靠？</span><h3>{riskLabel(record?.diagnostic_risk)}</h3><p>{analysis?.detector_alignment === "conflict" ? "两种识别方法给出的候选不一致" : "由图片质量、识别把握和两种方法是否一致共同决定"}</p></article>
-                <article><span>田里受影响的程度</span><h3>{severityLabel(record?.field_severity)}</h3><p>{analysis?.severity_basis ?? "这是基于用户信息和图片的辅助判断，不等同经济阈值。"}</p></article>
-              </div>
-              {record && <ExternalEvidenceSummary record={record} />}
-              <div className="public-next"><span>现在建议你</span><ol>{(conclusive ? nextActions : [record?.next_action ?? "请根据页面提示继续操作"]).slice(0, 3).map((item) => <li key={item}>{item}</li>)}</ol></div>
-              {(record?.status === "multimodal_unavailable" || (record?.status === "detected" && !analysis)) && <button className="public-secondary" type="button" onClick={retryAnalysis} disabled={retrying}>{retrying ? "正在重试…" : "仅重试综合分析"}</button>}
-              {record && <div className="public-result-links"><Link href={`/cases/${record.id}`}>查看病例详情</Link><Link href={`/reports/${record.id}`}>打开诊断报告</Link></div>}
-              <details className="public-technical"><summary>查看其他候选和技术证据</summary><div><p>候选：{(analysis?.candidate_diagnoses ?? summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p>{!conclusive && <p>以上候选未确认，不作为最终诊断。</p>}<p>不确定性：{(analysis?.uncertainty ?? ["历史记录未提供"]).join("；")}</p><p>需要补拍：{(analysis?.required_additional_photos ?? ["叶背、整株和周边植株"]).join("；")}</p>{analysis?.grounded_assessment?.harms?.length ? <p>有依据的危害：{analysis.grounded_assessment.harms.map((item) => item.conclusion).join("；")}</p> : null}{analysis?.grounded_assessment?.causes?.length ? <p>有依据的可能诱因：{analysis.grounded_assessment.causes.map((item) => item.conclusion).join("；")}</p> : null}<pre>{JSON.stringify({ quality: record?.quality, detector: summary?.inference, provenance: analysis?.provenance }, null, 2)}</pre></div></details>
-            </>}
+            <button className="final-primary" disabled={busy || service !== "online" || !formReady}>{stageText[pipeline]}</button>
+            {busy && <div className="final-progress"><span className={pipeline === "uploading" ? "active" : "done"}>保存</span><i /><span className={pipeline === "detecting" ? "active" : pipeline === "analyzing" ? "done" : ""}>定位</span><i /><span className={pipeline === "analyzing" ? "active" : ""}>综合分析</span></div>}
+            {record && <div className="final-case-created" aria-live={busy ? "polite" : "off"} aria-atomic="true"><strong>病例编号：{record.id}</strong><span>你可以离开当前页面，稍后从 <Link href="/history">病例历史</Link> 查看结果。</span></div>}
           </section>
-        </section>
+        </form></>}
 
-        <section className="public-history-preview">
-          <div className="public-list-heading"><div><span>最近诊断记录</span><h2>从真实记录回看识别过程</h2></div><Link href="/history">查看全部病例历史 →</Link></div>
-          <div className="public-case-grid">{history.length ? history.map((item) => <Link href={`/cases/${item.id}`} className="public-case-tile" key={item.id}><span>{formatTime(item.created_at)}</span><strong>{userDiagnosisTitle(item)}</strong><small>{item.crop} · {item.part} · 严重度 {severityLabel(item.field_severity)}</small></Link>) : <p className="public-muted">当前识别服务器暂时没有诊断记录。</p>}</div>
-        </section>
+        {requestedCaseId && !record ? <p className="final-loading-case">正在读取诊断结果…</p> : !imageUrl ? <section className="final-result-preview" aria-label="结果预览"><span>结果预览</span><p>识别结果 · 风险判断 · 防治建议</p></section> : <section className="final-result-screen" aria-live="polite">
+          <h2>诊断结果</h2>
+          <div className="final-result-grid">
+            <div className="final-result-image"><p>检测图片</p><div className="public-annotated"><img src={imageUrl} alt="本次诊断图片" loading="eager" decoding="async" />{detections.map((item, index) => { const [left, top, width, height] = item.bbox; return <span className="public-box" key={`${item.class_id}-${index}`} style={{ left: `${left * 100}%`, top: `${top * 100}%`, width: `${width * 100}%`, height: `${height * 100}%` }}><b>{item.class_name} {Math.round(item.confidence * 100)}%</b></span>; })}</div><span className="final-recognition-complete">识别完成</span></div>
+            <div className="final-result-summary">
+              <span className="final-assist-label">辅助诊断</span>
+              <div className="final-diagnosis-heading"><h3>{diagnosis}</h3><p><strong>{Math.round((record?.detections?.[0]?.confidence ?? 0) * 100)}%</strong><span>置信度</span></p></div>
+              {record && <div className={`final-resolution resolution-${record.resolution_status}`} role="status"><strong>{record.user_summary}</strong><span>{record.next_action}</span>{visibleResolutionReasons.length > 0 && <small>原因：{visibleResolutionReasons.join("；")}</small>}</div>}
+              {record && <ExternalEvidenceSummary record={record} />}
+              <p className="final-visually-hidden">这个结果有多可靠？{analysis?.detector_alignment === "conflict" ? "两种识别方法给出的候选不一致" : "由图片质量、识别把握和两种方法是否一致共同决定"}</p>
+              {(record?.status === "multimodal_unavailable" || (record?.status === "detected" && !analysis)) && <button className="final-secondary" type="button" onClick={retryAnalysis} disabled={retrying}>{retrying ? "正在重试…" : "仅重试综合分析"}</button>}
+              {record && <div className="final-result-links"><Link href={`/cases/${record.id}`}>查看病例详情</Link><Link href={`/reports/${record.id}`}>打开诊断报告</Link></div>}
+              <details className="final-technical"><summary>技术详情</summary><div><p>候选：{(analysis?.candidate_diagnoses ?? summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p>{!conclusive && <p>以上候选未确认，不作为最终诊断。</p>}<p>不确定性：{(analysis?.uncertainty ?? ["历史记录未提供"]).join("；")}</p><p>需要补拍：{(analysis?.required_additional_photos ?? ["叶背、整株和周边植株"]).join("；")}</p><p>建议：{nextActions.slice(0, 3).join("；")}</p><pre>{JSON.stringify({ quality: record?.quality, detector: summary?.inference, provenance: analysis?.provenance }, null, 2)}</pre></div></details>
+            </div>
+          </div>
+        </section>}
 
-        <footer className="public-footer"><p>田诊协同提供图片辅助判断，不替代现场植保诊断、实验室检测或当地经济阈值。</p><p>病例保存在创建它的识别服务器；涉及用药请查询当地现行登记标签并联系植保人员。</p></footer>
+        <details className="final-history-preview"><summary>最近诊断记录</summary><div>{history.length ? history.map((item) => <Link href={`/cases/${item.id}`} key={item.id}><span>{formatTime(item.created_at)}</span><strong>{userDiagnosisTitle(item)}</strong><small>{item.crop} · {item.part}</small></Link>) : <p>当前识别服务器暂时没有诊断记录。</p>}</div><Link href="/history">查看全部病例历史</Link></details>
+        <footer className="final-footer"><p>田诊协同提供图片辅助判断，不替代现场植保诊断、实验室检测或当地经济阈值。</p><p>病例保存在创建它的识别服务器；涉及用药请查询当地现行登记标签并联系植保人员。</p></footer>
       </main>
     </WorkspaceShell>
   );

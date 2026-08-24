@@ -45,9 +45,11 @@ export default function PublicHeader({ service = "checking", health, mode = "top
     || (activeHealth?.active_instance_mode === "cpu" ? "实验室 CPU" : activeHealth?.active_instance_mode === "gpu" ? "原 GPU" : undefined);
   const displayServerLabel = serverLabel || (service === "checking" ? "正在读取" : "当前实例");
   const serviceText = service === "online" ? "服务开放" : service === "offline" ? "服务暂未开放" : "连接中";
+  const legacyServiceText = service === "online" ? "服务正常" : service === "offline" ? "服务暂不可用" : "正在连接";
+  const legacyNavLabel = (href: string) => href === "/" ? "开始诊断" : href === "/history" ? "病例记录" : "趋势";
   const legacyNav = (label: string, className = "public-header-nav") => (
     <nav className={className} aria-label={label}>
-      {publicNavItems.map((item) => <Link href={item.href} key={item.href} aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}>{item.label === "田间情报工作区" ? "开始诊断" : item.label}</Link>)}
+      {publicNavItems.map((item) => <Link href={item.href} key={item.href} aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}>{legacyNavLabel(item.href)}</Link>)}
     </nav>
   );
   const nav = (label: string) => (
@@ -71,7 +73,7 @@ export default function PublicHeader({ service = "checking", health, mode = "top
         <div><strong>田诊协同</strong><small>农作物病虫害辅助识别</small></div>
       </Link>
       {legacyNav("主导航")}
-      <div className={`public-service ${service}`} aria-live="polite" aria-atomic="true"><i /><span><small>当前识别服务器</small><strong>{displayServerLabel}</strong></span><em>{serviceText}</em></div>
+      <div className={`public-service ${service}`} aria-live="polite" aria-atomic="true" title={displayServerLabel}><i /><strong>{legacyServiceText}</strong><span className="final-visually-hidden"><small>当前识别服务器</small><strong>{displayServerLabel}</strong></span><em>{serviceText}</em></div>
       {legacyNav("手机主导航", "public-mobile-nav")}
     </header>;
   }
