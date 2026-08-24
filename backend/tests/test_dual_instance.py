@@ -25,7 +25,6 @@ def isolated_settings(tmp_path, **changes):
         "control_dir": tmp_path / "control",
         "model_path": None,
         "detector_endpoint": None,
-        "vlm_endpoint": None,
         "instance_id": "lab_cpu",
         "gateway_mode": False,
         **changes,
@@ -37,7 +36,6 @@ def install_settings(monkeypatch, settings):
     monkeypatch.setattr(database, "settings", settings)
     monkeypatch.setattr(detector, "settings", settings)
     monkeypatch.setattr(main, "settings", settings)
-    monkeypatch.setattr(main, "vlm_semaphore", None)
 
 
 def test_password_session_and_control_store(tmp_path):
@@ -60,16 +58,16 @@ def test_case_instance_prefix_and_immutable_report_snapshot(tmp_path, monkeypatc
     settings = isolated_settings(tmp_path)
     install_settings(monkeypatch, settings)
 
-    async def fake_analysis(_record, _path):
+    async def fake_analysis(_record):
         return {
             "status": "ok",
             "primary_diagnosis": "玉米叶枯病",
             "detector_alignment": "agree",
             "field_severity": "low",
-            "provenance": {"model": "cpu-test-vlm"},
+            "provenance": {"engine": "deterministic_evidence_extractor"},
         }
 
-    monkeypatch.setattr(main, "request_multimodal_analysis", fake_analysis)
+    monkeypatch.setattr(main, "request_evidence_analysis", fake_analysis)
     monkeypatch.setattr(detector.detector, "detect", lambda _path: [])
     with TestClient(main.app) as client:
         created = client.post(

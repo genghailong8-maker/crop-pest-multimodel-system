@@ -1,5 +1,59 @@
 # Findings & Decisions
 
+## Qwen3-VL 移除与轻量证据架构审计（2026-08-24，进行中）
+
+- 基线：`competition-dev`，HEAD `1819b2a9e7ebc4dbb7b5d8465fea31d0a6c1035b`，开始时工作区干净。
+- 已确认：`backend/app/config.py` 和 `.env.example` 暴露完整 `CROP_VLM_*` 配置；`backend/app/multimodal.py` 直接调用 Qwen；`backend/app/search/normalizer.py` 的 `build_qwen_context` 仅为 Qwen 上下文预算服务；`scripts/competition.ps1`、`inference/open_tunnel.ps1` 和 `inference/run_vlm_server.sh` 都包含 8890/Qwen 逻辑。
+- 已确认：`knowledge/baidu-baike-20260818` 已有 16 个 Markdown 文档和本地图片资产；当前 `knowledge_documents.py` 可安全解析并重写图片 URL、启用 Markdown table，但仅将部分段落加工为摘要字段，尚未提供结构化化学防治提示元数据。
+- 待完成：逐类 Markdown 结构清单、病例持久化/路由细节、历史 Qwen 病例兼容边界、实验室 Qwen 服务/模型专属路径确认；未进行服务停止或删除。
+
+### 审计结论（已完成）
+
+- 分析入口为 `POST /api/cases/{id}/analyze`：当前是 YOLO 检测后再调用 `request_multimodal_analysis`，分析 JSON 与外部来源快照都已保存在同一病例记录中。报告快照在读取时优先复用；`test_evidence_persistence.py` 已覆盖“历史报告不重分析”。新实现应保留这些字段与读取行为，仅将新分析的生成者改为确定性提取器。
+- 当前正常/补拍阈值仍为 `<0.45`，同时带有 Qwen 对齐/字段一致性分支；本轮应收敛为 YOLO 置信度门：`>=0.75`、`0.50–0.75`、`<0.50`。
+- `knowledge_documents.py` 已有真实路径解析、图片后缀白名单与 MarkdownIt table 渲染。资产端点已拒绝 `../manifest.json`；仍需补绝对路径和根目录逃逸的显式回归。
+- 当前前端只把全文 `full_html` 置于报告页，结果/病例仍主要消费静态知识卡摘要。应保留视觉骨架，补充 `requires_pesticide_warning`、完整知识文档入口及未检索状态，不能恢复 Qwen 状态/重试语义。
+- 本机 8000/8870/8890/3000 均未监听；环境中仅有 Tavily/检索变量，未发现 Qwen 变量。SSH 配置有项目候选主机别名 `ghl`（主机地址未记录到日志）；尚未连接、停止或删除任何远端资源。
+
+### 16 类 Markdown 内容清单
+
+| ID | 类别 | 文档 | 字符 | 标题/防治层级 | 表格行 | 图片 | 化学提示 |
+| --- | --- | --- | ---: | --- | ---: | ---: | --- |
+| 0 | 玉米叶枯病 | `00.md` | 702 | 5 / 化学防治 | 6 | 1 | 是 |
+| 1 | 番茄斑枯病 | `01.md` | 2026 | 6 / 化学防治 | 6 | 4 | 是 |
+| 2 | 南瓜白粉病 | `02.md` | 1847 | 6 / 化学防治 | 6 | 4 | 是 |
+| 3 | 马铃薯早疫病 | `03.md` | 1931 | 6 / 化学防治 | 6 | 4 | 是 |
+| 4 | 玉米锈病 | `04.md` | 2332 | 6 / 化学防治 | 6 | 4 | 是 |
+| 5 | 番茄细菌性斑点病 | `05.md` | 2354 | 6 / 化学防治 | 6 | 4 | 是 |
+| 6 | 番茄晚疫病 | `06.md` | 2327 | 6 / 化学防治 | 6 | 4 | 是 |
+| 7 | 马铃薯晚疫病 | `07.md` | 2798 | 6 / 化学防治 | 6 | 4 | 是 |
+| 8 | 芫菁 | `08.md` | 1885 | 7 / 化学药剂防治 | 7 | 4 | 是 |
+| 9 | 蚜虫 | `09.md` | 2238 | 7 / 药物防治 | 7 | 4 | 是（关键词回退） |
+| 10 | 盲蝽科 | `10.md` | 1806 | 4 / 防治方法 | 7 | 4 | 是（正文关键词） |
+| 11 | 蝼蛄 | `11.md` | 1991 | 6 / 防治方法 | 7 | 4 | 是（正文关键词） |
+| 12 | 叶蝉科 | `12.md` | 2533 | 7 / 化学防治链接标题 | 7 | 4 | 是 |
+| 13 | 蝗总科 | `13.md` | 3385 | 7 / 化学防治 | 7 | 4 | 是 |
+| 14 | 蛴螬 | `14.md` | 3783 | 4 / 防治方法 | 7 | 4 | 是（正文关键词） |
+| 15 | 豆芫菁 | `15.md` | 2763 | 11 / 药剂防治 | 7 | 4 | 是 |
+
+- 以上图片均为 Markdown 相对路径，61/61 实体存在；文档 hash 与 manifest 已存在，不修改原始 Markdown。检测规则将优先解析“防治方法”下的化学子层级，再使用受控关键词回退。
+
+### 本地实现与远端只读验证（2026-08-24）
+
+- 已完成：删除 `backend/app/multimodal.py` 与 VLM 启动/恢复脚本；删除 `CROP_VLM_*` 配置、8890 健康、上下文预算及启动/隧道依赖。新 `EvidenceExtractor` 为纯 Python 抽取器，结论逐句来自已规范化来源正文并只绑定该来源 ID；无来源时返回 unavailable，不使用模型自身知识补写。
+- YOLO 门已统一为：`>=0.75` 可参考、`0.50–0.75` 建议补拍、`<0.50` 不形成明确结论。Tavily 不可用时分析仍完成，本地知识库、防治内容和病例快照可用。
+- 知识接口现在返回原始 Markdown、完整 HTML、相对图片重写后的资源 URL、化学检测来源与风险提示；病例/报告正文渲染表格、图片、链接、列表、引用和风险提示。旧病例仍只读使用既有 `analysis`/来源快照，不触发重分析。
+- 本地验证：初始 backend `67 passed`（1 条第三方 TestClient deprecation warning）；`competition.tests.ps1` PASS；web ESLint PASS；web production build + 渲染 `8/8` PASS；`git diff --check` PASS。续作发现两个真实来源相关性边界后，新增回归并以 backend `69 passed` 为最终计数。活动运行代码/测试/启动脚本/隧道/环境示例内 Qwen/VLM/8890 搜索结果为零；旧状态字符串仅保留用于历史病例的只读兼容。
+- GPU 只读探测：SSH 候选主机可连接；`127.0.0.1:8870` 拒绝连接，不能做新链路三病例 E2E。8890 存在 `/app/llama-server` Qwen3-VL 进程（参数指向 `/models/Qwen3VL-8B-Instruct-Q4_K_M.gguf` 与对应 mmproj），但它归入系统的 `cpolar.service` cgroup、模型目录在当前命名空间不可列出，且未发现项目部署目录。因此不能安全判定为本项目专属资源；未停止、隔离、删除服务或文件。
+- 续作测试审计：基线 77 个测试定义、当前 69 个；`test_multimodal.py` 删除 20 个 Qwen/VLM 协议、图像二阶段、8890 配置与故障测试，`test_search.py` 删除 8 个仅用于 `build_qwen_context` 预算/截断的测试，`test_api.py` 删除 1 个 VLM 故障重试测试。新增 `test_analysis.py` 3 个置信度门测试、`test_evidence_extractor.py` 16 个来源逐句/来源 ID/去重/空证据/类别相关性测试，知识库新增 2 个全文与农药提示测试；其他 API、搜索 provider/normalizer、快照持久化、重启读取、知识库、公开 API、安全路径测试仍在。
+- 续作正式残留审计：发现旧 `backend/run_local_server.cmd` 和两条检索连通性脚本仍含 Qwen 上下文遗留；已最小清理为 detector + provider/normalizer 语义。三份 2026-08 历史 Phase 9 文档已在顶部明确标注“历史架构记录”，不再可作为当前运行说明。
+- 三病例真实验收首轮发现：蛴螬的一个泛病虫害集合页包含其他虫种段落，抽取器会错误优先其中的危害句。已收紧为“结论句或来源标题必须直接包含当前类别”；宁可不输出，也不使用同页其他类别的真实但无关句，并新增回归测试。
+- 8870 恢复诊断：项目脚本默认 `connect.bjb2.seetacloud.com:10373` 的专用候选密钥在 SSH 握手阶段被拒绝；`ghl` 是另一可连接实验室。该机 `lab-detector-1` / `lab-vlm-1` 是 `/data/ghl/app/deploy/lab` Compose 内部容器，未映射 8870/8890 到宿主机；检测器容器内部和宿主到容器健康均返回 200、`class_count=16`、三份模型 loaded、shadow 路由。仅建立 `127.0.0.1:8870` 到容器 `172.18.0.4:8870` 的 SSH 转发，不重启或重配远端。
+- 8890 安全：`lab-vlm-1` 仍使用 `/data/ghl/models/qwen3-vl:/models`，但项目本机没有 8890 监听；本轮未停止、删除、重启该容器或 `cpolar.service`。正式扫描仅剩三份明确标注“历史架构记录”的 Phase 9 文档；`web/package-lock.json` 的 5 条为 integrity hash 子串碰撞，不是依赖或调用。
+- 三病例 E2E（当前运行后端）：蛴螬 `lab_cpu-fb47d9966b824f91ba57fa2884840c07`，0.918733、1 框、5 来源、available；马铃薯晚疫病 `lab_cpu-5edc4b9ae9094a98b03d23011f48714c`，0.913733、1 框、5 来源、available；马铃薯早疫病 `lab_cpu-a767365fb3f344a9aabfaa7345f73cf5`，0.684728、1 框、`retake_required`、0 来源。高置信度病例均使用 `deterministic_evidence_extractor`，知识库与农药风险提示均在；低置信度病例按门控跳过 Tavily/抽取而不是伪造结论。
+- 重启与前端：本地 backend/frontend 已按入口 stop/start 后读取新、旧病例及报告；`updated_at` 不变，来源快照、知识库和警示可读，旧 `multimodal_unavailable` 病例也只读可开。浏览器发现生产入口的 `/assets/*.js` 返回 404，导致病例/报告页停在“正在读取病例”；SSR、API 和 8/8 render tests 虽通过，但此项阻止 UI 真实展示验收，最终状态只能 conditional PASS。
+- 静态资源 404 首轮实证：`vinext build` 输出实际位于 `web/dist/client/assets`，包含 JS/CSS；当前 3000 为 `vinext start --host 127.0.0.1 --port 3000`。运行中 SSR HTML 仍引用旧 build 的 `index-CFhjZoVX.js` 等文件，而新 build 已输出 `index-DFyqv_ac.js`；无论磁盘文件是否存在，`GET /assets/*` 都返回 404。生成的 `dist/server/wrangler.json` 正确声明 `assets.directory="../client"`，因此问题不是缺少 build 产物，而是 Node 生产服务器没有将该静态目录映射到 `/assets`。
+
 ## UI Redesign V3 视觉复核（2026-08-20）
 
 - 视觉方向按 Product Design 探索后的 Clinical Agriculture 70% + Field Intelligence 30% 落地；Scientific Minimal 只吸收报告的纸面排版语法。
@@ -1171,3 +1225,13 @@
 - `lab_cpu-11b0747fc0b04e429f4942be15d067af` 提供现成的“来源不可用 / 需要补拍”降级验收数据，不需要触发模型推理。
 - 新视觉以低密度暖白、深绿标题、细分割线和三段语义色条组织内容；不展示 YOLO、Qwen、Tavily 或 `source-1` 等技术链路。
 - 首页没有本地样例图片时保留真实上传入口的空态；上传后仍直接使用用户本地预览，病例/报告仍直接读取真实 API 图片。GPU 真实 E2E 按用户限制未执行，待可用后以一条蛴螬病例复验。
+
+## 生产前端静态资源 404 解阻：根因与浏览器实证（2026-08-24）
+
+- 最新 `vinext start` 在 Windows 仍将实际存在的 `/assets/*` 返回 404：`StaticFileCache` 以 `path.relative()` 的反斜杠 key（如 `/assets\\index-…js`）索引，但浏览器请求为 `/assets/index-…js`，缓存查找失败。
+- `wrangler dev --config dist/server/wrangler.json --local` 使用同一份 Vinext 产物的 worker 与 `assets.directory: ../client`，首页、结果页、报告页引用的全部 CSS/JS 均为 HTTP 200。
+- 最小修复只调整 `web/package.json` 的生产启动命令和 `scripts/competition.ps1` 的 `--ip`/wrangler 清理标记；不改后端、诊断、知识库、GPU、Qwen 或 UI。浏览器已水合蛴螬 92% 结果、展开 5 条来源并渲染报告检测图片与摘要。
+
+- 最终验收：前端 render tests 8/8、ESLint、backend 69 passed（仅既有 Starlette 弃用警告）、PowerShell 入口测试、带比赛 API 基址的 production build、资源映射及浏览器验收均通过。`competition.ps1 status` 为 Overall READY；本轮没有创建或提交任何新病例、没有触发 GPU E2E、没有 commit/push。
+
+- 为满足报告知识库图片的真实展示，补齐 local Worker 的已有 API proxy bindings：无 bindings 时 `/api/catalog/knowledge/assets/...` 在 3000 返回 503，而 backend 直连为 200；正式比赛入口注入后该 URL 在 3000 返回 image/jpeg 200。该变更仍限于 web build/server routing 与 `competition.ps1` runtime 配置，没有修改 UI 或诊断业务。

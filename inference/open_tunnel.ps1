@@ -5,8 +5,6 @@ param(
     [string]$IdentityFile = "$env:USERPROFILE\.ssh\id_ed25519",
     [int]$LocalPort = 8870,
     [int]$RemotePort = 8870,
-    [int]$VlmLocalPort = 8890,
-    [int]$VlmRemotePort = 8890,
     [string]$PidFile = ""
 )
 
@@ -19,17 +17,9 @@ function Test-Detector {
     } catch { return $false }
 }
 
-function Test-Vlm {
-    try {
-        $models = Invoke-RestMethod -Uri "http://127.0.0.1:$VlmLocalPort/v1/models" -TimeoutSec 2
-        return $null -ne $models.data
-    } catch { return $false }
-}
-
 $detectorReady = Test-Detector
-$vlmReady = Test-Vlm
-if ($detectorReady -and $vlmReady) {
-    Write-Host "Detector and VLM tunnels are already ready."
+if ($detectorReady) {
+    Write-Host "Detector tunnel is already ready."
     exit 0
 }
 
@@ -45,9 +35,6 @@ $arguments = @(
 if (-not $detectorReady) {
     $arguments += @("-L", "${LocalPort}:127.0.0.1:${RemotePort}")
 }
-if (-not $vlmReady) {
-    $arguments += @("-L", "${VlmLocalPort}:127.0.0.1:${VlmRemotePort}")
-}
 $arguments += "${SshUser}@${SshHost}"
 
 $process = Start-Process -FilePath "ssh.exe" -ArgumentList $arguments -WindowStyle Hidden -PassThru
@@ -62,9 +49,8 @@ foreach ($attempt in 1..300) {
         throw "SSH inference tunnel exited with code $($process.ExitCode)."
     }
     try {
-        if (($detectorReady -or (Test-Detector)) -and ($vlmReady -or (Test-Vlm))) {
+        if ($detectorReady -or (Test-Detector)) {
             Write-Host "Detector tunnel: http://127.0.0.1:$LocalPort"
-            Write-Host "VLM tunnel: http://127.0.0.1:$VlmLocalPort"
             exit 0
         }
     } catch {
@@ -76,4 +62,4 @@ if (-not $process.HasExited) {
     Stop-Process -Id $process.Id
 }
 if ($PidFile) { Remove-Item -LiteralPath $PidFile -Force -ErrorAction SilentlyContinue }
-throw "SSH tunnel started, but detector/VLM readiness did not complete within 5 minutes."
+throw "SSH tunnel started, but detector readiness did not complete within 5 minutes."

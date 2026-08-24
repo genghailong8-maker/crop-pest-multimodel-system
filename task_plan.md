@@ -1,5 +1,30 @@
 # Task Plan: 第三届“农信杯”农作物病虫害识别与防治系统
 
+## Qwen3-VL 移除与轻量证据架构（2026-08-24）
+
+- 状态：in_progress；分支 `competition-dev`，启动 HEAD `1819b2a9e7ebc4dbb7b5d8465fea31d0a6c1035b`，工作区开始时干净。本轮不 commit、不 push。
+- 目标：以纯 Python、可重复的 `EvidenceExtractor` 取代 Qwen3-VL/8890 图文服务；保留 YOLO、Tavily、EvidenceNormalizer、来源快照与历史病例兼容；将 16 类本地 Markdown 全文、图片、表格和化学防治风险提示完整接入结果、病例和报告。
+- 约束：UI 视觉基线冻结，只做知识全文、化学风险提示、提取结果和不可用状态的必要改动；GPU 只在本地测试全绿后做一次最小真实 E2E。Qwen 模型/服务仅在新链路 E2E 后按已确认的项目专属路径隔离并删除。
+
+### 阶段
+
+- [x] 审计 Qwen、8890、病例快照、知识库 16 类文档、启动脚本与实验室部署边界。
+- [x] 实施并测试确定性 `EvidenceExtractor`，移除运行时 Qwen 配置、调用、健康与上下文构建。
+- [x] 完整渲染知识 Markdown、静态资源安全边界和化学防治提示；兼容历史 Qwen 病例。
+- [x] 更新启动/隧道/环境示例/比赛文档与相关测试，完成后端和前端全部回归。
+- [x] 审计历史 77 项与当前 69 项后端测试：删除项仅覆盖已移除的 Qwen/VLM 协议与上下文预算，新增项覆盖置信度门、确定性证据提取、类别相关性和知识库风险提示。
+- [x] 仅在本地门禁全绿后执行三病例真实 E2E；8870 通过现有 `lab-detector-1` 的只读健康确认和本机回环 SSH 转发恢复。8890 仅做归属与零调用验证，不停止、删除或变更 `cpolar.service`。
+- [x] 最终实验室验收：后端、YOLO、Tavily、抽取、持久化和旧病例兼容均通过；生产前端静态资源路由已解阻，浏览器可水合病例和报告。
+
+### 生产前端静态资源 404 解阻（2026-08-24）
+
+- 状态：in_progress；唯一范围为 production frontend build/server/asset routing。禁止触碰后端、诊断链、知识库、GPU、Qwen 迁移或 UI 结构；不 commit、不 push。
+- [x] 已复核 Git：`competition-dev` / `1819b2a9e7ebc4dbb7b5d8465fea31d0a6c1035b`，保留既有未提交迁移改动且 `git diff --check` 通过。
+- [x] 建立 HTML 引用、build 磁盘产物、HTTP 路由与实际 3000 进程的对照，确认根因：最新 `vinext start` 同样将全部真实 `/assets/*` 返回 404；Windows 上 Vinext `StaticFileCache` 以反斜杠 key 索引，浏览器请求为正斜杠，查找失败。
+- [x] 已确认 `web/dist/client/assets/`、manifest 与 Cloudflare worker 的 `assets.directory: ../client` 均存在；Cloudflare Worker runtime (`wrangler dev --local`) 对相同 HTML 引用与全部资源返回 200。
+- [x] 仅在根因已证实后作最小修复：生产入口改用项目生成的 Cloudflare Worker + assets runtime，比赛脚本同步 `--ip`、精确 wrangler 清理标记及本地 Worker API proxy bindings；已完成多次 stop → clean build → formal start。
+- [x] 完成资源 HTTP、浏览器 hydration、蛴螬结果/报告、全量回归与最终 Git 验收：前端 8/8、lint、后端 69、PowerShell 测试、带比赛 API 基址的 production build/restart、三页资源映射和浏览器验收均通过。
+
 ## 外部证据增强诊断（2026-08-21）
 
 - 状态：complete（provider/mock、分析接入、页面、测试完成；真实 Google Search 待配置密钥后单独验收）；严格工作在 `competition-dev`，不修改 `master/main`，不自动 push。

@@ -54,7 +54,7 @@ def run_git(*args: str) -> str:
 
 
 def probe(url: str, timeout: float = 1.5) -> dict[str, Any]:
-    request = urllib.request.Request(url, headers={"User-Agent": "phase8-repro-check/1"})
+    request = urllib.request.Request(url, headers={"User-Agent": "crop-pest-repro-check/1"})
     try:
         with urllib.request.urlopen(request, timeout=timeout) as response:
             body = response.read(256 * 1024)
@@ -132,35 +132,6 @@ def check_phase5_evidence() -> dict[str, Any]:
     }
 
 
-def check_phase8_evidence() -> dict[str, Any]:
-    path = ROOT / "artifacts/server/phase8-multimodal-evidence-20260810.json"
-    evidence = read_json(path)
-    summary = evidence.get("summary", {})
-    selection = evidence.get("selection", {})
-    services = evidence.get("services", {})
-    routing = services.get("detector_health", {}).get("routing", {})
-    models = services.get("vlm_models", {}).get("data", [])
-    checks = {
-        "schema_version": evidence.get("schema_version") == "phase8-evidence-v1",
-        "stratified_16_classes": set(selection.get("per_class", {})) == {str(index) for index in range(16)},
-        "real_samples_present": selection.get("total", 0) > 0,
-        "zero_request_failures": summary.get("failed") == 0,
-        "schema_validation_complete": summary.get("schema_valid_rate") == 1.0,
-        "risk_preserved": summary.get("risk_preservation_failures") == 0,
-        "unsafe_outputs_absent": summary.get("unsafe_output_count") == 0,
-        "routing_shadow": routing.get("mode") == "shadow",
-        "vlm_model_served": any(item.get("id") == "crop-pest-vlm" for item in models if isinstance(item, dict)),
-        "active_routing_forbidden": evidence.get("configuration", {}).get("active_routing_allowed") is False,
-    }
-    return {
-        "checks": checks,
-        "passed": all(checks.values()),
-        "sha256": sha256(path),
-        "summary": summary,
-        "selection": selection,
-    }
-
-
 def check_required_files() -> dict[str, Any]:
     relative_paths = [
         "task_plan.md",
@@ -169,10 +140,10 @@ def check_required_files() -> dict[str, Any]:
         "README.md",
         "PUBLICATION_POLICY.md",
         "backend/app/knowledge.py",
-        "backend/app/multimodal.py",
+        "backend/app/analysis.py",
         "backend/app/main.py",
         "backend/tests/test_api.py",
-        "backend/tests/test_multimodal.py",
+        "backend/tests/test_evidence_extractor.py",
         "web/app/page.tsx",
         "docs/competition/architecture-and-innovation.md",
         "docs/competition/demo-runbook.md",
@@ -181,12 +152,9 @@ def check_required_files() -> dict[str, Any]:
         "docs/competition/submission-package.md",
         "scripts/final_repro_check.py",
         "scripts/collect_phase5_evidence.py",
-        "scripts/collect_phase8_multimodal_evidence.py",
-        "inference/run_vlm_server.sh",
         "artifacts/server/phase5-full-evidence-20260810.json",
         "artifacts/server/phase5-benchmark-20260810-route.json",
         "artifacts/server/phase5-benchmark-20260810-main-pt.json",
-        "artifacts/server/phase8-multimodal-evidence-20260810.json",
         "artifacts/experiments/independent-field-calibration-10-13-v2/second-round-calibration-v2.json",
     ]
     missing = [path for path in relative_paths if not (ROOT / path).is_file()]
@@ -219,18 +187,16 @@ def main() -> int:
     required_files = check_required_files()
     knowledge = check_knowledge()
     phase5 = check_phase5_evidence()
-    phase8 = check_phase8_evidence()
     public_boundary = check_public_boundary()
     runtime = [
         probe("http://127.0.0.1:8000/health"),
         probe("http://127.0.0.1:8000/api/catalog/knowledge"),
         probe("http://127.0.0.1:8870/health"),
-        probe("http://127.0.0.1:8890/v1/models"),
         probe("http://localhost:3000/"),
     ]
     runtime_passed = all(item.get("reachable") for item in runtime)
     report: dict[str, Any] = {
-        "schema_version": "phase8-final-repro-v1",
+        "schema_version": "lightweight-evidence-final-repro-v1",
         "created_at": datetime.now(UTC).isoformat(),
         "git": {
             "branch": run_git("branch", "--show-current"),
@@ -241,7 +207,6 @@ def main() -> int:
             "required_files": required_files,
             "knowledge_contract": knowledge,
             "phase5_evidence": phase5,
-            "phase8_evidence": phase8,
             "public_boundary": public_boundary,
             "runtime_services": {
                 "required": args.require_services,
@@ -255,7 +220,6 @@ def main() -> int:
             required_files["passed"],
             knowledge["passed"],
             phase5["passed"],
-            phase8["passed"],
             public_boundary["passed"],
             runtime_passed if args.require_services else True,
         ]

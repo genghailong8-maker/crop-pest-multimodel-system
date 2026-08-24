@@ -87,11 +87,11 @@ function Set-CompetitionRuntimeEnv {
     Set-CompetitionDefault "CROP_API_HOST" "127.0.0.1"
     Set-CompetitionDefault "CROP_API_PORT" "$BackendPort"
     Set-CompetitionDefault "CROP_DETECTOR_ENDPOINT" "http://127.0.0.1:8870/v1/detect"
-    Set-CompetitionDefault "CROP_VLM_ENDPOINT" "http://127.0.0.1:8890/v1/chat/completions"
-    Set-CompetitionDefault "CROP_VLM_MODEL" "crop-pest-vlm"
     Set-CompetitionDefault "CROP_SEARCH_PROVIDER" "tavily"
     Set-CompetitionDefault "CROP_SEARCH_TIMEOUT_SECONDS" "10"
     Set-CompetitionDefault "CROP_SEARCH_MAX_SOURCES" "5"
+    Set-CompetitionDefault "CROP_API_ORIGIN" "http://127.0.0.1:$BackendPort"
+    Set-CompetitionDefault "CROP_ORIGIN_SECRET" "local-development-proxy"
     Set-CompetitionDefault "NEXT_PUBLIC_API_BASE_URL" "http://127.0.0.1:$BackendPort"
 }
 
@@ -175,13 +175,12 @@ function Get-PreflightChecks {
     $ssh = Get-SshPath
     $checks.Add((New-Check "ssh.exe" $(if ($ssh) { "READY" } else { "FAILED" }) $(if ($ssh) { $ssh } else { "OpenSSH client was not found." }) "Install the Windows OpenSSH client." (-not [bool]$ssh)))
     $detector = Get-DetectorStatus
-    $vlm = Get-QwenStatus
-    if ($detector.State -ne "READY" -or $vlm.State -ne "READY") {
+    if ($detector.State -ne "READY") {
         $identity = Get-GpuIdentityPath
         $identityReady = Test-Path -LiteralPath $identity
         $checks.Add((New-Check "GPU SSH identity" $(if ($identityReady) { "READY" } else { "FAILED" }) $(if ($identityReady) { $identity } else { "IdentityFile not found: $identity" }) "Set CROP_GPU_SSH_IDENTITY_FILE to the GPU-only private key path; do not use the GitHub key by assumption." (-not $identityReady)))
     } else {
-        $checks.Add((New-Check "GPU SSH identity" "READY" "Detector and Qwen are already ready; no tunnel is needed."))
+        $checks.Add((New-Check "GPU SSH identity" "READY" "Detector is already ready; no tunnel is needed."))
     }
     return $checks
 }
@@ -214,20 +213,6 @@ function Get-DetectorStatus {
         return New-Check "Detector" "FAILED" "$uri is reachable but the 16-class model is not ready." "Expected status=ok, class_count=16 and routing.models.main.loaded=true." $true
     }
     return New-Check "Detector" "READY" "$uri (16 classes, shadow routing)"
-}
-
-function Get-QwenStatus {
-    $uri = "http://127.0.0.1:8890/v1/models"
-    $payload = Invoke-JsonGet $uri
-    $modelName = Get-ConfiguredValue "CROP_VLM_MODEL"
-    if (-not $modelName) { $modelName = "crop-pest-vlm" }
-    $found = $false
-    if ($payload -and $payload.data) {
-        $found = @($payload.data | Where-Object { $_.id -eq $modelName }).Count -gt 0
-    }
-    if ($null -eq $payload) { return New-Check "Qwen3-VL" "NOT RUNNING" $uri "Confirm Qwen3-VL is running and reopen inference/open_tunnel.ps1." $true }
-    if (-not $found) { return New-Check "Qwen3-VL" "FAILED" "$uri does not list $modelName." "Start the configured Qwen3-VL service; do not silently change the model." $true }
-    return New-Check "Qwen3-VL" "READY" "$uri ($modelName)"
 }
 
 function Get-FrontendStatus {
@@ -299,7 +284,6 @@ function Get-CompetitionSnapshot([switch]$NetworkTavily) {
     @(
         (Get-BackendStatus),
         (Get-DetectorStatus),
-        (Get-QwenStatus),
         (Get-TavilyStatus -Network:$NetworkTavily),
         (Get-FrontendStatus),
         $storage.knowledge,
@@ -308,7 +292,7 @@ function Get-CompetitionSnapshot([switch]$NetworkTavily) {
 }
 
 function Resolve-OverallState([object[]]$Checks) {
-    $core = @("Backend", "Detector", "Qwen3-VL", "Frontend")
+    $core = @("Backend", "Detector", "Frontend")
     if (@($Checks | Where-Object { $_.Name -in $core -and $_.State -ne "READY" }).Count -gt 0) { return "FAILED" }
     if (@($Checks | Where-Object { $_.Name -in @("Tavily", "Knowledge", "Storage") -and $_.State -ne "READY" }).Count -gt 0) { return "DEGRADED" }
     return "READY"
@@ -410,8 +394,8 @@ function Wait-Until([scriptblock]$Probe, [int]$Seconds = 60) {
 }
 
 function Start-Tunnel {
-    if ((Get-DetectorStatus).State -eq "READY" -and (Get-QwenStatus).State -eq "READY") {
-        Write-Output "Detector and Qwen3-VL are already ready; reusing existing tunnel/services."
+    if ((Get-DetectorStatus).State -eq "READY") {
+        Write-Output "Detector is already ready; reusing the existing tunnel/service."
         return
     }
     $ssh = Get-SshPath
@@ -431,10 +415,10 @@ function Start-Tunnel {
     if ($portValue) { $arguments += @("-SshPort", $portValue) }
     if ($userValue) { $arguments += @("-SshUser", $userValue) }
     if ((Get-ConfiguredValue "CROP_GPU_SSH_IDENTITY_FILE")) { $arguments += @("-IdentityFile", $identity) }
-    Write-Output "Opening the existing detector/VLM SSH tunnel..."
+    Write-Output "Opening the existing detector SSH tunnel..."
     & $ps @arguments
-    if ((Get-DetectorStatus).State -ne "READY" -or (Get-QwenStatus).State -ne "READY") {
-        throw "SSH tunnel command completed but detector/Qwen readiness did not pass."
+    if ((Get-DetectorStatus).State -ne "READY") {
+        throw "SSH tunnel command completed but detector readiness did not pass."
     }
 }
 
@@ -473,12 +457,12 @@ function Start-Frontend {
     } finally { Pop-Location }
     $stdout = Join-Path $script:LogDir "web.out.log"
     $stderr = Join-Path $script:LogDir "web.err.log"
-    $args = @("run", "start", "--", "--host", "127.0.0.1", "--port", "$WebPort")
+    $args = @("run", "start", "--", "--ip", "127.0.0.1", "--port", "$WebPort")
     $process = Start-Process -FilePath $npm -ArgumentList $args -WorkingDirectory $script:WebRoot -RedirectStandardOutput $stdout -RedirectStandardError $stderr -WindowStyle Hidden -PassThru
     Set-Content -LiteralPath $script:WebPidFile -Value $process.Id -Encoding ASCII
     Set-Content -LiteralPath $script:WebPortFile -Value $WebPort -Encoding ASCII
     if (-not (Wait-Until { (Get-FrontendStatus).State -eq "READY" } 60)) {
-        Stop-OwnedProcess "Frontend" $script:WebPidFile @("run", "start") @("node.exe", "npm.cmd", "cmd.exe") @("vinext", "--port", "$WebPort")
+        Stop-OwnedProcess "Frontend" $script:WebPidFile @("run", "start") @("node.exe", "npm.cmd", "cmd.exe") @("wrangler", "--port", "$WebPort")
         throw "Frontend did not become ready within 60 seconds. See $stderr"
     }
     Write-Output "Frontend ready at http://localhost:$WebPort/"
@@ -525,11 +509,11 @@ function Invoke-Stop {
         $parsedPort = 0
         if ([int]::TryParse((Get-Content -LiteralPath $script:WebPortFile -Raw).Trim(), [ref]$parsedPort) -and $parsedPort -gt 0) { $ownedWebPort = $parsedPort }
     }
-    Stop-OwnedProcess "Frontend" $script:WebPidFile @("run", "start") @("node.exe", "npm.cmd", "cmd.exe") @("vinext", "--port", "$ownedWebPort")
+    Stop-OwnedProcess "Frontend" $script:WebPidFile @("run", "start") @("node.exe", "npm.cmd", "cmd.exe") @("wrangler", "--port", "$ownedWebPort")
     Remove-Item -LiteralPath $script:WebPortFile -Force -ErrorAction SilentlyContinue
     Stop-OwnedProcess "Backend" $script:BackendPidFile @("uvicorn", "app.main:app") @("python.exe", "python")
     Stop-OwnedProcess "SSH tunnel" $script:TunnelPidFile @("ssh.exe") @("ssh.exe")
-    Write-Output "Remote detector and Qwen3-VL services were not stopped."
+    Write-Output "Remote detector service was not stopped."
 }
 
 if (-not $Library) {

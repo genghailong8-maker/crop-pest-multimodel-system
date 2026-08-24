@@ -4,7 +4,6 @@ $ErrorActionPreference = "Stop"
 if ((Resolve-OverallState @(
         (New-Check "Backend" "READY" ""),
         (New-Check "Detector" "READY" ""),
-        (New-Check "Qwen3-VL" "READY" ""),
         (New-Check "Frontend" "READY" ""),
         (New-Check "Tavily" "DEGRADED" "")
     )) -ne "DEGRADED") { throw "Tavily degradation classification failed." }
@@ -12,23 +11,13 @@ if ((Resolve-OverallState @(
 if ((Resolve-OverallState @(
         (New-Check "Backend" "READY" ""),
         (New-Check "Detector" "FAILED" ""),
-        (New-Check "Qwen3-VL" "READY" ""),
         (New-Check "Frontend" "READY" ""),
         (New-Check "Tavily" "READY" "")
     )) -ne "FAILED") { throw "Detector failure classification failed." }
 
 if ((Resolve-OverallState @(
-        (New-Check "Backend" "READY" ""),
-        (New-Check "Detector" "READY" ""),
-        (New-Check "Qwen3-VL" "NOT RUNNING" ""),
-        (New-Check "Frontend" "READY" ""),
-        (New-Check "Tavily" "READY" "")
-    )) -ne "FAILED") { throw "Qwen failure classification failed." }
-
-if ((Resolve-OverallState @(
         (New-Check "Backend" "NOT RUNNING" ""),
         (New-Check "Detector" "READY" ""),
-        (New-Check "Qwen3-VL" "READY" ""),
         (New-Check "Frontend" "READY" ""),
         (New-Check "Tavily" "READY" "")
     )) -ne "FAILED") { throw "Backend failure classification failed." }

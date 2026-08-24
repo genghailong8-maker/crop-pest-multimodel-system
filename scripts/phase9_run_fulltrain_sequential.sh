@@ -101,7 +101,7 @@ else
   status yolo26n training-record-missing
 fi
 
-# Establish the same frozen-set baseline without any service, expert, or VLM.
+# Establish the same frozen-set baseline without any runtime service or expert.
 evaluate_tag current-main runs/detect/official-plus-public-weak-v1-e120-b64/weights/best.pt || true
 
 train_and_evaluate yolo26s yolo26s.pt

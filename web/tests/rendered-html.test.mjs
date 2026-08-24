@@ -38,7 +38,7 @@ test("server-renders the crop diagnosis workspace", async () => {
   assert.match(html, /诊断记录/);
   assert.match(html, /病例保存在创建它的识别服务器/);
   assert.match(html, /手机主导航/);
-  assert.match(html, /系统会先定位可疑病斑或害虫/);
+  assert.match(html, /系统先定位可疑病斑或害虫，并按视觉置信度说明结果是否适合参考/);
   assert.match(html, /作物 \/ 识别对象/);
   assert.match(html, /种植环境/);
   assert.match(html, /大约有多少叶片或植株受影响/);

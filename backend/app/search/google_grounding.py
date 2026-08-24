@@ -2,7 +2,7 @@
 
 Gemini is used only as a live search/citation broker here. Its synthesized
 answer is intentionally discarded. The cited URLs are fetched as source
-material and normalized before Qwen3-VL receives them.
+material and normalized before deterministic extraction.
 """
 
 from __future__ import annotations

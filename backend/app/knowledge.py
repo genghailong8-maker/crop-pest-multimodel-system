@@ -222,7 +222,7 @@ SAFE_BOUNDARY: dict[str, Any] = {
     "diagnosis_limit": "图像结果是候选线索，不替代植保人员现场诊断、实验室检测或当地病虫情报。",
     "chemical_limit": "未登记具体产品、剂量、混配、施用次数、再入田间间隔或安全间隔；这些信息必须来自当地现行标签和植保部门。",
     "first_line_actions": ["补拍清晰的整株、近景和叶背/茎基部", "隔离疑似植株并标记观察", "清洁工具和鞋具，避免从疑似区域向健康区域传播", "记录时间、作物、生育期、天气和扩展速度"],
-    "human_review_triggers": ["无检测目标", "最高置信度低于 0.45", "候选类别置信度接近", "图像质量异常", "用户提供的新证据与模型候选冲突"],
+    "human_review_triggers": ["最高置信度低于 0.75", "候选类别置信度接近", "图像质量异常"],
     "escalation": "症状快速扩展、成片发生、整株萎蔫、根部受害或涉及生产安全时，暂停自行施药并联系当地植保部门/农技人员。",
 }
 
@@ -419,7 +419,7 @@ def prioritized_guidance(
 def _confidence_band(confidence: float | None) -> str:
     if confidence is None:
         return "none"
-    if confidence < 0.45:
+    if confidence < 0.50:
         return "low"
     if confidence < 0.75:
         return "medium"

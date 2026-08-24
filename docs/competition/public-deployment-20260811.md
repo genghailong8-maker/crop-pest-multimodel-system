@@ -7,7 +7,7 @@
 - 前端：`http://localhost:3000/`
 - FastAPI：`http://127.0.0.1:8000/`
 - SQLite、病例图片和报告：当前电脑长期保存
-- detector 8870、Qwen3-VL 8890：仅通过绑定 `127.0.0.1` 的私有 SSH 隧道连接服务器 GPU
+- detector 8870：仅通过绑定 `127.0.0.1` 的私有 SSH 隧道连接服务器 GPU
 - `CROP_PUBLIC_MODE=false`：默认且唯一的交付配置
 
 本机启动、停止和健康检查请以 `demo-runbook.md` 和 `inference/README.md` 为准。下列历史设计代码被保留但默认停用，避免删除已测试代码造成无关回归：Sites Worker、origin secret、公开同意、30 天过期、编辑令牌和公网限流。
@@ -16,7 +16,7 @@
 
 ## 已实现的架构
 
-浏览器只访问 Sites 同源地址。Sites Worker 将 `/health` 和 `/api/*` 转发到当前主机的固定 HTTPS 地址，并在服务端注入 `X-Crop-Origin-Secret`；密钥不会进入浏览器。FastAPI、SQLite、图片、8870 detector 隧道和 8890 Qwen3-VL 隧道仍在当前主机，两个模型服务不直接暴露公网。
+浏览器只访问 Sites 同源地址。Sites Worker 将 `/health` 和 `/api/*` 转发到当前主机的固定 HTTPS 地址，并在服务端注入 `X-Crop-Origin-Secret`；密钥不会进入浏览器。FastAPI、SQLite、图片和 8870 detector 隧道仍在当前主机，检测服务不直接暴露公网。
 
 公网 Worker 已实现：管理页 404、主机未配置时 503、禁止缓存 API 响应、传递 Cloudflare 客户端 IP。`web/.openai/hosting.json` 继续保持 D1/R2 为 `null`。
 
@@ -28,7 +28,7 @@
 2. 一个 Cloudflare 账号，并把域名添加到该账号。
 3. 按 Cloudflare 提示，把域名注册商处的 nameserver 改为 Cloudflare 分配的两个地址，等待状态变为 Active。
 4. 在当前 Windows 主机安装 `cloudflared`，并在浏览器完成 `cloudflared tunnel login` 授权。
-5. 选择一个后端子域名，例如 `api.example.com`；不要把 8870/8890 端口直接映射公网。
+5. 选择一个后端子域名，例如 `api.example.com`；不要把 8870 端口直接映射公网。
 
 这些步骤完成后再继续创建固定 tunnel、DNS 路由和 Sites 发布。用户不应在聊天中发送 Cloudflare 密钥；只需在本机或 Sites 的 secret 管理中设置。
 
@@ -43,7 +43,6 @@ CROP_ALLOWED_ORIGINS=https://<正式-sites-域名>
 CROP_PUBLIC_RETENTION_DAYS=30
 CROP_PUBLIC_UPLOADS_PER_HOUR=10
 CROP_PUBLIC_ANALYSES_PER_HOUR=20
-CROP_VLM_MAX_CONCURRENCY=2
 ```
 
 Sites Worker：
@@ -56,7 +55,7 @@ CROP_ORIGIN_SECRET=<与后端相同的随机长密钥>
 
 ## 单机启动、检查与停止
 
-模型与 8870/8890 隧道按 `inference/README.md` 启动。然后分别在两个 PowerShell 窗口运行：
+检测服务与 8870 隧道按 `inference/README.md` 启动。然后分别在两个 PowerShell 窗口运行：
 
 ```powershell
 cd C:\Users\genghailong\Documents\编程大赛\backend
@@ -73,7 +72,6 @@ npm.cmd run dev
 ```powershell
 Invoke-RestMethod http://127.0.0.1:8000/health
 Invoke-RestMethod http://127.0.0.1:8870/health
-Invoke-RestMethod http://127.0.0.1:8890/v1/models
 Invoke-WebRequest http://localhost:3000/
 ```
 

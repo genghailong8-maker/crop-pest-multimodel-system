@@ -78,7 +78,7 @@ export default function Home() {
       setPublicMode(Boolean(nextHealth.public_mode));
       setHealth(nextHealth);
       setHistory(items);
-      setService(nextHealth.model_configured && nextHealth.multimodal_configured ? "online" : "offline");
+      setService(nextHealth.model_configured ? "online" : "offline");
     }).catch(() => active && setService("offline"));
     return () => { active = false; };
   }, []);
@@ -214,7 +214,7 @@ export default function Home() {
         {!requestedCaseId && <><section className="final-home-hero">
           <h1>识别病虫害，先看清风险</h1>
           <p>上传田间图片，获得可追溯的辅助诊断。</p>
-          <p className="final-visually-hidden">系统会先定位可疑病斑或害虫，再用第二种方法核对图片。证据足够时给出参考结果，不足时会说明原因并告诉你怎样补拍。</p>
+          <p className="final-visually-hidden">系统先定位可疑病斑或害虫，并按视觉置信度说明结果是否适合参考。</p>
           <p className="final-visually-hidden">第一步：拍照并告诉我们田里的情况。第二步：查看结果与下一步。大约有多少叶片或植株受影响？问题扩散得快吗？</p>
         </section>
 
@@ -262,7 +262,7 @@ export default function Home() {
               {record && <div className={`final-resolution resolution-${record.resolution_status}`} role="status"><strong>{record.user_summary}</strong><span>{record.next_action}</span>{visibleResolutionReasons.length > 0 && <small>原因：{visibleResolutionReasons.join("；")}</small>}</div>}
               {record && <ExternalEvidenceSummary record={record} />}
               <p className="final-visually-hidden">这个结果有多可靠？{analysis?.detector_alignment === "conflict" ? "两种识别方法给出的候选不一致" : "由图片质量、识别把握和两种方法是否一致共同决定"}</p>
-              {(record?.status === "multimodal_unavailable" || (record?.status === "detected" && !analysis)) && <button className="final-secondary" type="button" onClick={retryAnalysis} disabled={retrying}>{retrying ? "正在重试…" : "仅重试综合分析"}</button>}
+              {record?.status === "detected" && !analysis && <button className="final-secondary" type="button" onClick={retryAnalysis} disabled={retrying}>{retrying ? "正在重试…" : "整理来源证据"}</button>}
               {record && <div className="final-result-links"><Link href={`/cases/${record.id}`}>查看病例详情</Link><Link href={`/reports/${record.id}`}>打开诊断报告</Link></div>}
               <details className="final-technical"><summary>技术详情</summary><div><p>候选：{(analysis?.candidate_diagnoses ?? summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p>{!conclusive && <p>以上候选未确认，不作为最终诊断。</p>}<p>不确定性：{(analysis?.uncertainty ?? ["历史记录未提供"]).join("；")}</p><p>需要补拍：{(analysis?.required_additional_photos ?? ["叶背、整株和周边植株"]).join("；")}</p><p>建议：{nextActions.slice(0, 3).join("；")}</p><pre>{JSON.stringify({ quality: record?.quality, detector: summary?.inference, provenance: analysis?.provenance }, null, 2)}</pre></div></details>
             </div>

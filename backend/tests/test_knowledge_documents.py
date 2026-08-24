@@ -29,7 +29,9 @@ def test_packaged_knowledge_maps_all_classes_and_images() -> None:
         document = knowledge_documents.get_knowledge_document(class_id)
         assert document is not None
         assert document["class_id"] == class_id
+        assert document["markdown"].startswith(f"# {document['class_name']}")
         assert "<table" in document["full_html"]
+        assert "<img" in document["full_html"]
         assert "<table" not in document["symptoms_html"]
         assert "<table" not in document["features_html"]
         assert "<table" not in document["prevention_html"]
@@ -37,6 +39,8 @@ def test_packaged_knowledge_maps_all_classes_and_images() -> None:
     corn_leaf_blight = knowledge_documents.get_knowledge_document(0)
     assert corn_leaf_blight is not None
     assert corn_leaf_blight["features_html"] == "<p>知识库暂未收录该项</p>\n"
+    assert corn_leaf_blight["requires_pesticide_warning"] is True
+    assert knowledge_documents.PESTICIDE_WARNING in corn_leaf_blight["full_html"]
 
 
 def test_knowledge_document_and_asset_endpoints(tmp_path, monkeypatch) -> None:
@@ -60,12 +64,33 @@ def test_knowledge_document_and_asset_endpoints(tmp_path, monkeypatch) -> None:
         assert payload["class_name"] == "叶蝉科"
         assert payload["source"]["title"] == "百度百科"
         assert "/api/catalog/knowledge/assets/baidu-baike-20260818/12/1.jpg" in payload["full_html"]
+        assert payload["requires_pesticide_warning"] is True
+        assert payload["pesticide_warning"] == knowledge_documents.PESTICIDE_WARNING
         assert client.get("/api/catalog/classes/99/knowledge-document").status_code == 404
         assert client.get("/api/catalog/knowledge/assets/baidu-baike-20260818/12/1.jpg").status_code == 200
         assert client.get("/api/catalog/knowledge/assets/wrong-version/12/1.jpg").status_code == 404
 
     assert knowledge_documents.resolve_knowledge_asset("baidu-baike-20260818", "../manifest.json") is None
+    assert knowledge_documents.resolve_knowledge_asset("baidu-baike-20260818", "C:/Windows/win.ini") is None
+    assert knowledge_documents.resolve_knowledge_asset("baidu-baike-20260818", "/etc/passwd") is None
     knowledge_documents.clear_knowledge_cache()
+
+
+def test_chemical_detection_prefers_prevention_hierarchy_then_keyword_fallback() -> None:
+    hierarchy = knowledge_documents.pesticide_warning_metadata("# 示例\n## 防治方法\n### 化学防治\n喷雾处理")
+    fallback = knowledge_documents.pesticide_warning_metadata("# 示例\n## 防治方法\n按登记农药标签执行")
+    nonchemical = knowledge_documents.pesticide_warning_metadata("# 示例\n## 防治方法\n清除病残体")
+    assert hierarchy == {"requires_pesticide_warning": True, "chemical_detection": "prevention_hierarchy"}
+    assert fallback == {"requires_pesticide_warning": True, "chemical_detection": "keyword_fallback"}
+    assert nonchemical == {"requires_pesticide_warning": False, "chemical_detection": "none"}
+
+
+def test_result_treatment_carries_a_single_chemical_warning() -> None:
+    payload = main.local_treatment_payload(
+        {"detections": [{"class_id": 14}], "detector_summary": {"primary_candidate": {"class_id": 14}}}
+    )
+    assert payload["requires_pesticide_warning"] is True
+    assert payload["pesticide_warning"] == knowledge_documents.PESTICIDE_WARNING
 
 
 def test_v1_report_is_upgraded_once_without_overwriting_history(tmp_path, monkeypatch) -> None:

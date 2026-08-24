@@ -1,7 +1,7 @@
 """Run a real Tavily SearchProvider-only connectivity check.
 
 The script reads temporary environment variables and never prints the API key.
-It does not start or call detector/VLM services.
+It does not start or call detector services.
 """
 
 from __future__ import annotations
@@ -15,7 +15,7 @@ from urllib.parse import urlsplit
 import httpx
 
 from app import config
-from app.search.normalizer import build_qwen_context, low_quality_reason, normalize_search_results, reliability_score
+from app.search.normalizer import low_quality_reason, normalize_search_results, reliability_score
 from app.search.tavily import TavilySearchProvider
 
 
@@ -128,7 +128,6 @@ async def run(class_name: str) -> int:
     for query_type in ("harms", "possible_causes"):
         evidence = await provider.search_evidence(class_name, query_type)
         normalized = normalize_search_results([evidence])
-        qwen_context = build_qwen_context(normalized)
         normalized_sources = [_source_row(source) for source in normalized.sources]
         provider_sources = [_source_row(source) for source in evidence.sources]
         normalized_urls = {source["url"] for source in normalized_sources}
@@ -151,7 +150,6 @@ async def run(class_name: str) -> int:
                 "low_quality_filtered_count": len(low_quality_filtered),
                 "low_quality_filtering_effective": not low_quality_candidates or bool(low_quality_filtered),
                 "source_ids_correct": actual_ids == expected_ids,
-                "qwen_context_has_tavily_answer": any("answer" in source for source in qwen_context["sources"]),
                 "fallback_message": normalized.message,
             }
         )
@@ -161,9 +159,8 @@ async def run(class_name: str) -> int:
     all_have_results = all(item["provider_result_count"] > 0 for item in results)
     all_have_content = all(any(source["content_available"] for source in item["provider_sources"]) for item in results)
     all_ids_correct = all(item["source_ids_correct"] for item in results)
-    answer_not_used = all(not item["qwen_context_has_tavily_answer"] for item in results)
     low_quality_filtering_effective = all(item["low_quality_filtering_effective"] for item in results)
-    status = "PASS" if all_http_success and all_have_results and all_have_content and all_ids_correct and answer_not_used and low_quality_filtering_effective else "FAIL"
+    status = "PASS" if all_http_success and all_have_results and all_have_content and all_ids_correct and low_quality_filtering_effective else "FAIL"
     print(
         json.dumps(
             {
@@ -178,7 +175,6 @@ async def run(class_name: str) -> int:
                     "results_returned_for_both_queries": all_have_results,
                     "content_or_raw_content_available": all_have_content,
                     "source_ids_valid": all_ids_correct,
-                    "tavily_answer_not_used_as_evidence": answer_not_used,
                     "low_quality_filtering_effective": low_quality_filtering_effective,
                 },
             },

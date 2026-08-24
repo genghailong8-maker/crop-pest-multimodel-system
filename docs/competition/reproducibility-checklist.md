@@ -38,7 +38,7 @@ npm.cmd run lint
 
 # 回到根目录，检查 Python 语法和补丁空白
 cd ..
-& $py -m py_compile scripts\final_repro_check.py scripts\collect_phase5_evidence.py scripts\collect_phase8_multimodal_evidence.py backend\app\knowledge.py backend\app\multimodal.py
+& $py -m py_compile scripts\final_repro_check.py scripts\collect_phase5_evidence.py backend\app\knowledge.py backend\app\analysis.py backend\app\search\evidence_extractor.py
 git diff --check
 ```
 
@@ -54,8 +54,7 @@ git diff --check
 | 主模型 PT 基准 | `artifacts/server/phase5-benchmark-20260810-main-pt.json` | batch 1/8/32 延迟、吞吐、显存 |
 | 独立校准 | `artifacts/experiments/independent-field-calibration-10-13-v2/second-round-calibration-v2.json` | 101 tune、85 frozen 门控 |
 | 知识契约 | `backend/app/knowledge.py` | 16 类来源、安全边界和解释输出 |
-| Phase 8 多模态证据 | `artifacts/server/phase8-multimodal-evidence-20260810.json` | 分层 Top-1、结构/安全、延迟、吞吐、显存和磁盘大小 |
-| Phase 9 两阶段证据 | `artifacts/server/phase9-multimodal-evidence-20260812.json` | 两阶段 Top-1、内容、冲突、严重度引用、安全门、延迟和显存 |
+| 当前外部证据 | Tavily 来源快照 + `EvidenceExtractor` 输出 | 来源正文、稳定来源 ID 与不可用降级 |
 
 正式报告应引用固定官方验证集指标：Precision 0.839196、Recall 0.776205、mAP50 0.827517、mAP50-95 0.548224。类 10/13 独立 frozen 门未通过，因此复现时不得把 shadow 配置改成 active。
 
@@ -71,7 +70,7 @@ Phase 9 两阶段正式证据使用同一固定分层 160 张：160/160 成功�
 | 后端/网页回归 | 否 | 模型不可用时仍验证降级路径 |
 | 真实图片 E2E | 是（或兼容推理端点） | 需要远程模型服务和隧道 |
 
-| 真实多模态分层评估 | 是 | 需要检测 8870、Qwen3-VL 8890 和正式冻结验证集；不得使用模拟响应 |
+| 真实轻量链路 E2E | 是 | 需要检测 8870、Tavily（可降级）和正式冻结验证集；不得使用模拟响应 |
 | 官方验证集重跑 | 是 | 按固定划分和既有权重执行，不改 split |
 | 重新训练/第二轮校准 | 是 | 需要 GPU；当前没有批准新的训练或 active 切换 |
 

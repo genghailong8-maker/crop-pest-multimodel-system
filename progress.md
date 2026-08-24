@@ -1,5 +1,18 @@
 # Progress Log
 
+## 2026-08-24 — Qwen3-VL 轻量化迁移启动
+
+- 已核验起始分支、提交与干净工作区：`competition-dev` / `1819b2a9e7ebc4dbb7b5d8465fea31d0a6c1035b`。
+- 已开始只读架构审计；尚未修改应用、测试、脚本、部署或远端服务，未 commit、未 push。
+- 当前正在核对 Qwen 调用链、知识库 16 类内容与病例快照兼容要求；后续改动遵循最小可验证范围。
+- 审计已完成：Qwen 运行时配置、调用和 8890 隧道均已定位；16 篇原始 Markdown 与 61 张相对图片完整。下一步开始最小替换为确定性 EvidenceExtractor，并保留病例/报告快照协议。
+- 本地改造与全部本地门禁已通过：后端 67/67、比赛状态脚本、前端 ESLint、production build、渲染 8/8、`git diff --check`。未 commit、未 push。
+- 真实 E2E 与远端删除尚未执行：GPU 8870 当前不可达；8890 Qwen 进程归属 `cpolar.service` 且模型目录无法在当前命名空间安全确认。按不可逆删除约束，已停止在只读诊断阶段，等待项目专属部署/模型路径确认后再继续。
+- 续作验收：已完成 77→67 测试审计，所有减少均为 Qwen/VLM 或其专属上下文预算；新增 17 个确定性证据/门控/风险提示测试。另发现并清理旧本地启动器和两条检索诊断脚本中的 Qwen 遗留，三份历史 Phase 9 文档已明确标为非当前架构。下一步只读核对真实项目 GPU detector 入口，再决定是否可安全恢复 8870 并进行三病例 E2E。
+- 最终实验室续作：检测器容器健康且 16 类已加载，通过仅本机回环 SSH 转发恢复 8870；三病例真实链路已完成，蛴螬/晚疫病完成 Tavily→标准化→确定性抽取，早疫病 68.47% 按门控进入补拍。真实来源页暴露两处类别/因果误抽取边界，已最小修正并将后端回归提升为 69/69。Qwen 运行路径扫描为零（仅历史文档和 lockfile 哈希碰撞保留）；8890/cpolar 未操作。最终前端浏览器验收被生产 `/assets/*.js` 404 阻塞，故报告为 conditional PASS，未 commit、未 push。
+- 生产静态资源解阻启动：已按用户要求复核 Git 与既有未提交迁移改动，`git diff --check` 仍通过。前端正式命令为 `vinext build` / `vinext start`；尚未假定根因，下一步审计真实 build 目录、HTML 引用与 3000 进程路由。
+- 静态资源审计：正式 build 产物确实生成在 `web/dist/client/assets`；3000 的 Node `vinext start` 进程仍使用旧 SSR manifest，且 `/assets` 对所有 JS/CSS 均为 404。`wrangler.json` 的 Cloudflare assets 目录正确指向 `../client`，现阶段证据指向 Node production start 未复用该静态映射，而非 Vite base 或 bundle 缺失。
+
 ## UI Redesign V3 验证进展（2026-08-20）
 
 - V3 build、前端渲染测试（8/8）、ESLint（0 errors / 0 warnings）和 backend/tests（41 passed）已通过。
@@ -1560,3 +1573,14 @@
 - 保留原 API、FormData、病例、定位框、来源链接、`local_knowledge_base`、重试、异常状态、知识库和打印逻辑。新增的 `?case=<id>` 仅 GET 已有病例，用于只读结果复现和比赛演示，不创建病例、不调用模型。
 - 已用既有 `lab_cpu-4361d9fada86434ba588b5031e3a8961` 蛴螬病例（92%、5 条来源）和一条来源不可用病例完成本地视觉检查；未调用 GPU / SSH / YOLO / Qwen / Tavily。
 - `npm test`：8 passed；`npm run lint`：PASS；`npm run build`：PASS；`git diff --check`：PASS。真实 GPU 单例 E2E 依用户指示延后至 GPU 可用后复验。
+
+## 生产前端静态资源 404 解阻：实现与浏览器复验（2026-08-24）
+
+- 根因已实证为 Windows Vinext static cache 的反斜杠索引与 URL 正斜杠不匹配；新 build + 新 `vinext start` 仍复现全部资源 404。
+- 已将生产入口切换为现有构建的 Cloudflare worker assets runtime：`wrangler dev --config dist/server/wrangler.json --local`；比赛脚本传入 `--ip 127.0.0.1` 并更新 wrangler 孤儿清理标记。
+- 已用比赛同一 API 基地址完成 clean build 和 3000 重启；浏览器首页、蛴螬结果、来源展开和报告都已真实水合。待执行完整测试门禁与最终 Git 验收。
+
+- 最终门禁已完成：`npm test` 8/8、ESLint、backend pytest 69 passed（1 条既有 Starlette 弃用警告）、`competition.tests.ps1` 通过；比赛状态 Overall READY，`git diff --check` 通过。
+- 最终 3000 使用 Worker assets runtime：`/`、`?case=lab_cpu-4361d9fada86434ba588b5031e3a8961`、`/reports/lab_cpu-4361d9fada86434ba588b5031e3a8961` 的 HTML 为 200，所引用资源分别为 10/10、10/10、11/11 个磁盘存在且 HTTP 200。未 commit、未 push、未执行新的 GPU E2E。
+
+- 补充发现并解决 Worker 本地 runtime 的既有 API proxy bindings 未注入，导致报告中后端返回的相对知识库图片 URL 为 503；仅在 `vite.config.ts` 透传已存在的 Worker vars，并由比赛入口注入 loopback API origin 和非敏感本地 proxy 占位值。正式重启后，知识库图片经 3000 为 200；浏览器加载 4 张知识库图片、2 个表格、检测图片、打印入口、来源及风险提示，console 日志为空。

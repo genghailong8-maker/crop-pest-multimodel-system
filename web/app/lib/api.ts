@@ -52,6 +52,8 @@ export type Treatment = {
     management?: Record<string, string[]>;
   };
   source_ids: string[];
+  requires_pesticide_warning?: boolean;
+  pesticide_warning?: string | null;
 };
 
 export type CaseRecord = {
@@ -137,7 +139,7 @@ export type HealthStatus = {
   active_instance_label: string;
   active_instance_mode: "cpu" | "gpu";
   model_configured?: boolean;
-  multimodal_configured?: boolean;
+  evidence_extractor?: "deterministic_cpu";
   public_mode?: boolean;
 };
 
@@ -148,6 +150,10 @@ export type KnowledgeDocument = {
   class_name: string;
   title: string;
   source: { title: string; url: string; attribution: string };
+  markdown: string;
+  requires_pesticide_warning: boolean;
+  pesticide_warning?: string | null;
+  chemical_detection?: "prevention_hierarchy" | "keyword_fallback" | "none";
   symptoms_html: string;
   features_html: string;
   prevention_html: string;

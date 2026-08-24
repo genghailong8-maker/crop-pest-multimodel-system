@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import asyncio
 import hashlib
 import hmac
 import json
@@ -45,8 +44,8 @@ from .knowledge import (
     knowledge_contract,
     prioritized_guidance,
 )
+from .analysis import request_evidence_analysis
 from .knowledge_documents import get_knowledge_document, resolve_knowledge_asset
-from .multimodal import MultimodalUnavailable, request_multimodal_analysis
 from .reports import load_latest, save_snapshot
 from .prelabels import detail as prelabel_detail
 from .prelabels import image_path as prelabel_image_path
@@ -82,7 +81,6 @@ class SlidingWindowLimiter:
 
 
 rate_limiter = SlidingWindowLimiter()
-vlm_semaphore: asyncio.Semaphore | None = None
 
 
 class ReviewRequest(BaseModel):
@@ -292,6 +290,7 @@ def local_treatment_payload(record: dict[str, Any]) -> dict[str, Any]:
     )
     class_id = primary.get("class_id") if isinstance(primary, dict) else None
     card = get_knowledge_card(int(class_id)) if isinstance(class_id, int) else None
+    document = get_knowledge_document(int(class_id)) if isinstance(class_id, int) else None
     if card is None:
         return {"source": "local_knowledge_base", "content": {}, "source_ids": []}
     return {
@@ -302,6 +301,8 @@ def local_treatment_payload(record: dict[str, Any]) -> dict[str, Any]:
             "management": card.get("management", {}),
         },
         "source_ids": list(card.get("source_ids", [])),
+        "requires_pesticide_warning": bool(document and document.get("requires_pesticide_warning")),
+        "pesticide_warning": document.get("pesticide_warning") if document else None,
     }
 
 
@@ -362,31 +363,16 @@ def present_case(
         user_summary = "没有发现系统当前支持的病斑或害虫。"
         next_action = "请靠近异常部位重新拍摄，并保证光线充足、画面清晰。"
         reasons = ["视觉模型未定位到支持的目标"]
-    elif quality_flags:
-        resolution_status = "retake_required"
-        user_summary = "这张图片暂时不足以形成可靠判断。"
-        next_action = "请按提示重新拍摄后再试。"
-        reasons = quality_flags
-    elif isinstance(confidence, (int, float)) and confidence < 0.45:
+    elif isinstance(confidence, (int, float)) and confidence < 0.50:
         resolution_status = "retake_required"
         user_summary = "系统找到了可疑区域，但把握不足。"
         next_action = "请补拍异常部位近照和整株照片。"
-        reasons = ["图像识别把握较低"]
-    elif analysis.get("detector_alignment") == "conflict":
+        reasons = ["最高视觉置信度低于 50%", *quality_flags]
+    elif isinstance(confidence, (int, float)) and confidence < 0.75:
         resolution_status = "retake_required"
-        user_summary = "两种识别方法给出了不同候选，当前不能可靠确定。"
-        next_action = "请补拍叶片正反面、受害部位近照和整株照片。"
-        reasons = ["两种识别方法的候选不一致"]
-    elif analysis.get("field_input_consistency") == "conflict":
-        resolution_status = "retake_required"
-        user_summary = "图片识别结果与填写的作物或识别对象不一致。"
-        next_action = "请核对田间信息并重新拍摄目标及其生长环境。"
-        reasons = ["人工田间信息与视觉候选不一致"]
-    elif analysis.get("content_sufficiency") == "incomplete":
-        resolution_status = "retake_required"
-        user_summary = "当前证据不足以形成可靠的综合分析。"
-        next_action = "请按分析提示补拍目标近照和生长环境照片。"
-        reasons = ["图片或田间信息不足"]
+        user_summary = "识别结果仍有不确定性，建议补拍后再判断。"
+        next_action = "请补拍异常部位近照、整株和周边植株照片。"
+        reasons = ["最高视觉置信度处于 50%–75%", *quality_flags]
     else:
         resolution_status = "conclusive"
         user_summary = "现有图片和信息足以给出可参考的辅助判断。"
@@ -409,23 +395,6 @@ def present_case(
     if include_evidence_snapshots:
         response["evidence_snapshots"] = evidence_snapshots_for_record(record)
     return response
-
-
-def multimodal_unavailable_case(case_id: str, reason: Exception | None = None) -> dict[str, Any]:
-    if reason is not None:
-        logger.warning("多模态分析暂不可用，病例 %s：%s", case_id, reason)
-    return present_case(update_case(
-        case_id,
-        status="multimodal_unavailable",
-        analysis={
-            "status": "unavailable",
-            "message": "综合分析服务暂时不可用",
-            "needs_human_review": True,
-            "review_reasons": ["综合分析服务暂时不可用"],
-        },
-        diagnostic_risk="high",
-        field_severity="unknown",
-    ))
 
 
 @app.get("/health")
@@ -454,8 +423,7 @@ def health() -> dict[str, Any]:
             if settings.model_path and settings.model_path.exists()
             else "unconfigured"
         ),
-        "multimodal_configured": bool(settings.vlm_endpoint),
-        "multimodal_model": settings.vlm_model if settings.vlm_endpoint else None,
+        "evidence_extractor": "deterministic_cpu",
         "public_mode": settings.public_mode,
         "storage_free_bytes": usage.free,
         "case_count": len(list_cases(10_000, record_scope="all")),
@@ -985,20 +953,7 @@ async def analyze_case(
     enforce_rate(request, "analyze", settings.public_analyses_per_hour)
     if record["detections"] is None:
         raise HTTPException(status_code=409, detail="请先完成视觉识别")
-    try:
-        global vlm_semaphore
-        if vlm_semaphore is None:
-            vlm_semaphore = asyncio.Semaphore(settings.vlm_max_concurrency)
-        try:
-            await asyncio.wait_for(vlm_semaphore.acquire(), timeout=0.05)
-        except TimeoutError as exc:
-            raise HTTPException(status_code=429, detail="综合分析正在排队，请稍后重试") from exc
-        try:
-            analysis = await request_multimodal_analysis(record, stored_image_path(record))
-        finally:
-            vlm_semaphore.release()
-    except (MultimodalUnavailable, httpx.HTTPError, ValueError) as exc:  # type: ignore[name-defined]
-        return multimodal_unavailable_case(case_id, exc)
+    analysis = await request_evidence_analysis(record)
     field_severity = analysis.get("field_severity", "unknown")
     if record.get("affected_ratio_percent") is None or record.get("spread_speed") in {
         None,

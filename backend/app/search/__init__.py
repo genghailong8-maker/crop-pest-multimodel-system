@@ -4,7 +4,7 @@ import asyncio
 
 from .base import SearchProvider
 from .models import SearchEvidence, SearchSource
-from .normalizer import build_qwen_context, normalize_search_results
+from .normalizer import normalize_search_results
 from .provider import provider_from_settings
 
 
@@ -67,7 +67,6 @@ __all__ = [
     "SearchEvidence",
     "SearchProvider",
     "SearchSource",
-    "build_qwen_context",
     "collect_external_evidence",
     "persisted_evidence_snapshots",
     "public_sources",

@@ -26,7 +26,6 @@ def public_settings(tmp_path):
         upload_dir=tmp_path / "uploads",
         model_path=None,
         detector_endpoint=None,
-        vlm_endpoint="http://vlm.test/v1/chat/completions",
         public_mode=True,
         public_origin_secret="worker-secret",
         public_retention_days=30,
@@ -42,7 +41,6 @@ def test_public_consent_token_visibility_and_trends(tmp_path, monkeypatch):
     monkeypatch.setattr(database, "settings", settings)
     monkeypatch.setattr(detector, "settings", settings)
     monkeypatch.setattr(main, "settings", settings)
-    monkeypatch.setattr(main, "vlm_semaphore", None)
 
     with TestClient(main.app) as client:
         assert client.get("/api/cases").status_code == 403
@@ -167,9 +165,8 @@ def test_unknown_spread_forces_unknown_severity(tmp_path, monkeypatch):
     monkeypatch.setattr(database, "settings", settings)
     monkeypatch.setattr(detector, "settings", settings)
     monkeypatch.setattr(main, "settings", settings)
-    monkeypatch.setattr(main, "vlm_semaphore", None)
 
-    async def fake_analysis(_record, _path):
+    async def fake_analysis(_record):
         return {
             "field_severity": "high",
             "detector_alignment": "agree",
@@ -177,7 +174,7 @@ def test_unknown_spread_forces_unknown_severity(tmp_path, monkeypatch):
             "review_reasons": [],
         }
 
-    monkeypatch.setattr(main, "request_multimodal_analysis", fake_analysis)
+    monkeypatch.setattr(main, "request_evidence_analysis", fake_analysis)
     with TestClient(main.app) as client:
         upload = client.post(
             "/api/cases",

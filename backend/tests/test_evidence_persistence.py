@@ -74,7 +74,7 @@ def evidence_snapshots() -> list[dict[str, str]]:
             "url": "https://example.gov.cn/a",
             "retrieved_at": "2026-08-21T00:00:00+00:00",
             "reliability_level": "政府农业部门",
-            "content": "完整网页证据正文 A，不是 Qwen 的生成摘要。",
+            "content": "完整网页证据正文 A，不是生成摘要。",
         },
         {
             "source_id": "source-2",
@@ -180,7 +180,7 @@ def test_case_detail_and_report_restore_evidence_after_reopen(tmp_path, monkeypa
     async def fail_if_reanalyzed(*_args, **_kwargs):
         raise AssertionError("历史病例读取不得重新执行外部检索或多模态分析")
 
-    monkeypatch.setattr(main, "request_multimodal_analysis", fail_if_reanalyzed)
+    monkeypatch.setattr(main, "request_evidence_analysis", fail_if_reanalyzed)
     reloaded = database.get_case(record["id"])
     assert reloaded is not None
     assert "正文 B" in reloaded["analysis"]["evidence_snapshots"][1]["content"]

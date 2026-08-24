@@ -1,7 +1,7 @@
 """Run a real, SearchProvider-only Gemini Grounding connectivity check.
 
 The caller must set temporary environment variables before starting Python.
-This script never prints the API key and never calls detector/VLM services.
+This script never prints the API key and never calls detector services.
 """
 
 from __future__ import annotations
@@ -17,7 +17,7 @@ import httpx
 from app import config
 from app.search.google_grounding import GeminiGoogleGroundingProvider
 from app.search.models import SearchEvidence
-from app.search.normalizer import build_qwen_context, normalize_search_results
+from app.search.normalizer import normalize_search_results
 
 
 _REAL_ASYNC_CLIENT = httpx.AsyncClient
@@ -108,7 +108,6 @@ async def run(class_name: str) -> int:
     for query_type in ("harms", "possible_causes"):
         evidence: SearchEvidence = await provider.search_evidence(class_name, query_type)
         normalized = normalize_search_results([evidence])
-        qwen_context = build_qwen_context(normalized)
         source_rows = [_source_row(source, [event for event in ObservedAsyncClient.events if event["kind"] == "source_fetch"]) for source in normalized.sources]
         source_ids = {source["id"] for source in source_rows}
         invalid_ids = sorted(
@@ -127,7 +126,6 @@ async def run(class_name: str) -> int:
                 "normalizer_source_count": len(normalized.sources),
                 "normalizer_sources": source_rows,
                 "source_ids_are_normalized": not invalid_ids and [source["id"] for source in source_rows] == [f"source-{index}" for index in range(1, len(source_rows) + 1)],
-                "qwen_context_has_gemini_snippet": any("snippet" in source for source in qwen_context["sources"]),
                 "fallback_message": normalized.message,
             }
         )
@@ -135,10 +133,9 @@ async def run(class_name: str) -> int:
     gemini_events = [event for event in ObservedAsyncClient.events if event["kind"] == "gemini"]
     fetch_events = [event for event in ObservedAsyncClient.events if event["kind"] == "source_fetch"]
     http_success = bool(gemini_events) and all(event["status"] == 200 for event in gemini_events)
-    no_gemini_answer_in_context = all(not item["qwen_context_has_gemini_snippet"] for item in results)
     all_sources_valid = all(item["source_ids_are_normalized"] for item in results)
     all_queries_complete = all(item["queries"] for item in results)
-    status = "PASS" if http_success and all_queries_complete and no_gemini_answer_in_context and all_sources_valid else "FAIL"
+    status = "PASS" if http_success and all_queries_complete and all_sources_valid else "FAIL"
     print(
         json.dumps(
             {
@@ -153,7 +150,6 @@ async def run(class_name: str) -> int:
                     "http_success": http_success,
                     "grounding_requests": len(gemini_events),
                     "original_page_fetch_only": True,
-                    "gemini_answer_in_qwen_context": not no_gemini_answer_in_context,
                     "source_ids_valid": all_sources_valid,
                 },
             },

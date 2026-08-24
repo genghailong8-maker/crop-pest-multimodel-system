@@ -38,7 +38,6 @@ def test_upload_history_and_model_unavailable(tmp_path, monkeypatch):
         upload_dir=tmp_path / "uploads",
         model_path=None,
         detector_endpoint=None,
-        vlm_endpoint=None,
     )
     monkeypatch.setattr(database, "settings", test_settings)
     monkeypatch.setattr(detector, "settings", test_settings)
@@ -263,7 +262,6 @@ def test_case_review_queue_and_audit_history(tmp_path, monkeypatch):
         upload_dir=tmp_path / "uploads",
         model_path=None,
         detector_endpoint=None,
-        vlm_endpoint=None,
     )
     monkeypatch.setattr(database, "settings", test_settings)
     monkeypatch.setattr(detector, "settings", test_settings)
@@ -334,7 +332,6 @@ def test_detection_attaches_phase6_explainability(tmp_path, monkeypatch):
         upload_dir=tmp_path / "uploads",
         model_path=None,
         detector_endpoint=None,
-        vlm_endpoint=None,
     )
     monkeypatch.setattr(database, "settings", test_settings)
     monkeypatch.setattr(main, "settings", test_settings)
@@ -388,16 +385,15 @@ def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
         storage_dir=tmp_path,
         database_path=tmp_path / "test.sqlite3",
         upload_dir=tmp_path / "uploads",
-        vlm_endpoint="http://127.0.0.1:8890/v1/chat/completions",
     )
     monkeypatch.setattr(database, "settings", test_settings)
     monkeypatch.setattr(main, "settings", test_settings)
 
-    async def fake_analysis(record, _image_path):
+    async def fake_analysis(record):
         assert record["crop"] == "玉米"
         return {
             "status": "completed",
-            "schema_version": "phase9-multimodal-v3",
+            "schema_version": "evidence-extractor-v1",
             "primary_diagnosis": "玉米叶枯病",
             "candidate_diagnoses": ["玉米叶枯病"],
             "symptoms": ["叶片出现斑点"],
@@ -432,14 +428,14 @@ def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
             "detector_alignment": "agree",
             "needs_human_review": False,
             "review_reasons": [],
-            "provenance": {"model": "crop-pest-vlm", "latency_ms": 42.0},
+            "provenance": {"engine": "deterministic_evidence_extractor"},
             "independent_judgment": {
                 "observed_part": "叶片",
                 "observed_growth_stage": "营养生长期",
             },
         }
 
-    monkeypatch.setattr(main, "request_multimodal_analysis", fake_analysis)
+    monkeypatch.setattr(main, "request_evidence_analysis", fake_analysis)
 
     with TestClient(main.app) as client:
         upload = client.post(
@@ -467,66 +463,4 @@ def test_case_analysis_success_is_saved_and_reloaded(tmp_path, monkeypatch):
 
         reloaded = client.get(f"/api/cases/{case_id}")
         assert reloaded.status_code == 200
-        assert reloaded.json()["analysis"]["provenance"]["model"] == "crop-pest-vlm"
-
-
-def test_multimodal_failure_returns_saved_case_for_retry(tmp_path, monkeypatch):
-    test_settings = replace(
-        config.settings,
-        storage_dir=tmp_path,
-        database_path=tmp_path / "test.sqlite3",
-        upload_dir=tmp_path / "uploads",
-        vlm_endpoint="http://127.0.0.1:8890/v1/chat/completions",
-    )
-    monkeypatch.setattr(database, "settings", test_settings)
-    monkeypatch.setattr(main, "settings", test_settings)
-
-    async def unavailable(_record, _image_path):
-        raise httpx.ReadTimeout("timed out", request=httpx.Request("POST", test_settings.vlm_endpoint))
-
-    monkeypatch.setattr(main, "request_multimodal_analysis", unavailable)
-
-    with TestClient(main.app) as client:
-        upload = client.post(
-            "/api/cases",
-            files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
-            data=valid_case_data(),
-        )
-        case_id = upload.json()["id"]
-        database.update_case(
-            case_id,
-            status="detected",
-            quality={"acceptable": True, "flags": []},
-            detections=[
-                {
-                    "class_id": 0,
-                    "class_name": "玉米叶枯病",
-                    "confidence": 0.87,
-                    "bbox": [0.1, 0.2, 0.3, 0.4],
-                }
-            ],
-            detector_summary={"needs_review": False, "review_reasons": []},
-        )
-
-        response = client.post(f"/api/cases/{case_id}/analyze")
-
-        assert response.status_code == 200
-        payload = response.json()
-        assert payload["status"] == "multimodal_unavailable"
-        assert payload["resolution_status"] == "service_unavailable"
-        assert payload["diagnostic_risk"] == "high"
-        assert payload["field_severity"] == "unknown"
-        assert payload["user_summary"] == "图片识别结果已经保存，但综合分析暂时不可用。"
-        assert payload["next_action"] == "服务恢复后只需重试综合分析。"
-        assert payload["analysis"] == {
-            "status": "unavailable",
-            "message": "综合分析服务暂时不可用",
-            "needs_human_review": True,
-            "review_reasons": ["综合分析服务暂时不可用"],
-        }
-        assert payload["detections"][0]["class_name"] == "玉米叶枯病"
-
-        reloaded = client.get(f"/api/cases/{case_id}")
-        assert reloaded.status_code == 200
-        assert reloaded.json()["status"] == "multimodal_unavailable"
-        assert reloaded.json()["detections"][0]["class_name"] == "玉米叶枯病"
+        assert reloaded.json()["analysis"]["provenance"]["engine"] == "deterministic_evidence_extractor"

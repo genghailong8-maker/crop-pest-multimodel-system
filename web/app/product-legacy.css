@@ -365,6 +365,7 @@
 .final-evidence-heading { display: flex; align-items: center; gap: 10px; }
 .final-evidence-heading span { padding: 3px 7px; border: 1px solid #8dbba5; border-radius: 4px; color: #26724f; background: #f4faf6; font-size: 12px; font-weight: 650; }
 .final-evidence-row ul { display: grid; gap: 5px; margin: 0; padding-left: 21px; color: #28352d; font-size: 17px; line-height: 1.55; }
+.final-pesticide-warning { margin: 14px 0 0 !important; padding: 10px 12px; border-left: 3px solid #c9871b; color: #6f4a13 !important; background: #fff8e9; font-size: 13px !important; line-height: 1.65 !important; }
 .final-evidence-source-row { padding: 22px 0 0; display: grid; grid-template-columns: 142px minmax(0, 1fr) auto; gap: 18px; align-items: baseline; }
 .final-evidence-source-row strong { font-size: 19px; }
 .final-evidence-source-row > span { color: #2d3932; font-size: 17px; }
@@ -471,6 +472,10 @@
 .final-report-boundary { padding: 18px 0; }
 .final-knowledge-document .knowledge-document { max-width: 80ch; color: #526058; }
 .final-knowledge-document .knowledge-document :is(p, li) { color: #526058; font-size: 14px; line-height: 1.75; }
+.knowledge-document :is(table, img) { max-width: 100%; height: auto; }
+.knowledge-document table { display: block; overflow-x: auto; border-collapse: collapse; }
+.knowledge-document th, .knowledge-document td { padding: 7px 9px; border: 1px solid #d7ddd8; text-align: left; vertical-align: top; }
+.knowledge-document blockquote { margin: 16px 0; padding: 10px 13px; border-left: 3px solid #c9871b; color: #6f4a13; background: #fff8e9; font-size: 13px; line-height: 1.65; }
 .final-report-boundary a { color: #176b46; }
 
 @media (max-width: 1100px) {
