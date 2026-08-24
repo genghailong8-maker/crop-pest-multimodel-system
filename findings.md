@@ -1235,3 +1235,16 @@
 - 最终验收：前端 render tests 8/8、ESLint、backend 69 passed（仅既有 Starlette 弃用警告）、PowerShell 入口测试、带比赛 API 基址的 production build、资源映射及浏览器验收均通过。`competition.ps1 status` 为 Overall READY；本轮没有创建或提交任何新病例、没有触发 GPU E2E、没有 commit/push。
 
 - 为满足报告知识库图片的真实展示，补齐 local Worker 的已有 API proxy bindings：无 bindings 时 `/api/catalog/knowledge/assets/...` 在 3000 返回 503，而 backend 直连为 200；正式比赛入口注入后该 URL 在 3000 返回 image/jpeg 200。该变更仍限于 web build/server routing 与 `competition.ps1` runtime 配置，没有修改 UI 或诊断业务。
+
+## 582046f Work P0 解阻：初始取证（2026-08-24）
+
+- `EvidenceExtractor._score()` 当前使用 `class_hit OR title_class_hit`，因此多实体标题可错误把其他类别正文归给当前类别；harms 同时把泛词“危害/为害”作为充分关键词，缺少具体损伤动作/结果守卫。
+- 项目真实类别可从 `app.catalog.CLASS_CATALOG` / `CLASS_BY_ID` 复用，避免在 extractor 重建类别列表。
+- 当前正式 deploy 确认仍有遗留：lab compose backend `depends_on: [detector, vlm]`、VLM endpoint 和 vlm service；lab deploy.sh 校验两份 Qwen 模型；gpu env 和 README 均保留 8890/Qwen。尚未修改。
+
+## 582046f Work P0 解阻：验证进展（2026-08-24）
+
+- P0-1 定点回归 22 passed；新增的根系损伤用例首次暴露原关键词仅包含“损害”，补齐语义同类结果词后通过。四例独立手工 harness 均符合 Work 预期，且保留的结论沿用原始 `source-C`。
+- P0-2 的 deploy 树静态防回归测试已通过；`deploy/` 内 Qwen/VLM/8890/CROP_VLM 搜索为空。GPU 未被调用。
+- 前端在仅停止本地 Wrangler/Workerd 后完成：`npm test` 8/8、`npm run lint`、显式 `npm run build` 全部通过；构建未触发诊断、检索或模型调用。
+- 最终分类：完整 `rg -n "Qwen|qwen|VLM|vlm|8890|CROP_VLM" .` 已执行；当前运行/部署范围只命中新加的禁止词静态回归测试，`deploy/` 为零命中。其他输出属于历史架构/交接记录，或训练标注数据中 `8890` 的数值子串，均不构成运行依赖。

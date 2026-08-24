@@ -14,7 +14,6 @@ install -d -m 0750 \
   "$ROOT/storage/backups" \
   "$ROOT/models/detector" \
   "$ROOT/models/experts" \
-  "$ROOT/models/qwen3-vl" \
   "$ROOT/runtime/control" \
   "$ROOT/runtime/logs" \
   "$ROOT/cache/huggingface" \

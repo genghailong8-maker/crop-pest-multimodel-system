@@ -17,6 +17,3 @@ services:
     build:
       context: /data/ghl
       dockerfile: app/deploy/lab/Dockerfile.inference.offline
-
-  vlm:
-    pull_policy: never

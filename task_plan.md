@@ -25,6 +25,14 @@
 - [x] 仅在根因已证实后作最小修复：生产入口改用项目生成的 Cloudflare Worker + assets runtime，比赛脚本同步 `--ip`、精确 wrangler 清理标记及本地 Worker API proxy bindings；已完成多次 stop → clean build → formal start。
 - [x] 完成资源 HTTP、浏览器 hydration、蛴螬结果/报告、全量回归与最终 Git 验收：前端 8/8、lint、后端 69、PowerShell 测试、带比赛 API 基址的 production build/restart、三页资源映射和浏览器验收均通过。
 
+### 582046f Work P0 解阻（2026-08-24）
+
+- 状态：in_progress；起点 `competition-dev` / `582046f150f81880e512c793f433ec01e70b7f32`，Git 工作区干净，禁止 commit/push、GPU/SSH 与范围外改动。
+- [x] P0-1：修复多实体标题归属与弱 harm 句误收录；新增 Work 精确复现、单主体上下文、possible cause、damage action/effect 回归，定点 22/22 与手工 A-D 通过。
+- [x] P0-2：移除 `deploy/lab` 与 `deploy/gpu` 当前可执行配置中的 Qwen/VLM/8890 依赖；deploy 全目录静态回归通过、搜索零命中。
+- [x] P1 评估：不修改。摘要 warning 与完整知识库化学章节 warning 位于不同的展示层级，保留两处安全边界而不在同一展开区域连续重复。
+- [ ] 运行 frontend/PowerShell 回归、全仓 runtime/deploy Qwen 分类、安全和 Git 检查（backend 已 75 passed）。
+
 ## 外部证据增强诊断（2026-08-21）
 
 - 状态：complete（provider/mock、分析接入、页面、测试完成；真实 Google Search 待配置密钥后单独验收）；严格工作在 `competition-dev`，不修改 `master/main`，不自动 push。
@@ -1531,3 +1539,12 @@ Phase 9.12 — 条件必填表单、证据绑定综合分析与页面改造（co
 - [x] 4. 落地病例详情/报告简报结构、知识库/技术详情降级及打印样式。
 - [x] 5. 用已有病例在本地桌面端检查首页、可参考蛴螬结果、病例、报告和来源不可用状态；执行前端回归、lint、build、diff-check。移动端由 820px / 560px 响应式规则覆盖；未调用 GPU。
 - [x] 6. 截图对照三张定稿，完成 `design-qa.md` 与验收报告，不提交。
+
+## 582046f Work P0 解阻（2026-08-24）
+
+- [x] 1. 锁定 `competition-dev` / `582046f...` clean 基线并复核 Extractor 与 deploy 运行时依赖。
+- [x] 2. 以最小确定性规则修复多实体标题归属和弱 harm 误抽取，并补齐回归测试。
+- [x] 3. 移除 `deploy/lab` 与 `deploy/gpu` 的 Qwen/VLM/8890 部署运行时依赖，并添加静态防回归测试。
+- [x] 4. 评估 P1 化学防治安全提示；确认不构成同一区域重复，保持现状。
+- [x] 5. 完成手工四例、后端全量、前端 render/lint/build 回归。
+- [x] 6. 完成 competition PowerShell、全仓关键词分类、diff/安全检查并输出验收报告。

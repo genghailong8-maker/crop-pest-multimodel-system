@@ -19,7 +19,7 @@ services:
       context: ../..
       dockerfile: deploy/lab/Dockerfile.backend
     restart: unless-stopped
-    depends_on: [detector, vlm]
+    depends_on: [detector]
     expose: ["8000"]
     extra_hosts: ["host.docker.internal:host-gateway"]
     env_file: [.env]
@@ -31,8 +31,6 @@ services:
       CROP_GATEWAY_MODE: "true"
       CROP_CONTROL_DIR: /data/control
       CROP_DETECTOR_ENDPOINT: http://detector:8870/v1/detect
-      CROP_VLM_ENDPOINT: http://vlm:8890/v1/chat/completions
-      CROP_VLM_MAX_CONCURRENCY: "1"
     volumes:
       - /data/ghl/storage:/data/storage
       - /data/ghl/runtime/control:/data/control
@@ -54,21 +52,6 @@ services:
       CROP_INFERENCE_RECLASSIFY: "0"
     volumes:
       - /data/ghl/models:/models:ro
-
-  vlm:
-    image: ghcr.io/ggml-org/llama.cpp:server
-    restart: unless-stopped
-    expose: ["8890"]
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "http://127.0.0.1:8890/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-      start_period: 30s
-    env_file: [.env]
-    volumes:
-      - /data/ghl/models/qwen3-vl:/models:ro
-    command: ["-m", "/models/Qwen3VL-8B-Instruct-Q4_K_M.gguf", "--mmproj", "/models/mmproj-Qwen3VL-8B-Instruct-Q8_0.gguf", "--host", "0.0.0.0", "--port", "8890", "-c", "4096", "-np", "1", "--threads", "24"]
 
 networks:
   default:

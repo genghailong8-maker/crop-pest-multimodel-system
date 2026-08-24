@@ -14,6 +14,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from ..catalog import CLASS_CATALOG
 from .models import SearchEvidence, SearchSource
 
 
@@ -37,11 +38,13 @@ _SPACE = re.compile(r"\s+")
 _SENTENCE = re.compile(r"(?<=[。！？；!?])|\n+")
 _NOISE = ("首页", "导航", "版权", "相关阅读", "上一页", "下一页", "登录", "注册", "cookie")
 _TOKENS: dict[Section, tuple[str, ...]] = {
-    "harms": ("危害", "为害", "症状", "损害", "咬食", "受害", "枯萎", "死亡", "减产", "病斑", "失绿"),
+    "harms": ("危害", "为害", "症状", "损害", "损伤", "受损", "咬食", "受害", "枯萎", "死亡", "减产", "病斑", "失绿", "腐烂", "黄化", "倒伏", "枯死"),
     "possible_causes": ("发生", "原因", "条件", "高温", "高湿", "降雨", "湿度", "土壤", "连作", "幼虫", "传播", "虫源"),
 }
 _CAUSE_MARKERS = ("原因", "条件", "有利于", "易发生", "喜发生", "促进", "导致", "相关", "病原", "虫源")
 _RELIABILITY = {"政府农业部门": 5, "农业科研院所": 4, "高校农学院/植保学院": 3, "农技推广/植保机构": 3, "权威农业数据库": 2, "其他可信农业专业站点": 1}
+_HARM_ACTIONS = ("咬食", "取食", "侵染", "蛀食", "吸食", "危害根", "危害叶", "为害根", "为害叶")
+_HARM_EFFECTS = ("死亡", "枯萎", "腐烂", "黄化", "病斑", "根系损伤", "叶片受损", "减产", "品质下降", "倒伏", "损伤", "受损", "缺苗", "生长受阻", "枯死", "断裂")
 
 
 def _plain_text(value: str) -> str:
@@ -53,9 +56,52 @@ def _normalized(value: str) -> str:
     return re.sub(r"[\W_]+", "", value).lower()
 
 
+_KNOWN_CLASS_TOKENS = tuple(sorted({_normalized(item["name_zh"]) for item in CLASS_CATALOG}, key=len, reverse=True))
+
+
 def _sentences(source: SearchSource) -> list[str]:
     body = _plain_text(source.content or source.snippet or "")
     return [piece.strip(" \t-—") for piece in _SENTENCE.split(body) if 12 <= len(piece.strip()) <= 220]
+
+
+def _mentioned_classes(value: str, target: str) -> set[str]:
+    normalized = _normalized(value)
+    tokens = sorted({*_KNOWN_CLASS_TOKENS, target}, key=len, reverse=True)
+    matches: set[str] = set()
+    occupied: list[tuple[int, int]] = []
+    for token in tokens:
+        start = normalized.find(token)
+        while start >= 0:
+            end = start + len(token)
+            if not any(start < other_end and end > other_start for other_start, other_end in occupied):
+                matches.add(token)
+                occupied.append((start, end))
+            start = normalized.find(token, start + 1)
+    return matches
+
+
+def _title_has_competing_entity(title: str, class_name: str) -> bool:
+    return bool(re.search(
+        rf"{re.escape(class_name)}\s*(?:与|和|及|、|/)\s*[^\s，。；、/]{{1,20}}(?:病|虫|甲|螟|蝽|蝉|蛄|螬|科)",
+        title,
+    ))
+
+
+def _associate_candidate_with_target(class_name: str, source: SearchSource, sentence: str) -> tuple[bool, bool]:
+    """Return whether a sentence belongs to the target and whether it names it explicitly."""
+    target = _normalized(class_name)
+    sentence_mentions = _mentioned_classes(sentence, target)
+    if target in sentence_mentions:
+        return not bool(sentence_mentions - {target}), True
+    if sentence_mentions:
+        return False, False
+    title_mentions = _mentioned_classes(source.title, target)
+    single_subject_title = (
+        target in title_mentions
+        and not bool(title_mentions - {target})
+        and not _title_has_competing_entity(source.title, class_name)
+    )
+    return single_subject_title, False
 
 
 @dataclass(frozen=True)
@@ -75,14 +121,14 @@ class EvidenceExtractor:
             return 0
         if section == "possible_causes" and not any(marker in sentence for marker in _CAUSE_MARKERS):
             return 0
-        class_token = _normalized(class_name)
-        class_hit = int(class_token in _normalized(sentence))
-        title_class_hit = int(class_token in _normalized(source.title))
-        if not class_hit and not title_class_hit:
+        associated, explicit_target = _associate_candidate_with_target(class_name, source, sentence)
+        if not associated:
+            return 0
+        if section == "harms" and not any(token in sentence for token in (*_HARM_ACTIONS, *_HARM_EFFECTS)):
             return 0
         title_hit = int(any(token in source.title.lower() for token in _TOKENS[section]))
         reliability = _RELIABILITY.get(source.reliability_level or "", 0)
-        return hits * 20 + class_hit * 12 + title_class_hit * 8 + title_hit * 4 + reliability
+        return hits * 20 + int(explicit_target) * 12 + int(not explicit_target) * 4 + title_hit * 4 + reliability
 
     def _select(self, section: Section, evidence: SearchEvidence) -> list[ExternalEvidenceConclusion]:
         candidates: list[_Candidate] = []

@@ -8,9 +8,8 @@
 2. 使用 `bash deploy/lab/prepare-docker-data-root.sh` 检查。若 Docker 不在 `/data/ghl/docker` 且没有运行容器，再显式追加 `--apply`；旧 Docker 目录保留。
 3. 将 `.env.example` 复制为 `.env`，通过 `backend/scripts/generate_admin_secrets.py --compose` 交互生成密码哈希和会话密钥。`--compose` 会转义哈希中的 `$`，不得保存明文密码。
 4. 放置三个视觉权重：`models/detector/main.pt`、`models/experts/class10.pt`、`models/experts/crop-classifier.pt`。
-5. 放置 Qwen3-VL GGUF 为 `models/qwen3-vl/Qwen3VL-8B-Instruct-Q4_K_M.gguf` 和 `mmproj-Qwen3VL-8B-Instruct-Q8_0.gguf`。
-6. 离线镜像放入 `cache/images`，Python wheelhouse 放入 `cache/wheels/backend`、`cache/wheels/inference`，npm 缓存放入 `cache/npm`。服务器使用 `docker-compose.offline.yml`，不访问外网构建。
-7. 运行 `compatibility-check.sh`；通过后运行 `deploy.sh`，最后运行 `verify.sh`。
+5. 离线镜像放入 `cache/images`，Python wheelhouse 放入 `cache/wheels/backend`、`cache/wheels/inference`，npm 缓存放入 `cache/npm`。服务器使用 `docker-compose.offline.yml`，不访问外网构建。
+6. 运行 `compatibility-check.sh`；通过后运行 `deploy.sh`，最后运行 `verify.sh`。
 
 默认从 `http://服务器IP:8080` 访问。GPU 服务器尚未开启时，Admin 会将其显示为离线并拒绝切换。实验室 CPU 全链路通过后，再建立 `127.0.0.1:18000 → GPU服务器:8000` 的持久 SSH 隧道并进行双机联调。
 

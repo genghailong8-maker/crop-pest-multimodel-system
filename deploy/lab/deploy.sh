@@ -9,8 +9,6 @@ for required in \
   "$ROOT/models/detector/main.pt" \
   "$ROOT/models/experts/class10.pt" \
   "$ROOT/models/experts/crop-classifier.pt" \
-  "$ROOT/models/qwen3-vl/Qwen3VL-8B-Instruct-Q4_K_M.gguf" \
-  "$ROOT/models/qwen3-vl/mmproj-Qwen3VL-8B-Instruct-Q8_0.gguf" \
   "$ROOT/cache/wheels/backend" \
   "$ROOT/cache/wheels/inference" \
   "$ROOT/cache/npm" \

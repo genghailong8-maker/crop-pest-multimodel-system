@@ -1584,3 +1584,23 @@
 - 最终 3000 使用 Worker assets runtime：`/`、`?case=lab_cpu-4361d9fada86434ba588b5031e3a8961`、`/reports/lab_cpu-4361d9fada86434ba588b5031e3a8961` 的 HTML 为 200，所引用资源分别为 10/10、10/10、11/11 个磁盘存在且 HTTP 200。未 commit、未 push、未执行新的 GPU E2E。
 
 - 补充发现并解决 Worker 本地 runtime 的既有 API proxy bindings 未注入，导致报告中后端返回的相对知识库图片 URL 为 503；仅在 `vite.config.ts` 透传已存在的 Worker vars，并由比赛入口注入 loopback API origin 和非敏感本地 proxy 占位值。正式重启后，知识库图片经 3000 为 200；浏览器加载 4 张知识库图片、2 个表格、检测图片、打印入口、来源及风险提示，console 日志为空。
+
+## 582046f Work P0 解阻：启动（2026-08-24）
+
+- 已确认 branch `competition-dev`、HEAD `582046f150f81880e512c793f433ec01e70b7f32`、工作区 clean、`git diff --check` 通过。
+- 本轮只处理 Work 指定的 Extractor 两个边界、deploy 中遗留 Qwen runtime 依赖，及可选的报告风险提示重复；不操作真实 GPU 或模型服务，不提交、不推送。
+
+## 582046f Work P0 解阻：实现（2026-08-24）
+
+- 已在 Extractor 增加确定性实体归属守卫：复用 `CLASS_CATALOG`，显式当前类别仅在无竞争类别时通过；无显式当前类别仅允许单主体标题上下文，多实体标题不再构成充分归属。
+- harms 增加具体伤害动作/结果要求；新增 Work 的多实体标题、弱 harm、真实 harm、possible cause 与单主体上下文回归测试。修复中曾将类别 token 常量置于 `_normalized()` 之前造成导入顺序错误，已立即移动到函数后，未执行失败测试。
+- 已移除 deploy/lab 主/离线 compose、deploy 脚本、目录初始化、环境示例和 README，以及 deploy/gpu env、bootstrap、README 的 Qwen/VLM/8890 依赖；新增 deploy 全目录静态回归测试。P1 未改：摘要和完整知识库属于不同展示层级，各自保留安全提示。
+- 定点测试首轮 21 passed / 1 failed：新增的“根系损伤 + 生长受阻”明确 harm 未命中，原因是原 harms 关键词表只含“损害”而没有“损伤”。已以同一语义组补充损伤、受损、腐烂、黄化、倒伏、枯死，随后重跑定点测试。
+
+- 定点复测 22 passed；四例手工 harness：A 多实体其他害虫正文 empty、B 弱“发生危害”句 empty、C 单主体标题下“幼虫咬食…死亡”保留并绑定 source-C、D 其他害虫发生条件 empty。
+- backend 全量回归：75 passed，只有既有 Starlette/httpx 弃用警告。P1 经过代码层级检查不修改：结果摘要与完整知识库化学章节是独立区域，保留各自安全提示。
+- 前端 3000 端口由已核实的 Wrangler/Workerd 进程链占用，可能锁定 `web/dist`；接下来仅停止该前端链以执行确定性构建，不触碰 Backend、YOLO、SSH 或 GPU 服务。
+- 已停止且仅停止上述 3000 前端进程链；`npm test` render 8/8、`npm run lint`、显式 `npm run build` 均通过。构建期间未启动或访问 GPU、Backend 或检索服务。
+- `competition.tests.ps1` 已通过。全仓关键词原始扫描命中大量历史交接记录及标注数据中的数值子串；下一步将仅对当前运行/部署边界做精确分类。当前 `git diff --check` 通过，安全扫描未发现新增真实凭据。
+- 最终安全扫描的首个 PowerShell 路径聚合将多行文件名误合并，造成假阳性；该轮不采纳，改为只扫描新增 diff 行和独立新增测试文件。
+- 最终验收完成：`git diff --check` PASS；新增 diff 行与新测试文件的安全扫描 PASS。工作树仅包含本轮 15 个预期路径（14 个已跟踪修改、1 个新增部署回归测试），无 commit、push 或 GPU/SSH/服务操作。

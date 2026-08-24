@@ -62,10 +62,42 @@ def test_rejects_another_pest_sentence_from_a_generic_collection_page() -> None:
     assert [conclusion.conclusion for conclusion in result.harms] == ["蛴螬咬食根茎部，可导致幼苗死亡。"]
 
 
+def test_multi_entity_title_does_not_attribute_another_pest_body_to_target() -> None:
+    item = source(title="蛴螬与椰心叶甲防治", content="椰心叶甲危害嫩叶，严重时整叶枯死。")
+    result = EvidenceExtractor().extract(evidence(item))
+    assert result.model_dump() == {"status": "unavailable", "harms": [], "possible_causes": []}
+
+
+def test_single_subject_title_keeps_pronoun_like_harm_context() -> None:
+    item = source(title="蛴螬的发生与防治", content="蛴螬主要生活在土壤中。幼虫咬食作物地下根部，严重时可造成幼苗死亡。")
+    result = EvidenceExtractor().extract(evidence(item))
+    assert [conclusion.conclusion for conclusion in result.harms] == ["幼虫咬食作物地下根部，严重时可造成幼苗死亡。"]
+
+
+def test_multi_entity_title_does_not_attribute_other_pest_cause_to_target() -> None:
+    item = source(title="蛴螬与椰心叶甲发生规律", content="高温有利于椰心叶甲发生。")
+    result = EvidenceExtractor().extract(evidence(item))
+    assert result.possible_causes == []
+
+
 def test_rejects_a_generic_occurrence_statement_as_a_possible_cause() -> None:
     item = source(content="蛴螬在不同土壤中发生危害的种类有差异。蛴螬喜发生于有机质多的土壤中。")
     result = EvidenceExtractor().extract(evidence(item))
     assert [conclusion.conclusion for conclusion in result.possible_causes] == ["蛴螬喜发生于有机质多的土壤中。"]
+
+
+def test_rejects_weak_harm_occurrence_statement() -> None:
+    result = EvidenceExtractor().extract(evidence(source(content="蛴螬在不同土壤中发生危害的种类有差异。")))
+    assert result.harms == []
+
+
+def test_keeps_specific_harm_actions_and_effects() -> None:
+    item = source(content="蛴螬幼虫咬食作物地下根部，严重时可造成幼苗死亡。蛴螬可造成根系损伤并导致植株生长受阻。")
+    result = EvidenceExtractor().extract(evidence(item))
+    assert [conclusion.conclusion for conclusion in result.harms] == [
+        "蛴螬幼虫咬食作物地下根部，严重时可造成幼苗死亡。",
+        "蛴螬可造成根系损伤并导致植株生长受阻。",
+    ]
 
 
 def test_ignores_navigation_noise() -> None:
