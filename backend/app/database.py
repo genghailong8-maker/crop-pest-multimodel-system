@@ -15,8 +15,10 @@ JSON_COLUMNS = {
     "detections_json": "detections",
     "detector_summary_json": "detector_summary",
     "analysis_json": "analysis",
+    "severity_json": "severity",
     "review_json": "review",
     "review_events_json": "review_events",
+    "context_json": "context",
 }
 
 
@@ -58,8 +60,10 @@ def init_database() -> None:
                 detections_json TEXT,
                 detector_summary_json TEXT,
                 analysis_json TEXT,
+                severity_json TEXT,
                 review_json TEXT,
                 review_events_json TEXT,
+                context_json TEXT,
                 affected_ratio_percent REAL,
                 spread_speed TEXT NOT NULL DEFAULT 'unknown',
                 public_consent INTEGER NOT NULL DEFAULT 0,
@@ -78,6 +82,7 @@ def init_database() -> None:
         }
         migrations = {
             "review_events_json": "TEXT",
+            "severity_json": "TEXT",
             "affected_ratio_percent": "REAL",
             "spread_speed": "TEXT NOT NULL DEFAULT 'unknown'",
             "public_consent": "INTEGER NOT NULL DEFAULT 0",
@@ -87,6 +92,7 @@ def init_database() -> None:
             "edit_token_hash": "TEXT",
             "is_test": "INTEGER NOT NULL DEFAULT 0",
             "instance_id": "TEXT",
+            "context_json": "TEXT",
         }
         for column, definition in migrations.items():
             if column not in columns:
@@ -154,27 +160,37 @@ def create_case(record: dict[str, Any]) -> dict[str, Any]:
         "expires_at": record.get("expires_at"),
         "diagnostic_risk": record.get("diagnostic_risk") or "unknown",
         "field_severity": record.get("field_severity") or "unknown",
+        "detections_json": json.dumps(record.get("detections"), ensure_ascii=False)
+        if record.get("detections") is not None
+        else None,
+        "detector_summary_json": json.dumps(record.get("detector_summary"), ensure_ascii=False)
+        if record.get("detector_summary") is not None
+        else None,
+        "severity_json": json.dumps(record.get("severity"), ensure_ascii=False) if record.get("severity") is not None else None,
+        "context_json": json.dumps(record.get("context"), ensure_ascii=False) if record.get("context") is not None else None,
         "edit_token_hash": record.get("edit_token_hash"),
         "is_test": int(bool(record.get("is_test", False))),
         "instance_id": record.get("instance_id") or settings.instance_id,
     }
     with connect() as connection:
+        existing_columns = {
+            row["name"]
+            for row in connection.execute("PRAGMA table_info(diagnosis_cases)").fetchall()
+        }
+        ordered_columns = [
+            "id", "created_at", "updated_at", "crop", "part", "growth_stage",
+            "environment_json", "notes", "image_filename", "image_path",
+            "image_width", "image_height", "status", "affected_ratio_percent",
+            "spread_speed", "public_consent", "expires_at", "diagnostic_risk",
+            "detections_json", "detector_summary_json",
+            "field_severity", "severity_json", "edit_token_hash", "is_test",
+            "instance_id", "context_json",
+        ]
+        insert_columns = [column for column in ordered_columns if column in existing_columns]
+        names = ", ".join(insert_columns)
+        placeholders = ", ".join(f":{column}" for column in insert_columns)
         connection.execute(
-            """
-            INSERT INTO diagnosis_cases (
-                id, created_at, updated_at, crop, part, growth_stage,
-                environment_json, notes, image_filename, image_path,
-                image_width, image_height, status, affected_ratio_percent,
-                spread_speed, public_consent, expires_at, diagnostic_risk,
-                field_severity, edit_token_hash, is_test, instance_id
-            ) VALUES (
-                :id, :created_at, :updated_at, :crop, :part, :growth_stage,
-                :environment_json, :notes, :image_filename, :image_path,
-                :image_width, :image_height, :status, :affected_ratio_percent,
-                :spread_speed, :public_consent, :expires_at, :diagnostic_risk,
-                :field_severity, :edit_token_hash, :is_test, :instance_id
-            )
-            """,
+            f"INSERT INTO diagnosis_cases ({names}) VALUES ({placeholders})",
             values,
         )
     result = get_case(record["id"])

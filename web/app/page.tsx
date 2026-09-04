@@ -8,9 +8,14 @@ import { useSearchParams } from "next/navigation";
 
 import WorkspaceShell from "./components/WorkspaceShell";
 import ExternalEvidenceSummary from "./components/ExternalEvidenceSummary";
+import CaseContextCard from "./components/CaseContextCard";
+import SeveritySelector from "./components/SeveritySelector";
+import R3ContextConfirmation from "./components/R3ContextConfirmation";
 import {
   apiUrl,
   CaseRecord,
+  DraftRecord,
+  draftHeaders,
   editHeaders,
   formatTime,
   HealthStatus,
@@ -18,22 +23,19 @@ import {
   isConclusive,
   publicResolutionReasons,
   readJson,
+  R3Taxonomy,
   saveEditToken,
+  saveDraftToken,
+  SeverityLevel,
   userDiagnosisTitle,
 } from "./lib/api";
 
-const cropOptions = ["玉米", "番茄", "南瓜", "马铃薯", "昆虫"] as const;
-const partOptions = ["叶片", "茎秆", "果实", "根部", "整株"] as const;
-const growthStageOptions = ["苗期", "营养生长期", "开花期", "结果期", "成熟期"] as const;
-const sceneOptions = ["露地", "温室", "大棚", "室内样本", "未知"] as const;
-const spreadOptions = [
-  ["unknown", "不清楚"], ["none", "暂未扩散"], ["slow", "缓慢"], ["moderate", "中等"], ["rapid", "快速"],
-] as const;
 const stageText = {
   idle: "开始分析",
   uploading: "正在保存图片…",
   detecting: "正在寻找病斑或害虫…",
   analyzing: "正在综合分析…",
+  confirming: "正在保存确认…",
   complete: "分析完成",
 };
 
@@ -47,15 +49,14 @@ export default function Home() {
   const [health, setHealth] = useState<HealthStatus | null>(null);
   const [history, setHistory] = useState<CaseRecord[]>([]);
   const [record, setRecord] = useState<CaseRecord | null>(null);
+  const [draft, setDraft] = useState<DraftRecord | null>(null);
+  const [taxonomy, setTaxonomy] = useState<R3Taxonomy | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
-  const [crop, setCrop] = useState("");
-  const [part, setPart] = useState("");
-  const [growthStage, setGrowthStage] = useState("");
-  const [scene, setScene] = useState("");
-  const [affectedRatio, setAffectedRatio] = useState("");
-  const [spreadSpeed, setSpreadSpeed] = useState("");
-  const [notes, setNotes] = useState("");
+  const [contextSubject, setContextSubject] = useState<"plant" | "insect">("plant");
+  const [contextCrop, setContextCrop] = useState("");
+  const [contextPart, setContextPart] = useState("");
+  const [contextInsect, setContextInsect] = useState("");
   const [consent, setConsent] = useState(false);
   const [pipeline, setPipeline] = useState<PipelineStage>("idle");
   const [busy, setBusy] = useState(false);
@@ -73,11 +74,13 @@ export default function Home() {
     Promise.all([
       fetch(apiUrl("/health")).then((response) => readJson<HealthStatus>(response)),
       fetch(apiUrl("/api/cases?limit=6")).then(readJson<CaseRecord[]>),
-    ]).then(([nextHealth, items]) => {
+      fetch(apiUrl("/api/r3/taxonomy")).then(readJson<R3Taxonomy>),
+    ]).then(([nextHealth, items, nextTaxonomy]) => {
       if (!active) return;
       setPublicMode(Boolean(nextHealth.public_mode));
       setHealth(nextHealth);
       setHistory(items);
+      setTaxonomy(nextTaxonomy);
       setService(nextHealth.model_configured ? "online" : "offline");
     }).catch(() => active && setService("offline"));
     return () => { active = false; };
@@ -97,28 +100,20 @@ export default function Home() {
     return () => { active = false; };
   }, [requestedCaseId]);
 
-  const imageUrl = useMemo(() => record ? apiUrl(record.image_url) : preview, [record, preview]);
+  const imageUrl = useMemo(() => record ? apiUrl(record.image_url) : draft ? apiUrl(draft.image_url) : preview, [draft, record, preview]);
   const detections = record?.detections ?? [];
   const summary = record?.detector_summary;
   const analysis = record?.analysis;
   const diagnosis = userDiagnosisTitle(record);
   const conclusive = isConclusive(record);
-  const isInsect = crop === "昆虫";
-  const activeMode = health?.active_instance_mode;
   const visibleResolutionReasons = publicResolutionReasons(record?.resolution_reasons);
-  const nextActions = summary?.explainability?.knowledge_card?.first_actions ?? ["补拍清晰的近景、叶背和整株照片", "记录受害比例与扩散速度后再判断"];
+  const nextActions = summary?.explainability?.knowledge_card?.first_actions ?? ["补拍清晰的近景、叶背和整株照片", "根据当前样本可见症状选择受害程度"];
   const missingItems = useMemo(() => {
     const items: string[] = [];
     if (!file) items.push("上传图片");
-    if (!crop) items.push("作物 / 识别对象");
-    if (!scene) items.push("种植环境");
-    if (crop && !isInsect && !part) items.push("植物部位");
-    if (crop && !isInsect && !growthStage) items.push("生长阶段");
-    if (affectedRatio === "") items.push("受害比例");
-    if (!spreadSpeed) items.push("扩散速度");
     if (publicMode && !consent) items.push("公共展示说明");
     return items;
-  }, [affectedRatio, consent, crop, file, growthStage, isInsect, part, publicMode, scene, spreadSpeed]);
+  }, [consent, file, publicMode]);
   const formReady = missingItems.length === 0;
 
   function chooseFile(event: ChangeEvent<HTMLInputElement>) {
@@ -127,6 +122,8 @@ export default function Home() {
     setFile(selected);
     setPreview(selected ? URL.createObjectURL(selected) : null);
     setRecord(null);
+    setDraft(null);
+    setContextSubject("plant"); setContextCrop(""); setContextPart(""); setContextInsect("");
     setPipeline("idle");
     setError(null);
   }
@@ -134,59 +131,66 @@ export default function Home() {
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (!file) return setError("请先拍摄或选择一张图片");
-    if (!crop || !scene || affectedRatio === "" || !spreadSpeed || (!isInsect && (!part || !growthStage))) return setError("请完成所有必填的田间信息");
     if (publicMode && !consent) return setError("公网上传前，请先确认 30 天公共展示说明");
     setBusy(true);
     setError(null);
     try {
       setPipeline("uploading");
-      const form = new FormData();
-      form.append("image", file);
-      form.append("crop", crop);
-      if (!isInsect) {
-        form.append("part", part);
-        form.append("growth_stage", growthStage);
-      }
-      form.append("environment_json", JSON.stringify({ scene }));
-      form.append("affected_ratio_percent", affectedRatio);
-      form.append("spread_speed", spreadSpeed);
-      form.append("notes", notes);
-      form.append("public_consent", String(consent));
-      const created = await readJson<CaseRecord>(await fetch(apiUrl("/api/cases"), { method: "POST", body: form }));
-      saveEditToken(created.id, created.case_edit_token);
-      setRecord(created);
-
+      const form = new FormData(); form.append("image", file); form.append("public_consent", String(consent));
+      const created = await readJson<DraftRecord>(await fetch(apiUrl("/api/drafts"), { method: "POST", body: form }));
+      saveDraftToken(created.id, created.draft_edit_token);
       setPipeline("detecting");
-      const detected = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${created.id}/detect`), {
-        method: "POST",
-        headers: { ...editHeaders(created.id), ...instanceHeaders(created) },
-      }));
-      setRecord(detected);
-      if (detected.status !== "detected") {
+      const analyzed = await readJson<DraftRecord>(await fetch(apiUrl(`/api/drafts/${created.id}/analyze`), { method: "POST", headers: draftHeaders(created.id) }));
+      setDraft(analyzed);
+      if (analyzed.status === "low_confidence") {
         setPipeline("idle");
-        await refreshHistory();
+        setError(analyzed.confidence_gate?.message ?? "无法可靠判断，请重新上传图片。");
         return;
       }
-
-      setPipeline("analyzing");
-      try {
-        const analyzed = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${created.id}/analyze`), {
-          method: "POST",
-          headers: { ...editHeaders(created.id), ...instanceHeaders(created) },
-        }));
-        setRecord(analyzed);
-        setPipeline("complete");
-      } catch (reason) {
-        setPipeline("idle");
-        setError(`图片和检测结果已保存。${reason instanceof Error ? reason.message : "综合分析暂时失败"}`);
-      }
-      await refreshHistory();
+      const prediction = analyzed.context_prediction;
+      const subject = prediction?.subject_type?.top1 === "insect" ? "insect" : "plant";
+      setContextSubject(subject);
+      if (subject === "plant") {
+        setContextCrop(prediction?.crop_species?.top1 ?? "");
+        setContextPart(prediction?.affected_part?.top1 ?? "");
+      } else setContextInsect(prediction?.insect_species?.top1 ?? "");
+      setPipeline("confirming");
     } catch (reason) {
       setPipeline("idle");
       setError(reason instanceof Error ? reason.message : "提交失败，请稍后再试");
     } finally {
       setBusy(false);
     }
+  }
+
+  async function confirmContext() {
+    if (!draft) return;
+    setBusy(true); setError(null); setPipeline("confirming");
+    try {
+      const confirmed = await readJson<CaseRecord>(await fetch(apiUrl(`/api/drafts/${draft.id}/confirm`), {
+        method: "POST", headers: draftHeaders(draft.id, true),
+        body: JSON.stringify({ subject_type: contextSubject, crop_species: contextSubject === "plant" ? contextCrop : null, affected_part: contextSubject === "plant" ? contextPart : null, insect_species: contextSubject === "insect" ? contextInsect : null }),
+      }));
+      saveEditToken(confirmed.id, confirmed.case_edit_token);
+      setRecord(confirmed); setDraft(null); setPipeline("complete"); await refreshHistory();
+    } catch (reason) { setPipeline("confirming"); setError(reason instanceof Error ? reason.message : "上下文确认失败"); }
+    finally { setBusy(false); }
+  }
+
+  async function chooseSeverity(severityLevel: SeverityLevel) {
+    if (!record) return setError("当前病例尚未读取");
+    setBusy(true); setError(null);
+    try {
+      const selected = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${record.id}/severity`), {
+        method: "POST", headers: { ...editHeaders(record.id, true), ...instanceHeaders(record) }, body: JSON.stringify({ severity_level: severityLevel }),
+      }));
+      setRecord(selected); setPipeline("analyzing");
+      const analyzed = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${record.id}/analyze`), {
+        method: "POST", headers: { ...editHeaders(record.id), ...instanceHeaders(record) },
+      }));
+      setRecord(analyzed); setPipeline("complete"); await refreshHistory();
+    } catch (reason) { setPipeline("idle"); setError(reason instanceof Error ? reason.message : "受害程度保存失败"); }
+    finally { setBusy(false); }
   }
 
   async function retryAnalysis() {
@@ -215,7 +219,7 @@ export default function Home() {
           <h1>识别病虫害，先看清风险</h1>
           <p>上传田间图片，获得可追溯的辅助诊断。</p>
           <p className="final-visually-hidden">系统先定位可疑病斑或害虫，并按视觉置信度说明结果是否适合参考。</p>
-          <p className="final-visually-hidden">第一步：拍照并告诉我们田里的情况。第二步：查看结果与下一步。大约有多少叶片或植株受影响？问题扩散得快吗？</p>
+          <p className="final-visually-hidden">第一步：拍照并告诉我们田里的情况。第二步：查看识别结果，并根据当前样本可见症状选择受害程度。</p>
         </section>
 
         {service === "offline" && <div className="final-system-state final-system-state-warning"><strong>识别服务暂不可用</strong><span>服务恢复后即可继续上传并分析。</span></div>}
@@ -232,27 +236,23 @@ export default function Home() {
           <section className="final-form-panel" aria-labelledby="start-diagnosis-title">
             <h2 id="start-diagnosis-title">开始诊断</h2>
             <div className="final-form-grid">
-              <label><span>作物 / 识别对象</span><select required value={crop} onChange={(event) => { setCrop(event.target.value); setPart(""); setGrowthStage(""); }}><option value="" disabled>请选择</option>{cropOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
-              <label><span>种植环境</span><select required value={scene} onChange={(event) => setScene(event.target.value)}><option value="" disabled>请选择</option>{sceneOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
-              {crop && !isInsect && <>
-                <label><span>植物部位</span><select required value={part} onChange={(event) => setPart(event.target.value)}><option value="" disabled>请选择</option>{partOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
-                <label><span>生长阶段</span><select required value={growthStage} onChange={(event) => setGrowthStage(event.target.value)}><option value="" disabled>请选择</option>{growthStageOptions.map((item) => <option key={item}>{item}</option>)}</select></label>
-              </>}
-              <label><span>受害比例</span><input required type="number" min="0" max="100" step="0.1" inputMode="decimal" value={affectedRatio} onChange={(event) => setAffectedRatio(event.target.value)} placeholder="例如 12.5%" /></label>
-              <label><span>扩散速度</span><select required value={spreadSpeed} onChange={(event) => setSpreadSpeed(event.target.value)}><option value="" disabled>请选择</option>{spreadOptions.map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label>
+              <p className="final-form-help">上传后先由 YOLO 和 AI 上下文模型辅助识别，再由你确认图片主体、作物或昆虫种类及受影响部位。</p>
             </div>
-            <label className="final-notes"><span>补充说明（可选）</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="例如：连续降雨后出现，先从下部叶片开始……" /></label>
             {publicMode && <label className="public-consent final-consent"><input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} /><span>我同意图片、田间备注和诊断报告在公共历史中展示 30 天。请勿上传人脸、车牌或其他个人信息。</span></label>}
-            <p className="final-field-note">图片与田间信息共同构成诊断依据</p>
             <div className={`final-form-status ${formReady ? "ready" : ""}`} role="status" aria-live="polite" aria-atomic="true">{!formReady ? `还需完成：${missingItems.join("、")}` : service !== "online" ? "识别服务暂不可用，请稍后再试" : "信息完整，可以开始分析"}</div>
-            {activeMode === "cpu" && <p className="legacy-runtime-note">使用实验室 CPU 时，综合分析通常需要约 1–2 分钟；提交后可离开页面，稍后从病例历史查看结果。</p>}
             <button className="final-primary" disabled={busy || service !== "online" || !formReady}>{stageText[pipeline]}</button>
             {busy && <div className="final-progress"><span className={pipeline === "uploading" ? "active" : "done"}>保存</span><i /><span className={pipeline === "detecting" ? "active" : pipeline === "analyzing" ? "done" : ""}>定位</span><i /><span className={pipeline === "analyzing" ? "active" : ""}>综合分析</span></div>}
             {record && <div className="final-case-created" aria-live={busy ? "polite" : "off"} aria-atomic="true"><strong>病例编号：{record.id}</strong><span>你可以离开当前页面，稍后从 <Link href="/history">病例历史</Link> 查看结果。</span></div>}
           </section>
         </form></>}
 
-        {requestedCaseId && !record ? <p className="final-loading-case">正在读取诊断结果…</p> : !imageUrl ? <section className="final-result-preview" aria-label="结果预览"><span>结果预览</span><p>识别结果 · 风险判断 · 防治建议</p></section> : <section className="final-result-screen" aria-live="polite">
+        {requestedCaseId && !record ? <p className="final-loading-case">正在读取诊断结果…</p> : draft && !record ? <section className="final-result-screen r3-draft-screen" aria-live="polite">
+          <h2>确认图片上下文</h2>
+          <div className="final-result-grid">
+            <div className="final-result-image"><p>待确认图片</p><div className="public-annotated"><img src={imageUrl ?? ""} alt="待确认图片" loading="eager" decoding="async" />{(draft.detections ?? []).map((item, index) => { const [left, top, width, height] = item.bbox; return <span className="public-box" key={`${item.class_id}-${index}`} style={{ left: `${left * 100}%`, top: `${top * 100}%`, width: `${width * 100}%`, height: `${height * 100}%` }}><b>{item.class_name} {Math.round(item.confidence * 100)}%</b></span>; })}</div></div>
+            <div className="final-result-summary">{draft.status === "model_unavailable" && <div className="final-system-state final-system-state-warning"><strong>识别服务暂不可用</strong><span>请稍后重试图片识别。</span></div>}{draft.status === "low_confidence" && <div className="final-system-state final-system-state-warning" role="status"><strong>无法可靠判断</strong><span>{draft.confidence_gate?.message ?? "最高视觉置信度低于 50%，请重新上传图片。"}</span></div>}{draft.status !== "low_confidence" && taxonomy && <R3ContextConfirmation draft={draft} taxonomy={taxonomy} subjectType={contextSubject} cropSpecies={contextCrop} affectedPart={contextPart} insectSpecies={contextInsect} busy={busy} onSubjectType={(value) => { setContextSubject(value); if (value === "plant") setContextInsect(""); else { setContextCrop(""); setContextPart(""); } }} onCropSpecies={setContextCrop} onAffectedPart={setContextPart} onInsectSpecies={setContextInsect} onConfirm={confirmContext} />}</div>
+          </div>
+        </section> : !imageUrl ? <section className="final-result-preview" aria-label="结果预览"><span>结果预览</span><p>识别结果 · 风险判断 · 防治建议</p></section> : <section className="final-result-screen" aria-live="polite">
           <h2>诊断结果</h2>
           <div className="final-result-grid">
             <div className="final-result-image"><p>检测图片</p><div className="public-annotated"><img src={imageUrl} alt="本次诊断图片" loading="eager" decoding="async" />{detections.map((item, index) => { const [left, top, width, height] = item.bbox; return <span className="public-box" key={`${item.class_id}-${index}`} style={{ left: `${left * 100}%`, top: `${top * 100}%`, width: `${width * 100}%`, height: `${height * 100}%` }}><b>{item.class_name} {Math.round(item.confidence * 100)}%</b></span>; })}</div><span className="final-recognition-complete">识别完成</span></div>
@@ -260,6 +260,8 @@ export default function Home() {
               <span className="final-assist-label">辅助诊断</span>
               <div className="final-diagnosis-heading"><h3>{diagnosis}</h3><p><strong>{Math.round((record?.detections?.[0]?.confidence ?? 0) * 100)}%</strong><span>置信度</span></p></div>
               {record && <div className={`final-resolution resolution-${record.resolution_status}`} role="status"><strong>{record.user_summary}</strong><span>{record.next_action}</span>{visibleResolutionReasons.length > 0 && <small>原因：{visibleResolutionReasons.join("；")}</small>}</div>}
+              {record && <CaseContextCard record={record} compact />}
+              {record?.severity_rubric?.status === "available" && <SeveritySelector record={record} busy={busy} onConfirm={chooseSeverity} />}
               {record && <ExternalEvidenceSummary record={record} />}
               <p className="final-visually-hidden">这个结果有多可靠？{analysis?.detector_alignment === "conflict" ? "两种识别方法给出的候选不一致" : "由图片质量、识别把握和两种方法是否一致共同决定"}</p>
               {record?.status === "detected" && !analysis && <button className="final-secondary" type="button" onClick={retryAnalysis} disabled={retrying}>{retrying ? "正在重试…" : "整理来源证据"}</button>}
@@ -270,7 +272,6 @@ export default function Home() {
         </section>}
 
         <details className="final-history-preview"><summary>最近诊断记录</summary><div>{history.length ? history.map((item) => <Link href={`/cases/${item.id}`} key={item.id}><span>{formatTime(item.created_at)}</span><strong>{userDiagnosisTitle(item)}</strong><small>{item.crop} · {item.part}</small></Link>) : <p>当前识别服务器暂时没有诊断记录。</p>}</div><Link href="/history">查看全部病例历史</Link></details>
-        <footer className="final-footer"><p>田诊协同提供图片辅助判断，不替代现场植保诊断、实验室检测或当地经济阈值。</p><p>病例保存在创建它的识别服务器；涉及用药请查询当地现行登记标签并联系植保人员。</p></footer>
       </main>
     </WorkspaceShell>
   );

@@ -25,15 +25,22 @@ def test_low_confidence_skips_external_search(monkeypatch) -> None:
     assert result["evidence_analysis"]["status"] == "unavailable"
 
 
-def test_mid_confidence_requests_retake_without_strong_conclusion(monkeypatch) -> None:
-    async def fail_if_called(_name: str):
-        raise AssertionError("中等置信度不应检索外部资料")
+def test_confidence_at_or_above_50_percent_uses_evidence_path(monkeypatch) -> None:
+    calls: list[str] = []
 
-    monkeypatch.setattr(analysis, "collect_external_evidence", fail_if_called)
-    result = asyncio.run(analysis.request_evidence_analysis(record(0.50)))
-    assert result["primary_diagnosis"] is None
-    assert result["needs_human_review"] is True
-    assert "50%–75%" in result["uncertainty"][0]
+    async def fake_search(name: str):
+        calls.append(name)
+        return SearchEvidence(class_name="蛴螬", status="unavailable")
+
+    monkeypatch.setattr(analysis, "collect_external_evidence", fake_search)
+    result = asyncio.run(analysis.request_evidence_analysis(record(0.60)))
+    assert calls == ["蛴螬"]
+    assert result["primary_diagnosis"] == "蛴螬"
+    assert result["needs_human_review"] is False
+    assert result["uncertainty"] == []
+    assert result["content_sufficiency"] == "sufficient"
+    assert result["diagnostic_risk"] == "low"
+    assert result["provenance"]["external_search"]["status"] == "unavailable"
 
 
 def test_high_confidence_uses_normalized_search_and_extractor(monkeypatch) -> None:

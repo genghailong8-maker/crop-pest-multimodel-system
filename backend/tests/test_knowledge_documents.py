@@ -9,6 +9,7 @@ from PIL import Image
 
 from app import config, database, knowledge_documents, main
 from app.reports import save_snapshot
+from app.severity_v2 import severity_payload
 
 
 def image_bytes() -> bytes:
@@ -35,10 +36,15 @@ def test_packaged_knowledge_maps_all_classes_and_images() -> None:
         assert "<table" not in document["symptoms_html"]
         assert "<table" not in document["features_html"]
         assert "<table" not in document["prevention_html"]
+        assert document["sections"]
+        assert document["sections"][0]["title"] == document["class_name"]
+        assert any("<table" in section["html"] for section in document["sections"])
+        assert any("<img" in section["html"] for section in document["sections"])
 
     corn_leaf_blight = knowledge_documents.get_knowledge_document(0)
     assert corn_leaf_blight is not None
-    assert corn_leaf_blight["features_html"] == "<p>知识库暂未收录该项</p>\n"
+    assert corn_leaf_blight["features_html"]
+    assert "玉米链格孢叶枯病可由多种链格孢属真菌引起" in corn_leaf_blight["features_html"]
     assert corn_leaf_blight["requires_pesticide_warning"] is True
     assert knowledge_documents.PESTICIDE_WARNING in corn_leaf_blight["full_html"]
 
@@ -91,6 +97,13 @@ def test_result_treatment_carries_a_single_chemical_warning() -> None:
     )
     assert payload["requires_pesticide_warning"] is True
     assert payload["pesticide_warning"] == knowledge_documents.PESTICIDE_WARNING
+    assert "<h2>防治方法</h2>" in payload["content"]["prevention_html"]
+
+
+def test_prevention_section_keeps_markdown_structure_until_the_next_peer_heading() -> None:
+    markdown = "# 示例\n## 防治方法\n### 农业防治\n- 清除病残体\n\n| 项目 | 措施 |\n| --- | --- |\n| 田间 | 清理 |\n\n![示意](image.jpg)\n\n> 注意安全\n\n## 参考来源\n后续内容"
+    section = knowledge_documents._section(markdown, "防治方法", include_heading=True)
+    assert section == "## 防治方法\n### 农业防治\n- 清除病残体\n\n| 项目 | 措施 |\n| --- | --- |\n| 田间 | 清理 |\n\n![示意](image.jpg)\n\n> 注意安全"
 
 
 def test_v1_report_is_upgraded_once_without_overwriting_history(tmp_path, monkeypatch) -> None:
@@ -142,5 +155,49 @@ def test_v1_report_is_upgraded_once_without_overwriting_history(tmp_path, monkey
         assert any(json.loads(path.read_text(encoding="utf-8"))["snapshot"]["format"] == "crop-report-json-v1" for path in versions)
         assert client.get(f"/api/cases/{record['id']}/report").json() == upgraded
         assert len([path for path in case_dir.glob("*.json") if path.name != "latest.json"]) == 2
+
+    knowledge_documents.clear_knowledge_cache()
+
+
+def test_stale_v2_report_snapshot_is_rebuilt_for_treatment_and_rubric(tmp_path, monkeypatch) -> None:
+    settings = replace(
+        config.settings,
+        storage_dir=tmp_path,
+        database_path=tmp_path / "cases.sqlite3",
+        upload_dir=tmp_path / "uploads",
+        report_dir=tmp_path / "reports",
+        control_dir=tmp_path / "control",
+    )
+    monkeypatch.setattr(database, "settings", settings)
+    monkeypatch.setattr(main, "settings", settings)
+    monkeypatch.setattr(knowledge_documents, "settings", settings)
+    knowledge_documents.clear_knowledge_cache()
+
+    with TestClient(main.app) as client:
+        created = client.post(
+            "/api/cases",
+            files={"image": ("leaf.jpg", image_bytes(), "image/jpeg")},
+            data={"crop": "玉米", "part": "叶片", "growth_stage": "苗期", "environment_json": '{"scene":"露地"}'},
+        ).json()
+        record = database.update_case(
+            created["id"],
+            status="analyzed",
+            quality={"acceptable": True, "flags": []},
+            detections=[{"class_id": 0, "class_name": "玉米叶枯病", "confidence": 0.91}],
+            detector_summary={"primary_candidate": {"class_id": 0, "class_name": "玉米叶枯病", "max_confidence": 0.91}},
+            analysis={"detector_alignment": "agree", "primary_diagnosis": "玉米叶枯病"},
+            severity=severity_payload("mild"),
+        )
+        stale = main.build_case_report(record)
+        stale["case"]["treatment"]["content"].pop("markdown_html", None)
+        stale["case"]["severity_rubric"] = {**stale["case"]["severity_rubric"]["rubric"], "status": "available"}
+        save_snapshot(settings.report_dir, record["id"], settings.instance_id, stale, format_version="crop-report-json-v2")
+
+        rebuilt = client.get(f"/api/cases/{record['id']}/report")
+        assert rebuilt.status_code == 200
+        payload = rebuilt.json()
+        assert payload["case"]["treatment"]["content"]["markdown_html"]
+        assert payload["case"]["severity_rubric"]["rubric"]["mild"]
+        assert len(list((settings.report_dir / record["id"]).glob("*.json"))) == 3
 
     knowledge_documents.clear_knowledge_cache()

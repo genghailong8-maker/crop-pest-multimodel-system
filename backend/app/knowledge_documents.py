@@ -5,7 +5,7 @@ import re
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
 from markdown_it import MarkdownIt
 
@@ -15,7 +15,6 @@ from .config import settings
 
 MISSING_SECTION = "知识库暂未收录该项"
 IMAGE_PATTERN = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
-SECTION_PATTERN = re.compile(r"^##\s+(.+?)\s*$")
 ALLOWED_IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
 PESTICIDE_WARNING = "【风险提示】化学防治涉及农药使用。实际使用前请核对产品登记标签及当地最新禁限用规定，严格遵守适用作物、使用剂量、施用次数、安全间隔期、个人防护和环境保护要求。不得依据本系统自行增加剂量、扩大适用范围或进行未经确认的药剂混配。"
 HEADING_LINE = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
@@ -53,22 +52,127 @@ def resolve_knowledge_asset(version: str, asset_path: str) -> Path | None:
     return candidate
 
 
-def _section(markdown: str, heading: str) -> str | None:
+def _section(markdown: str, heading: str, *, include_heading: bool = False) -> str | None:
     lines = markdown.splitlines()
     start: int | None = None
-    selected: list[str] = []
+    level: int | None = None
+    end = len(lines)
     for index, line in enumerate(lines):
-        match = SECTION_PATTERN.match(line.strip())
+        match = HEADING_LINE.match(line.strip())
         if match:
-            if start is not None:
+            current_level = len(match.group(1))
+            title = _heading_text(match.group(2))
+            if start is not None and level is not None and current_level <= level:
+                end = index
                 break
-            if match.group(1).strip() == heading:
-                start = index + 1
-                continue
-        if start is not None:
-            selected.append(line)
-    content = "\n".join(selected).strip()
+            if title == heading:
+                start = index if include_heading else index + 1
+                level = current_level
+    content = "\n".join(lines[start:end] if start is not None else []).strip()
     return content or None
+
+
+_CURATED_SOURCE_FIELD = re.compile(r"^(title|site|url):\s*(.+?)\s*$")
+_CURATED_EVIDENCE_HEADINGS = ("危害", "可能诱因")
+
+
+def _parse_curated_sources(value: str) -> list[dict[str, str]] | None:
+    """Parse the deliberately small title/site/url contract in curated sections."""
+    records: list[dict[str, str]] = []
+    current: dict[str, str] = {}
+    for line in value.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        match = _CURATED_SOURCE_FIELD.match(stripped)
+        if match is None:
+            return None
+        field, field_value = match.groups()
+        if field == "title" and current:
+            if set(current) != {"title", "site", "url"}:
+                return None
+            records.append(current)
+            current = {}
+        if field in current:
+            return None
+        current[field] = field_value
+    if current:
+        if set(current) != {"title", "site", "url"}:
+            return None
+        records.append(current)
+    if not records:
+        return None
+    for record in records:
+        parsed = urlsplit(record["url"])
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            return None
+    return records
+
+
+def get_curated_evidence_sections(
+    class_id: int, *, expected_class_name: str | None = None
+) -> dict[str, Any] | None:
+    """Return exact class-mapped curated evidence without touching treatment data."""
+    catalog_item = CLASS_BY_ID.get(class_id)
+    document = get_knowledge_document(class_id)
+    catalog_name = str(catalog_item["name_zh"]) if catalog_item is not None else None
+    expected_names = {name for name in (catalog_name, expected_class_name) if name}
+    if catalog_item is None or document is None or document["class_name"] not in expected_names:
+        return None
+    sections: dict[str, dict[str, Any]] = {}
+    for heading in _CURATED_EVIDENCE_HEADINGS:
+        section = _section(str(document["markdown"]), heading)
+        content = _section(section, "内容") if section else None
+        source_text = (
+            _section(section, "内容来源：") or _section(section, "内容来源")
+            if section
+            else None
+        )
+        if not content or not source_text:
+            return None
+        content = re.sub(r"^\*\*(.*)\*\*$", r"\1", content.strip(), flags=re.DOTALL).strip()
+        sources = _parse_curated_sources(source_text)
+        if not content or sources is None:
+            return None
+        sections[heading] = {"content": content, "sources": sources}
+    return {"class_id": class_id, "class_name": str(catalog_item["name_zh"]), "sections": sections}
+
+
+def _heading_blocks(markdown: str) -> list[dict[str, str | bool]]:
+    lines = markdown.splitlines()
+    starts = [
+        index
+        for index, line in enumerate(lines)
+        if (match := HEADING_LINE.match(line.strip())) and len(match.group(1)) == 2
+    ]
+    blocks: list[dict[str, str | bool]] = []
+    if starts:
+        intro = "\n".join(lines[: starts[0]]).strip()
+        if intro:
+            title_match = HEADING_LINE.match(lines[0].strip())
+            blocks.append({
+                "title": _heading_text(title_match.group(2)) if title_match else "知识参考",
+                "markdown": intro,
+                "full_width": "|" in intro or "![" in intro,
+            })
+    elif markdown.strip():
+        blocks.append({
+            "title": "知识参考",
+            "markdown": markdown.strip(),
+            "full_width": "|" in markdown or "![" in markdown,
+        })
+    for position, start in enumerate(starts):
+        end = starts[position + 1] if position + 1 < len(starts) else len(lines)
+        block = "\n".join(lines[start:end]).strip()
+        if not block:
+            continue
+        title_match = HEADING_LINE.match(lines[start].strip())
+        blocks.append({
+            "title": _heading_text(title_match.group(2)) if title_match else "知识参考",
+            "markdown": block,
+            "full_width": "|" in block or "![" in block,
+        })
+    return blocks
 
 
 def _without_tables(markdown: str | None) -> str:
@@ -180,6 +284,7 @@ def get_knowledge_document(class_id: int) -> dict[str, Any] | None:
         metadata = pesticide_warning_metadata(markdown)
         render = lambda value: renderer.render(_rewrite_images(value, document_path, version))
         full_markdown = _with_pesticide_warning(markdown, metadata)
+        prevention_markdown = _section(markdown, "防治方法", include_heading=True) or MISSING_SECTION
         return {
             "schema_version": str(manifest["schema_version"]),
             "version": version,
@@ -193,8 +298,16 @@ def get_knowledge_document(class_id: int) -> dict[str, Any] | None:
             "chemical_detection": metadata["chemical_detection"],
             "symptoms_html": render(_without_tables(_section(markdown, "为害症状"))),
             "features_html": render(_without_tables(_section(markdown, "特征"))),
-            "prevention_html": render(_with_pesticide_warning(_without_tables(_section(markdown, "防治方法")), metadata)),
+            "prevention_html": render(_with_pesticide_warning(prevention_markdown, metadata)),
             "full_html": render(full_markdown),
+            "sections": [
+                {
+                    "title": block["title"],
+                    "html": render(str(block["markdown"])),
+                    "full_width": block["full_width"],
+                }
+                for block in _heading_blocks(full_markdown)
+            ],
         }
     except (FileNotFoundError, OSError, ValueError, KeyError, json.JSONDecodeError):
         return None

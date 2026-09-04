@@ -4,7 +4,8 @@ import logging
 import re
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
-from .models import SearchEvidence, SearchSource
+from ..catalog import CLASS_CATALOG
+from .models import QueryType, SearchEvidence, SearchSource
 
 
 logger = logging.getLogger(__name__)
@@ -111,6 +112,39 @@ def _source_text(source: SearchSource) -> str:
     return " ".join((urlsplit(source.url).hostname or "", source.site_name, source.title)).lower()
 
 
+def _normalized_class_text(value: str) -> str:
+    return re.sub(r"[\W_]+", "", value).lower()
+
+
+def _title_names_a_competing_class(source: SearchSource, class_name: str) -> bool:
+    title = _normalized_class_text(source.title)
+    target = next((item for item in CLASS_CATALOG if item["name_zh"] == class_name), None)
+    target_aliases = {
+        _normalized_class_text(str(value))
+        for value in ((target or {}).get("name_zh"), (target or {}).get("name_en"))
+        if value
+    }
+    for item in CLASS_CATALOG:
+        aliases = {
+            _normalized_class_text(str(value))
+            for value in (item.get("name_zh"), item.get("name_en"))
+            if value
+        }
+        if aliases & target_aliases:
+            continue
+        if any(alias and alias in title for alias in aliases):
+            return True
+    return False
+
+
+def _is_narrow_subclass_title_match(source: SearchSource, class_name: str) -> bool:
+    """Keep proven bean-blister-beetle child pages despite parent-name overlap."""
+    if class_name != "豆芫菁":
+        return False
+    title = _normalized_class_text(source.title)
+    return "豆芫菁" in title or "epicaugorhami" in title
+
+
 def reliability_score(source: SearchSource) -> tuple[int, str]:
     hostname = (urlsplit(source.url).hostname or "").lower().rstrip(".")
     text = _source_text(source)
@@ -135,9 +169,9 @@ def reliability_level(url: str) -> tuple[int, str]:
         SearchSource(id="ranking", title="", site_name="", url=url)
     )
 
-def _reliability_key(source: SearchSource) -> tuple[int, str]:
-    score, level = reliability_score(source)
-    return (-score, 0 if source.content else 1, level, source.site_name, source.url)
+def _reliability_key(source: SearchSource) -> tuple[int]:
+    """Prefer usable content while stable sorting preserves provider order."""
+    return (0 if source.content else 1,)
 
 
 def _is_low_quality(source: SearchSource) -> bool:
@@ -152,40 +186,68 @@ def normalize_search_results(results: list[SearchEvidence]) -> SearchEvidence:
     if not results:
         return SearchEvidence(class_name="未知", status="unavailable", message="没有外部检索结果")
     class_name = results[0].class_name
-    all_sources: list[SearchSource] = []
+    sources_by_query: dict[QueryType, list[SearchSource]] = {
+        "harms": [],
+        "possible_causes": [],
+    }
     queries: list[str] = []
     messages: list[str] = []
     for result in results:
         queries.extend(result.queries)
         if result.message:
             messages.append(result.message)
-        all_sources.extend(result.sources)
+        sources_by_query[result.query_type].extend(result.sources)
 
     deduped: dict[str, SearchSource] = {}
-    for source in all_sources:
-        if is_obviously_low_quality(source):
-            continue
-        canonical = _canonical_url(source.url)
-        if canonical is None:
-            continue
-        priority, level = reliability_score(source.model_copy(update={"url": canonical}))
-        normalized = source.model_copy(
-            update={"url": canonical, "reliability_level": source.reliability_level or level}
-        )
-        previous = deduped.get(canonical)
-        if previous is None or (normalized.content and not previous.content):
-            deduped[canonical] = normalized
+    query_urls: dict[QueryType, list[str]] = {"harms": [], "possible_causes": []}
+    for query_type, sources in sources_by_query.items():
+        for source in sources:
+            if is_obviously_low_quality(source) or (
+                _title_names_a_competing_class(source, class_name)
+                and not _is_narrow_subclass_title_match(source, class_name)
+            ):
+                continue
+            canonical = _canonical_url(source.url)
+            if canonical is None:
+                continue
+            _, level = reliability_score(source.model_copy(update={"url": canonical}))
+            normalized = source.model_copy(
+                update={"url": canonical, "reliability_level": source.reliability_level or level}
+            )
+            if canonical not in query_urls[query_type]:
+                query_urls[query_type].append(canonical)
+            previous = deduped.get(canonical)
+            if previous is None or (normalized.content and not previous.content):
+                deduped[canonical] = normalized
 
     selected_candidates: list[SearchSource] = []
+    selected_urls: set[str] = set()
     domain_counts: dict[str, int] = {}
-    for candidate in sorted(deduped.values(), key=_reliability_key):
+
+    def select(candidate: SearchSource) -> bool:
+        if candidate.url in selected_urls:
+            return True
         domain = _main_domain(urlsplit(candidate.url).hostname or "")
         if domain_counts.get(domain, 0) >= 2:
-            continue
+            return False
         selected_candidates.append(candidate)
+        selected_urls.add(candidate.url)
         domain_counts[domain] = domain_counts.get(domain, 0) + 1
+        return True
+
+    # Reserve one accepted source per query before provider-order selection
+    # fills the remaining slots. A URL returned by both queries is still only
+    # selected once globally. Stable sorting preserves the provider's order
+    # among sources with the same content availability.
+    for query_type in ("harms", "possible_causes"):
+        for url in sorted(query_urls[query_type], key=lambda item: _reliability_key(deduped[item])):
+            if select(deduped[url]):
+                break
+
+    for candidate in sorted(deduped.values(), key=_reliability_key):
         if len(selected_candidates) >= 5:
             break
+        select(candidate)
     selected = selected_candidates
     selected = [
         source.model_copy(update={"id": f"source-{index}"})

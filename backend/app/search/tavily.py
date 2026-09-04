@@ -8,14 +8,98 @@ from urllib.parse import urlsplit
 import httpx
 
 from .. import config
+from ..catalog import CLASS_CATALOG
 from .base import QueryType
 from .models import SearchEvidence, SearchSource, now_iso
 
 
-QUERY_TEMPLATES = {
-    "harms": "{class_name} 危害 危害症状 农业",
-    "possible_causes": "{class_name} 发生条件 发病条件 发生原因 农业",
+QUERY_VOCABULARY = {
+    "病害": {
+        "harms": "危害 为害症状 病斑 叶片 枯死 减产",
+        "possible_causes": "发生条件 发病条件 流行规律 温度 湿度 降雨 病原",
+    },
+    "害虫": {
+        "harms": "危害 咬食 取食 根系 叶片 受害 缺苗 减产",
+        "possible_causes": "发生条件 发生规律 土壤 温度 湿度 虫源",
+    },
 }
+
+# Retrieval-only disambiguation for this closely named disease. The diagnosed
+# label, knowledge lookup, and evidence attribution remain unchanged.
+SEARCH_QUERY_OVERRIDES = {
+    "玉米叶枯病": {
+        "harms": "玉米链格孢菌叶枯病 细交链孢菌 症状 危害 叶片 叶鞘 苞叶 病斑 枯死 农业",
+        "possible_causes": "玉米链格孢菌叶枯病 细交链孢菌 发病条件 流行规律 温度 湿度 菌源 病残体 传播 农业",
+    },
+    "番茄斑枯病": {
+        "harms": "番茄斑枯病 番茄壳针孢菌 Septoria lycopersici Tomato Septoria leaf spot 症状 危害 叶片 茎 花萼 斑点 黄化 早期落叶 农业",
+        "possible_causes": "番茄斑枯病 发病条件 流行规律 温度 湿度 降雨 菌源 病残体 农业",
+    },
+    "南瓜白粉病": {
+        "harms": "南瓜白粉病 症状 危害 叶片 白粉 黄化 早衰 产量 农技",
+        "possible_causes": "南瓜白粉病 发病条件 流行规律 温度 湿度 菌源 孢子 农业",
+    },
+    "马铃薯早疫病": {
+        "harms": "马铃薯早疫病 Potato early blight 症状 危害 叶片 块茎 农技",
+        "possible_causes": "马铃薯早疫病 Alternaria solani 发生条件 流行规律 农业",
+    },
+    "玉米锈病": {
+        "harms": "玉米锈病 症状 危害 叶片 锈色 孢子堆 早衰 减产 农技",
+        "possible_causes": "玉米锈病 发病条件 流行规律 温度 湿度 降雨 菌源 孢子 农业",
+    },
+    "番茄细菌性斑点病": {
+        "harms": "番茄细菌性斑点病 症状 危害 叶片 果实 斑点 落叶 商品性 农技",
+        "possible_causes": "番茄细菌性斑点病 Xanthomonas 发病条件 流行规律 温度 湿度 降雨 传播 农业",
+    },
+    "番茄晚疫病": {
+        "harms": "番茄晚疫病 Phytophthora infestans 症状 危害 叶片 茎 果实 水渍状 白霉 腐烂 农技",
+        "possible_causes": "番茄晚疫病 Phytophthora infestans 发病条件 流行规律 低温 高湿 降雨 菌源 农业",
+    },
+    "马铃薯晚疫病": {
+        "harms": "马铃薯晚疫病 Phytophthora infestans 症状 危害 叶片 茎 块茎 水渍状 白霉 腐烂 农技",
+        "possible_causes": "马铃薯晚疫病 Phytophthora infestans 发病条件 流行规律 低温 高湿 降雨 菌源 农业",
+    },
+    "芫菁": {
+        "harms": "芫菁 芫菁科 危害 成虫 取食 叶片 花器 嫩梢 受害 农业",
+        "possible_causes": "芫菁 芫菁科 发生规律 温度 湿度 寄主 越冬 虫源 农业",
+    },
+    "蚜虫": {
+        "harms": "蚜虫 危害 刺吸 汁液 叶片 卷叶 黄化 生长受阻 传播 农业",
+        "possible_causes": "蚜虫 发生规律 温度 湿度 寄主 繁殖 迁飞 越冬 农业",
+    },
+    "盲蝽科": {
+        "harms": "盲蝽 盲蝽科 危害 刺吸 嫩芽 嫩叶 花蕾 果实 畸形 农业",
+        "possible_causes": "盲蝽 盲蝽科 发生规律 温度 湿度 寄主 越冬 迁移 虫源 农业",
+    },
+    "蝼蛄": {
+        "harms": "蝼蛄 危害 咬食 根系 幼苗 种子 缺苗 断苗 农业",
+        "possible_causes": "蝼蛄 发生规律 土壤 温度 湿度 越冬 虫源 农业",
+    },
+    "叶蝉科": {
+        "harms": "叶蝉 叶蝉科 危害 刺吸 汁液 叶片 黄化 生长受阻 传播 农业",
+        "possible_causes": "叶蝉 叶蝉科 发生规律 温度 湿度 寄主 迁飞 越冬 虫源 农业",
+    },
+    "蝗总科": {
+        "harms": "蝗虫 蝗总科 危害 咀嚼 取食 叶片 幼苗 缺刻 减产 农业",
+        "possible_causes": "蝗虫 蝗总科 发生规律 温度 降雨 虫卵 孵化 越冬 虫源 农业",
+    },
+    "蛴螬": {
+        "harms": "蛴螬 危害 咬食 取食 根系 叶片 受害 缺苗 减产 农业",
+        "possible_causes": "蛴螬 发生条件 发生规律 土壤 温度 湿度 虫源 农业",
+    },
+    "豆芫菁": {
+        "harms": "豆芫菁 Epicauta gorhami 危害 成虫 取食 豆科 叶片 花 嫩荚 农业",
+        "possible_causes": "豆芫菁 Epicauta gorhami 发生规律 温度 湿度 寄主 越冬 虫源 农业",
+    },
+}
+
+
+def _query(class_name: str, query_type: QueryType) -> str:
+    override = SEARCH_QUERY_OVERRIDES.get(class_name, {}).get(query_type)
+    if override:
+        return override
+    class_type = next((str(item["type"]) for item in CLASS_CATALOG if item["name_zh"] == class_name), "病害")
+    return f"{class_name} {QUERY_VOCABULARY[class_type][query_type]} 农业"
 
 
 def _valid_url(value: Any) -> str | None:
@@ -52,7 +136,7 @@ class TavilySearchProvider:
                 status="unavailable",
                 message="Tavily 未配置 TAVILY_API_KEY",
             )
-        query = QUERY_TEMPLATES[query_type].format(class_name=class_name)
+        query = _query(class_name, query_type)
         payload = {
             "query": query,
             "search_depth": "basic",

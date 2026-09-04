@@ -44,16 +44,147 @@ export type EvidenceAnalysis = {
   possible_causes: EvidenceConclusion[];
 };
 
+export type SeverityLevel = "mild" | "moderate" | "severe" | "uncertain";
+
+export type R3Candidate = { value: string; score: number; rank: number };
+export type R3PredictionField = { top1: string | null; candidates: R3Candidate[]; margin: number | null };
+export type R3ContextPrediction = {
+  status: "available" | "unavailable";
+  reason?: string;
+  model?: string;
+  revision?: string;
+  subject_type?: R3PredictionField | null;
+  crop_species?: R3PredictionField | null;
+  affected_part?: R3PredictionField | null;
+  insect_species?: R3PredictionField | null;
+};
+export type R3Context = {
+  schema_version?: string;
+  authority: "user_confirmed" | string;
+  source: "user_confirmed" | string;
+  subject_type: "plant" | "insect";
+  crop_species: string | null;
+  affected_part: string | null;
+  insect_species: string | null;
+  model_prediction?: R3ContextPrediction | null;
+};
+export type R3TaxonomyOption = { value: string; label: string; prompts?: string[] };
+export type R3Taxonomy = {
+  schema_version: string;
+  subject_types: R3TaxonomyOption[];
+  crops: R3TaxonomyOption[];
+  affected_parts: R3TaxonomyOption[];
+  insects: R3TaxonomyOption[];
+};
+export type DraftRecord = {
+  id: string;
+  status: "uploaded" | "analyzed" | "low_confidence" | "model_unavailable" | "finalized";
+  image_url: string;
+  image_filename?: string;
+  image_width?: number;
+  image_height?: number;
+  quality?: CaseRecord["quality"];
+  detections?: Detection[] | null;
+  detector_summary?: CaseRecord["detector_summary"];
+  context_prediction?: R3ContextPrediction | null;
+  confidence_gate?: {
+    status: "allowed" | "blocked";
+    threshold: number;
+    confidence: number | null;
+    message?: string;
+  };
+  draft_edit_token?: string;
+  final_case_id?: string | null;
+};
+
+export type SeverityReference = {
+  class_id: number;
+  canonical_class: string;
+  severity: "mild" | "moderate" | "severe";
+  rubric_reference: string;
+  image_asset: string | null;
+  image_type: "REAL_REFERENCE" | "REAL_DAMAGE_IMAGE" | "AI_ILLUSTRATION" | "AI_GENERATION_REQUIRED" | "MISSING";
+  source: { title: string; url: string; domain?: string; author?: string } | null;
+  license: string;
+  fallback_label: string;
+};
+
+export type SeverityResult = {
+  status: "available" | "not_provided";
+  level: SeverityLevel | null;
+  label: string | null;
+  affected_ratio?: number | null;
+  spread_speed?: "none" | "slow" | "ongoing" | "rapid" | null;
+  score?: number | null;
+  scope?: "current_sample";
+  source?: "user_guided_rubric";
+  algorithm_version?: string;
+  decision_rule?: string;
+};
+
+export type CaseContext = {
+  crop: {
+    status: "available" | "unavailable" | "not_applicable";
+    value: string | null;
+    source: "yolo_class_mapping" | "user_reported" | null;
+  };
+  growth_stage: {
+    status: "available" | "not_provided";
+    value: string | null;
+    label: string | null;
+    source: "user";
+  };
+  affected_ratio_percent: number | null;
+  spread_speed: "unknown" | "none" | "slow" | "ongoing" | "moderate" | "rapid" | null;
+  severity: SeverityResult;
+  environment: {
+    source: "system_default";
+    cultivation_scene: string;
+    temperature_c: number;
+    relative_humidity_percent: number;
+    soil_moisture: string;
+    light_condition: string;
+    ventilation: string;
+    recent_extreme_weather: string;
+  };
+};
+
 export type Treatment = {
   source: "local_knowledge_base";
+  status?: "available" | "unavailable" | "pending_alignment_update";
+  reason?: string;
+  severity_level?: SeverityResult["level"];
+  severity_label?: string | null;
   content: {
     prevention?: string[];
     first_actions?: string[];
     management?: Record<string, string[]>;
+    prevention_html?: string | null;
+    tier?: string;
+    markdown?: string;
+    markdown_html?: string;
   };
   source_ids: string[];
   requires_pesticide_warning?: boolean;
   pesticide_warning?: string | null;
+};
+
+export type SeverityRubric = {
+  canonical_class: string;
+  assessment_template: string;
+  assessment_unit: string;
+  observable_features: string;
+  mild: string;
+  moderate: string;
+  severe: string;
+  uncertain: string;
+};
+
+export type SeverityRubricPayload = {
+  status: "available";
+  canonical_class: string;
+  rubric: SeverityRubric;
+  references: Partial<Record<"mild" | "moderate" | "severe", SeverityReference>>;
 };
 
 export type CaseRecord = {
@@ -80,6 +211,10 @@ export type CaseRecord = {
   expires_at: string | null;
   diagnostic_risk: "low" | "medium" | "high" | "unknown";
   field_severity: "low" | "medium" | "high" | "unknown";
+  severity?: SeverityResult;
+  severity_rubric?: SeverityRubricPayload | { status: "unavailable"; reason: string };
+  case_context?: CaseContext;
+  context?: R3Context | null;
   quality: { acceptable?: boolean; flags?: string[]; width?: number; height?: number } | null;
   detections: Detection[] | null;
   detector_summary: {
@@ -158,6 +293,13 @@ export type KnowledgeDocument = {
   features_html: string;
   prevention_html: string;
   full_html: string;
+  sections?: KnowledgeSection[];
+};
+
+export type KnowledgeSection = {
+  title: string;
+  html: string;
+  full_width: boolean;
 };
 
 export type TrendPayload = {
@@ -210,6 +352,22 @@ export function editHeaders(caseId: string, json = false): HeadersInit {
   };
 }
 
+export function saveDraftToken(draftId: string, token?: string) {
+  if (typeof window !== "undefined" && token) {
+    window.localStorage.setItem(`crop-draft-token:${draftId}`, token);
+  }
+}
+
+export function draftHeaders(draftId: string, json = false): HeadersInit {
+  const token = typeof window === "undefined"
+    ? null
+    : window.localStorage.getItem(`crop-draft-token:${draftId}`);
+  return {
+    ...(json ? { "Content-Type": "application/json" } : {}),
+    ...(token ? { "X-Draft-Edit-Token": token } : {}),
+  };
+}
+
 export function instanceHeaders(record: Pick<CaseRecord, "instance_id">): HeadersInit {
   return record.instance_id ? { "X-Crop-Instance": record.instance_id } : {};
 }
@@ -252,7 +410,7 @@ export function userDiagnosisTitle(record?: CaseRecord | null) {
 }
 
 export function spreadSpeedLabel(value?: string | null) {
-  return ({ unknown: "不清楚", none: "暂未扩散", slow: "缓慢", moderate: "中等", rapid: "快速" } as Record<string, string>)[value ?? "unknown"] ?? "不清楚";
+  return ({ unknown: "未提供", none: "暂未扩散", slow: "缓慢扩散", ongoing: "持续扩散", moderate: "中等扩散", rapid: "快速扩散" } as Record<string, string>)[value ?? "unknown"] ?? "未提供";
 }
 
 export function formatTime(value: string) {

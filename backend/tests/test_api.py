@@ -152,9 +152,26 @@ def test_upload_validates_required_fields_and_insect_condition(tmp_path, monkeyp
         missing_plant_context = client.post(
             "/api/cases",
             files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
-            data=valid_case_data(part="", growth_stage=""),
+            data=valid_case_data(part=""),
         )
         assert missing_plant_context.status_code == 422
+
+        missing_growth_data = valid_case_data()
+        missing_growth_data.pop("growth_stage")
+        missing_growth_stage = client.post(
+            "/api/cases",
+            files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
+            data=missing_growth_data,
+        )
+        assert missing_growth_stage.status_code == 201
+        assert missing_growth_stage.json()["case_context"]["growth_stage"]["status"] == "not_provided"
+
+        blank_growth_stage = client.post(
+            "/api/cases",
+            files={"image": ("corn.jpg", image_bytes(), "image/jpeg")},
+            data=valid_case_data(growth_stage=""),
+        )
+        assert blank_growth_stage.status_code == 422
 
         invalid_scene = client.post(
             "/api/cases",

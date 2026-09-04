@@ -6,8 +6,11 @@ import { useParams } from "next/navigation";
 
 import WorkspaceShell from "../../components/WorkspaceShell";
 import ExternalEvidenceSummary from "../../components/ExternalEvidenceSummary";
+import CaseContextCard from "../../components/CaseContextCard";
 import ImageEvidenceFrame from "../../components/ImageEvidenceFrame";
-import { apiUrl, CaseRecord, editHeaders, formatTime, instanceHeaders, isConclusive, KnowledgeDocument, publicResolutionReasons, readJson, resolutionLabel, riskLabel, severityLabel, userDiagnosisTitle } from "../../lib/api";
+import KnowledgeSectionGrid from "../../components/KnowledgeSectionGrid";
+import SeveritySelector from "../../components/SeveritySelector";
+import { apiUrl, CaseRecord, editHeaders, formatTime, instanceHeaders, isConclusive, KnowledgeDocument, publicResolutionReasons, readJson, resolutionLabel, riskLabel, SeverityLevel, severityLabel, userDiagnosisTitle } from "../../lib/api";
 
 function GroundedAssessment({ record }: { record: CaseRecord }) {
   const assessment = record.analysis?.grounded_assessment;
@@ -24,6 +27,7 @@ export default function CasePage() {
   const [knowledge, setKnowledge] = useState<KnowledgeDocument | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [retrying, setRetrying] = useState(false);
+  const [severityBusy, setSeverityBusy] = useState(false);
   const visibleResolutionReasons = publicResolutionReasons(record?.resolution_reasons);
 
   async function loadKnowledge(nextRecord: CaseRecord) {
@@ -52,6 +56,29 @@ export default function CasePage() {
     }
   }
 
+  async function chooseSeverity(level: SeverityLevel) {
+    if (!record) return;
+    setSeverityBusy(true);
+    setError(null);
+    try {
+      const selected = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${id}/severity`), {
+        method: "POST",
+        headers: { ...editHeaders(id, true), ...instanceHeaders(record) },
+        body: JSON.stringify({ severity_level: level }),
+      }));
+      const analyzed = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${id}/analyze`), {
+        method: "POST",
+        headers: { ...editHeaders(id), ...instanceHeaders(selected) },
+      }));
+      setRecord(analyzed);
+      await loadKnowledge(analyzed);
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "受害程度保存失败");
+    } finally {
+      setSeverityBusy(false);
+    }
+  }
+
   return <WorkspaceShell service={error && !record ? "offline" : "online"} visualMode="legacy">
     <main className="legacy-public-shell final-public-shell">
       <section className="final-brief final-case-brief">
@@ -62,10 +89,12 @@ export default function CasePage() {
             <Link className="final-outline-button" href={`/reports/${record.id}`}>打印 / 导出报告</Link>
           </header>
           <div className="final-brief-core">
-            <div className="final-brief-image"><p>检测图片</p><ImageEvidenceFrame src={apiUrl(record.image_url)} alt="病例原图及目标定位结果" detections={record.detections} loading="eager" fetchPriority="high" /></div>
+            <div className="final-brief-image"><p>检测图片</p><ImageEvidenceFrame src={apiUrl(record.image_url)} alt="病例原图及目标定位结果" detections={record.detections ?? undefined} loading="eager" fetchPriority="high" /></div>
             <div className="final-brief-summary"><div className="final-brief-summary-head"><h2>诊断摘要</h2><span>辅助诊断</span></div><div className={`final-resolution resolution-${record.resolution_status}`} role="status"><strong>{resolutionLabel(record.resolution_status)}</strong><span>{record.user_summary} {record.next_action}</span>{visibleResolutionReasons.length > 0 && <small>原因：{visibleResolutionReasons.join("；")}</small>}</div><ExternalEvidenceSummary record={record} variant="report" /></div>
           </div>
-          {isConclusive(record) ? <section className="final-knowledge-overview"><h2>完整知识库</h2><details className="final-knowledge-document"><summary>查看完整知识内容</summary><div className="knowledge-document" dangerouslySetInnerHTML={{ __html: knowledge?.full_html ?? "<p>知识库暂时无法读取</p>" }} /></details></section> : <section className="final-knowledge-overview"><h2>暂不形成具体诊断</h2><p>当前证据不足，页面不会把候选病虫害当作已经确认的结论。请按照上方提示补拍图片。</p></section>}
+           <CaseContextCard record={record} />
+           <SeveritySelector record={record} busy={severityBusy} onConfirm={chooseSeverity} />
+          {isConclusive(record) ? <section className="final-knowledge-overview"><h2>完整知识库</h2><div className="final-knowledge-document"><KnowledgeSectionGrid sections={knowledge?.sections} fallbackHtml={knowledge?.full_html} /></div></section> : <section className="final-knowledge-overview"><h2>暂不形成具体诊断</h2><p>当前证据不足，页面不会把候选病虫害当作已经确认的结论。请按照上方提示补拍图片。</p></section>}
           <div className="final-brief-actions">{record.status === "detected" && !record.analysis && <button className="final-secondary" onClick={retry} disabled={retrying}>{retrying ? "正在重试…" : "整理来源证据"}</button>}{record.resolution_status === "retake_required" && <Link className="final-secondary action-link" href="/">重新拍一张图片</Link>}</div>
           <details className="final-technical"><summary>技术详情</summary><div>{record.analysis && <GroundedAssessment record={record} />}<p>诊断风险：{riskLabel(record.diagnostic_risk)}；田间严重度：{severityLabel(record.field_severity)}</p><p>候选：{(record.analysis?.candidate_diagnoses ?? record.detector_summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p><p>系统记录：{record.resolution_reasons.length ? record.resolution_reasons.join("；") : "无"}</p><pre>{JSON.stringify({ detector: record.detector_summary?.inference, provenance: record.analysis?.provenance }, null, 2)}</pre></div></details>
         </>}

@@ -8,7 +8,7 @@ import httpx
 from PIL import Image, ImageFilter, ImageStat
 
 from .catalog import CLASS_BY_ID
-from .config import settings
+from .config import LOW_CONFIDENCE_THRESHOLD, settings
 
 
 class DetectorUnavailable(RuntimeError):
@@ -244,7 +244,7 @@ def summarize_detections(detections: list[dict[str, Any]]) -> dict[str, Any]:
         )
     candidates.sort(key=lambda item: item["max_confidence"], reverse=True)
     review_reasons: list[str] = []
-    if candidates[0]["max_confidence"] < 0.50:
+    if candidates[0]["max_confidence"] < LOW_CONFIDENCE_THRESHOLD:
         review_reasons.append("最高视觉置信度较低")
     if len(candidates) > 1 and candidates[0]["max_confidence"] - candidates[1]["max_confidence"] < 0.12:
         review_reasons.append("候选类别接近，需进行差异诊断")

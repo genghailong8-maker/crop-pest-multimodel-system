@@ -36,16 +36,18 @@ test("server-renders the crop diagnosis workspace", async () => {
   assert.match(html, /第一步/);
   assert.match(html, /第二步/);
   assert.match(html, /诊断记录/);
-  assert.match(html, /病例保存在创建它的识别服务器/);
   assert.match(html, /手机主导航/);
   assert.match(html, /系统先定位可疑病斑或害虫，并按视觉置信度说明结果是否适合参考/);
-  assert.match(html, /作物 \/ 识别对象/);
-  assert.match(html, /种植环境/);
-  assert.match(html, /大约有多少叶片或植株受影响/);
-  assert.match(html, /扩散速度/);
-  assert.match(html, /还需完成：上传图片、作物 \/ 识别对象、种植环境、受害比例、扩散速度/);
+  assert.match(html, /AI 上下文模型辅助识别/);
+  assert.doesNotMatch(html, /种植环境/);
+  assert.match(html, /根据当前样本可见症状选择受害程度/);
+  assert.doesNotMatch(html, /大约有多少叶片或植株受影响/);
+  assert.doesNotMatch(html, /扩散速度/);
+  assert.doesNotMatch(html, /受害比例/);
+  assert.doesNotMatch(html, /environment_json|sceneOptions/);
   assert.match(html, /当前识别服务器/);
-  assert.match(html, /补充说明（可选）/);
+  assert.match(html, /识别病虫害，先看清风险/);
+  assert.doesNotMatch(html, /补充说明（可选）|图片与田间信息共同构成诊断依据|综合分析通常需要约 1–2 分钟|田诊协同提供图片辅助判断/);
   assert.doesNotMatch(html, /现在建议你|这个结果有多可靠/);
   assert.doesNotMatch(html, /建议人工复核/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
@@ -87,10 +89,12 @@ test("server-renders the competition showcase with verified project evidence", a
 
 test("case and report surfaces use the curated knowledge labels", async () => {
   const homeSource = await readFile(new URL("../app/page.tsx", import.meta.url), "utf8");
+  const r3Source = await readFile(new URL("../app/components/R3ContextConfirmation.tsx", import.meta.url), "utf8");
   const caseSource = await readFile(new URL("../app/cases/[id]/page.tsx", import.meta.url), "utf8");
   const reportSource = await readFile(new URL("../app/reports/[id]/page.tsx", import.meta.url), "utf8");
   const groundedSource = await readFile(new URL("../app/components/ComprehensiveAnalysis.tsx", import.meta.url), "utf8");
   const knowledgeSource = await readFile(new URL("../app/components/KnowledgeSummary.tsx", import.meta.url), "utf8");
+  const knowledgeGridSource = await readFile(new URL("../app/components/KnowledgeSectionGrid.tsx", import.meta.url), "utf8");
   const legacyStyles = await readFile(new URL("../app/product-legacy.css", import.meta.url), "utf8");
   const headerSource = await readFile(new URL("../app/components/PublicHeader.tsx", import.meta.url), "utf8");
   assert.match(knowledgeSource, /症状、特征和防治建议/);
@@ -103,9 +107,13 @@ test("case and report surfaces use the curated knowledge labels", async () => {
   assert.match(homeSource, /alt="待分析图片预览"[^>]*loading="eager"[^>]*decoding="async"/);
   assert.match(caseSource, /alt="病例原图及目标定位结果"/);
   assert.match(reportSource, /alt="病例原图及目标定位结果"/);
-  assert.match(homeSource, /植物部位/);
-  assert.match(homeSource, /生长阶段/);
-  assert.match(homeSource, /综合分析通常需要约 1–2 分钟/);
+  assert.match(homeSource, /R3ContextConfirmation/);
+  assert.match(homeSource, /draft\.status === "low_confidence"/);
+  assert.match(homeSource, /最高视觉置信度低于 50%/);
+  assert.match(homeSource, /draft\.status !== "low_confidence"/);
+  assert.match(r3Source, /确认并继续/);
+  assert.doesNotMatch(homeSource, /environment_json|sceneOptions|setScene/);
+  assert.doesNotMatch(homeSource, /补充说明（可选）|图片与田间信息共同构成诊断依据|综合分析通常需要约 1–2 分钟|田诊协同提供图片辅助判断|病例保存在创建它的识别服务器/);
   assert.match(homeSource, /病例编号/);
   assert.match(homeSource, /稍后从.*病例历史.*查看结果/);
   assert.match(headerSource, /aria-current/);
@@ -133,6 +141,13 @@ test("case and report surfaces use the curated knowledge labels", async () => {
   assert.match(externalEvidenceSource, /可能诱因/);
   assert.match(externalEvidenceSource, /local_knowledge_base/);
   assert.match(externalEvidenceSource, /noopener noreferrer/);
+  assert.match(externalEvidenceSource, /prevention_html/);
+  assert.match(caseSource, /KnowledgeSectionGrid/);
+  assert.match(reportSource, /KnowledgeSectionGrid/);
+  assert.match(knowledgeGridSource, /knowledge-section-grid/);
+  assert.doesNotMatch(caseSource, /<details className="final-knowledge-document">/);
+  assert.doesNotMatch(reportSource, /open=\{false\}/);
+  assert.match(legacyStyles, /\.knowledge-section-grid\s*\{[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\)/);
 });
 
 test("public worker hides local admin routes", async () => {

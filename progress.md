@@ -1,5 +1,38 @@
 # Progress Log
 
+## 2026-08-28 — Locust Single-P1 Minimum Fix 开始
+
+- Work Re-Review 仅保留 1 个蝗总科 P1：标题级 `防控/蝗虫` 误杀自然 cause，且 source-5 research-analysis 需要明确负向回归。
+- 本轮只允许收窄 `evidence_extractor.py` 与扩展 `test_two_p1_minimum_fix.py`；豆芫菁及既有 safety guard 冻结。
+- 已将蝗总科 intervention guard 改为仅匹配 candidate sentence，而非 `title + sentence`；新增 source-5 citation research-analysis fixture。Locust targeted=4/4，沙漠蝗自然 cause ACCEPT，research/management pollution=0。
+- 首个批量 gate helper 因 `$args` 自动变量冲突将所有子命令误跑为完整 suite；未产生失败或状态变更，随后已切换为 `pytestArgs` 命名参数重跑逐项门禁。
+
+## 2026-08-28 — Locust Single-P1 Minimum Fix 完成
+
+- 仅更新 `backend/app/search/evidence_extractor.py` 与 `backend/tests/test_two_p1_minimum_fix.py`：Locust intervention guard 现在仅检查候选句，不再读取 source title；新增真实 source-5 citation research-analysis 负例。
+- 结果：沙漠蝗自然 cause ACCEPT；source-5 research REJECT；农药/人工防治/改生境 intervention REJECT；Research pollution=0、Management pollution=0。
+- 门禁：Locust 4/4、豆芫菁 2/2、8-case 8/8、T-08 31/31、T-08B 34/34、T-08C 11/11、T-08D 14/14、backend 199/199、`git diff --check` PASS。
+- 未 build/deploy/restart/commit/push；Ready for Work re-review=YES。
+
+## 2026-08-28 — 2-P1 Minimum Fix 完成
+
+- Work Review 的两个 P1 已最小关闭：豆芫菁窄 life-cycle/seasonal cause pattern；蝗总科窄 research/management intervention negative guard。
+- 仅修改 `backend/app/search/evidence_extractor.py`，新增 `backend/tests/test_two_p1_minimum_fix.py`；未修改 Normalizer/main.py、SQLite、Web/Gateway/Detector/VLM、Tavily/query/API。
+- 回归通过：P1=4/4、8-case=8/8、T-08=31/31、T-08B=34/34、T-08C=11/11、T-08D=14/14、backend=199/199；Research pollution=0、Management pollution=0；叶蝉 T-08D factual ACCEPT / management REJECT。
+- 已生成干净 Work Review Bundle：`C:\Users\genghailong\Documents\competition-2-p1-minimum-fix-review-20260828.zip`；size=28,105 bytes；SHA256=`03a3e5f8becc9ffb41e4dd331175f7f6fbeaef0a536da83beb8c26d3d523bcf1`；MANIFEST=32/32、ZIP self-test=33/33、secret scan PASS；未 build/deploy/restart/commit/push。
+
+## 2026-08-28 — 2-P1 Minimum Fix 开始
+
+- Work Review 确认 P1-1 豆芫菁 Extractor possible_causes 为空、P1-2 蝗总科 research/management pollution；本轮只处理这两项。
+- 计划仅修改 `backend/app/search/evidence_extractor.py` 与必要测试；不再动 `normalizer.py`/`main.py`，不 build/deploy/restart/commit/push。
+- 待先读取真实 replay evidence/source-5，并建立失败回归后实施窄规则。
+
+## 2026-08-27 — 8-Case Minimum Fix Work Review Bundle
+
+- 已生成只读 Work Code Review Bundle：`C:\Users\genghailong\Documents\competition-8case-minimum-fix-review-20260827.zip`。
+- 证据包含四文件完整 diff、Git status/diff-check、8-case=8/8、T-08=31/31、T-08B=34/34、T-08C=11/11、T-08D=14/14、backend=195/195、T-08D management pollution=0、既有证据完整性校验、scope、secret scan、MANIFEST 和 ZIP self-test。
+- 最终：ZIP 28,293 bytes，SHA256=`786703093286e94599c28d847f61c8f83b3982470b609aaf7d982ddd827e6509`；MANIFEST=26/26，ZIP self-test=27/27，secret scan PASS；未修改 production/SQLite/Web/Gateway/Detector/VLM，未 build/deploy/restart/commit/push。
+
 ## 2026-08-24 — Qwen3-VL 轻量化迁移启动
 
 - 已核验起始分支、提交与干净工作区：`competition-dev` / `1819b2a9e7ebc4dbb7b5d8465fea31d0a6c1035b`。
@@ -1604,3 +1637,634 @@
 - `competition.tests.ps1` 已通过。全仓关键词原始扫描命中大量历史交接记录及标注数据中的数值子串；下一步将仅对当前运行/部署边界做精确分类。当前 `git diff --check` 通过，安全扫描未发现新增真实凭据。
 - 最终安全扫描的首个 PowerShell 路径聚合将多行文件名误合并，造成假阳性；该轮不采纳，改为只扫描新增 diff 行和独立新增测试文件。
 - 最终验收完成：`git diff --check` PASS；新增 diff 行与新测试文件的安全扫描 PASS。工作树仅包含本轮 15 个预期路径（14 个已跟踪修改、1 个新增部署回归测试），无 commit、push 或 GPU/SSH/服务操作。
+
+## 人工测试第一轮修复：启动（2026-08-25）
+
+- Git 前置检查通过：`competition-dev`、`0075f63325ec2a5f8515586039458ebdbd135a9c`、初始 working tree clean。
+- 规划技能的 session-catchup 脚本本次退出且未输出；不重复调用。UI 规范脚本首次因错误使用工作区相对路径未找到，后续改用已确认的技能绝对路径。两项均未影响项目代码。
+- 已加载项目产品与设计上下文及 `distill`/craft-floor 指引。用户需求已经明确，无需额外视觉方向选择；本轮将以测试优先的最小范围实现。
+- 已完成首轮范围审计。一次并行源文件读取因 PowerShell 重复 `-LiteralPath` 参数而部分失败；已获取后端关键文件和首页/CSS，下一次将使用单个 `-LiteralPath` 参数分别读取遗漏的前端组件，不重复该命令形态。
+- 完成后端数据流与现有测试审计。拟采用：Extractor 片段优先并按句过滤 raw；未提取结论时添加兼容 reason/message；知识 API 增加完整防治 section 和按 heading 的渲染块，前端复用同一 HTML。实体守卫、snapshot、warning 与旧字段保持不动。
+- 已确认前端精简和默认展开的精确位置，以及现有 KnowledgeDocument/MarkdownIt 可复用入口。下一阶段先补目标回归测试，再一次性实施后端和前端的直接修改。
+- 已先写入 boilerplate、片段优先、病害真实 harm/cause、完整防治 section 和前端删减/默认展示回归断言。首次定点 pytest 在 `backend/` cwd 误写为 `backend\\.venv...`，被 PowerShell 解析为模块；改用 `.venv\\Scripts\\python.exe`，不重复原命令。
+- 已完成后端与前端实现。后端定点 `test_evidence_extractor`、`test_knowledge_documents`、`test_search` 共 51 passed（仅既有 Starlette/httpx 弃用 warning）。
+- 前端首轮 `npm test` 的 build 成功、7/8 render 通过；唯一失败是测试在页面源码查找共享 `KnowledgeSectionGrid` 的 CSS 类名。已将断言修正为验证两页面均复用组件、组件本身包含 grid，不改业务实现。
+- 全量门禁：backend `pytest tests -q` 为 79 passed（仅既有 Starlette/httpx 弃用 warning）；`npm test` render 8/8、ESLint、显式 production build 全部通过。下一步只读验收首页、既有病例详情/报告、窄屏与打印样式，并做最终 diff/安全检查。
+- 本地生产 Worker 的临时代理环境变量在进程创建前被本机执行策略拒绝，未留下服务或修改配置；不重复该方式。改用不需要该变量的前端开发服务器做只读视觉验收。
+- 浏览器首页及既有蛴螬病例详情完成只读验收。浏览器会话一次因持久 JS 中同名 `shot` 变量未执行导航，已改用唯一持久变量重试成功；该错误未影响应用。详情页默认知识库已可见，grid 因运行中 backend 未重启而走旧病例兼容回退，未打断人工测试服务。
+- 复核时补齐了完整 Markdown 开头内容的 heading block（避免在第一处 `##` 前丢失标题/表格），将 knowledge grid 的单栏断点提前至 820px，并避免结果页完整 Markdown 已含 warning 时再次重复显示 warning；新增 catalog 类型 query 词表断言。后端定点 52 passed，最终全量 80 passed。
+- 最终浏览器只读检查：报告历史病例的完整知识库默认可见；390px 首页 Hero 可见、已删除的补充说明与 CPU 提示均为 false。未重启当前 8000，不触发 Tavily、Detector、GPU 或创建新病例。`git diff --check` PASS；Qwen/Qwen3/VLM/8890/CROP_VLM 运行/部署精确扫描 0。Impeccable detector 仅提示两条既有/风险语义左侧黄色边线，不做无关视觉重构。
+
+## 服务器 Normalizer 修复与候选部署验收（2026-08-25）
+
+- 已按用户要求仅读取当前状态：本地 branch/HEAD 正确，上一轮未提交修改仍在；未从头扫描项目。远端经 `ssh ghl` 只读确认 `/data/ghl/app-next` 存在、候选 backend 运行且 health PASS，旧正式五个容器不动。根分区 97% 使用，后续构建必须继续留在 `/data`。
+- 候选目录首次按 Git 读取失败，因为它没有 `.git`；未重试同一形式。随后文件级读取确认远端保存了 T-01/PDF/实验方法 Guard 与马铃薯早疫病 query override，但本地尚未包含它们。下一步将把这些已有远端增量合并进唯一 Windows 源，并加上本轮 query-aware Normalizer 配额和科研方法词组 Guard。
+- 已合并远端 T-01/PDF/实验方法/管理建议/harm-only Guard 与 retrieval-only query override 到本地唯一源，并增加 query-aware Normalizer 和科研 Guard 回归。最终后端完整 pytest 为 82 passed（1 条既有 Starlette/httpx warning），`git diff --check` PASS。5 个指定后端源码/测试文件 SHA-256 与 `/data/ghl/app-next` 一致。
+- 已在 `/data` 候选目录 `--network=none` 构建新 backend 镜像并替换仅测试容器；替换脚本的 here-doc 尾行造成一个成功后才出现的无副作用 `NameError`，但随后的只读检查已确认新 image、health、network、ExtraHosts、port 和 mount 均正确，旧测试容器保留可回滚。正式容器均未停止或修改。
+- 真实 E2E 样本定位：旧正式 DB 的错误路径、错误表名均已记录并改用实际 `crop-pest.sqlite3`/`diagnosis_cases`，确认没有可复用检测记录；training 无数据集。外部样本：GitHub API 限流、页面工具 500、curl 超时均未产生项目文件；Windows Invoke-WebRequest 已将两个临时候选图下载到 `%TEMP%`，尚未同步候选服务器。
+- 使用 PlantVillage 早疫病图的第 1 次真实候选分析发现 Guard 漏洞：Detector=early blight 0.877798、来源=5，但 two possible-causes 是发酵优化/拮抗菌实验方法，harms=0，因此立即停止余下两次。已在 Windows 源以窄范围正则覆盖“发酵条件进行优化”、拮抗菌株、单因素/正交试验及生防菌开发变体，并把真实返回文本写入回归测试；需重新 pytest、定向同步、离线构建和替换候选后重测。
+- 多轮候选重建均保持 `--network=none`，最终本地 pytest 84 passed；但最新真实早疫病回归仍为 harms=[]，cause 为英文科研方法句（existing methods/sample size/develop a method）。因此遵从用户“真实测试后先停止”的要求：不继续两次早疫病、不执行蛴螬、不替换正式 lab-backend-1/lab-web-1，正式部署结论为 NOT RECOMMENDED。保留 `lab-backend-next-test-prev-*` 回滚容器与 `/data/ghl/app-next`。
+
+## 候选早疫病 Extractor 阻断复核（2026-08-25）
+
+- 实证定位结束：刚失败病例的有效英文早疫病 harms/causes 已存在于 Normalizer 后 `source-2`；并非 Normalizer 丢失。Extractor 因 `). Capital` 未断句而将 1,846 字符文献段落丢弃，同时漏掉 `existing methods/sample size/develop a method` 的研究方法变体。
+- 仅补充 Extractor 断句与该真实方法表达的窄 guard；`backend/tests/test_evidence_extractor.py` 同时覆盖方法句拒绝、括号引用后的英文 yield-loss harm、humidity/rainy epidemiology cause。定向 50 passed，完整 backend 84 passed（1 条既有 Starlette/httpx warning）。
+- 使用 CPU 候选目录的 `--network=none` 构建新镜像 `sha256:65632ff1f5e885c098be864bc0d6e8a9aec28379077c86331a7f0b99243da26d`，只将旧 `lab-backend-next-test` 重命名为 `lab-backend-next-test-prev-20260825233757` 并启动同名新候选；health PASS。正式五容器、gateway、GPU relay、VLM 均未改。
+- 第 1 次真实早疫病 E2E：病例 `lab_cpu_test-c8035900867845e1a693158d32a6f843`，Detector=`马铃薯早疫病`/0.877798，harms=2、causes=1、source IDs 有效、无方法污染/旧噪声、local knowledge treatment；但 source-1 仍含“晚疫病”，违反 E2E 门禁。立即停止：未运行第 2/3 次、未运行蛴螬、未正式部署。
+
+## 候选环境正确 Entity Guard 验收（2026-08-26）
+
+- 用户澄清历史定义后，未修改生产代码、Normalizer、Extractor、Query Builder、Guard 或候选镜像。`c803...` 的 `source-1` 只是未引用的混合教学目录；最终 harm/cause 仅引用有效 target-specific `source-2`，最终 used source 集为 `{source-2}`，结论无晚疫病事实。#1 改判 PASS；旧全 snapshot `no_late_blight` 只是一段临时 E2E shell 的过宽检查，未落盘为测试/验收脚本。
+- 用正确门禁执行 #2：`lab_cpu_test-200a9d1952ca448d9499979e28deba45`。Detector=`马铃薯早疫病`/0.877798，但 Tavily retrieval `ConnectError`，最终 sources/snapshots/harms/causes 都为 0。该次真实 FAIL 未进入 Normalizer 或 Extractor；立即停止，不运行 #3、蛴螬、构建或正式部署。
+
+## 候选环境管理建议 Guard 与网络恢复收尾（2026-08-26）
+
+- 复核确认 `c803...` 的 possible cause 是管理建议误抽取。仅在 Extractor 增加句首命令式管理模式与 `轮作倒茬/减少病原菌` 精确模式；声明式连作、病原菌积累、湿度/降雨因果句继续保留。新增中英文管理/研究表格与标题 regression；定向 52 passed，完整 backend 86 passed（1 条既有 warning）。
+- Tavily 网络实际根因为 reverse SSH 缺失：relay `172.17.0.1:443` 存活、`127.0.0.1:18443` 缺失；恢复既有 tunnel 后两层 TLS 通过，后续 E2E 已实际拿到 Tavily available evidence。无密钥输出，无正式服务改动。
+- 候选镜像最终为 `sha256:54d362475742b723e29209c7bfa50e492d680a1e2ec92246b5589a1a61146015`；旧候选均保留，当前候选 health PASS。
+- A 修复后的最终稳定性门禁 #1：`lab_cpu_test-ac5232fcc7c64e169b0dde5557c15e8f`。Detector 正确，harms=2，引用实体/噪声/管理建议/研究方法门禁通过，treatment=`local_knowledge_base`；但 `possible_causes=0`，本次 5 条快照没有合格纯诱因句。按规则立即停止，未执行 #2/#3 与蛴螬；最终稳定性门禁未完成 PASS。
+
+## Possible-causes retrieval-only 定位（2026-08-26）
+
+- 按当前 production query 连续执行 3 次内存态 Tavily retrieval。每次 raw=5、normalized=4；PMC source 的 raw snippet 都含高湿/适温/降雨导致 EB outbreak 的明确诱因，Normalizer 后仍保留；明确晚疫病 PDF 被 Entity Guard 丢弃。检索与 Normalizer 均不是 `possible_causes=0` 根因。
+- 同一 normalized evidence 经当前 Extractor 仍无 possible causes；snippet 的 `[...]` 省略号 continuation 未形成 <=220 字抽取候选。按本轮用户限制未修改 Extractor 或任何生产逻辑，未重建候选。
+- 结论：剩余问题是 Extractor 句切分/候选形成层；已停止后续 E2E，未执行早疫病 #2/#3 或蛴螬。
+
+## T-04 省略片段 P0 修复与候选收尾（2026-08-26）
+
+- 已完成 extraction-only 修复：`[...]` / `…` 现在是 `_SENTENCE` 的安全边界；真实 PMC 英文诱因从超长粘连片段中独立形成，不改变原始 SearchSource 或 persisted snapshot，也保留 <=220 字符安全上限。
+- 新增回归后定向测试为 53 passed；完整 backend 为 87 passed，1 条既有弃用警告；`git diff --check` PASS。
+- 新候选 `lab-backend-next-test` image=`sha256:21fee502609a7c9183bebd15de9c7f2933ca8bdf6b2dafaac6c803aa960722a5`，health PASS；旧候选 `lab-backend-next-test-prev-20260826102532` 保留，正式环境无变化。
+- 早疫病三次连续 PASS：`0558a336...`、`8694eb6f...`、`980a5202...`；每次 Detector 正确、harms=2、possible_causes=1、source IDs 有效、无错误实体/管理/研究/旧噪声污染，treatment=`local_knowledge_base`。
+- 蛴螬真实回归待补样本：候选存储与 API 没有蛴螬病例/图片，现有仓库数据集/截图不作为真实 E2E 输入，因此未虚报结果。下一步仅需提供或恢复可复用蛴螬样本后单次复验。
+
+## T-04 固定蛴螬图片回归（2026-08-26）
+
+- 已使用 `E:\病图片\蛴螬\1.jpg` 创建新病例 `lab_cpu_test-783fe27beae94af5b56caef07b95e261`；全链路达到 analysis available、Tavily available、5 normalized sources、5 snapshots persisted。
+- Detector 结果与历史对照一致：`蛴螬` / class 14 / confidence `0.918733` / count 1。
+- 门禁 FAIL：`source-1` 的土壤温湿度/灌溉句同时被抽为 harm 与 possible cause，造成 harm/cause duplicate；其余本轮检查（source IDs、管理建议、Research、噪声、控制字符、PDF、local treatment）通过。
+- 已按失败规则停止；无 production code 修改、无镜像重建、无正式环境变化、无 commit/push。
+
+## T-04 干预归类 P0 修复与交叉回归（2026-08-26）
+
+- 已在 EvidenceExtractor 中完成窄范围 intervention guard：source-1 灌溉效果句和 source-5 腐熟有机肥管理句整体拒绝，不从原文改写 cause；自然土壤/温湿度/虫源生态句保留。
+- 已加入 normalized cross-section duplicate safety net；定向 56 passed，完整 backend 90 passed，`git diff --check` PASS。
+- 候选新镜像为 `sha256:36be209ca5ec77f609459d634695ee99b7e91fd92835ff00201dc01a92677547`，health PASS；正式环境不变。
+- 蛴螬新病例 `lab_cpu_test-83adeec6e81f4739b12e60d3068647ec` PASS；早疫病交叉回归 `lab_cpu_test-e2a0ddfbcf5d4dc4af89c1391dface48` PASS。
+
+## T-01 fresh E2E verification（2026-08-26）
+
+- 按 Work 新指令先只读核对 branch=`competition-dev`、HEAD=`0075f63325ec2a5f8515586039458ebdbd135a9c`、candidate=`sha256:39b0295248e6a65133a2cdbb96d22229bddbd7e7850475041e2570551e9d0ade` 与 health；本轮验证未修改 production code、未重建镜像。
+- 新病例 `lab_cpu_test-96f1d47d7a364a8482ad8eb64e9696bf` 完成 upload→CPU YOLO→Tavily→persist→report；Detector=`马铃薯早疫病`/class 3/0.877798/1，Tavily=`available`，sources/snapshots=5，treatment=`local_knowledge_base`。
+- 本次 Tavily 来源未提供可安全抽取的有效 harms/cause 事实：source-2 为 191 字符的百度百科目录/页脚文本，未出现 Work 关注的 PMC leading-fragment 内容；最终 harms=0、possible_causes=0。
+- 按门禁归类为 retrieval runtime stability recurrence，立即停止；未执行 #2、蛴螬或新 Bundle。Candidate 保持运行，旧候选 `lab-backend-next-test-prev-20260826153347` 保留，正式五容器无变化。
+- 无密钥输出；Candidate→Tavily、Lab tunnel、relay 连通性均已复核正常。
+
+## T-04 retrieval-only diagnosis（2026-08-26）
+
+- 当前 production harms query 与 possible_causes query 各执行 5 次真实 Tavily retrieval-only；所有 10 次 raw/normalized status 均为 `available`，未创建病例。
+- Harms 当前 query 的 5 次 raw 与 5 次 normalized 均无合格目标 harms（0/5）；来源重复为混合番茄/晚疫病、百度导航、姜病虫害聚合页、混合教学 PDF。Possible-causes 当前 query 的 raw 与 normalized 合格率均为 5/5；Normalizer 未丢失合格 cause。
+- 早疫病候选 query 对照各执行 3 次：H1 中文症状危害 `3/3` harms；H2 英文 symptoms/damage/extension `0/3` harms、`3/3` cause；C1 中文发病条件 `3/3` cause；C2 英文 epidemiology temperature/humidity/rainfall `3/3` harms、`3/3` cause，并稳定召回 PMC/NDSU/PotatoPro 等来源。
+- 当前诊断结论：`Root cause = Early-blight retrieval query robustness`；本轮不修改 production code、不改 query override、不重建候选、不进入正式 E2E，等待主控决定是否批准最小 query-only production 变更。
+
+## T-01/T-04 修正引用门禁与最终收尾（2026-08-26）
+
+- 确认外部引用校验应对照 `analysis.sources[].id` 与 `analysis.evidence_snapshots[].source_id`；报告顶层 `sources[]` 属于 Knowledge source，不能与外部 `source-X` 混用。既有病例 `lab_cpu_test-3d2588303bd949908541badfde22a879` 的首次门禁误判已修正为 PASS。
+- 早疫病 fresh #2=`lab_cpu_test-d95e740e5710427a8cb4971d887657fd` PASS；#3=`lab_cpu_test-1a91f02b103949a69fad3b7a0253fbc0` PASS。每次均 harms=2、possible_causes=1、引用有效、treatment=`local_knowledge_base`。
+- Work P1 replay PASS：完整 PMC harms 句保留，leading fragment 被排除，snapshot SHA256=`5fea099868d234e57168364446acef746c7627b9cfca531739c8a1320e056fce` 未变。
+- 蛴螬 fresh=`lab_cpu_test-a167cae9b9b648d68d5824bf63beb0de` FAIL：harms=2、possible_causes=0；Detector/Tavily/source IDs/treatment 均通过。按失败门禁停止，不生成 v5 bundle，不继续修复或测试。
+- 候选 `sha256:254a494b2052323360ae0c1bae37c5981ca6e38c64e66270eebe2cc169944596` health PASS；正式环境未变；本轮没有 production code 修改、没有镜像重建、没有 commit/push/deploy。
+
+## Grub retrieval-only 分流诊断（2026-08-26）
+
+- 实际 query：harms=`蛴螬 危害 咬食 取食 根系 叶片 受害 缺苗 减产 农业`；possible_causes=`蛴螬 发生条件 发生规律 土壤 温度 湿度 虫源 农业`。
+- harms ×5 与 possible_causes ×5 均为 raw/normalized `available` 5/5；possible_causes raw valid natural cause=5/5、Normalizer 后=5/5，未发现 source-selection 丢失。规范化结果始终为 5 条来源，主要是农业防治/用药文章中夹带自然生态事实。
+- 当前持久化 Grub evidence 中，`土壤温湿度直接影响着蛴螬的活动` 等自然句确实存在，但因未命中现有 cause marker“影响/适合”而没有形成 Extractor candidate；灌溉、施肥、轮作、药剂等干预句被正确 Management Guard 拒绝。
+- 分流结论：不属于 Raw retrieval A，也不属于 Normalizer B，实际阻断在 Extractor candidate eligibility；按本轮禁止项不修改 Extractor/Guard，不做 query experiment，完成诊断后停止。
+
+## H1 query candidate fresh E2E #1（2026-08-26）
+
+- 候选镜像 `sha256:254a494b2052323360ae0c1bae37c5981ca6e38c64e66270eebe2cc169944596` 已通过 health；新病例 `lab_cpu_test-3d2588303bd949908541badfde22a879` 的 Detector、Tavily、analysis 均正常，`harms=2`、`possible_causes=1`、treatment=`local_knowledge_base`。
+- T-08 已读取 T-07B 保存的 normalized evidence，未重新请求 Tavily。class 0 v2 `source-4` 逐句回放确认南方玉米叶枯病研究来源被误收；本轮边界仅 EvidenceExtractor 与测试，不改 Retrieval/Normalizer/Query Builder/Tavily/部署配置。
+- 门禁输出 `source_ids_valid=false`，但核对完整病例 JSON 后确认外部结论使用的 `source-1`/`source-2` 均存在于 `analysis.sources`；门禁误用了报告顶层知识库 `sources`（`class-3-moa-potato-control` 等）作为外部来源集合。归类为 E2E 验证脚本层级取值错误，不是业务 production attribution 错误。
+- 按“任意一次 FAIL 立即停止”规则，本轮不继续 #2/#3、P1 replay 或蛴螬回归；不修改 production code、不重建镜像、不改变正式环境。
+
+## T-07B Failed Evidence Forensic & Query Refinement（2026-08-27）
+
+- 已审计既有三轮 `retrieval-audit.json`/`retry-1.json`/`retry-2.json`，17 个失败 pair 的 raw/normalized 来源、实体与事实类型已记录在仓库外 `C:\Users\genghailong\Documents\t07b-forensic-20260827\failed-evidence-forensic.md`。
+- 纯 Q=class 0 两条、class 1 harms；E=class 1 cause、class 2、class 10/11/12；S=class 8 cause；mixed=class 5、13、15。只对纯 Q 修改 3 个 Query v2 override，未改 Extractor/Normalizer/Guards 或早疫病/蛴螬 Query。
+- v2 结果：class 1 harms QUERY FIXED；class 0 harms EXTRACTOR GAP；class 0 causes SOURCE SCARCITY。定向 Search+Extractor=63 passed，完整 backend=97 passed（1 条既有 warning），`git diff --check` PASS。未构建、未部署、未 commit、未 push。
+
+## T-08 EvidenceExtractor Narrow Coverage Improvement（2026-08-27）
+
+- 已按 T-07B 保存的 normalized evidence 建立 12 个正向 fixture，并将 class 0 南方玉米叶枯病论文作为 wrong-entity/research negative；未重新请求 Tavily 作为 fixture 来源，未修改 raw snapshot。
+- 生产改动仅在 `backend/app/search/evidence_extractor.py`：省略号安全切分、研究结果/实验方法窄 Guard、命令式管理建议 Guard、显式 alias/section alias、class-specific harm/cause pattern、wrong-entity 负向保护，以及现有跨 section duplicate safety net 的当前工作树版本。新增测试为 `backend/tests/test_evidence_extractor_t08.py`。
+- Preserved replay：12/12 预期 EXTRACTOR GAP 达到正确结论且 source ID 有效；class 0/8/13/15 causes 仍按 SOURCE SCARCITY 不强制补齐；Early-blight、Grub 与既有稳定类 replay 未退化。
+- 测试：定向 Extractor+T-08+Search `90 passed`；完整 backend `124 passed, 1 warning`；`git diff --check` PASS。
+- retrieval-only：当前工作树真实 Query Builder/Normalizer/Extractor 对 12 个受影响 pair 做了 1 次检查；4 个污染 pair 一次重试后仍重复研究、管理或反向生物学污染，南瓜白粉病 causes 一次无安全结论。由于这些不是 T-07B 已证明的 coverage gap，本轮没有扩大 production 修复；T-08 的 live quality gate 记为 `NEEDS FOLLOW-UP`，不是 PASS。
+- 候选专用 `18080` 与实验室直连 `8000` 当前不可达，SSH 在认证阶段未完成；正式 Web `8080/health` 仍为 200。未调用 GPU、未改网络路径、未创建病例、未 build/deploy。T-08 没有新 candidate image，最后已知候选为 `sha256:cf471320e05bef619c0e746f1c05c3c658f39c7e029f5b35b3f8f531f460c420`。
+
+## T-08 follow-up：污染归类窄范围复核（2026-08-27）
+
+- 已恢复上下文并确认工作区存在上一轮未提交改动，全部保留；当前 follow-up 不触碰候选/正式服务。
+- 已从 T-07B forensic 记录提取四类污染的最小信号：研究摘要/喷施、实验研究、防治命令式建议、病原体反向伤害蝗虫。
+- 已记录假设、直接文件范围和验收标准；下一步先补最小失败回归，再实施对应 sentence-level guard。
+- 已补充四类污染的离线回归；其中两类在修复前稳定失败，另外两类验证现有 guard 已有效。
+- 已在 `backend/app/search/evidence_extractor.py` 增加最小研究/喷施、研究摘要和蝗总科反向危害 guard，并保留 `backend/tests/test_evidence_extractor_t08.py` 的正向/负向覆盖。
+- 定向 T-08 回归 `31 passed`；完整 backend `128 passed, 1 warning`；`git diff --check` 通过（仅报告既有 CRLF 转换提示）。尚未进行候选 build/deploy 或 live retrieval-only，整体 T-08 仍为 `NEEDS FOLLOW-UP`。
+
+## T-08B Safety Closure 完成（2026-08-27）
+
+- 仅更新 `backend/app/search/evidence_extractor.py` 的窄负向安全规则，并新增 `backend/tests/test_evidence_extractor_t08b.py`；检索、Normalizer、Confidence Gate、persistence、source attribution 均未改动。
+- 负例 decision path 覆盖句边界、实体匹配、Research、Management、cause/harm marker、reverse biological role 与最终 acceptance；四类 negative 34/34 PASS。
+- 12/12 preserved replay PASS；Early-blight/Grub/稳定正例 PASS；定向 128 PASS；完整 backend 162 PASS、1 warning；`git diff --check` PASS。
+- 真实 retrieval-only 五 pair 各 1 次：raw=5、normalized=5；番茄/盲蝽/叶蝉/蝗总科请求 section 均保留安全证据且 pollution=0；南瓜白粉病 causes=0，SAFE UNAVAILABLE。
+- 16 类最终矩阵与 exact evidence 见 `T08B_SAFETY_CLOSURE_REPORT.md`。T-08B closure PASS，Ready for Work review YES；未 build、未 deploy、未 commit、未 push。
+
+## T-07/T-08/T-08B Final Work Review Bundle 完成（2026-08-27）
+
+- 创建 bundle 目录 `C:\Users\genghailong\Documents\competition-t07-t08-t08b-final-review-20260827` 和同名 ZIP；候选来自当前 `competition-dev` 未提交 Windows working tree，HEAD=`0075f63325ec2a5f8515586039458ebdbd135a9c`。
+- 已复制 candidate source、T-07/T-07B 原始 evidence、T-08/T-08B 测试/报告与 live normalized evidence；重新执行并保存 Search 27、Extractor 36、T-08 31、T-08B 34、backend 162 的原始日志及 diff-check。
+- 自动生成 final-query-matrix.txt/json、extractor-safety-matrix.md、final-16-class-status.md、environment.txt、README.md、MANIFEST.txt；whole-bundle secret scan = PASS。
+- 最终 ZIP 首次核对：size=2,539,894 bytes，SHA256=`87FFAA0979629052EC50690969063F2DFE39BDA0F9B368C7AE65A009005924FD`。规划文件本次更新后需重新同步 bundle reports 并重新计算 manifest/ZIP，再以最后一次结果为准。
+- bundle 阶段未修改 production code；build=NO、deployment=NO、commit=NO、push=NO。
+
+## T-08C Research Analysis Language Closure 开始（2026-08-27）
+
+- 已恢复 planning-with-files 上下文并读取既有 T-08B live JSON；确认叶蝉 HYSPLIT 研究结果句为真实 P1，南瓜白粉病已有真实安全句。
+- 已在 `backend/app/search/evidence_extractor.py` 增加研究对象/参数/模型与分析结果动词的组合式窄 Research guard；未修改检索、Normalizer、其它安全 guard、Confidence Gate、persistence 或 attribution。
+- 已新增 `backend/tests/test_evidence_extractor_t08c.py`。首次运行 10/11，单独越冬句因旧 cause-marker eligibility 不产出；调整为 helper 不拒绝的控制后，T-08C 测试 11/11 PASS。
+- 当前尚未完成 T-08/T-08B replay、完整测试、五 pair live audit、南瓜报告 reconcile 与最终 T-08C report；正式环境保持冻结。
+
+## T-08C Research Analysis Language Closure 完成（2026-08-27）
+
+- 完成窄 Research Analysis Result guard：exact HYSPLIT P1 的 helper 从 `False` 变为研究上下文拒绝，最终 extractor 不再输出；自然迁飞/气温句和其它自然控制保持可接受。
+- T-08C regression `11 passed`；T-08 preserved replay `12 passed`；T-08B regression `34 passed`；selected suite `139 passed`；full backend `173 passed, 1 pre-existing warning`；`git diff --check` PASS。
+- 完成五 pair live retrieval-only audit：每 pair query raw=5/5、normalized=5，requested pollution 全部为 0。叶蝉第 2/3 次重试仍因 Tavily 来源波动无 HYSPLIT 返回，但无 P1 污染；详见 `artifacts/t08c/real-retrieval-safety-audit.json` 与 `artifacts/t08c/leafhopper-retries.json`。
+- 南瓜白粉病实际 safe sentence `温暖多湿或高温干旱的天气皆有利于本病发生。` 已写回 `T08B_SAFETY_CLOSURE_REPORT.md`，历史 `SAFE UNAVAILABLE` 已 reconcile 为 PASS。
+- Final report：`T08C_RESEARCH_ANALYSIS_LANGUAGE_CLOSURE_REPORT.md`。T-08C/T-08/T-08B = PASS，Ready for Work re-review = YES；build/deployment/commit/push = NO。
+
+## T-08C Incremental Work Re-Review Bundle 完成（2026-08-27）
+
+- 完成 bundle 目录 `C:\Users\genghailong\Documents\competition-t08c-work-rereview-20260827` 与 ZIP；candidate 来自 `competition-dev` 当前 Windows working tree，HEAD=`0075f63325ec2a5f8515586039458ebdbd135a9c`。
+- 重新保存 `logs/t08c-tests.txt`、`logs/selected-tests.txt`、`logs/backend-tests.txt`、`logs/git-diff-check.txt`；分别记录 11、139、173（1 warning）及 diff-check PASS 的完整输出。
+- 生成 `t08c-p1-closure.md`、五 pair live summary、README、environment、Git status/diff/diff-stat/diff-check、secret scan 与 MANIFEST；manifest 初始有效条目 35、总大小 1,240,496 bytes。
+- ZIP self-check：36 entries、0 forbidden entries、manifest entries=35、self-check PASS；最终 ZIP metadata 写入 `T08C_INCREMENTAL_WORK_REREVIEW_BUNDLE_REPORT.md`。
+- Bundle re-review conclusion：T-08C/T-08/T-08B = PASS，Remaining P0/P1 = NONE，ALLOW NEW BACKEND CANDIDATE BUILD；本任务 build/deployment/commit/push 全部 NO。
+
+## New Backend Candidate Build + Candidate-only Validation（2026-08-27）
+
+- 已完成 build preflight 与 source integrity：6 个关键文件与 T-08C Work bundle SHA256 一致；`/data/ghl/app-next-t08c-20260827` staging 132/132，0 missing/extra/SHA mismatch。
+- 已上传当前 Windows working-tree candidate source 并开始 Backend-only build；tag=`lab-backend:t07-t08c-candidate-20260827`。
+- Build FAIL：远端 Docker 获取 `python:3.12-slim` metadata 时访问 `docker.mirrors.ustc.edu.cn` DNS/网络超时。完整原始日志已保存至 `artifacts/candidate-build-20260827/docker-build.log`。
+- 遵循用户要求立即停止，未修代码、未启动 candidate runtime、未读取 secret、未执行 candidate API/E2E/live safety 验证，未触碰 `lab-backend-1`/`lab-web-1`/`lab-detector-1`/`lab-gateway-1`/`lab-vlm-1`。
+
+## Backend Candidate Offline Build Recovery（2026-08-27）
+
+- 已确认本地无 Docker CLI/base image，dependency-affecting diff=0；使用批准旧 Backend image 的 immutable overlay 恢复构建。旧 image=`sha256:cf471320e05bef619c0e746f1c05c3c658f39c7e029f5b35b3f8f531f460c420`，新 candidate=`sha256:18430c930af555c6849ecec82c28967c4061dac1ce81e0470f16f622ff87cebc`。
+- Offline build 使用 `--pull=false --network=none` 成功；19 个 reviewed runtime files COPY，19/19 image hash match，CMD/ENTRYPOINT/WorkingDir/User/Env inheritance PASS。
+- 候选容器 health=200、remote detector、deterministic CPU extractor、SQLite integrity=ok、Knowledge/storage 正常；`CROP_SEARCH_PROVIDER` 显式设为 `tavily` 后候选运行配置确认 Tavily configured=True。16 类 Query matrix 与 class 3/14 query、T-08C P1 runtime replay 均 PASS。
+- 五 pair 真实 Tavily audit 在候选容器内全部 `raw_status=error`、raw=0、normalized=unavailable；依用户门禁立即停止，因此未运行 Early-blight、Grub、low-confidence 或 source-scarcity E2E。Recovery 最终为 `CANDIDATE FAIL`，阻塞点是候选运行时外部 Tavily retrieval，不是本次 overlay build。
+- 五 pair 失败后仅停止本次创建的候选容器并保留 candidate image；正式五个容器和 aliases 未改变；未 formal deployment、commit、push。完整 evidence 位于 `artifacts/candidate-build-20260827/`，最终报告为 `BACKEND_CANDIDATE_OFFLINE_BUILD_RECOVERY_REPORT.md`。
+
+## Candidate Tavily Runtime Error Forensic（2026-08-27）
+
+- 复用同一 candidate image 重启临时容器；容器内 secret presence/non-empty=True，`CROP_SEARCH_PROVIDER=tavily`，未输出 key value。
+- 单个 Early-blight retrieval 捕获真实 `ConnectTimeout`，10 秒超时，HTTP status/body=null；candidate 内 `api.tavily.com` DNS 失败，但 `host.docker.internal`/relay `172.17.0.1:443` TCP PASS。
+- `127.0.0.1:18443` 既有 tunnel listener 存在，TLS/SNI verification PASS；成功 runtime 同一 Query available/5 sources，且显式 `api.tavily.com:172.17.0.1` host mapping。approved base 与新 image 的 CA/Python/httpx/httpcore/package set 完全一致。
+- 初步 root cause 锁定为 candidate runtime contract 缺少既有 Tavily host mapping；下一步仅在候选启动参数补回 `--add-host api.tavily.com:172.17.0.1` 后重试单 Query，不改 image、代码或正式环境。
+
+## Candidate Tavily Runtime Error Forensic recovery（2026-08-27）
+
+- 补回 `--add-host api.tavily.com:172.17.0.1` 后，同一 Early-blight Query 恢复 `available`/5 sources；确认是 candidate startup mapping mismatch，未恢复/重设计 tunnel。
+- 原五组 safety pair 已全部恢复 PASS：每组 raw=5、normalized=5，requested pollution=0。现在进入允许的 Candidate-only Early-blight/Grub/low-confidence E2E 阶段。
+
+## Candidate Tavily Runtime Error Forensic 完成（2026-08-27）
+
+- Root cause 已闭环：当前 candidate 缺少既有 `api.tavily.com:172.17.0.1` `extra_hosts`，导致 DNS failure→ConnectTimeout；secret、CA、Python/httpx、package、TLS tunnel 均正常。仅补 candidate startup mapping 恢复，未改 image/代码/tunnel。
+- 恢复后 single stable Query available/5，五 pair safety 全部 raw/normalized=5/5、pollution=0。
+- Candidate-only E2E 全部 PASS：Early-blight class 3/0.877798，Grub class 14/0.918733，均 available 且 harms=2/causes=1；low-confidence class 3/0.684728 按门控 external_search unavailable、queries=[]、empty evidence。
+- 最终 `CANDIDATE PASS / READY FOR FORMAL BACKEND UPDATE REVIEW`。报告为 `CANDIDATE_TAVILY_RUNTIME_ERROR_FORENSIC_REPORT.md`；formal containers/aliases unchanged；本轮 build=NO、deployment=NO、commit=NO、push=NO。
+
+## Formal Backend-Only Update Review Bundle 完成（2026-08-27）
+
+- 按增量、只读范围创建 bundle `C:\Users\genghailong\Documents\competition-backend-only-update-review-20260827`；未重新 build、未删除 candidate image、未停止正式容器、未 formal deploy、未 commit、未 push。
+- 生成并核验核心报告、candidate build evidence、脱敏 image/runtime inspect、formal current inspect、planned Backend-only contract、runtime diff、rollback、update scope、T-08C/five-pair/E2E evidence、Git、README、environment、secret scan 和 MANIFEST。
+- secret scan=PASS；ZIP self-test=PASS；69 files/186707 bytes（不计 MANIFEST），ZIP=93008 bytes，SHA256=`7E456ADD3AC27435F66141BA9B7DA8089588EDE13055CC9FBBB27BCAE3A90B86`。
+- Bundle review conclusion：candidate=`CANDIDATE PASS / READY FOR FORMAL BACKEND UPDATE REVIEW`；formal planned scope=`Backend-only`；Work 需输出 Overall PASS/FAIL/STILL NEEDS VERIFICATION、Remaining P0/P1 和是否 `ALLOW FORMAL BACKEND-ONLY UPDATE`。
+
+## Formal Backend-Only Update 执行并回滚（2026-08-27）
+
+- 完成只读 preflight 与 fresh backup：`/data/ghl/backups/competition-backend-preupdate-20260827-154657`，SQLite backup `PRAGMA integrity_check=ok`，backup verification PASS；保存 pre-switch 脱敏 inspect/rollback manifest。
+- 仅替换 `lab-backend-1` 到 candidate image；runtime parity PASS，Backend health/SQLite/Knowledge/history/Detector、Tavily DNS→172.17.0.1/TCP/TLS/provider、Gateway/Web/API 检查 PASS。Early-blight case=`lab_cpu-f62761bfe0cf4e43ae5a7ee5a65c03a1`，Grub=`lab_cpu-b67b6bd560ff4b20932d9302d801f4e1`，low-confidence=`lab_cpu-d1dc51f49b1c49938a3021bc6686725b`，三者均通过各自门禁。
+- Formal five-pair safety 发现唯一 blocker：叶蝉科 possible_causes 含管理建议“温室附近不种植十字花科蔬菜，以免除危害”，Management pollution=1；按用户 rollback trigger 立即停止后续 smoke。
+- 已停止/移除 candidate formal container，恢复 pre-switch old `lab-backend-1`；candidate image/old image/rollback material 均保留，未将旧 SQLite 覆盖新数据。回滚后 Backend health、Gateway health/history/API、Detector、Tavily、SQLite 全部 PASS，case_count=9。
+- 最终报告：`FORMAL_BACKEND_ONLY_UPDATE_REPORT.md`；最终部署状态=`ROLLED BACK`。production source modification=NO，Web/Gateway/Detector/VLM changed=NO，commit/push=NO。下一步需对该唯一安全 blocker 做独立 Work review/授权修复后才能再次正式更新。
+
+## T-08D — Leafhopper Management-Clause Safety Closure 开始（2026-08-27）
+
+- 已读取 `task_plan.md`、`findings.md`、`progress.md` 和 T-08D 请求；确认 formal Backend 已安全回滚，Web/Gateway/Detector/VLM 未变更。
+- 已复核失败 fixture：事实生态条件与 management/prevention tail 混在同一 sentence，句级 guard 漏过 `温室附近不种植十字花科蔬菜，以免除危害`，造成 `possible_causes` Management pollution=1。
+- 实施前假设：无需修改 Query/Normalizer/Tavily/API；最小可验证路径是 `possible_causes` 的 clause-level split + 现有 guards，新增独立 T-08D 测试文件。
+- 本阶段状态：in_progress；尚未修改 extractor、尚未 build/deploy/commit/push。
+
+## T-08D — Leafhopper Management-Clause Safety Closure 完成（2026-08-27）
+
+- 完成 clause-level management safety closure：正式混合句的管理尾部被拒绝，自然生态 clause 保留；research/context、entity、intervention、reverse relation 与 220-char 安全边界保持。
+- 测试结果：T-08D=14 passed；T-08=31 passed（其中历史原始 replay baseline=12/12）；T-08B=34 passed；T-08C=11 passed；selected extractor/search=153 passed；full backend=187 passed、1 warning。
+- Local five-pair deterministic replay：番茄 possible_causes、盲蝽 harms、叶蝉 possible_causes、蝗总科 harms、南瓜 possible_causes 均 research/management/reverse/wrong_entity=0；安全不足的本地番茄输出为空但无污染。
+- Live：叶蝉两次 retrieval-only 均 available/raw=5/normalized=5；随后五 pair live 全部 available/raw=5/normalized=5，四类 pollution 全为 0。使用 candidate image 的临时只读 overlay runtime，已清理；正式 Backend 始终保持回滚状态。
+- Git diff-check=PASS；仅保留既有工作区修改与本轮 extractor/T-08D test/planning/report 改动；build=NO、candidate image update=NO、formal deploy=NO、commit=NO、push=NO。
+- Final report 已生成：`T08D_LEAFHOPPER_MANAGEMENT_CLAUSE_SAFETY_CLOSURE_REPORT.md`；本任务完成，等待 Work incremental review。
+
+## T-08D Incremental Work Review Bundle 开始（2026-08-27）
+
+- 已确认 Bundle 只服务于 T-08D Work Review；正式 Backend 保持 approved old image 的安全回滚状态，candidate image 不更新。
+- 已确认实际 T-08D production source/test 与 T-08C regression test 文件名，准备按 reports/context/source/tests/evidence/logs/validation/audit/git/planning 分目录收集。
+- 当前阶段状态：in_progress；不修改 production code，不 build/deploy/restart formal，不 commit/push。
+
+## T-08D Incremental Work Review Bundle 完成（2026-08-27）
+
+- 已完成 T-08D 小范围 Work Review bundle 与 ZIP：`C:\Users\genghailong\Documents\competition-t08d-work-review-20260827` / `C:\Users\genghailong\Documents\competition-t08d-work-review-20260827.zip`。
+- Bundle 审计结果：manifest 37 条独立核验 PASS；ZIP 38/38 round-trip PASS；secret scan PASS，未包含具体密钥、私钥、env、数据库或图片文件。
+- 测试与安全门禁保持绿色：T-08D 14、T-08 31、T-08B 34、T-08C 11、selected 153、full backend 187 passed/1 pre-existing warning；local replay 与 live leafhopper/five-pair safety 均 pollution=0。
+- 当前请求收口为 Overall=`PASS` / T-08D=`PASS` / T-08/T-08B/T-08C Regression=`PASS` / Five-pair Safety=`PASS` / Remaining P0/P1=`NONE`。
+- 后续只允许 `ALLOW NEW BACKEND CANDIDATE REBUILD FOR T-08D`；不直接 formal deploy。正式环境保持安全回滚，未 build、未更新 candidate image、未 commit、未 push。
+## T-08D New Backend Candidate Rebuild + Candidate-only Validation 完成（2026-08-27）
+
+- 已从当前 `competition-dev` working tree 构建新候选：`lab-backend:t07-t08d-candidate-20260827` / `sha256:3ff9c374d9d14d7d005536b15ba9f76cab4849532f53322c872b9dd0d0adf7d8`。基于 approved old image 离线 overlay，`--pull=false --network=none`，未安装依赖。
+- 新 staging/context 完整性、依赖 parity、overlay 21 files/19 changed runtime files、image inheritance 与 runtime contract 全部 PASS；Tavily host mapping 已显式恢复，DNS/TCP/TLS/provider 全部 PASS。
+- Candidate-only replay/E2E 全部 PASS：T-08D management pollution 1→0；T-08C research guard PASS；叶蝉两次与五 pair live safety pollution 全 0；Early-blight、Grub、low-confidence 固定 fixture 全通过。
+- Formal freeze PASS：正式五容器保持 approved 状态，候选无 `backend` alias；临时候选容器已清理，候选与旧候选镜像均保留。未 formal deploy、未 commit、未 push。
+- Final report=`T08D_NEW_BACKEND_CANDIDATE_VALIDATION_REPORT.md`；Decision=`CANDIDATE PASS / READY FOR FORMAL BACKEND UPDATE RE-REVIEW`。下一步仅等待 Formal Backend Update Work Review/授权，不得直接部署。
+## T-08D Formal Backend Update Re-Review Bundle 完成（2026-08-27）
+
+- 已完成小型增量 Work bundle 与 ZIP：`C:\Users\genghailong\Documents\competition-t08d-formal-update-rereview-20260827` / `C:\Users\genghailong\Documents\competition-t08d-formal-update-rereview-20260827.zip`。
+- Bundle 只包含 candidate image/sha、T-08D blocker closure、T-08C research regression、leafhopper two-pass/five-pair live safety、三类 E2E、runtime contract、formal freeze、Git、secret scan、MANIFEST；未重新审核历史全量逻辑。
+- Secret scan PASS；MANIFEST 32/32 independent verification PASS；ZIP round-trip 32/32 PASS。
+- ZIP size=42,567 bytes；SHA256=`f88a77609537247f34a1add6ea71f35da273206128f1a76995bffd4117d95c54`。
+- 本任务未修改 production code、未 build、未 deploy、未 commit、未 push；完成后停止。Work review requested outputs are Overall、Remaining P0/P1、ALLOW FORMAL BACKEND-ONLY UPDATE RETRY。
+## T-08D Formal Backend Update Re-Review — P1 Closure Evidence Collection 完成（2026-08-27）
+
+- 已完成只读 P1 evidence package：`C:\Users\genghailong\Documents\competition-t08d-p1-closure-20260827`，未覆盖之前 formal re-review bundle。
+- P1-1 main SQLite：正式 `lab-backend-1` 内 exact `/data/storage/crop-pest.sqlite3`，read-only SQLite URI + `PRAGMA integrity_check;` 返回 `[('ok',)]`；WAL/SHM 未检查、未修改。旧错误 target attribution 因日志未保存命令级证据，标记 `NOT PROVEN`。
+- P1-2 runtime：正式 image/identity/runtime/network alias/mount/restart/WorkingDir/extra hosts/secure env presence 已脱敏保存；两条 required host mapping 均 PASS；formal deploy=NO。
+- Secret scan PASS；MANIFEST 14/14 PASS；ZIP self-test 14/14 PASS。
+- ZIP=`C:\Users\genghailong\Documents\competition-t08d-p1-closure-20260827.zip`；size=9,761 bytes；SHA256=`8bbbb07e50cd952e7ca2237356163aaa75761a6d87034e40cbf1a0f800e9cba6`。
+- Final recommendation=`READY FOR WORK P1-CLOSURE RE-REVIEW`；Remaining P0=0；Remaining P1=1（historical previous SQLite error target attribution not proven）。完成后停止，不 deploy。
+
+## T-08D Formal Backend-only Deployment Retry 进行中（2026-08-27）
+
+- Work 已正式授权第二次窄范围 Backend-only retry：old formal image=`sha256:cf471320e05bef619c0e746f1c05c3c658f39c7e029f5b35b3f8f531f460c420`，target candidate=`sha256:3ff9c374d9d14d7d005536b15ba9f76cab4849532f53322c872b9dd0d0adf7d8`。
+- Preflight PASS：formal runtime contract、old rollback image availability、主 SQLite read-only integrity 均通过；新备份 `/data/ghl/backups/competition-backend-retry-preupdate-20260827-205945` integrity=ok。
+- 已仅替换 `lab-backend-1`，当前 container=`c3b141d5940d6e9c195e0df0dd299195fa0d8aa851faaf5cfd167c576f17a7e8`、candidate running；old container 保留为 stopped rollback anchor=`6349510bceeb787a4a2b459ae888ad56cf3844ab586a64a8473c1727b20d0069`。
+- Post-deploy runtime parity、Backend health、Gateway/Web route smoke PASS；两条 required host mapping 均存在，Web/Gateway/Detector/VLM 未修改。
+- Formal exact T-08D/T-08C replay PASS；真实 Tavily leafhopper 两次 PASS，five-pair 全部 Research/Management/Reverse/Wrong entity pollution=0。
+- 按 SQLite 禁止写入约束，E2E 使用既有三枚 formal cases 的 GET-only/fixture SHA 核验：Early-blight、Grub、low-confidence 全 PASS；未创建病例、case_count 9→9、case-id SHA 不变、post integrity=ok。
+- 当前待办：完成 evidence report、secret scan、MANIFEST、ZIP self-test、Git status/diff-check evidence；不再 deploy/build/commit/push，随后交 Work review。
+
+## T-08D Formal Backend-only Deployment Retry 完成（2026-08-27）
+
+- Formal deployment=`PASS`：`lab-backend-1` 当前运行 candidate `sha256:3ff9c374d9d14d7d005536b15ba9f76cab4849532f53322c872b9dd0d0adf7d8`；old formal container 保留 exited rollback anchor。runtime parity、Backend、Tavily、Gateway/Web、exact T-08D/T-08C、five-pair、approved E2E 和 SQLite post-safety 全部 PASS。
+- SQLite preservation：case_count=9→9，case-id SHA=`e7431ff59a8f7baa82859d5e617d01d79c28ec3965616df288f68d792d36f732` 不变，前后 `integrity_check=ok`；E2E 只读既有 case，未创建/写入测试数据。
+- 新 evidence package=`C:\Users\genghailong\Documents\competition-t08d-formal-backend-retry-20260827`；MANIFEST=25 payload entries，secret scan=PASS；ZIP self-test=PASS，ZIP size=31,882 bytes，SHA256=`b6f2de19e6fdec37fa03b9b443b2870459d2a8e3125f79566a3504ac4179535f`。
+- 最终 recommendation=`READY FOR WORK FORMAL DEPLOYMENT REVIEW`；Remaining blocker=`NONE`。本轮未改 Web/Gateway/Detector/VLM、production code 或 SQLite；未 build、未 commit、未 push。完成后停止。
+## 8-Case Browser Trace 开始（2026-08-27）
+
+- 已读取 planning-with-files 指令并完成 catch-up；本轮目标为只读追溯 8 个浏览器失败病例，不修代码、不创建病例、不写 SQLite、不重启/部署正式容器。
+- 新证据目录规划为 `C:\Users\genghailong\Documents\competition-browser-8case-trace-20260827`；第一阶段待盘点 formal SQLite/API/uploads 与 evidence snapshots。
+
+## 8-Case Browser Trace：正式病例盘点完成（2026-08-27）
+
+- Formal read-only inventory：SQLite `diagnosis_cases`=43、uploads=43、API detail=43/43 HTTP 200、`PRAGMA integrity_check=ok`；schema 与脱敏索引保存在 `formal-inventory/`。
+- 7 个非 canonical 目标类别均找到真实 formal persisted case，并按最近 `created_at` 选取：豆芫菁 `lab_cpu-73ddc1259f3b4b249f436b91feb60847`；番茄细菌性斑点病 `lab_cpu-922c118dc4bf4ef4b0cc679940d8a787`；蝗总科 `lab_cpu-285eb4df299844859c3ad1405b2b9c06`；南瓜白粉病 `lab_cpu-c887feac8e7540ed9f5629745284d104`；芫菁 `lab_cpu-da2d8607c10c44d8a21f7b9f3e22b9e7`；叶蝉科 `lab_cpu-cf747068991345488d62bb5c139aea11`；玉米叶枯病 `lab_cpu-592494b75c7f4b17ba42a3887ab487d1`。
+- 当前已保存每类 case-info/image-info/API/sources/evidence-snapshots/raw/normalized/extractor/candidate-history；raw Tavily response 与独立 normalized payload 未作为单独字段持久化，已明确标记，不猜测。
+
+## 8-Case Browser Trace 完成（2026-08-27）
+
+- 已生成只读证据目录：`C:\Users\genghailong\Documents\competition-browser-8case-trace-20260827`；包含 7 个正式持久化病例候选、马铃薯 canonical fixture 追溯、API/source/snapshot/raw/normalized/extractor 状态、runtime freeze、Git 与 secret evidence。
+- 结果：严格按 browser provenance 证明为 `7/8`；8/8 类别均有持久化或 canonical 证据。马铃薯 canonical SHA=`100079e00ccf046c761599235a1a73db03980fa4847b2a2fe8ea4092bca6bf5c`，PASS；Tavily raw HTTP 与独立 normalized payload 未持久化，最早英文层级无法在 RETRIEVAL/NORMALIZER 间证明。
+- MANIFEST=84/84 independent verification PASS；ZIP self-test=85/85 round-trip PASS；ZIP size=1,905,044 bytes，SHA256=`f7d41d18abd76ffcdc84c14e21fa85b88cde90cfc3c73ddfa886e8fe1ed297a1`；final secret scan=PASS。
+- 本轮未创建病例、未调用写 API、未修改 SQLite、production code、容器或服务；未 build/deploy/restart/recreate/commit/push。Ready for minimum-fix planning=`YES`，但当前停止等待后续授权。
+
+## 5-Case Controlled Replay + 3-Case Regression Baseline 开始（2026-08-27）
+
+- 已读取 planning-with-files、上一轮 8-case trace 的 summary 与各病例 evidence；新范围仍为只读 replay 与独立 baseline 文件，不修改 production code 或正式数据。
+- 待完成：确认现有 production query/Normalizer/Extractor 调用路径；对豆芫菁、番茄细菌性斑点病、蝗总科、芫菁、叶蝉科补齐 raw/normalized/逐候选 trace；固化马铃薯语言、南瓜格式、玉米 TOC 三个失败样本。
+
+## 5-Case Controlled Replay + 3-Case Regression Baseline 完成（2026-08-27）
+
+- 5 类共 10 个 Tavily query 已按现有 production `_query()`/payload 受控调用；raw JSON、production Normalizer 输出、filter/selection trace、逐候选 EvidenceExtractor trace、final result 均已保存。
+- 判定：豆芫菁=`NORMALIZER_DROP / PROVEN`；番茄细菌性斑点病=`EXTRACTOR_FALSE_REJECT / PROVEN`；蝗总科=`EXTRACTOR_FALSE_REJECT / PROVEN`；芫菁=`SOURCE_SCARCITY / PROVEN within replay`；叶蝉科=`SOURCE_SCARCITY / PROVEN within replay`。
+- 3 个 deterministic baseline 已创建：马铃薯英文直出 FAIL、南瓜繁体/pipe 噪声 FAIL、玉米 TOC 进入 possible_causes FAIL；叶蝉 T-08D factual ACCEPT / management REJECT regression PASS。
+- Package=`C:\Users\genghailong\Documents\competition-browser-8case-replay-baseline-20260827`；MANIFEST=56/56；ZIP size=1,202,699 bytes，SHA256=`f180bd111466a6598b1d427c5bb2d9c725bb19ec69916ab51a11752ccf6d6fe0`；round-trip=57/57；secret scan=PASS。
+- 未修改 production code、SQLite、容器生命周期、Tavily provider/query/prompt、任何 safety guard；未 build/deploy/restart/recreate/commit/push。Ready for Work replay review=`YES`。
+# 8-Case Minimum Production Fix progress（2026-08-27）
+
+- 已定位 public formatter 边界并完成最小修复初稿：Normalizer 豆芫菁窄 parent-overlap 例外；Extractor 番茄 wrong-context、番茄窄 cause pattern、蝗总科窄 alias/cause pattern、TOC 过滤；main public evidence display 仅做已确认的英文/繁体/table residue 格式化，raw/persisted snapshots 不变。
+- 新增 `backend/tests/test_eight_case_minimum_fix.py`，覆盖 8-case targeted regression 与三个 fixed baseline。
+- 首次 targeted pytest 在 collection 阶段失败：`str.maketrans()` 使用了多字符 key；未执行业务断言，已记录并修正为逐字符映射，待重跑。
+
+## 8-Case Minimum Production Fix 完成（2026-08-27）
+
+- Production 修复仅涉及 `backend/app/search/normalizer.py`、`backend/app/search/evidence_extractor.py`、`backend/app/main.py`；新增 `backend/tests/test_eight_case_minimum_fix.py`。
+- 豆芫菁、番茄 false-reject、番茄 wrong-context、蝗总科、Potato language、Pumpkin format、Corn TOC 全部 targeted PASS；芫菁与叶蝉科 source scarcity 保持。
+- T-08 31/31（含历史 12/12 基线）、T-08B 34/34、T-08C 11/11、T-08D 14/14、完整 backend 195/195 通过；`git diff --check` exit 0。
+- Management pollution=0；raw Tavily/normalized/persisted evidence snapshot 未修改。
+- 本轮未 build、deploy、restart/recreate、commit、push；保留工作区中此前已有的其他未提交改动，未触碰 Web/Gateway/Detector/VLM/Tavily/SQLite。
+# Source Policy Relaxation — Read-only Audit 开始（2026-08-28）
+
+- 已读取 `planning-with-files` 与 `karpathy-guidelines`，完成 session catch-up，并重读 `task_plan.md`、`findings.md`、`progress.md`。
+- 当前工作树含项目既有未提交改动和部署证据，本轮全部视为只读基线；不修改 production code/tests，不调用写 API，不 build/deploy/restart/commit/push。
+- 待完成：规则盘点与分类、五病例 evidence 映射、最小 RELAX/KEEP scope 和 safety impact。
+
+## Source Policy Relaxation — Read-only Audit 完成（2026-08-28）
+
+- 完成 Normalizer、Extractor、Tavily result shaping、source schema/attribution 与配置上限的只读审计；无 gov/edu/research whitelist，普通网页 score=0 仍会保留。
+- 确认 authority 只在 Normalizer 5-slot 选择排序与 Extractor 同分候选排序形成软偏置；硬删除来自低质量域名/token、竞争实体标题、无效 URL，后续拒绝来自内容/实体/关系 safety guards。
+- 5 个剩余病例均未证明由 source-type hard restriction 导致；普通 Sohu/Wikipedia/百度百科/行业站点已经进入 persisted evidence。马铃薯英文明确不是来源策略根因。
+- 结论：可进入 source-policy fix planning；最小候选池放宽只需评估 `_reliability_key()`，既有安全、归因、快照、schema、provider/query 保持不动。本轮 production/tests/build/deploy/restart/commit/push/SQLite 均 NO。
+
+# Source-Neutral Selection Minimum Fix 开始（2026-08-28）
+
+- Work tree 含既有未提交 8-case 修复及历史证据，本轮保留并只触碰 Normalizer selection 与必要 targeted tests。
+- 成功标准：普通来源不再被 authority score 挤出；provider 输入顺序稳定；低质量过滤、每域2条、总数5条及全部 safety gates 保持。
+- 首次 targeted test 命令调用了 WindowsApps 的 `python.exe` 占位程序，退出 0 但没有执行/输出 pytest；不作为测试结果。已确认项目解释器为 `backend\.venv\Scripts\python.exe`，后续仅使用该解释器。
+- 首次真实 Normalizer targeted run：27 passed、2 fixture failures。其一误把现有 `cau.edu.cn` 分类期望为高校（代码按 research-domain 优先分类为农业科研院所）；其二在单个 `SearchEvidence` 中放入6条，违反既有 max_length=5 schema。已仅修正测试期望，并用同一 query 的两批 SearchEvidence 构造 6 个候选，未改 schema/产品范围。
+- 修正 fixture 后 Normalizer targeted=29/29 PASS。
+- 强制门禁全部 PASS：8-case=8/8、T-08=31/31、T-08B=34/34、T-08C=11/11、T-08D=14/14、backend full=201/201（1 个既有 Starlette warning）、`git diff --check` exit 0。
+- 未 build/deploy/restart/commit/push，未触碰 SQLite、Web/Gateway/Detector/VLM、Tavily/query、Extractor/API schema。
+
+## Source-Neutral Selection Minimum Fix 完成（2026-08-28）
+
+- 仅修改 Normalizer selection：`_reliability_key()` 不再使用 authority score，`query_urls` 使用顺序保持型去重 list；`reliability_level`、所有质量/安全过滤和容量限制保留。
+- 仅更新 `backend/tests/test_search.py`：Normalizer targeted=29/29，8-case=8/8，T-08=31/31，T-08B=34/34，T-08C=11/11，T-08D=14/14，backend=201/201，diff-check PASS。
+- Final bundle=`C:\Users\genghailong\Documents\编程大赛\competition-source-neutral-selection-review-20260828.zip`；size=45426 bytes，SHA256=`a05dc1d958d6685c2f4b83a3c3d96c14c6b11301a657806b9b9ef0b5d10835a2`；MANIFEST=28/28，ZIP self-test=29/29，secret scan=PASS。
+- 本轮未 build/deploy/restart/commit/push，未改 Extractor/Tavily/query/schema/SQLite/Web/Gateway/Detector/VLM。
+- 首次最终 ZIP self-test 已证明 MANIFEST 28/28、source/extracted 29/29，但错误地把 ZIP 目录 entries 也计入文件数，得到 entries=35 并触发停止；archive/payload 未损坏。后续只把 `ZipArchiveEntry.Name` 非空的 entries 计为文件，并清理本轮唯一 GUID 临时解压目录。
+
+## A — 3-Class Curated Evidence Override 完成（2026-08-28）
+
+- 仅新增 A-stage curated parser/override 与 targeted tests；A0 三份知识文档作为数据基线保留，其他知识库与 treatment path 未扩大修改。
+- class 0/8/15 的 harms、possible_causes、真实 title/site/url、source_ids 完整输出；Tavily 独立性与普通类别外部路径 control PASS。
+- 门禁全部通过：A targeted 9/9、8-case 8/8、T-08 31/31、T-08B 34/34、T-08C 11/11、T-08D 14/14、backend 210/210、Research=0、Management=0、diff-check PASS。
+- Review Bundle=`C:\Users\genghailong\Documents\编程大赛\competition-3class-curated-evidence-review-20260828.zip`；71343 bytes；SHA256=`48aa25ebc46cf145f3713c24de7810249aa8a08717a7b63cd9db27a3d31bb660`；MANIFEST 44/44、ZIP self-test 44/44、secret scan PASS。
+- 本轮未 build/deploy/restart/修改 SQLite/commit/push；下一步为 Work 独立 Code Review。
+
+## B0 — Final Knowledge Sync + Relative Image Migration（2026-08-28）
+
+- 已完成只读 preflight：branch=`competition-dev`；记录既有 git status/HEAD/manifest/文档哈希及 A-stage production diff。
+- v2_5 ZIP SHA256=`06D2F6D7955FA983DFDDE44F20DA1582AC439ACFDDA257FA585B7C252546D76A`，已独立解压。
+- hard gate 失败：source 仅含 14 个有效类别文档，缺 `马铃薯早疫病`（manifest class_id 3）和 `蚜虫`（manifest class_id 9）。
+- 已按要求停止；没有写入 knowledge documents/images/manifest，没有运行完整回归，没有 build/deploy/restart/commit/push，也没有生成 ZIP Review Bundle。
+- 证据：`artifacts/b0-final-knowledge-freeze-20260828/source-h1-list.json`、`source-zip-entries.json`、`git-status-before.txt`、`manifest-before.json`。
+
+### Corrected folder source execution result
+
+- 新 v2_5 文件夹解决了 ZIP 版 14/16 预检问题：source 实际 16/16 类别，精确映射、34/34 treatment refs、61/61 image sources、A frozen gate PASS。
+- 已同步 16 份文档和 61 张图片到 `knowledge/baidu-baike-20260818/images/`，manifest 既有 schema 更新；静态路径/hash/mapping/absolute residue 检查通过。
+- loader/A-stage tests=3 passed、12 failed；根因证据为 `_rewrite_images()` 只支持 `assets/`，与本轮强制 `images/` 路径冲突。
+- 按禁止修改 production code/tests 和失败即停止要求结束；无完整 regression/build/deploy/restart/commit/push，无 Review Bundle。
+
+## B0-R1 — Existing Assets Contract Alignment（2026-08-29）
+
+- 已完成现有 assets contract 对齐：迁移 61/61 图片到 `knowledge/baidu-baike-20260818/assets/<id>/`，16 份 Markdown 的 `../images/` 引用机械改为 `../assets/`；manifest 仅更新相关文档 hash/asset path，mapping 保持。
+- 数据级验证：asset SHA parity PASS，knowledge docs 16/16，broken refs 0，knowledge 文档 obsolete refs 0，absolute residue 0，treatment refs 34/34，A frozen static/path-only semantic、structure、manifest、mapping PASS；旧 prior-B0 `images/` 已在删除前验证后移除。
+- loader gate 命令 `python -m pytest -q tests/test_knowledge_documents.py tests/test_curated_evidence_override.py` 结果：8 passed、7 failed、1 warning。失败分组为 knowledge renderer/endpoint 2 项，以及 class 08 curated parser 5 项。
+- 首次断裂定位：既有 renderer 只重写 Markdown image，不能从 HTML `<img>` 生成 full_html；既有 endpoint 测试仍要求旧非补零路径；08.md 的 `### 内容：` 不符合 parser 当前标题 contract。B0-R1 明令不得改 loader/tests，故按 stop condition 停止。
+- 本轮未修改 production code/tests/SQLite，未运行 full regression、diff-check、secret scan，未 build/deploy/restart/commit/push，未生成 Review Bundle。阻塞报告与原始 gate 输出位于 `artifacts/b0-r1-assets-contract-20260829/`。
+
+## B0-R2 — Markdown / Asset Path Contract Normalization（2026-08-29）
+
+- Preflight branch=`competition-dev`；读取并确认 loader、knowledge test、curated test 的现有契约：Markdown `![alt](relative)`、非补位 `assets/<id>/<n>.jpg`、exact `### 内容`。
+- 在修改前进行 61/61 asset collision check：60 个非补位目标已存在，其中 53 个 SHA 相同、7 个 SHA 不同；`assets/07/3.jpg` 不存在。不同 SHA 冲突满足 B0-R2 明确 STOP 条件。
+- 本轮只新增 `artifacts/b0-r2-markdown-asset-contract-20260829/existing-contract-evidence.md` 作为审计证据；未修改知识文档、资产、manifest、production code 或 tests。
+- 未执行 HTML image conversion、asset rename、08 heading normalization、targeted loader gate、full regression、diff-check、secret scan；未 build/deploy/restart/commit/push，未生成 Review Bundle。
+
+## B0-R3 — Collision-Safe Asset Merge + Final Contract Normalization（2026-08-29）
+
+- 已完成 61/61 premerge mapping；37 `COPIED_CANONICAL`、24 `REUSED_BY_SHA`，0 historical overwrite、0 historical delete、0 historical SHA change。
+- 已将 11 个 HTML `<img>` 转换为 Markdown image syntax（09/12 的 8 个及 14 的 3 个），完成 61/61 final refs；08.md 仅规范 `### 内容：`→`### 内容`；manifest 更新现有 path/hash 字段。
+- pre-delete/post-clean 数据校验 PASS：incoming/final SHA parity、broken refs=0、HTML=0、absolute=0、zero-padded final refs=0、A frozen payload unchanged、treatment unchanged、mapping/manifest PASS；61 个 B0 padded 临时副本已在校验后删除。
+- targeted loader gate：5/6 knowledge tests + 4/9 curated tests PASS，合计 9 passed、6 failed、1 warning。class 0 features fallback 断言与 v2_5 内容不一致；class 8 source records 的零宽空格/tab 未被 existing parser 接受，curated 仍为 None。
+- 按 R3 stop condition 未运行 full regression、diff-check、secret scan，未 build/deploy/restart/commit/push，未生成 Review Bundle。详见 `artifacts/b0-r3-markdown-asset-contract-20260829/targeted-loader-gate.md`。
+
+## B0-R4 — Curated Source Sanitization + Stale Knowledge Test Baseline Update（2026-08-29）
+
+- Preflight branch=`competition-dev`，HEAD=`0075f63325ec2a5f8515586039458ebdbd135a9c`；确认 class 0 stale expectation 与 08 parser source-line hidden-character blocker。
+- 仅清理 `08.md` curated source block 的 U+200B/TAB（42 parser-critical code points），保留普通正文隐藏字符；A frozen semantic payload unchanged。仅更新 `backend/tests/test_knowledge_documents.py` 的 class 0 stale `features_html` assertion；manifest 仅更新 08 hash。
+- Targeted：`test_knowledge_documents.py`=6/6，`test_curated_evidence_override.py`=9/9；hidden scan total=68、parser-critical=0；资产 61/61、SHA、broken refs、A/treatment/manifest/mapping 均 PASS。
+- Backend full regression=210 passed、1 warning。
+- `git diff --check`=FAIL，135 项 trailing whitespace/new blank line findings，源于既有 B0/v2_5 文档变更且超出 R4 scope；已停止，未运行 secret scan，未生成 Review Bundle。
+- Build/deploy/restart/commit/push 均 NO；证据目录：`artifacts/b0-r4-curated-source-sanitization-20260829/`。
+
+## B0-R5 — Knowledge Whitespace Normalization + Final Freeze（2026-08-29）
+
+- 已锁定 branch=`competition-dev`；R5 初始 diff-check=135（trailing whitespace=134、blank-line whitespace=1），全部在知识库 Markdown。
+- 已完成仅知识库空白规范化及 manifest 16 个文档 hash 同步；未修改 backend/app、backend/tests、web、SQLite 或图片 bytes；R4 测试文件 SHA 前后相同。
+- `git diff --check`=PASS 0 issues；语义/结构/来源/图片/manifest 不变量 PASS，61/61 refs、34/34 treatment refs、broken refs=0、asset SHA unchanged。
+- 测试门禁：knowledge=6/6、curated=9/9、8-case=8/8、T-08=31/31、T-08B=34/34、T-08C=11/11、T-08D=14/14、five-pair=4/4、backend=210/210；Research/Management pollution=0/0。
+- 已完成 secret scan、最终 scope 审计和 final Review Bundle 自测；没有 build/deploy/restart/commit/push。
+
+## B — Severity Engine + Tiered Treatment Matching（2026-08-29）
+
+- 已完成 B preflight：competition-dev；冻结知识库/assets/manifest 快照。
+- 已新增 `backend/app/severity.py`，最小修改 `backend/app/analysis.py`、`backend/app/main.py`；新增两个 B 测试文件。未修改 knowledge/assets/manifest、search/safety、Web、SQLite。
+- B targeted：severity unit/determinism/tier=65/65，B integration=6/6；knowledge=6/6，curated=9/9，8-case=8/8，T-08=31/31，T-08B=34/34，T-08C=11/11，T-08D=14/14，five-pair=4/4，Grub/Early-blight=36/36，low-confidence=3/3；backend full=281/281。
+- Freeze no-change proof PASS；Research pollution=0、Management pollution=0；git diff-check PASS。待 secret scan 与 final Work Review Bundle。
+- Final bundle complete：`competition-b-severity-tiered-treatment-review-20260829.zip`，44/44 MANIFEST payload、ZIP self-test PASS，ZIP secret scan PASS（0 matches）；size=354993 bytes，SHA256=`eb1d37bc57e6b4ae6cd05c0a73d02290963bde970e8ede6ad0e65ab78102f147`。B 阶段完成，未 build/deploy/restart/commit/push。
+
+## B-R1 — Partial Severity Input Validation Closure（2026-08-29）
+
+- 已读取 B-R1 指令：只修 ratio + `unknown` 未 422 的唯一 P1；保留 B 算法、正式 enum、legacy alias、tier/source、安全门禁与冻结知识库。
+- 当前阶段：preflight；下一步先确认 branch、B production/test 当前 diff，再进行最小代码与 API truth-table regression。
+- B-R1 首次 targeted 命令因已在 `backend` 目录却使用 `./backend/.venv` 路径而未启动 pytest；已记录并改用 backend 本地 venv，未产生代码影响。
+- B-R1 targeted=72/72 PASS；full backend=281 passed、1 failed。失败为既有 `test_phase9_public_api.py::test_unknown_spread_forces_unknown_severity` 与新 422 contract 冲突。按 scope 禁止修改该历史测试，已停止；未 build/deploy/restart/commit/push，未生成 Review Bundle。
+
+## B-R1A — Stale Phase9 Severity Contract Test Update（2026-08-29）
+
+- 仅修改 `backend/tests/test_phase9_public_api.py::test_unknown_spread_forces_unknown_severity`：删除旧 upload-success flow 的后续数据库/analyze步骤，保留真实 public API upload，并明确断言 `ratio=10 + spread_speed=unknown` 返回 HTTP 422 且错误指向扩散速度。
+- Production code 未修改；Phase9 targeted=5/5，B-R1 severity/integration=72/72；准备运行完整 backend 与全部历史 gates。
+
+- 全部 B-R1A 门禁完成：Phase9=5/5、Severity=66/66、B integration=6/6、backend=282/282；knowledge/curated/8-case/T-08/T-08B/T-08C/T-08D/five-pair/Grub-Early-blight/Low-confidence 全 PASS，pollution=0/0，diff-check PASS，secret scan PASS。
+- Review Bundle=`competition-b-severity-partial-input-fix-review-20260829.zip`；42/42 MANIFEST payload，ZIP self-test 与 secret scan PASS；未 build/deploy/restart/commit/push。
+
+## C — Case Context + Fixed Environment + Growth Stage Implementation（2026-08-29）
+
+- 已完成只读 preflight：branch=`competition-dev`；确认当前 growth_stage/environment/crop 已存在部分链路，但没有独立 fixed-environment system preset 或明确 crop-authority context contract。
+- 用户消息在 Case Context 示意图处结束，规格不完整；本轮未修改 production code/tests/SQLite/Web，未 build/deploy/restart/commit/push，未运行 C 回归或生成 Bundle。
+
+## C — implementation resumed from complete C-SPEC（2026-08-29）
+
+- 已读取 C-SPEC 全文并完成 preflight 快照；确认 branch=`competition-dev`、现有 `growth_stage` persistence 可复用、无需 SQLite schema 变更。
+- 已新增 `backend/app/case_context.py`，实现 fixed system environment、六枚 growth enum/label、catalog-derived 16-class crop mapping 和 generic-pest fallback；已在 `main.py` 最小接入 `present_case` 并保持 legacy fields。
+- 已调整植物病例的 growth 输入：缺省字段继续成功，显式空白/非法值仍拒绝；更新 API stale test expectation。
+- 下一步：运行 C targeted；通过后运行全部历史/当前门禁；任一 safety、frozen baseline、schema 或 isolation regression 失败即停止，不 build/deploy/commit/push。
+
+## C — final complete（2026-08-29）
+
+- C implementation complete on `competition-dev`：新增 `backend/app/case_context.py`，最小集成 `backend/app/main.py`，新增 `backend/tests/test_case_context.py`，更新 `backend/tests/test_api.py` compatibility assertions；无 Web/VLM/SQLite schema/search/severity/treatment logic change。
+- Fixed Environment、6 formal Growth Stage、missing-vs-uncertain、16-class crop mapping、unique YOLO authority、generic pest fallback/unavailable、detail/analysis Case Context 和 isolation tests 全 PASS。
+- Gates all PASS：C targeted=13/13、backend full=295/295、historical A/B/safety/storage groups PASS、pollution=0/0、frozen 115/115、SQLite integrity/schema proof PASS、git diff-check PASS、secret scan PASS。
+- Work Review Bundle：`competition-c-case-context-review-20260829.zip`；size=56962 bytes；SHA256=`38dbb9832dfe022932543c13a63fd66cdd54088ad7930a86d11095ca969d4ca5`；MANIFEST=51/51；ZIP self-test=52/52；Build/Deploy/Restart/Commit/Push=NO。
+
+## C-R1 — implementation in progress（2026-08-29）
+
+- Work 指出两个 P1：Case Context severity 与 top-level severity 在 upload 无 analysis 时不一致；已有 C round-trip 测试未调用 `/analyze`。
+- 已完成最小修复：`build_case_context()` 复用 B `severity_for_record()`；`present_case()` 计算唯一 severity result 并同时装配 top-level/context；未修改 severity algorithm 或其他 production files。
+- 已完成测试扩展并通过 C-R1 targeted=29/29：no-input/mild/moderate/severe/upload consistency、真实 upload→persist→GET→analyze growth round-trip、historical missing-growth analyze。
+- 下一步：运行完整回归与冻结/SQLite/secret 门禁；通过后生成 `competition-c-case-context-r1-review-20260829.zip`。
+
+## C-R1 — final complete（2026-08-29）
+
+- P1-1/P1-2 已关闭：`build_case_context()` 复用 B `severity_for_record()`；C test 已真实执行 upload→persistence→GET/read→`POST /analyze` 并验证 growth context，旧缺省 growth case 也可 read/analyze。
+- Scope：production 仅 `backend/app/case_context.py`；test 仅 `backend/tests/test_case_context.py`；未改 severity algorithm、analysis、database/schema、search/Tavily、knowledge/assets/manifest、Web/VLM。
+- Gates：C-R1 targeted=29/29、backend full=300/300；knowledge=6/6、curated=9/9、severity=66/66、B integration=6/6、Phase9=5/5、8-case=8/8、T-08=31/31、T-08B=34/34、T-08C=11/11、T-08D=14/14、five-pair=4/4、Grub/Early-blight=36/36、low-confidence=3/3、storage=8/8；pollution=0/0、frozen=115/115、SQLite integrity/schema/diff-check/secret PASS。
+- Review Bundle=`competition-c-case-context-r1-review-20260829.zip`；size=34638 bytes；SHA256=`1c0865164dce6ebddaab8226af57b84b580854820b91136404b5c0d10d44c085`；MANIFEST=42/42；ZIP self-test=43/43；Build/Deploy/Restart/Commit/Push=NO。
+
+## C-R2 — final complete（2026-08-29）
+
+- 仅新增真实 upload integration test，production code unchanged；真实 `POST /api/cases` 合法 severity 输入 HTTP 201，top-level 与 `case_context.severity` direct equality PASS。
+- C-R1/C Context targeted=30/30、Case Context=19/19，全部历史/安全/storage gate PASS；backend full=301/301，Research/Management pollution=0/0，frozen=115/115，SQLite schema/integrity/diff-check/secret PASS。
+- Review Bundle=`competition-c-case-context-r2-review-20260829.zip`；size=28633 bytes；SHA256=`4400ae2c056c9077f95ae2f03c0c90f7ded1b99d9b8b86a7eae32e6632e22b6a`；MANIFEST=43/43；ZIP self-test=44/44；Build/Deploy/Restart/Commit/Push=NO。
+
+## D — preflight blocked（2026-08-29）
+
+- D 阶段规格已完整读取；分支正确为 `competition-dev`。
+- 只读检查发现真实 `POST /api/cases` 仍要求必填 `environment_json` 和有效 `scene`，而 D 要求移除新 UI 环境选择并禁止伪造 environment/修改 Backend。
+- 按 stop condition 停止在实现前；本轮 production code changed=NO、Web/tests changed=NO、build/deploy/restart/commit/push=NO，未生成 Review Bundle。
+- 精确 blocker 及代码证据已保存至 `artifacts/d-context-display-20260829/preflight-blocker.md`。
+
+## D0 — Legacy Environment Optional Contract Bridge 完成（2026-08-29）
+
+- 已按授权仅调整 `backend/app/main.py` 的 legacy `environment_json` 可选解析，并新增 `backend/tests/test_case_context.py` 真实 multipart API 覆盖。
+- omitted environment POST=201、无 fake scene、legacy valid compatibility、malformed/incomplete rejection、system_default exact、severity consistency 全部 PASS。
+- D0 targeted=24/24、backend full=306/306；历史/安全 gates 全 PASS，Research=0、Management=0，SQLite schema/integrity 与 frozen knowledge/assets/manifest 未变。
+- 已准备 D0 Review Bundle，下一步仅做 package integrity/secret scan/ZIP self-test，之后停止并交 Work；不开始 D Web。
+
+## E1-A-R1 — Official ModelScope Alternate Staging（2026-08-29）
+
+- 通过独立临时 ModelScope SDK 环境从官方 `OpenGVLab/InternVL3-1B` 下载 21-file `master` snapshot；未修改 production requirements/venv。
+- 本地 materialized payload=21/21、broken symlink=0、temporary/incomplete/lock=0；总大小 `1890735425` bytes。
+- 主权重 `model.safetensors`=`1876463472` bytes，SHA256=`a8b67c54568417f3631723e6b3e120720eaa638e03e62dc25666c70e3ae3e484`，与 HF canonical revision `4415a3b810e636d11dfa86b0e9ba40bb00535aa8` anchor 精确一致。
+- 已复制到 repo 外独立 lab cache `/data/ghl/models/internvl3-1b-modelscope-20260829`；首次传输发现缺少 `added_tokens.json` 后只补传该已验证文件，随后 server 21/21 size/SHA parity PASS。
+- Windows 与 lab 均仅离线读取 JSON/tokenizer、编译 custom Python；`model_load=not_attempted`、E1 benchmark/GPU inference=NOT RUN。
+- 仅新增 E1-A-R1 evidence/artifact 文件与计划记录；无 production/test/deps/Web/Backend/inference/Qwen/SQLite 修改，无 build/deploy/restart/commit/push。
+
+## E1 — InternVL3-1B Native CPU Benchmark（2026-08-30）
+
+- 已从用户 E1 规格恢复工作；E1-A-R1 冻结制品继续使用，不重新下载、不重新 staging、不更换 revision/model/tokenizer/config。
+- 真实 LAB preflight PASS：Intel Xeon E5-2650 v4，24 physical/48 logical，约 125G RAM；base 环境 CUDA 可见但 benchmark 必须显式 CPU-only。
+- 已建立独立临时 benchmark venv `/data/ghl/e1-internvl3-1b-cpu-benchmark-venv-20260830`，离线安装 torch `2.2.2+cpu`、transformers `4.48.3` 等 wheels；未改变 base/production environment。
+- 已验证 model load pilot：`InternVLChatModel`、938,193,024 parameters、全部 CPU、`CUDA_VISIBLE_DEVICES=""`、torch CUDA unavailable、offline flags PASS；实际 dtype 为 float32（native CPU compatibility），未量化/转换。
+- 已核对真实输入 `E:\病图片`：16/16 canonical classes、62 readable unique images；primary 16 张已复制到独立 artifact inputs，未改 source bytes。
+- 当前只完成 load pilot，尚未执行 image chat inference/main benchmark；下一步先生成 current catalog-derived crop mapping 与 prompt-freeze，再做单图 inference pilot。
+
+### E1 pilot stop（2026-08-30）
+
+- 已完成两次允许的非计分单图 pilot；模型 SHA、图片 SHA、CPU-only、offline-only、显式 CPU placement、GPU 计算为空均通过。
+- Pilot 1 约 23.119s：raw 使用代码围栏并在输出中截断，strict JSON/schema FAIL。
+- Pilot 2 约 14.502s：raw 仍缺少外层 JSON 结束符，且 `multimodal_summary.value` 含上游类别 `玉米叶枯病`，违反 E1 禁止诊断/疾病/类别输出；因此 functional hard gate FAIL。
+- 按停止条件未运行 16/16 main、8×3 stability、完整性能统计，也未进入 E2；没有构建/部署/重启/提交/推送。
+- 详细 stop report：`artifacts/e1-internvl3-1b-cpu-benchmark-20260830/E1-BLOCKER-REPORT.md`；当前 E1=`NOT READY`，等待后续明确授权。
+- 已生成 STOP evidence package（不含模型权重）：`competition-e1-internvl3-1b-native-cpu-benchmark-review-20260830.zip`，size=27054 bytes，SHA256=`49c9835469d206d2f104f523e7425b6baaaf6d4d33afb81111e63ffc4cc6ad14`；MANIFEST=18/18，ZIP self-test=18/18（含 manifest 的总条目=19），secret scan=PASS。
+
+## E1-R1 — Contract Stabilization（2026-08-30）
+
+- Work 已授权一次统一 R1 retry。已保存 E1 原 prompt/decoding、truncation analysis；冻结 `e1-r1-prompt.txt` SHA=`2d0631ae35ae2066182ab98109f18490e9a49afa64063499ed240e47c1dc7eea`，decoding SHA=`b0b1beb00a8ba1e2bad4e9963490aca01c05e1009c66f6990fae4c09c999896b`。
+- 原两个 E1 pilot 输入均为同一 `class00-1.jpg`，原/R1 SHA 全部 exact `ea2d34f243f914aa55c82c0b4ede1c99fec27debbb8b77d07dc8720f316ba30a`；YOLO class/crop/growth/environment context 保持不变。
+- R1 Pilot 1 与 Pilot 2 均完成：model load/CPU/offline/GPU/input parity PASS，JSON parse PASS（strip one outer fence），但 exact nested schema FAIL；canonical leakage=0、forbidden keys=0、YOLO override=0、environment causality=0。
+- Pilot 1 后未修改 contract；Pilot 2 首次命令仅因 venv 路径拼写未启动，随后用同一冻结文件和正确 venv 重跑；没有第三次 pilot。
+- 按 stop condition 结束：Main/Stability/E2 未运行；未 build/deploy/restart/commit/push。详细报告：`artifacts/e1-r1-internvl3-1b-contract-stabilization-20260830/summary.md`。
+- STOP Review Bundle 已生成：`competition-e1-r1-internvl3-1b-contract-stabilization-review-20260830.zip`，待最终 SHA/MANIFEST/self-test 汇总。
+
+## E1-R1H — Harness-Only Correction（2026-08-30）
+
+- 仅新增独立 `artifacts/e1-r1h-internvl3-1b-harness-correction-20260830/e1-r1h-pilot.py`；用严格 formal-generation allowlist 过滤 R1 `max_length/temperature/top_p=not_passed` 证据元数据，未知 generation key hard-fail，并记录 actual kwargs、stdout/stderr、scoped warnings。未修改 production/backend/web/inference/deps/model/SQLite。
+- R1H Prompt SHA before/after 均为 `2d0631ae35ae2066182ab98109f18490e9a49afa64063499ed240e47c1dc7eea`；R1 decoding record SHA=`b0b1beb00a8ba1e2bad4e9963490aca01c05e1009c66f6990fae4c09c999896b`；有效 kwargs 两次完全一致，`not_passed` passed to model=0，unknown kwargs=0，scoped invalid-kwarg warnings=0。
+- Pilot 1/2 均使用 class00-1 SHA=`ea2d34f243f914aa55c82c0b4ede1c99fec27debbb8b77d07dc8720f316ba30a`；CPU/offline/model/input/prompt/harness gates PASS；两次 JSON parse PASS，但 unchanged nested schema 均 FAIL，raw 均为相同扁平 object，canonical/forbidden/diagnosis/override/environment safety hits 全部 0。
+- 按 R1H stop condition：`MODEL CONTRACT FAILURE CONFIRMED`；Main 16-class、8x3 Stability、E2 未运行；不再 prompt retry，Recommendation=`NO FURTHER PROMPT RETRY — MASTER DECISION REQUIRED`。
+- STOP Review Bundle=`C:\Users\genghailong\Documents\编程大赛\competition-e1-r1h-internvl3-1b-harness-correction-review-20260830.zip`；size=89517 bytes；SHA256=`19ae4ca67d89edf1c732d741dfeb7421ae2b4a2991d728b26ac896df08f564ff`；MANIFEST=100/100、ZIP self-test=101/101、secret scan PASS；仅完成 harness/evidence 证据，未 build/deploy/restart/commit/push。
+
+## E1-S1 — Simplified Model-Facing Contract STOP（2026-08-30）
+
+- 主控新实验已冻结 standalone simple flat `string|null` contract、统一 prompt template、R1H effective decoding 与四张真实输入：P1/P2=`class00-1`（class 0 玉米叶枯病，SHA=`ea2d34f243f914aa55c82c0b4ede1c99fec27debbb8b77d07dc8720f316ba30a`），P3=`class08-1`（芫菁，SHA=`a877ade0ee8c00397044bf4941fa358f5d8eb93f8d966170ec070e1a2c83f10b`），P4=`class14-1`（蛴螬，SHA=`3da2e79a220f2a7554b8197e706ea53cd7b998e21e9b496bd3642a97e021ee8b`）。
+- Pilot 1 真实执行在模型调用前因 standalone harness 仍读取 R1 `lab_path`，而 S1 TSV 使用 `image_path`，触发 `KeyError: lab_path`；未产生模型 output。按 crash=0/任一 pilot fail STOP，未修后重跑，P2/P3/P4 未运行。
+- 结论是 `E1-S1 SIMPLIFIED CONTRACT NOT STABLE`，但根因分类为 `HARNESS DEFECT REMAINS`，不归因于 InternVL3-1B；不得声称 simple schema 通过或失败。Main/Stability/E2/2B 均未运行/未授权。
+- STOP bundle=`C:\Users\genghailong\Documents\编程大赛\competition-e1-s1-internvl3-1b-simple-contract-review-20260830.zip`；size=51453 bytes；SHA256=`5421d2bd1c42cfc953eca5dee9c47c522d4ddbe4b8ff251ef747a24f75afcf31`；MANIFEST=55/55，ZIP self-test=56/56，secret scan PASS；无 production/test/dependency/SQLite/model payload/build/deploy/restart/commit/push 变更。
+
+## 2026-08-30 — E1-S1H resumed
+
+- 已读取 Work-approved E1-S1H specification；确认仅授权 standalone S1 field mapping correction。
+- 已完成只读 baseline：冻结 prompt/decoding/schema/manifest SHA 均匹配；S1 harness 仅发现一个 executed `lab_path` lookup，位于 image resolution，正是 Work 已确认的 pre-inference defect。
+- 下一步：以最小 patch 改为 authoritative `image_path`，先做 four-entry path/SHA preflight；preflight 失败不得模型推理。
+
+## 2026-08-30 — E1-S1H complete
+
+- 已完成唯一 functional patch：standalone S1 harness 从 stale `entry["lab_path"]` 改为 authoritative `entry["image_path"]`；新增 strict 4-entry preflight，无双字段 fallback。
+- LAB static compile PASS；prompt/decoding/schema/manifest SHA 均前后一致；preflight=4/4 PASS；Pilot 1 在 CPU/offline/GPU-empty 环境实际执行一次，unknown kwargs=0、warning=0、JSON/schema PASS。
+- Pilot 1 raw output 泄漏 `玉米叶枯病` 与 `防治措施`，触发 canonical/diagnosis/forbidden/treatment hard gates（各 1）。已按 stop rule 不运行 Pilot 2–4/Main/Stability/E2，不调 prompt/decoding/schema/harness。
+- STOP bundle 已生成并独立验证：`competition-e1-s1h-internvl3-1b-field-mapping-correction-review-20260830.zip`，MANIFEST=52/52，ZIP self-test=53/53，secret PASS。结论=`E1-S1 SIMPLIFIED CONTRACT NOT STABLE`。
+
+## 2026-08-30 — E1-S1D started
+
+- 已读取 Work 最终归因：E1-S1H Pilot 1 是包含疾病/防治文字的知识型复合图，模型运行本身有效但样本政策不合格；simple contract 正式状态回退为 NOT EVALUATED。
+- 本轮只允许 benchmark input correction：原 Pilot 1 历史证据保留并排除；replacement 必须保持 class 0 并在任何模型调用前确定。Pilot 2–4 只能审核，若污染则 STOP，不得替换。
+
+## 2026-08-30 — E1-S1D complete
+
+- Work final attribution 已落实：原 Pilot 1 是污染 knowledge composite，排除而不删除。class-0 training-data eligible pool=163，选择规则为归一化相对路径字典序；首项 `pd_0400dce4dcb8b4e3.jpg` 为无业务 overlay 的真实田间图，replacement preflight PASS。
+- Pilot 2 与旧污染图 SHA 相同，直接视觉审核为同一含疾病/防治文字的复合图，sample-policy FAIL。按 stop condition 未运行任何模型，未替换 Pilot2，未新审 Pilot3/4。
+- Prompt/decoding/schema/S1H harness frozen；无 production/test/model/adapter/SQLite/knowledge 修改。数据 preflight结论=`BENCHMARK INPUT DEFECT REMAINS`，simple contract=`NOT EVALUATED`。
+- STOP bundle：`competition-e1-s1d-internvl3-1b-pilot-data-correction-review-20260830.zip`，size=1851103，SHA256=`850f9fb23768f3a0b1d6808a936057f8206f17e42b842c884127748e9330cfbd`，MANIFEST=32/32，ZIP self-test=33/33，secret PASS。
+## 2026-08-30 — E1-S1D-R1 started
+
+- 已恢复 Work 授权：一次性完成全部 4 Pilot 数据审核与同类 deterministic replacement；任何 model load/inference 均禁止。
+- 已重新核对原始路径、SHA 与视觉语义：P1 replacement PASS；P2 contamination/duplicate FAIL；P3 `芫菁`、P4 `蛴螬` 均为真实昆虫照片，普通水印不属于业务解释 overlay。
+- P2 replacement 按 class-0 candidate pool normalized relative path 排序，跳过已分配 P1 的 `pd_0400dce4dcb8b4e3.jpg` 后选择 `pd_05101862ae13e71f.jpg`，视觉审核 PASS。
+- 下一步：只生成 final 4-Pilot manifest、exclusion ledger、visual review、frozen parity/no-inference evidence 与 STOP bundle；不进入模型评估。
+
+## 2026-08-30 — E1-S1D-R1 complete
+
+- 四 Pilot 完成一次性数据审核：P1/P2 replacement，P3/P4 retained；sample-policy、real-photo、production-representative 均 4/4 PASS；business-text overlay=0/4。
+- Final SHA unique=4/4，historical contaminated SHA matches=0，same-class replacement=2/2；source-byte parity 四项全部 PASS；Prompt/Decoding/Schema/S1H harness frozen hash 全部 exact match。
+- Model loaded=NO、model.chat=0、generation=0、new model outputs=0；Main/Stability/E2 未进入；production/test/backend/Web/SQLite/knowledge/model 均未修改；Build/Deploy/Restart/Commit/Push=NO。
+- Bundle=`C:\Users\genghailong\Documents\编程大赛\competition-e1-s1d-r1-full-pilot-data-sanitization-review-20260830.zip`；size=2244807；SHA256=`ef181e5605ad37c10fa3f7b8a4c36a442ede4dca27370308ea08ebd57718056b`；MANIFEST=57/57，ZIP self-test=58/58，secret scan PASS。
+- 结论：`E1-S1 PILOT DATASET SANITIZED / READY FOR INDEPENDENT REVIEW`；本轮在数据包交付后停止，不自动恢复 4-Pilot inference。
+
+## 2026-08-30 — E1-S1P complete / hard stop
+
+- 修正两次本地 invocation path typo 后，未发生任何模型调用的错误被单独保存；正确 frozen staging manifest preflight=4/4 PASS。
+- Pilot 1 正式执行一次：model load/CPU/offline/input parity/harness clean PASS，JSON parse=PASS、exact schema=PASS、Chinese=PASS；`multimodal_summary` 输出 canonical 类别名 `玉米叶枯病`，canonical leakage=1、diagnosis leakage=1，功能 gate FAIL。
+- 立即停止 Pilot 2–4；未重跑、未调 prompt/decoding/schema/harness、未修数据，Main/Stability/E2 NOT RUN/NOT ENTERED。Production/test/backend/Web/SQLite/knowledge/model 均未修改；Build/Deploy/Restart/Commit/Push=NO。
+- STOP Review Bundle=`C:\Users\genghailong\Documents\编程大赛\competition-e1-s1p-internvl3-1b-clean-4pilot-inference-review-20260830.zip`；待最终 manifest/self-test/secret/diff 校验后交 Master/Work，结论为 `E1-S1 SIMPLE CONTRACT FAILURE CONFIRMED`。
+## 2026-08-30 — E1-2A InternVL3-2B Official Model Staging started
+
+- 已读取 E1-2A 规格；1B 已 CLOSED，不再进行任何 1B prompt/decoding/schema/pilot retry。
+- 官方 ModelScope `OpenGVLab/InternVL3-2B` `master` snapshot 已进入独立 Windows staging；HF 官方同名仓库用于 identity cross-check。
+- 已完成 21 文件 materialization、Windows SHA inventory、ModelScope API identity、1B isolation、官方 2B 权重 SHA 校验，并传入独立 LAB 目录。
+
+## 2026-08-30 — E1-2A staging gates complete
+
+- Windows staging=PASS；LAB staging=PASS；Windows/LAB SHA parity=21/21；missing/incomplete/unexpected=0。
+- 静态 offline readability=PASS：JSON/tokenizer/processor/custom code/Safetensors metadata 均可读；未实例化模型。
+- `model load=NO`、`model.chat=0`、generation=0、Pilot=0；Main/Stability/E2 未进入；production/test/dependency/SQLite 等均未改动。
+- Review Bundle 已完成最终 MANIFEST、secret scan 与 ZIP self-test：`competition-e1-2a-internvl3-2b-official-staging-review-20260830.zip`，size=28576，SHA256=`763fba2acd01335d4acda2dd60d091850cbe8a72de6bb5b4fdc31fe410a272a0`，MANIFEST=42/42，ZIP self-test=43/43；本阶段完成后停止，等待 Work E1-2A staging review。
+
+## 2026-08-30 — E1-2B InternVL3-2B evaluation complete / hard stop
+
+- 复用官方 2B frozen artifact、冻结 S1P prompt/decoding/schema/harness 与 clean four-Pilot；input preflight=4/4，四次正确推理均为 LAB native CPU/offline、GPU snapshot empty、process exit=0、timeout/crash=0。
+- Pilot 1–3 PASS；Pilot 4 `蛴螬` JSON/schema/Chinese PASS，但 canonical class leakage=1、diagnosis leakage=1，功能 hard gate FAIL。首个错误为模型 simple-contract responsibility-boundary leakage，不是 runtime failure。
+- 按门禁未运行 Main 16-class、Stability/CPU performance 或 E2；不重试、不调 Prompt/Decoding/Schema/Harness，不改 production/test/data/SQLite/Web，不 build/deploy/restart/commit/push。
+- 下一步：将 STOP/NOT READY 证据包交 Work 独立复核；不要把该包解释为 Main 或性能通过包。
+
+## 2026-08-30 — E1-2B bundle finalized
+
+- E1-2B Review Bundle=`C:\Users\genghailong\Documents\编程大赛\competition-e1-2b-internvl3-2b-model-evaluation-review-20260830.zip`；size=86335 bytes；SHA256=`bc2c012ae2e8310022a13effdffbc116ed94e9fb680a463e59869d7e2881d360`。
+- Final package self-test=132/132，MANIFEST=130/130，ZIP content JSON parse=PASS，secret scan=PASS；结论保持 `4-PILOT FAIL / MAIN NOT RUN / STABILITY NOT RUN`。
+
+## 2026-09-04 — R1-R3 Final Git Closure
+
+- 已在 `r1-r3-final-safety-20260904` 完成最终提交前审计；当前工作树中的 approved R1/R2/R3 功能、测试、资源、部署定义与规划记录保留。
+- 已排除 artifacts、validation staging、review bundle、缓存、数据库、模型权重、secret 与临时输出；不执行 reset/clean/stash。
+- 下一步仅为安全集成到 `competition-dev`、非强制推送与推后核对；Formal 运行不因 Git 操作重新部署。

@@ -1,0 +1,30 @@
+{
+  "schema_version": "r3-taxonomy-v1",
+  "subject_types": [
+    {"value": "plant", "label": "植物", "clip_prompt": "a photo of a plant"},
+    {"value": "insect", "label": "昆虫", "clip_prompt": "a photo of an insect"}
+  ],
+  "crops": [
+    {"value": "南瓜", "label": "南瓜", "clip_prompt": "a photo of a pumpkin plant"},
+    {"value": "番茄", "label": "番茄", "clip_prompt": "a photo of a tomato plant"},
+    {"value": "马铃薯", "label": "马铃薯", "clip_prompt": "a photo of a potato plant"},
+    {"value": "玉米", "label": "玉米", "clip_prompt": "a photo of a corn plant"}
+  ],
+  "affected_parts": [
+    {"value": "叶片", "label": "叶片", "clip_prompt": "a photo showing damage on the leaf"},
+    {"value": "茎秆", "label": "茎秆", "clip_prompt": "a photo showing damage on the stem"},
+    {"value": "果实", "label": "果实", "clip_prompt": "a photo showing damage on the fruit"},
+    {"value": "根部", "label": "根部", "clip_prompt": "a photo showing damage on the root"},
+    {"value": "整株", "label": "整株", "clip_prompt": "a photo showing damage on the whole plant"}
+  ],
+  "insects": [
+    {"value": "叶蝉科", "label": "叶蝉科", "clip_prompt": "a photo of a leafhopper insect"},
+    {"value": "盲蝽科", "label": "盲蝽科", "clip_prompt": "a photo of a mirid bug insect"},
+    {"value": "芫菁", "label": "芫菁", "clip_prompt": "a photo of a blister beetle insect"},
+    {"value": "蚜虫", "label": "蚜虫", "clip_prompt": "a photo of an aphid insect"},
+    {"value": "蝗总科", "label": "蝗总科", "clip_prompt": "a photo of a grasshopper insect"},
+    {"value": "蝼蛄", "label": "蝼蛄", "clip_prompt": "a photo of a mole cricket insect"},
+    {"value": "蛴螬", "label": "蛴螬", "clip_prompt": "a photo of a white grub insect"},
+    {"value": "豆芫菁", "label": "豆芫菁", "clip_prompt": "a photo of a soybean blister beetle insect"}
+  ]
+}

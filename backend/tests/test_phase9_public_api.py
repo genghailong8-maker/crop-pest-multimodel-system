@@ -189,22 +189,9 @@ def test_unknown_spread_forces_unknown_severity(tmp_path, monkeypatch):
                 "spread_speed": "unknown",
                 "public_consent": "true",
             },
-        ).json()
-        database.update_case(
-            upload["id"],
-            status="detected",
-            quality={"flags": []},
-            detections=[{"class_id": 0, "class_name": "玉米叶枯病", "confidence": 0.9}],
-            detector_summary={"needs_review": False, "review_reasons": []},
         )
-        analyzed = client.post(
-            f"/api/cases/{upload['id']}/analyze",
-            headers=headers(**{"X-Case-Edit-Token": upload["case_edit_token"]}),
-        )
-        assert analyzed.status_code == 200
-        assert analyzed.json()["field_severity"] == "unknown"
-        assert analyzed.json()["analysis"]["field_severity"] == "unknown"
-        assert analyzed.json()["analysis"]["needs_human_review"] is True
+        assert upload.status_code == 422
+        assert "扩散速度" in upload.json()["detail"]
 
 
 def test_migration_backup_restore_and_expiry_cleanup(tmp_path, monkeypatch):

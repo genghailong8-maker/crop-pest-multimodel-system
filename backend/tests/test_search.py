@@ -6,17 +6,86 @@ from dataclasses import replace
 import httpx
 
 from app import config
+from app.catalog import CLASS_CATALOG
 from app.search import collect_external_evidence
 from app.search.google_custom_search_legacy import LegacyGoogleCustomSearchProvider
 from app.search.google_grounding import GeminiGoogleGroundingProvider, parse_grounding_response
 from app.search.models import SearchEvidence, SearchSource
 from app.search.normalizer import is_obviously_low_quality, low_quality_reason, normalize_search_results, reliability_score
 from app.search.provider import DisabledSearchProvider, MockSearchProvider, provider_from_settings
-from app.search.tavily import TavilySearchProvider
+from app.search.tavily import TavilySearchProvider, _query
 
 
 def source(source_id: str, url: str, *, content: str | None = "原始页面正文") -> SearchSource:
     return SearchSource(id=source_id, title=f"资料 {source_id}", site_name="测试来源", url=url, content=content)
+
+
+EXPECTED_TAVILY_QUERIES = {
+    "玉米叶枯病": {
+        "harms": "玉米链格孢菌叶枯病 细交链孢菌 症状 危害 叶片 叶鞘 苞叶 病斑 枯死 农业",
+        "possible_causes": "玉米链格孢菌叶枯病 细交链孢菌 发病条件 流行规律 温度 湿度 菌源 病残体 传播 农业",
+    },
+    "番茄斑枯病": {
+        "harms": "番茄斑枯病 番茄壳针孢菌 Septoria lycopersici Tomato Septoria leaf spot 症状 危害 叶片 茎 花萼 斑点 黄化 早期落叶 农业",
+        "possible_causes": "番茄斑枯病 发病条件 流行规律 温度 湿度 降雨 菌源 病残体 农业",
+    },
+    "南瓜白粉病": {
+        "harms": "南瓜白粉病 症状 危害 叶片 白粉 黄化 早衰 产量 农技",
+        "possible_causes": "南瓜白粉病 发病条件 流行规律 温度 湿度 菌源 孢子 农业",
+    },
+    "马铃薯早疫病": {
+        "harms": "马铃薯早疫病 Potato early blight 症状 危害 叶片 块茎 农技",
+        "possible_causes": "马铃薯早疫病 Alternaria solani 发生条件 流行规律 农业",
+    },
+    "玉米锈病": {
+        "harms": "玉米锈病 症状 危害 叶片 锈色 孢子堆 早衰 减产 农技",
+        "possible_causes": "玉米锈病 发病条件 流行规律 温度 湿度 降雨 菌源 孢子 农业",
+    },
+    "番茄细菌性斑点病": {
+        "harms": "番茄细菌性斑点病 症状 危害 叶片 果实 斑点 落叶 商品性 农技",
+        "possible_causes": "番茄细菌性斑点病 Xanthomonas 发病条件 流行规律 温度 湿度 降雨 传播 农业",
+    },
+    "番茄晚疫病": {
+        "harms": "番茄晚疫病 Phytophthora infestans 症状 危害 叶片 茎 果实 水渍状 白霉 腐烂 农技",
+        "possible_causes": "番茄晚疫病 Phytophthora infestans 发病条件 流行规律 低温 高湿 降雨 菌源 农业",
+    },
+    "马铃薯晚疫病": {
+        "harms": "马铃薯晚疫病 Phytophthora infestans 症状 危害 叶片 茎 块茎 水渍状 白霉 腐烂 农技",
+        "possible_causes": "马铃薯晚疫病 Phytophthora infestans 发病条件 流行规律 低温 高湿 降雨 菌源 农业",
+    },
+    "芫菁": {
+        "harms": "芫菁 芫菁科 危害 成虫 取食 叶片 花器 嫩梢 受害 农业",
+        "possible_causes": "芫菁 芫菁科 发生规律 温度 湿度 寄主 越冬 虫源 农业",
+    },
+    "蚜虫": {
+        "harms": "蚜虫 危害 刺吸 汁液 叶片 卷叶 黄化 生长受阻 传播 农业",
+        "possible_causes": "蚜虫 发生规律 温度 湿度 寄主 繁殖 迁飞 越冬 农业",
+    },
+    "盲蝽科": {
+        "harms": "盲蝽 盲蝽科 危害 刺吸 嫩芽 嫩叶 花蕾 果实 畸形 农业",
+        "possible_causes": "盲蝽 盲蝽科 发生规律 温度 湿度 寄主 越冬 迁移 虫源 农业",
+    },
+    "蝼蛄": {
+        "harms": "蝼蛄 危害 咬食 根系 幼苗 种子 缺苗 断苗 农业",
+        "possible_causes": "蝼蛄 发生规律 土壤 温度 湿度 越冬 虫源 农业",
+    },
+    "叶蝉科": {
+        "harms": "叶蝉 叶蝉科 危害 刺吸 汁液 叶片 黄化 生长受阻 传播 农业",
+        "possible_causes": "叶蝉 叶蝉科 发生规律 温度 湿度 寄主 迁飞 越冬 虫源 农业",
+    },
+    "蝗总科": {
+        "harms": "蝗虫 蝗总科 危害 咀嚼 取食 叶片 幼苗 缺刻 减产 农业",
+        "possible_causes": "蝗虫 蝗总科 发生规律 温度 降雨 虫卵 孵化 越冬 虫源 农业",
+    },
+    "蛴螬": {
+        "harms": "蛴螬 危害 咬食 取食 根系 叶片 受害 缺苗 减产 农业",
+        "possible_causes": "蛴螬 发生条件 发生规律 土壤 温度 湿度 虫源 农业",
+    },
+    "豆芫菁": {
+        "harms": "豆芫菁 Epicauta gorhami 危害 成虫 取食 豆科 叶片 花 嫩荚 农业",
+        "possible_causes": "豆芫菁 Epicauta gorhami 发生规律 温度 湿度 寄主 越冬 虫源 农业",
+    },
+}
 
 
 def test_disabled_provider_is_explicit_and_does_not_fake_sources():
@@ -32,6 +101,35 @@ def test_mock_provider_is_only_for_tests():
     assert "不代表真实" in (result.message or "")
 
 
+def test_tavily_query_matrix_covers_all_catalog_classes_and_both_query_types():
+    catalog_names = {item["name_zh"] for item in CLASS_CATALOG}
+    assert len(catalog_names) == 16
+    assert set(EXPECTED_TAVILY_QUERIES) == catalog_names
+    assert sum(len(queries) for queries in EXPECTED_TAVILY_QUERIES.values()) == 32
+    for class_name, queries in EXPECTED_TAVILY_QUERIES.items():
+        assert set(queries) == {"harms", "possible_causes"}
+        assert _query(class_name, "harms") == queries["harms"]
+        assert _query(class_name, "possible_causes") == queries["possible_causes"]
+        assert not any(token in queries["possible_causes"] for token in ("防治", "农药", "施肥", "管理措施"))
+
+
+def test_early_blight_harms_override_is_retrieval_only():
+    assert _query("马铃薯早疫病", "harms") == EXPECTED_TAVILY_QUERIES["马铃薯早疫病"]["harms"]
+    assert _query("马铃薯早疫病", "possible_causes") == EXPECTED_TAVILY_QUERIES["马铃薯早疫病"]["possible_causes"]
+    assert _query("蛴螬", "harms") == EXPECTED_TAVILY_QUERIES["蛴螬"]["harms"]
+    assert _query("蛴螬", "possible_causes") == EXPECTED_TAVILY_QUERIES["蛴螬"]["possible_causes"]
+
+
+def test_tavily_provider_remains_the_selected_external_provider(monkeypatch):
+    monkeypatch.setattr(config, "settings", replace(config.settings, search_provider="tavily"))
+    assert isinstance(provider_from_settings(), TavilySearchProvider)
+
+
+def test_tavily_query_keeps_generic_fallback_for_unknown_classes():
+    assert _query("未登记病害", "harms") == "未登记病害 危害 为害症状 病斑 叶片 枯死 减产 农业"
+    assert _query("未登记病害", "possible_causes") == "未登记病害 发生条件 发病条件 流行规律 温度 湿度 降雨 病原 农业"
+
+
 def test_provider_settings_recommend_grounding_and_keep_legacy_separate(monkeypatch):
     monkeypatch.setattr(config, "settings", replace(config.settings, search_provider="google_grounding"))
     assert isinstance(provider_from_settings(), GeminiGoogleGroundingProvider)
@@ -39,7 +137,7 @@ def test_provider_settings_recommend_grounding_and_keep_legacy_separate(monkeypa
     assert isinstance(provider_from_settings(), LegacyGoogleCustomSearchProvider)
 
 
-def test_normalizer_deduplicates_and_prioritizes_reliable_sources():
+def test_normalizer_deduplicates_and_preserves_provider_order():
     result = normalize_search_results(
         [
             SearchEvidence(
@@ -58,8 +156,50 @@ def test_normalizer_deduplicates_and_prioritizes_reliable_sources():
     )
     assert result.status == "available"
     assert len(result.sources) == 2
-    assert result.sources[0].url == "https://agri.gov.cn/article"
-    assert result.sources[0].reliability_level == "政府农业部门"
+    assert [item.url for item in result.sources] == [
+        "https://example.com/article",
+        "https://agri.gov.cn/article",
+    ]
+    assert result.sources[0].reliability_level == "普通网页"
+    assert result.sources[1].reliability_level == "政府农业部门"
+
+
+def test_normalizer_reserves_a_source_for_each_query_before_filling_the_cap():
+    result = normalize_search_results(
+        [
+            SearchEvidence(
+                class_name="马铃薯早疫病",
+                query_type="harms",
+                status="available",
+                sources=[source(f"harm-{index}", f"https://harm-{index}.gov.cn/article", content="危害资料") for index in range(1, 6)],
+            ),
+            SearchEvidence(
+                class_name="马铃薯早疫病",
+                query_type="possible_causes",
+                status="available",
+                sources=[
+                    source("cause", "https://plant.cau.edu.cn/early-blight", content="发生条件资料"),
+                    source("cause-duplicate", "https://plant.cau.edu.cn/early-blight?utm_source=test", content="重复资料"),
+                    source("low", "https://zhuanlan.zhihu.com/p/early-blight", content="低质量资料"),
+                ],
+            ),
+        ]
+    )
+    assert len(result.sources) == 5
+    assert "https://plant.cau.edu.cn/early-blight" in [item.url for item in result.sources]
+    assert len({item.url for item in result.sources}) == len(result.sources)
+    assert all(not is_obviously_low_quality(item) for item in result.sources)
+    assert [item.id for item in result.sources] == [f"source-{index}" for index in range(1, 6)]
+
+
+def test_normalizer_rejects_a_title_for_a_competing_catalog_class():
+    result = normalize_search_results([
+        SearchEvidence(class_name="马铃薯早疫病", query_type="harms", status="available", sources=[
+            SearchSource(id="early", title="Potato early blight symptoms", site_name="农业资料", url="https://example.gov/early", content="早疫病资料"),
+            SearchSource(id="late", title="Potato late blight symptoms", site_name="农业资料", url="https://example.gov/late", content="晚疫病资料"),
+        ])
+    ])
+    assert [item.url for item in result.sources] == ["https://example.gov/early"]
 
 
 def test_authoritative_agriculture_library_is_ranked_as_reliable():
@@ -307,7 +447,7 @@ def test_low_quality_domain_blacklist_matches_subdomains_and_known_commercial_si
         assert low_quality_reason(item)
 
 
-def test_reliable_sources_are_ranked_before_ordinary_webpages():
+def test_source_selection_preserves_provider_order_across_authority_levels():
     result = normalize_search_results(
         [
             SearchEvidence(
@@ -322,9 +462,62 @@ def test_reliable_sources_are_ranked_before_ordinary_webpages():
             )
         ]
     )
-    assert [item.id for item in result.sources] == ["source-1", "source-2", "source-3", "source-4"]
-    assert result.sources[0].reliability_level == "政府农业部门"
-    assert result.sources[-1].reliability_level == "普通网页"
+    assert [item.reliability_level for item in result.sources] == [
+        "普通网页",
+        "政府农业部门",
+        "农业科研院所",
+        "农业科研院所",
+    ]
+
+
+def test_authority_score_does_not_crowd_ordinary_sources_out_of_five_slots():
+    ordinary = [
+        source(f"ordinary-{index}", f"https://ordinary-{index}.example/article")
+        for index in range(1, 6)
+    ]
+    government = source("government", "https://agri.gov.cn/article")
+
+    result = normalize_search_results([
+        SearchEvidence(
+            class_name="蛴螬",
+            query_type="harms",
+            status="available",
+            sources=ordinary,
+        ),
+        SearchEvidence(
+            class_name="蛴螬",
+            query_type="harms",
+            status="available",
+            sources=[government],
+        ),
+    ])
+
+    assert [item.url for item in result.sources] == [item.url for item in ordinary]
+    assert all(item.reliability_level == "普通网页" for item in result.sources)
+    assert len(result.sources) == 5
+
+
+def test_source_selection_prefers_content_then_keeps_provider_order_deterministic():
+    inputs = [
+        source("empty", "https://empty.example/article", content=None),
+        source("ordinary", "https://ordinary.example/article"),
+        source("government", "https://agri.gov.cn/article"),
+    ]
+
+    first = normalize_search_results([
+        SearchEvidence(class_name="蛴螬", query_type="harms", status="available", sources=inputs)
+    ])
+    second = normalize_search_results([
+        SearchEvidence(class_name="蛴螬", query_type="harms", status="available", sources=inputs)
+    ])
+
+    expected = [
+        "https://ordinary.example/article",
+        "https://agri.gov.cn/article",
+        "https://empty.example/article",
+    ]
+    assert [item.url for item in first.sources] == expected
+    assert [item.url for item in second.sources] == expected
 
 
 def test_mixed_results_keep_only_high_quality_sources():

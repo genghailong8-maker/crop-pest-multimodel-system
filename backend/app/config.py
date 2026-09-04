@@ -8,6 +8,11 @@ from pathlib import Path
 
 BACKEND_DIR = Path(__file__).resolve().parents[1]
 
+# Single YOLO confidence business gate shared by product flow and evidence
+# eligibility. Non-confidence similarity thresholds remain local to their
+# respective algorithms.
+LOW_CONFIDENCE_THRESHOLD = 0.50
+
 
 def optional_path(value: str | None) -> Path | None:
     if not value or not value.strip():
@@ -81,6 +86,9 @@ class Settings:
     # Legacy Google Custom Search JSON API compatibility only.
     google_api_key: str | None = None
     google_search_engine_id: str | None = None
+    context_endpoint: str | None = None
+    context_api_key: str | None = None
+    context_timeout_seconds: float = 10.0
 
 
 def load_settings() -> Settings:
@@ -150,6 +158,9 @@ def load_settings() -> Settings:
         google_search_engine_id=optional_text(
             os.getenv("GOOGLE_SEARCH_ENGINE_ID") or os.getenv("GOOGLE_SEARCH_CX")
         ),
+        context_endpoint=optional_text(os.getenv("CROP_CONTEXT_ENDPOINT")),
+        context_api_key=optional_text(os.getenv("CROP_CONTEXT_API_KEY")),
+        context_timeout_seconds=max(1.0, float(os.getenv("CROP_CONTEXT_TIMEOUT_SECONDS", "10"))),
     )
 
 
