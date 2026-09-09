@@ -46,6 +46,117 @@ export type EvidenceAnalysis = {
 
 export type SeverityLevel = "mild" | "moderate" | "severe" | "uncertain";
 
+export type R31HostStatus = "FULL" | "PARTIAL" | "REJECTED";
+export type R31TreatmentLevel = "host_severity" | "host_general" | "insect_general" | "none";
+export type R31CapabilitySet = {
+  host_relation: boolean;
+  host_damage: boolean;
+  severity: boolean;
+  host_general_treatment: boolean;
+  host_severity_treatment: boolean;
+  vector_disease: boolean;
+};
+export type R31Source = {
+  id: string;
+  title: string;
+  organization?: string | null;
+  url?: string | null;
+  doi?: string | null;
+  tier?: string | null;
+  support_scope?: string | null;
+};
+export type R31HostOption = {
+  crop: string;
+  status: R31HostStatus;
+  capabilities: R31CapabilitySet;
+  severity_available: boolean;
+};
+export type R31SeverityLevel = {
+  level: Exclude<SeverityLevel, "uncertain">;
+  label: string;
+  rubric: string;
+  rubric_text?: string;
+  observable_features: string[];
+  source_ids: string[];
+  sources: R31Source[];
+  evidence_type?: string | null;
+  synthesis_note?: string | null;
+};
+export type R31SeverityPayload = {
+  available: boolean;
+  levels: Partial<Record<Exclude<SeverityLevel, "uncertain">, R31SeverityLevel>>;
+  source_ids: string[];
+  sources: R31Source[];
+  provenance?: Record<string, unknown>;
+};
+export type R31HostEvidence = {
+  available: boolean;
+  text?: string | null;
+  source_ids?: string[];
+  sources?: R31Source[];
+};
+export type R31VectorDisease = {
+  disease: string;
+  relationship: string;
+  symptoms: string;
+  general_disease_treatment: string;
+  source_ids: string[];
+  sources: R31Source[];
+  disease_severity_available: boolean;
+  severity: R31SeverityPayload;
+};
+export type R31HostDetails = {
+  host_relation: R31HostEvidence;
+  damage: R31HostEvidence;
+  severity_available: boolean;
+  severity: R31SeverityPayload;
+  vector_diseases: R31VectorDisease[];
+  provenance: Record<string, unknown>;
+};
+export type R31Treatment = {
+  treatment_level: R31TreatmentLevel;
+  body: {
+    mode?: string;
+    sections?: Record<string, string>;
+    measures?: Record<string, string>;
+    pesticide_policy?: string | null;
+    severity_note?: string | null;
+  } | null;
+  source_ids: string[];
+  provenance: Record<string, unknown>;
+  fallback_message: string;
+};
+export type R31HostKnowledge = {
+  schema_version: string;
+  available: boolean;
+  class_id: number;
+  insect: string;
+  recommended_host: string | null;
+  recommended_label: string | null;
+  supported_hosts: string[];
+  host_options: R31HostOption[];
+  other: { value: "OTHER"; label: string };
+  confirmed_host: string | null;
+  selection_required: boolean;
+  host_authority: {
+    recommended_host_is_confirmed_host: boolean;
+    confirmation: string;
+    rejected_hosts_returned: boolean;
+  };
+  generic_evidence: {
+    status: string;
+    harms: EvidenceConclusion[];
+    possible_causes: EvidenceConclusion[];
+    source_ids: string[];
+    sources: EvidenceSource[];
+    authority: string;
+  };
+  host: (R31HostOption & { value?: string }) | null;
+  host_knowledge: R31HostDetails | null;
+  treatment: R31Treatment | null;
+  host_selection_error?: string;
+};
+
 export type R3Candidate = { value: string; score: number; rank: number };
 export type R3PredictionField = { top1: string | null; candidates: R3Candidate[]; margin: number | null };
 export type R3ContextPrediction = {
@@ -215,6 +326,7 @@ export type CaseRecord = {
   severity_rubric?: SeverityRubricPayload | { status: "unavailable"; reason: string };
   case_context?: CaseContext;
   context?: R3Context | null;
+  host_knowledge?: R31HostKnowledge;
   quality: { acceptable?: boolean; flags?: string[]; width?: number; height?: number } | null;
   detections: Detection[] | null;
   detector_summary: {
@@ -372,6 +484,13 @@ export function instanceHeaders(record: Pick<CaseRecord, "instance_id">): Header
   return record.instance_id ? { "X-Crop-Instance": record.instance_id } : {};
 }
 
+export async function analyzeCase(record: Pick<CaseRecord, "id" | "instance_id">): Promise<CaseRecord> {
+  return readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${record.id}/analyze`), {
+    method: "POST",
+    headers: { ...editHeaders(record.id), ...instanceHeaders(record) },
+  }));
+}
+
 export function instanceLabel(instanceId?: string | null) {
   return ({ lab_cpu: "实验室 CPU", gpu_full: "原 GPU" } as Record<string, string>)[instanceId ?? ""] ?? "病例创建服务器";
 }
@@ -399,6 +518,10 @@ export function resolutionLabel(value?: CaseRecord["resolution_status"]) {
 
 export function isConclusive(record?: Pick<CaseRecord, "resolution_status"> | null) {
   return record?.resolution_status === "conclusive";
+}
+
+export function isInsectCase(record?: Pick<CaseRecord, "host_knowledge" | "context"> | null) {
+  return record?.host_knowledge?.available === true || record?.context?.subject_type === "insect";
 }
 
 export function userDiagnosisTitle(record?: CaseRecord | null) {

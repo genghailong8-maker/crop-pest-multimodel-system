@@ -10,9 +10,11 @@ import WorkspaceShell from "./components/WorkspaceShell";
 import ExternalEvidenceSummary from "./components/ExternalEvidenceSummary";
 import CaseContextCard from "./components/CaseContextCard";
 import SeveritySelector from "./components/SeveritySelector";
+import R31HostKnowledgePanel from "./components/R31HostKnowledgePanel";
 import R3ContextConfirmation from "./components/R3ContextConfirmation";
 import {
   apiUrl,
+  analyzeCase,
   CaseRecord,
   DraftRecord,
   draftHeaders,
@@ -20,6 +22,7 @@ import {
   formatTime,
   HealthStatus,
   instanceHeaders,
+  isInsectCase,
   isConclusive,
   publicResolutionReasons,
   readJson,
@@ -172,7 +175,16 @@ export default function Home() {
         body: JSON.stringify({ subject_type: contextSubject, crop_species: contextSubject === "plant" ? contextCrop : null, affected_part: contextSubject === "plant" ? contextPart : null, insect_species: contextSubject === "insect" ? contextInsect : null }),
       }));
       saveEditToken(confirmed.id, confirmed.case_edit_token);
+      const evidenceRequest = contextSubject === "insect" ? analyzeCase(confirmed) : null;
       setRecord(confirmed); setDraft(null); setPipeline("complete"); await refreshHistory();
+      if (evidenceRequest) {
+        void evidenceRequest.then((nextRecord) => {
+          setRecord((current) => current && current.id === nextRecord.id
+            ? { ...nextRecord, host_knowledge: current.host_knowledge ?? nextRecord.host_knowledge }
+            : nextRecord);
+          void refreshHistory();
+        }).catch((reason) => setError(reason instanceof Error ? reason.message : "来源证据整理失败"));
+      }
     } catch (reason) { setPipeline("confirming"); setError(reason instanceof Error ? reason.message : "上下文确认失败"); }
     finally { setBusy(false); }
   }
@@ -184,11 +196,10 @@ export default function Home() {
       const selected = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${record.id}/severity`), {
         method: "POST", headers: { ...editHeaders(record.id, true), ...instanceHeaders(record) }, body: JSON.stringify({ severity_level: severityLevel }),
       }));
-      setRecord(selected); setPipeline("analyzing");
-      const analyzed = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${record.id}/analyze`), {
-        method: "POST", headers: { ...editHeaders(record.id), ...instanceHeaders(record) },
-      }));
-      setRecord(analyzed); setPipeline("complete"); await refreshHistory();
+      const nextRecord = !isInsectCase(record) || !selected.analysis?.evidence_analysis
+        ? await analyzeCase(selected)
+        : selected;
+      setRecord(nextRecord); setPipeline("complete"); await refreshHistory();
     } catch (reason) { setPipeline("idle"); setError(reason instanceof Error ? reason.message : "受害程度保存失败"); }
     finally { setBusy(false); }
   }
@@ -198,10 +209,7 @@ export default function Home() {
     setRetrying(true);
     setError(null);
     try {
-      const analyzed = await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${record.id}/analyze`), {
-        method: "POST",
-        headers: { ...editHeaders(record.id), ...instanceHeaders(record) },
-      }));
+      const analyzed = await analyzeCase(record);
       setRecord(analyzed);
       setPipeline("complete");
       await refreshHistory();
@@ -261,8 +269,9 @@ export default function Home() {
               <div className="final-diagnosis-heading"><h3>{diagnosis}</h3><p><strong>{Math.round((record?.detections?.[0]?.confidence ?? 0) * 100)}%</strong><span>置信度</span></p></div>
               {record && <div className={`final-resolution resolution-${record.resolution_status}`} role="status"><strong>{record.user_summary}</strong><span>{record.next_action}</span>{visibleResolutionReasons.length > 0 && <small>原因：{visibleResolutionReasons.join("；")}</small>}</div>}
               {record && <CaseContextCard record={record} compact />}
-              {record?.severity_rubric?.status === "available" && <SeveritySelector record={record} busy={busy} onConfirm={chooseSeverity} />}
-              {record && <ExternalEvidenceSummary record={record} />}
+              {record && <R31HostKnowledgePanel record={record} busy={busy} onRecord={(next) => { setRecord(next); setPipeline("complete"); void refreshHistory(); }} onSeverity={chooseSeverity} />}
+              {record && !isInsectCase(record) && record.severity_rubric?.status === "available" && <SeveritySelector record={record} busy={busy} onConfirm={chooseSeverity} />}
+              {record && <ExternalEvidenceSummary record={record} showTreatment={!record.host_knowledge?.available} />}
               <p className="final-visually-hidden">这个结果有多可靠？{analysis?.detector_alignment === "conflict" ? "两种识别方法给出的候选不一致" : "由图片质量、识别把握和两种方法是否一致共同决定"}</p>
               {record?.status === "detected" && !analysis && <button className="final-secondary" type="button" onClick={retryAnalysis} disabled={retrying}>{retrying ? "正在重试…" : "整理来源证据"}</button>}
               {record && <div className="final-result-links"><Link href={`/cases/${record.id}`}>查看病例详情</Link><Link href={`/reports/${record.id}`}>打开诊断报告</Link></div>}

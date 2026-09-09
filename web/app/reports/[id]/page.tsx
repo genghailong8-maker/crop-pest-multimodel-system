@@ -9,7 +9,8 @@ import CaseContextCard from "../../components/CaseContextCard";
 import ImageEvidenceFrame from "../../components/ImageEvidenceFrame";
 import KnowledgeSectionGrid from "../../components/KnowledgeSectionGrid";
 import SeveritySelector from "../../components/SeveritySelector";
-import { apiUrl, CaseRecord, editHeaders, formatTime, instanceHeaders, instanceLabel, isConclusive, KnowledgeDocument, readJson, riskLabel, SeverityLevel, severityLabel, userDiagnosisTitle } from "../../lib/api";
+import R31HostKnowledgePanel from "../../components/R31HostKnowledgePanel";
+import { analyzeCase, apiUrl, CaseRecord, editHeaders, formatTime, instanceHeaders, instanceLabel, isConclusive, isInsectCase, KnowledgeDocument, readJson, riskLabel, SeverityLevel, severityLabel, userDiagnosisTitle } from "../../lib/api";
 
 type KnowledgeSource = { id: string; title: string; publisher: string; url: string; retrieved_at: string; scope: string };
 type Report = { report_number: string; generated_at: string; case: CaseRecord; knowledge: { source_ids?: string[]; management?: Record<string, string[]>; chemical_safety?: string } | null; knowledge_document?: KnowledgeDocument | null; sources: KnowledgeSource[]; prioritized_guidance: { immediate?: string[]; agronomic?: string[]; physical?: string[]; biological?: string[]; chemical_safety?: string } | null; safety_notice: string };
@@ -60,10 +61,7 @@ export default function ReportPage() {
         headers: { ...editHeaders(id, true), ...instanceHeaders(record) },
         body: JSON.stringify({ severity_level: level }),
       }));
-      await readJson<CaseRecord>(await fetch(apiUrl(`/api/cases/${id}/analyze`), {
-        method: "POST",
-        headers: { ...editHeaders(id), ...instanceHeaders(selected) },
-      }));
+      if (!isInsectCase(record) || !selected.analysis?.evidence_analysis) await analyzeCase(selected);
       setReport(await readJson<Report>(await fetch(apiUrl(`/api/cases/${id}/report`))));
     } catch {
       setError(true);
@@ -79,9 +77,10 @@ export default function ReportPage() {
           <header className="final-brief-head final-report-head"><div><span>专业诊断简报</span><h1>{userDiagnosisTitle(record)}</h1><dl><div><dt>病例编号</dt><dd>{report.report_number}</dd></div><div><dt>诊断时间</dt><dd>{formatTime(record.created_at)}</dd></div><div><dt>置信度</dt><dd>{Math.round((record.detections?.[0]?.confidence ?? 0) * 100)}%</dd></div></dl><p>田诊协同 · 图片辅助诊断报告 · 病例属于 {instanceLabel(record.instance_id)}</p></div><button className="final-outline-button report-screen-only" onClick={() => window.print()}>打印 / 导出报告</button></header>
            <div className="final-brief-core">
             <div className="final-brief-image"><p>检测图片</p><ImageEvidenceFrame src={apiUrl(record.image_url)} alt="病例原图及目标定位结果" detections={record.detections ?? undefined} loading="eager" fetchPriority="high" /></div>
-            <div className="final-brief-summary"><div className="final-brief-summary-head"><h2>诊断摘要</h2><span>辅助诊断</span></div><CaseContextCard record={record} compact /><ExternalEvidenceSummary record={record} variant="report" /></div>
+            <div className="final-brief-summary"><div className="final-brief-summary-head"><h2>诊断摘要</h2><span>辅助诊断</span></div><CaseContextCard record={record} compact /><ExternalEvidenceSummary record={record} variant="report" showTreatment={!record.host_knowledge?.available} /></div>
            </div>
-           <SeveritySelector record={record} busy={severityBusy} onConfirm={chooseSeverity} />
+           <R31HostKnowledgePanel record={record} busy={severityBusy} onRecord={(next) => setReport((current) => current ? { ...current, case: next } : current)} onSeverity={chooseSeverity} />
+           {!isInsectCase(record) && <SeveritySelector record={record} busy={severityBusy} onConfirm={chooseSeverity} />}
           <section className="final-report-reference-strip"><div><strong>参考来源</strong><span>{report.sources.length} 条可靠农业资料</span></div><div><strong>完整知识库</strong><span>特征 · 为害症状 · 防治方法</span></div></section>
           <section className="final-knowledge-document">{isConclusive(record) ? <section className="knowledge-report-section"><h2>综合信息展示</h2><KnowledgeSectionGrid sections={knowledgeSections} fallbackHtml={knowledgeHtml} /></section> : <section><h2>下一步</h2><p>{record.user_summary}</p><p>{record.next_action}</p></section>}</section>
           <details className="final-technical"><summary>技术详情</summary><div><h2>综合分析</h2><p>{record.analysis?.severity_basis || "历史记录未提供严重度依据。"}</p><h3>视觉候选</h3><p>{(record.detections ?? []).map((item) => `${item.class_name} ${Math.round(item.confidence * 100)}%`).join("；") || "未定位到明确目标"}</p>{isConclusive(record) ? <GroundedReport record={record} /> : <p>当前状态不是可参考结论，候选未确认，不作为最终诊断。</p>}<h3>不确定性</h3><ul>{(record.analysis?.uncertainty ?? ["历史记录未提供"]).map((item) => <li key={item}>{item}</li>)}</ul><p>诊断风险：{riskLabel(record.diagnostic_risk)}；田间严重度：{severityLabel(record.field_severity)}</p></div></details>

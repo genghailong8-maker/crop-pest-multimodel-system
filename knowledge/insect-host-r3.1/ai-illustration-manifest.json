@@ -1,0 +1,1004 @@
+{
+  "schema_version": "1.0",
+  "batch": "R3.1 Batch 4B",
+  "source_of_truth": [
+    "docs/competition/r3.1/《AI示意图提示词与来源依据》.md",
+    "knowledge/insect-host-r3.1/severity-evidence.json"
+  ],
+  "asset_root": "web/public/r31/severity",
+  "expected_records": 39,
+  "records": [
+    {
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "大豆",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示芫菁在大豆上的轻度受害状态；仅呈现以下来源支持的可观察特征：叶片局部缺刻、有限脱叶。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-08-NCSU-SOY"
+      ],
+      "observable_features": [
+        "叶片局部缺刻",
+        "有限脱叶"
+      ],
+      "evidence_taxon": [
+        "Epicauta funebris; Epicauta vittata"
+      ],
+      "asset_id": "r31-class8-soybean-mild",
+      "target_filename": "class8-soybean-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class8-soybean-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "65e61b660b34abcbb8cd8feaecdf38fa1416c393afd69405656c67d0a17a8a87"
+    },
+    {
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "大豆",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示芫菁在大豆上的中度受害状态；仅呈现以下来源支持的可观察特征：成虫群集、冠层脱叶清楚可见。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-08-NCSU-SOY"
+      ],
+      "observable_features": [
+        "成虫群集",
+        "冠层脱叶清楚可见"
+      ],
+      "evidence_taxon": [
+        "芫菁（来源命名组）",
+        "Epicauta funebris; Epicauta vittata"
+      ],
+      "asset_id": "r31-class8-soybean-moderate",
+      "target_filename": "class8-soybean-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class8-soybean-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "552a269469a13714fa8611ccf03a6d73078b0db73e7d48628ed1090e1d51e48b"
+    },
+    {
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "大豆",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示芫菁在大豆上的重度受害状态；仅呈现以下来源支持的可观察特征：群集取食、快速脱叶、冠层叶量明显下降。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-08-NCSU-SOY"
+      ],
+      "observable_features": [
+        "群集取食",
+        "快速脱叶",
+        "冠层叶量明显下降"
+      ],
+      "evidence_taxon": [
+        "Epicauta funebris; Epicauta vittata"
+      ],
+      "asset_id": "r31-class8-soybean-severe",
+      "target_filename": "class8-soybean-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class8-soybean-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "cd34e9fda9c5da95b778a86205d3c9cf271f20201f63639a02fb24a2c321bea6"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "大豆",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在大豆上的轻度受害状态；仅呈现以下来源支持的可观察特征：顶叶/嫩叶/嫩茎局部蚜群、不规则黄斑。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-HEILONGJIANG-SOY"
+      ],
+      "observable_features": [
+        "顶叶/嫩叶/嫩茎局部蚜群",
+        "不规则黄斑"
+      ],
+      "evidence_taxon": [
+        "Aphis glycines; Acyrthosiphon solani"
+      ],
+      "asset_id": "r31-class9-soybean-mild",
+      "target_filename": "class9-soybean-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class9-soybean-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "2b9bf3194bd7c3d9398b30d9d109e197115c842a998e29612760c994f98aa1e5"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "大豆",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在大豆上的中度受害状态；仅呈现以下来源支持的可观察特征：黄斑扩大并转褐、蜜露/煤污、多处卷曲。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-HEILONGJIANG-SOY"
+      ],
+      "observable_features": [
+        "黄斑扩大并转褐",
+        "蜜露/煤污",
+        "多处卷曲"
+      ],
+      "evidence_taxon": [
+        "Aphis glycines; Acyrthosiphon solani"
+      ],
+      "asset_id": "r31-class9-soybean-moderate",
+      "target_filename": "class9-soybean-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class9-soybean-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "b15a5c5550b2eca6cfce7a91f0ba88f64ca2eba913d6af1e3b150133ba7b9186"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "大豆",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在大豆上的重度受害状态；仅呈现以下来源支持的可观察特征：叶片卷曲变黄、植株矮小、分枝/结荚数减少、豆粒粒重受影响。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-HEILONGJIANG-SOY"
+      ],
+      "observable_features": [
+        "叶片卷曲变黄",
+        "植株矮小",
+        "分枝/结荚数减少",
+        "豆粒粒重受影响"
+      ],
+      "evidence_taxon": [
+        "Aphis glycines; Acyrthosiphon solani"
+      ],
+      "asset_id": "r31-class9-soybean-severe",
+      "target_filename": "class9-soybean-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class9-soybean-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "8e36cb1d8bd21039de1846ad3a8fa71075f841caa60a242a35891f6e2ad3dc8b"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "小麦",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在小麦上的轻度受害状态；仅呈现以下来源支持的可观察特征：细小红色或铜色斑点、取食点周围黄化。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-KSTATE-GREENBUG-WHEAT",
+        "R31-09-OSU-GREENBUG-WHEAT"
+      ],
+      "observable_features": [
+        "细小红色或铜色斑点",
+        "取食点周围黄化"
+      ],
+      "evidence_taxon": [
+        "Schizaphis graminum"
+      ],
+      "asset_id": "r31-class9-wheat-mild",
+      "target_filename": "class9-wheat-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class9-wheat-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "9c3edacfb027d35dd23b2a951f2e89e6ee534bdece61cafd58f32699be74110e"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "小麦",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在小麦上的中度受害状态；仅呈现以下来源支持的可观察特征：斑点逐渐合并、受害叶片转黄、黄色或红褐色田间斑块扩展。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-KSTATE-GREENBUG-WHEAT",
+        "R31-09-OSU-GREENBUG-WHEAT"
+      ],
+      "observable_features": [
+        "斑点逐渐合并",
+        "受害叶片转黄",
+        "黄色或红褐色田间斑块扩展"
+      ],
+      "evidence_taxon": [
+        "Schizaphis graminum"
+      ],
+      "asset_id": "r31-class9-wheat-moderate",
+      "target_filename": "class9-wheat-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class9-wheat-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "16945a9c101d03402dbb7323c86ef9d49a3dff73cbe73f053ea438539472b865"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "小麦",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在小麦上的重度受害状态；仅呈现以下来源支持的可观察特征：红褐色坏死叶片、植株矮化、死苗、分蘖减少、死株斑块扩展。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-KSTATE-GREENBUG-WHEAT",
+        "R31-09-OSU-GREENBUG-WHEAT"
+      ],
+      "observable_features": [
+        "红褐色坏死叶片",
+        "植株矮化",
+        "死苗",
+        "分蘖减少",
+        "死株斑块扩展"
+      ],
+      "evidence_taxon": [
+        "Schizaphis graminum"
+      ],
+      "asset_id": "r31-class9-wheat-severe",
+      "target_filename": "class9-wheat-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class9-wheat-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "2c030b66c02d3ffd2421699a9c83e935f589008d2c97f3f41774f95625b779a2"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "桃",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在桃上的轻度受害状态；仅呈现以下来源支持的可观察特征：嫩梢/幼叶取食、叶片卷曲或变形。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-VT-PEACH-GPA"
+      ],
+      "observable_features": [
+        "嫩梢/幼叶取食",
+        "叶片卷曲或变形"
+      ],
+      "evidence_taxon": [
+        "Myzus persicae"
+      ],
+      "asset_id": "r31-class9-peach-mild",
+      "target_filename": "class9-peach-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class9-peach-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "487473c4a01bfeb653269aaf42919025e7a0e3182570f8dc8fbe980fa4ca3cf5"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "桃",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在桃上的中度受害状态；仅呈现以下来源支持的可观察特征：叶片卷曲、叶片变形、叶片黄化、蜜露、煤污。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-VT-PEACH-GPA"
+      ],
+      "observable_features": [
+        "叶片卷曲",
+        "叶片变形",
+        "叶片黄化",
+        "蜜露",
+        "煤污"
+      ],
+      "evidence_taxon": [
+        "Myzus persicae"
+      ],
+      "asset_id": "r31-class9-peach-moderate",
+      "target_filename": "class9-peach-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class9-peach-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "1eec9f09a1a6bd8d303aab539857b74d64550edc699fffddfea211433e4f8ff0"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "桃",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在桃上的重度受害状态；仅呈现以下来源支持的可观察特征：新梢生长受抑、叶片早落、花或果实变形、花或果实脱落。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-VT-PEACH-GPA"
+      ],
+      "observable_features": [
+        "新梢生长受抑",
+        "叶片早落",
+        "花或果实变形",
+        "花或果实脱落"
+      ],
+      "evidence_taxon": [
+        "Myzus persicae"
+      ],
+      "asset_id": "r31-class9-peach-severe",
+      "target_filename": "class9-peach-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class9-peach-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "09d51753e3e53e9ed163aca2831d2b1bceb61e74cd4ca8fc5db3f97871e46ee4"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "棉花",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在棉花上的轻度受害状态；仅呈现以下来源支持的可观察特征：叶片皱缩、杯状卷曲、蜜露污染。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-UC-COTTON-APHID"
+      ],
+      "observable_features": [
+        "叶片皱缩",
+        "杯状卷曲",
+        "蜜露污染"
+      ],
+      "evidence_taxon": [
+        "Aphis gossypii"
+      ],
+      "asset_id": "r31-class9-cotton-mild",
+      "target_filename": "class9-cotton-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class9-cotton-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "9671e1af36f787962b617d09ecc1d0b07ce973fb576cef1267166ec614c3370e"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "棉花",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在棉花上的中度受害状态；仅呈现以下来源支持的可观察特征：叶片不能展开、皱缩或杯状卷曲、蜜露、煤污、生长受抑。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-UC-COTTON-APHID"
+      ],
+      "observable_features": [
+        "叶片不能展开",
+        "皱缩或杯状卷曲",
+        "蜜露",
+        "煤污",
+        "生长受抑"
+      ],
+      "evidence_taxon": [
+        "Aphis gossypii"
+      ],
+      "asset_id": "r31-class9-cotton-moderate",
+      "target_filename": "class9-cotton-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class9-cotton-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "bbaa8d4accab41f5fd0ff0fe5262ecda1ed227cbec025d9b2a74e8d79a9e85de"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "棉花",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在棉花上的重度受害状态；仅呈现以下来源支持的可观察特征：脱叶、严重幼苗矮化、棉铃受害相关影响。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-UC-COTTON-APHID"
+      ],
+      "observable_features": [
+        "脱叶",
+        "严重幼苗矮化",
+        "棉铃受害相关影响"
+      ],
+      "evidence_taxon": [
+        "Aphis gossypii"
+      ],
+      "asset_id": "r31-class9-cotton-severe",
+      "target_filename": "class9-cotton-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class9-cotton-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "99a54bb39149d9548ef856d44675043a01bc0e468319dc7ba14b88d7ae07a1c5"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "玉米",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在玉米上的轻度受害状态；仅呈现以下来源支持的可观察特征：小片变色区域、蜜露污染。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-PURDUE-CORN",
+        "R31-09-UMN-CORN"
+      ],
+      "observable_features": [
+        "小片变色区域",
+        "蜜露污染"
+      ],
+      "evidence_taxon": [
+        "corn aphid complex (source-named group)"
+      ],
+      "asset_id": "r31-class9-corn-mild",
+      "target_filename": "class9-corn-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class9-corn-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "b9207174dd1339a7f2754dd39fd341ec904a8fd492596782b6ca7100ffcb0a14"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "玉米",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在玉米上的中度受害状态；仅呈现以下来源支持的可观察特征：叶片卷曲、叶片失绿、蜜露、煤污。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-PURDUE-CORN",
+        "R31-09-UMN-CORN"
+      ],
+      "observable_features": [
+        "叶片卷曲",
+        "叶片失绿",
+        "蜜露",
+        "煤污"
+      ],
+      "evidence_taxon": [
+        "corn aphid complex (source-named group)"
+      ],
+      "asset_id": "r31-class9-corn-moderate",
+      "target_filename": "class9-corn-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class9-corn-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "00adee76a5111848fe260a144561c31f33059d245485a06be9de77d7dd26e8ba"
+    },
+    {
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "玉米",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蚜虫在玉米上的重度受害状态；仅呈现以下来源支持的可观察特征：叶片萎蔫、叶片死亡、授粉受扰、籽粒不完整或穗部不育。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-09-PURDUE-CORN",
+        "R31-09-UMN-CORN"
+      ],
+      "observable_features": [
+        "叶片萎蔫",
+        "叶片死亡",
+        "授粉受扰",
+        "籽粒不完整或穗部不育"
+      ],
+      "evidence_taxon": [
+        "corn aphid complex (source-named group)"
+      ],
+      "asset_id": "r31-class9-corn-severe",
+      "target_filename": "class9-corn-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class9-corn-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "70abac1803cb49b3c4916dcc60bd040b24a3d05fbc31337bc64d99d0367aee5a"
+    },
+    {
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "葡萄",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示盲蝽科在葡萄上的轻度受害状态；仅呈现以下来源支持的可观察特征：未展开芽/刚展开幼叶、针头大小红褐色斑点。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-10-XILINGOL"
+      ],
+      "observable_features": [
+        "未展开芽/刚展开幼叶",
+        "针头大小红褐色斑点"
+      ],
+      "evidence_taxon": [
+        "Apolygus lucorum"
+      ],
+      "asset_id": "r31-class10-grape-mild",
+      "target_filename": "class10-grape-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class10-grape-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "d3afe2a7b59b39f1ce469dcc031f233797b74e4e67337489d520b399c64f702f"
+    },
+    {
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "葡萄",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示盲蝽科在葡萄上的中度受害状态；仅呈现以下来源支持的可观察特征：不规则孔洞、多个刺伤孔、叶片皱缩/畸形。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-10-XILINGOL"
+      ],
+      "observable_features": [
+        "不规则孔洞",
+        "多个刺伤孔",
+        "叶片皱缩/畸形"
+      ],
+      "evidence_taxon": [
+        "Apolygus lucorum"
+      ],
+      "asset_id": "r31-class10-grape-moderate",
+      "target_filename": "class10-grape-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class10-grape-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "13a8d9d5831de16702b7230b153f739d8c9c27c10693340ddd008136391b6dfb"
+    },
+    {
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "葡萄",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示盲蝽科在葡萄上的重度受害状态；仅呈现以下来源支持的可观察特征：撕裂状叶片损伤、生长受阻、幼果小黑斑、幼果外观损伤不可恢复。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-10-XILINGOL"
+      ],
+      "observable_features": [
+        "撕裂状叶片损伤",
+        "生长受阻",
+        "幼果小黑斑",
+        "幼果外观损伤不可恢复"
+      ],
+      "evidence_taxon": [
+        "Apolygus lucorum"
+      ],
+      "asset_id": "r31-class10-grape-severe",
+      "target_filename": "class10-grape-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class10-grape-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "0a9835e13d17321d33265c60b54d3e2ebf733523ef5e9be841bce2d658af4f7b"
+    },
+    {
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "玉米",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝼蛄在玉米上的轻度受害状态；仅呈现以下来源支持的可观察特征：未出苗种子/幼苗根茎咬食。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-11-CHENGDE"
+      ],
+      "observable_features": [
+        "未出苗种子/幼苗根茎咬食"
+      ],
+      "evidence_taxon": [
+        "蝼蛄/蛴螬（来源命名地下害虫组）"
+      ],
+      "asset_id": "r31-class11-corn-mild",
+      "target_filename": "class11-corn-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class11-corn-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "d3f5d0989d0662db8e890691b1e48069c72de678501b5d6d6f8ee2ae66d4bad3"
+    },
+    {
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "玉米",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝼蛄在玉米上的中度受害状态；仅呈现以下来源支持的可观察特征：较大幼苗根茎受害、根茎呈乱麻状、局部缺苗/断垄。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-11-CHENGDE"
+      ],
+      "observable_features": [
+        "较大幼苗根茎受害",
+        "根茎呈乱麻状",
+        "局部缺苗/断垄"
+      ],
+      "evidence_taxon": [
+        "蝼蛄/蛴螬（来源命名地下害虫组）"
+      ],
+      "asset_id": "r31-class11-corn-moderate",
+      "target_filename": "class11-corn-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class11-corn-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "1ba2759d723a7406884e29b27ed03150bfaee03e82bd8b50e8c1ac5ae584535a"
+    },
+    {
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "玉米",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝼蛄在玉米上的重度受害状态；仅呈现以下来源支持的可观察特征：幼苗枯死、缺苗、断垄。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-11-CHENGDE"
+      ],
+      "observable_features": [
+        "幼苗枯死",
+        "缺苗",
+        "断垄"
+      ],
+      "evidence_taxon": [
+        "蝼蛄/蛴螬（来源命名地下害虫组）"
+      ],
+      "asset_id": "r31-class11-corn-severe",
+      "target_filename": "class11-corn-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class11-corn-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "e3bed5621e10ce73d5dd55b31e98d227d0c42a8e5ca469369348d666e0cac0d7"
+    },
+    {
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "马铃薯",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝼蛄在马铃薯上的轻度受害状态；仅呈现以下来源支持的可观察特征：根区掘道、根/块茎取食损伤。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-11-NCSU-POTATO-MOLECRICKET",
+        "R31-11-UFL"
+      ],
+      "observable_features": [
+        "根区掘道",
+        "根/块茎取食损伤"
+      ],
+      "evidence_taxon": [
+        "Neoscapteriscus borellii (source-named mole cricket)"
+      ],
+      "asset_id": "r31-class11-potato-mild",
+      "target_filename": "class11-potato-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class11-potato-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "3a7e5392050fbaa7967984169ddaaa390cb0e207954c62ac1c026c4d2344aa5d"
+    },
+    {
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "马铃薯",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝼蛄在马铃薯上的中度受害状态；仅呈现以下来源支持的可观察特征：根系受损、块茎受损、植株衰退、缺水样表现。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-11-NCSU-POTATO-MOLECRICKET",
+        "R31-11-UFL"
+      ],
+      "observable_features": [
+        "根系受损",
+        "块茎受损",
+        "植株衰退",
+        "缺水样表现"
+      ],
+      "evidence_taxon": [
+        "Neoscapteriscus borellii (source-named mole cricket)"
+      ],
+      "asset_id": "r31-class11-potato-moderate",
+      "target_filename": "class11-potato-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class11-potato-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "17f1a93c8057fb771b4793d5f37ab891e8eff92552d85231b30f7884232fbf11"
+    },
+    {
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "马铃薯",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝼蛄在马铃薯上的重度受害状态；仅呈现以下来源支持的可观察特征：根/块茎严重受损、幼苗被拔起、植株死亡。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-11-NCSU-POTATO-MOLECRICKET",
+        "R31-11-UFL"
+      ],
+      "observable_features": [
+        "根/块茎严重受损",
+        "幼苗被拔起",
+        "植株死亡"
+      ],
+      "evidence_taxon": [
+        "Neoscapteriscus borellii (source-named mole cricket)"
+      ],
+      "asset_id": "r31-class11-potato-severe",
+      "target_filename": "class11-potato-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class11-potato-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "f0ef7d933e163ee6bfa6d6f4d6de517f6595a16533d76c9900fc7d746e818e0a"
+    },
+    {
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "茶",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示叶蝉科在茶上的轻度受害状态；仅呈现以下来源支持的可观察特征：叶脉变红、叶尖和叶缘变红。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-12-WEIHAI-TEA-DAMAGE"
+      ],
+      "observable_features": [
+        "叶脉变红",
+        "叶尖和叶缘变红"
+      ],
+      "evidence_taxon": [
+        "Matsumurasca (Matsumurasca) onukii (Matsuda, 1952)",
+        "Empoasca (Matsumurasca) onukii Matsuda"
+      ],
+      "asset_id": "r31-class12-tea-mild",
+      "target_filename": "class12-tea-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class12-tea-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "a297508148bba0a485df9560d93cacdf08c05706d117fd31888de442fe7b486c"
+    },
+    {
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "茶",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示叶蝉科在茶上的中度受害状态；仅呈现以下来源支持的可观察特征：芽叶凋萎、节间短缩、受害芽叶质地变脆。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-12-WEIHAI-TEA-DAMAGE"
+      ],
+      "observable_features": [
+        "芽叶凋萎",
+        "节间短缩",
+        "受害芽叶质地变脆"
+      ],
+      "evidence_taxon": [
+        "Matsumurasca (Matsumurasca) onukii (Matsuda, 1952)",
+        "Empoasca (Matsumurasca) onukii Matsuda"
+      ],
+      "asset_id": "r31-class12-tea-moderate",
+      "target_filename": "class12-tea-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class12-tea-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "ba7a3dea38488bf3ddc55921a554b7680d47c5f7a4f3f324e3324d862116a810"
+    },
+    {
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "茶",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示叶蝉科在茶上的重度受害状态；仅呈现以下来源支持的可观察特征：叶尖和叶缘红褐焦枯、受害芽叶萎缩、茶园大面积发黄或火烧状。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-12-FRONTIERS-ONUKII",
+        "R31-12-WEIHAI-TEA-DAMAGE",
+        "R31-12-ANKANG-TEA-DAMAGE"
+      ],
+      "observable_features": [
+        "叶尖和叶缘红褐焦枯",
+        "受害芽叶萎缩",
+        "茶园大面积发黄或火烧状"
+      ],
+      "evidence_taxon": [
+        "Matsumurasca (Matsumurasca) onukii (Matsuda, 1952)",
+        "Empoasca (Matsumurasca) onukii Matsuda"
+      ],
+      "asset_id": "r31-class12-tea-severe",
+      "target_filename": "class12-tea-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class12-tea-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "4c63ccff5366025073da230c4c66fc1793c0140c5fab141aa5f84e731a8885a3"
+    },
+    {
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "大豆",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝗总科在大豆上的轻度受害状态；仅呈现以下来源支持的可观察特征：田边/局部叶片锯齿状孔洞。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-13-UMN-GRASSHOPPER"
+      ],
+      "observable_features": [
+        "田边/局部叶片锯齿状孔洞"
+      ],
+      "evidence_taxon": [
+        "Acrididae（草地蝗虫来源组）"
+      ],
+      "asset_id": "r31-class13-soybean-mild",
+      "target_filename": "class13-soybean-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class13-soybean-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "6283b797dab361447c84554ddba9deaa140dbcf7973a10aaeccb7b248a6cd471"
+    },
+    {
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "大豆",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝗总科在大豆上的中度受害状态；仅呈现以下来源支持的可观察特征：叶片取食扩展、明显脱叶、开始取食豆荚。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-13-UMN-GRASSHOPPER"
+      ],
+      "observable_features": [
+        "叶片取食扩展",
+        "明显脱叶",
+        "开始取食豆荚"
+      ],
+      "evidence_taxon": [
+        "Acrididae（草地蝗虫来源组）"
+      ],
+      "asset_id": "r31-class13-soybean-moderate",
+      "target_filename": "class13-soybean-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class13-soybean-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "31d219f7b8383ae5269c0b4fe183c384544e7e306dee69ad8ccf42f5a95e4c49"
+    },
+    {
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "大豆",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蝗总科在大豆上的重度受害状态；仅呈现以下来源支持的可观察特征：豆荚被咬穿、种子直接受害。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-13-UMN-GRASSHOPPER"
+      ],
+      "observable_features": [
+        "豆荚被咬穿",
+        "种子直接受害"
+      ],
+      "evidence_taxon": [
+        "Acrididae（草地蝗虫来源组）"
+      ],
+      "asset_id": "r31-class13-soybean-severe",
+      "target_filename": "class13-soybean-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class13-soybean-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "30d6a5141b05c6184fafeee7394ebd176f3e635656d647eb23f538e5dcd4327f"
+    },
+    {
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "玉米",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蛴螬在玉米上的轻度受害状态；仅呈现以下来源支持的可观察特征：根毛减少、侧根被修剪。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-14-UMN-WHITE-GRUBS"
+      ],
+      "observable_features": [
+        "根毛减少",
+        "侧根被修剪"
+      ],
+      "evidence_taxon": [
+        "Scarabaeidae larvae（蛴螬）"
+      ],
+      "asset_id": "r31-class14-corn-mild",
+      "target_filename": "class14-corn-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class14-corn-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "65a29d03d2492d4a47d0a0b74fcd1474b8f76056b1598f823c523a563c61336b"
+    },
+    {
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "玉米",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蛴螬在玉米上的中度受害状态；仅呈现以下来源支持的可观察特征：根系修剪加重、类似干旱/缺素的萎蔫、长势受抑。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-14-UMN-WHITE-GRUBS"
+      ],
+      "observable_features": [
+        "根系修剪加重",
+        "类似干旱/缺素的萎蔫",
+        "长势受抑"
+      ],
+      "evidence_taxon": [
+        "Scarabaeidae larvae（蛴螬）"
+      ],
+      "asset_id": "r31-class14-corn-moderate",
+      "target_filename": "class14-corn-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class14-corn-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "97b530a9b54a96c14e4a7f974f9ad5ba39ac91b7c9d0c6af4cd990162c0e3282"
+    },
+    {
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "玉米",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示蛴螬在玉米上的重度受害状态；仅呈现以下来源支持的可观察特征：中胚轴破坏、植株死亡、明显缺苗。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-14-UMN-WHITE-GRUBS"
+      ],
+      "observable_features": [
+        "中胚轴破坏",
+        "植株死亡",
+        "明显缺苗"
+      ],
+      "evidence_taxon": [
+        "Scarabaeidae larvae（蛴螬）"
+      ],
+      "asset_id": "r31-class14-corn-severe",
+      "target_filename": "class14-corn-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class14-corn-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "ae17958eb6e3b1d82c30bf0c278a6fa2692c243744554d2f91bb6e636d8f80cc"
+    },
+    {
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "大豆",
+      "severity": "mild",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示豆芫菁在大豆上的轻度受害状态；仅呈现以下来源支持的可观察特征：嫩叶开始取食、叶片出现局部缺刻。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-15-ENTOMOLOGY-1956"
+      ],
+      "observable_features": [
+        "嫩叶开始取食",
+        "叶片出现局部缺刻"
+      ],
+      "evidence_taxon": [
+        "Epicauta gorhami"
+      ],
+      "asset_id": "r31-class15-soybean-mild",
+      "target_filename": "class15-soybean-mild.webp",
+      "target_relative_path": "web/public/r31/severity/class15-soybean-mild.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "203b5cc0179aa0cc12afa80727ebd332d8c7b532e1e2108e9623b095b401b251"
+    },
+    {
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "大豆",
+      "severity": "moderate",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示豆芫菁在大豆上的中度受害状态；仅呈现以下来源支持的可观察特征：成虫聚集取食、叶片出现多处缺刻或部分叶脉显露。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-15-ENTOMOLOGY-1956"
+      ],
+      "observable_features": [
+        "成虫聚集取食",
+        "叶片出现多处缺刻或部分叶脉显露"
+      ],
+      "evidence_taxon": [
+        "Epicauta gorhami"
+      ],
+      "asset_id": "r31-class15-soybean-moderate",
+      "target_filename": "class15-soybean-moderate.webp",
+      "target_relative_path": "web/public/r31/severity/class15-soybean-moderate.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "56fec95e5f84ce46d39fc295ef61c4b91d28823b15dd59d5500fee745bc6bf78"
+    },
+    {
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "大豆",
+      "severity": "severe",
+      "prompt_evidence_status": "TRACEABLE",
+      "final_prompt": "农业科学示意图：展示豆芫菁在大豆上的重度受害状态；仅呈现以下来源支持的可观察特征：大面积叶片被取食至仅剩叶脉、嫩茎受损、开花结实受影响。保持作物与受害部位清晰、自然田间尺度，不补充来源未支持的颜色、斑纹、卷曲、器官损伤、虫口密度、比例、产量数字或其他阈值；不出现文字、UI、箭头、测量数字、农药包装或诊断结论。",
+      "source_ids": [
+        "R31-15-ENTOMOLOGY-1956"
+      ],
+      "observable_features": [
+        "大面积叶片被取食至仅剩叶脉",
+        "嫩茎受损",
+        "开花结实受影响"
+      ],
+      "evidence_taxon": [
+        "Epicauta gorhami"
+      ],
+      "asset_id": "r31-class15-soybean-severe",
+      "target_filename": "class15-soybean-severe.webp",
+      "target_relative_path": "web/public/r31/severity/class15-soybean-severe.webp",
+      "generation_status": "COMPLETE",
+      "review_status": "PASS",
+      "image_sha256": "2a25abb75af5e81ec2dd89a32dfe685969dce6c78cb4d6c8b71c3016fa6212b1"
+    }
+  ],
+  "generation_summary": {
+    "generated": 39,
+    "passed_review": 39,
+    "requiring_regeneration": 0,
+    "regeneration_events_completed": 4,
+    "review_method": "four contact sheets plus targeted full-size inspection of taxonomy/anatomy-sensitive outputs"
+  }
+}

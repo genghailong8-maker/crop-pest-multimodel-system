@@ -1,0 +1,4472 @@
+{
+  "schema_version": "insect-host-knowledge-v1",
+  "batch": "R3.1 Batch 1",
+  "closure": "Final Documentation Consistency + Final Controlled Knowledge Expansion",
+  "status": "REVIEW",
+  "catalog_source": "../baidu-baike-20260818/manifest.json",
+  "evidence_registry": "severity-evidence.json",
+  "policy": {
+    "host_selection": "China mainland priority; user manually selects host; recommended_host is reviewed common-host guidance only",
+    "recommended_host_label": "推荐：常见寄主之一——<crop>",
+    "recommended_host_semantics": "recommended_host = reviewed common host; never confirmed_host",
+    "severity_mode": "evidence-constrained synthesis",
+    "severity_notice": "本轻/中/重规则为基于可靠农业资料整理形成的系统辅助判定规则，并非宣称原始资料本身采用相同三级分级。",
+    "unsupported_severity": "NEEDS_EVIDENCE",
+    "vector_language": "可能传播的相关病害; never current confirmed diagnosis",
+    "pesticide_rule": "No concrete product, dose, formulation, count or PHI is emitted without current China registration evidence for the exact crop and target",
+    "severity_treatment_decoupled": true,
+    "treatment_fallback_order": [
+      "host_severity",
+      "host_general",
+      "insect_general"
+    ],
+    "uncertain_treatment": "NO_TREATMENT",
+    "other_policy": "no free input, no host-specific damage/severity/vector/treatment; insect_general only",
+    "taxonomic_scope_notice": "该识别类别中的已审核代表性种类/常见种类在该作物上有以下记录；单一物种证据不得扩展为整个科或总科。",
+    "source_semantic_review": "SOURCE_SEMANTIC_REVIEW = PASS / NEEDS_REVIEW；自动 validator 只检查字段和引用，不能替代自然语言 entailment 人工复核。"
+  },
+  "documents": [
+    {
+      "class_id": 8,
+      "class_name": "芫菁",
+      "document": "insects/08-芫菁.md",
+      "recommended_host": "大豆",
+      "supported_hosts": [
+        "大豆",
+        "马铃薯",
+        "花生",
+        "甜菜",
+        "苜蓿"
+      ]
+    },
+    {
+      "class_id": 9,
+      "class_name": "蚜虫",
+      "document": "insects/09-蚜虫.md",
+      "recommended_host": "大豆",
+      "supported_hosts": [
+        "玉米",
+        "大豆",
+        "小麦",
+        "棉花",
+        "桃"
+      ]
+    },
+    {
+      "class_id": 10,
+      "class_name": "盲蝽科",
+      "document": "insects/10-盲蝽科.md",
+      "recommended_host": "葡萄",
+      "supported_hosts": [
+        "葡萄",
+        "棉花",
+        "枣",
+        "核桃"
+      ]
+    },
+    {
+      "class_id": 11,
+      "class_name": "蝼蛄",
+      "document": "insects/11-蝼蛄.md",
+      "recommended_host": "玉米",
+      "supported_hosts": [
+        "玉米",
+        "小麦",
+        "花生",
+        "马铃薯",
+        "水稻"
+      ]
+    },
+    {
+      "class_id": 12,
+      "class_name": "叶蝉科",
+      "document": "insects/12-叶蝉科.md",
+      "recommended_host": "茶",
+      "supported_hosts": [
+        "茶",
+        "芒果",
+        "水稻",
+        "苜蓿"
+      ]
+    },
+    {
+      "class_id": 13,
+      "class_name": "蝗总科",
+      "document": "insects/13-蝗总科.md",
+      "recommended_host": "玉米",
+      "supported_hosts": [
+        "玉米",
+        "水稻",
+        "小麦",
+        "大豆",
+        "苜蓿"
+      ]
+    },
+    {
+      "class_id": 14,
+      "class_name": "蛴螬",
+      "document": "insects/14-蛴螬.md",
+      "recommended_host": "玉米",
+      "supported_hosts": [
+        "玉米",
+        "大豆",
+        "马铃薯",
+        "花生",
+        "小麦"
+      ]
+    },
+    {
+      "class_id": 15,
+      "class_name": "豆芫菁",
+      "document": "insects/15-豆芫菁.md",
+      "recommended_host": "大豆",
+      "supported_hosts": [
+        "大豆",
+        "玉米",
+        "花生",
+        "马铃薯",
+        "苜蓿"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "R31-GLOBAL-IPM-MOA",
+      "title": "农作物病虫害防治条例",
+      "organization": "中华人民共和国农业农村部",
+      "url": "https://fgs.moa.gov.cn/flfg/202004/t20200403_6340771.htm",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "预防为主、综合防治和绿色防控原则；不提供特定昆虫×作物严重度阈值",
+      "allowed_contexts": [
+        "global:ipm"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-GLOBAL-IPM-FAO",
+      "title": "Integrated Pest Management: principles and practices",
+      "organization": "Food and Agriculture Organization of the United Nations",
+      "url": "https://www.fao.org/pest-and-pesticide-management/ipm/principles-and-practices/en/",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 3,
+      "support_scope": "监测、农业/物理/生物措施优先和风险化学防治的一般 IPM 原则",
+      "allowed_contexts": [
+        "global:ipm"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-08-ORDOS",
+      "title": "达拉特旗：病虫情报动态第二十期——芫菁在我旗首次发生",
+      "organization": "鄂尔多斯市农牧局／达拉特旗农牧技术推广中心",
+      "url": "https://nmj.ordos.gov.cn/xwdt/qqdt/202302/t20230228_3352605.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "芫菁在大豆田的实际发生；豆类、马铃薯、花生、甜菜、牧草和苜蓿等寄主组；成虫取食叶片、群集和人工捕捉/监测",
+      "allowed_contexts": [
+        "class:8",
+        "host:8:大豆",
+        "host:8:马铃薯",
+        "host:8:花生",
+        "host:8:甜菜",
+        "host:8:苜蓿"
+      ],
+      "critical": true,
+      "source_reachability": "UNREACHABLE_2026-09-07_SEARCH_INDEX_ONLY",
+      "verified_backup_source_ids": [
+        "R31-08-CAU-BACKUP",
+        "R31-08-BEIJING-STANDARD",
+        "R31-08-NCSU-SOY",
+        "R31-08-NDSU-BLISTER",
+        "R31-08-DAZHOU-PEANUT-BACKUP"
+      ],
+      "reachability_note": "Direct URL resolves to the official 404 page. Historical indexed metadata is retained only for audit; no current capability, COMPLETE severity, TRACEABLE prompt or effective host-general treatment may cite it.",
+      "source_status": "DEAD_LINK_HISTORICAL_PROVENANCE_ONLY",
+      "archived": true,
+      "current_capability_use": false
+    },
+    {
+      "source_id": "R31-08-NDSU-BLISTER",
+      "title": "Blister Beetle Management in Forages and Field Crops",
+      "organization": "North Dakota State University Extension",
+      "url": "https://www.ndsu.edu/agriculture/sites/default/files/2022-01/e1002%20%281%29.pdf",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "芫菁科成虫在苜蓿、豆类、大豆、马铃薯、甜菜等作物取食；群集、局部暴发、苜蓿饲草斑蝥素风险和收获前巡查",
+      "allowed_contexts": [
+        "class:8",
+        "host:8:大豆",
+        "host:8:马铃薯",
+        "host:8:甜菜",
+        "host:8:苜蓿"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-08-NCSU-SOY",
+      "title": "Blister Beetle in Soybean",
+      "organization": "North Carolina State University Extension",
+      "url": "https://content.ces.ncsu.edu/bilster-beetle-in-soybean",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "大豆成虫群集取食造成脱叶；来源给出按生育期划分的脱叶行动阈值，并提示豆芫菁可传播 bean pod mottle virus 的特定证据仅限该来源关系",
+      "allowed_contexts": [
+        "host:8:大豆",
+        "vector:8:大豆:豆荚斑驳病毒"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL was checked during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-UMN-CORN",
+      "title": "Aphids in corn (post-pollination)",
+      "organization": "University of Minnesota Extension",
+      "url": "https://extension.umn.edu/corn-pest-management/aphids-corn-post-pollination",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "玉米蚜虫在植株上的群体位置、刺吸危害、蜜露和田间巡查",
+      "allowed_contexts": [
+        "host:9:玉米"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL was checked during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-HEILONGJIANG-SOY",
+      "title": "大豆蚜虫识别与防治技术",
+      "organization": "黑龙江省农业农村厅／全国农技中心体系",
+      "url": "https://nynct.hlj.gov.cn/nynct/c115393/202608/c00_31966422.shtml",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "大豆蚜刺吸、蜜露煤污和大豆病毒关系；田间识别与防治原则",
+      "allowed_contexts": [
+        "class:9",
+        "host:9:大豆",
+        "vector:9:大豆:大豆花叶病"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL was checked during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-BEIJING-CROPS",
+      "title": "2025年北京市粮油作物病虫草害防控技术要点",
+      "organization": "北京市农业农村局",
+      "url": "https://nyncj.beijing.gov.cn/nyj/zwgk/ztgk/zwbhxx/743558012/index.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "小麦、玉米、大豆、花生、甘薯等粮油作物病虫监测和绿色防控；明确提及蚜虫和对应作物管理，不作为单一作物登记标签",
+      "allowed_contexts": [
+        "host:9:玉米",
+        "host:9:大豆",
+        "host:9:小麦",
+        "host:9:棉花",
+        "host:9:桃",
+        "class:9"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-COTTON",
+      "title": "棉花重大病虫防控技术（一）",
+      "organization": "内蒙古自治区农牧厅",
+      "url": "https://nmt.nmg.gov.cn/yw/nszd/als/202207/t20220714_2088138.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "棉蚜在棉田周边寄主和棉花苗期管理；清除越冬寄主、保护天敌和分区防控",
+      "allowed_contexts": [
+        "host:9:棉花"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-PEACH",
+      "title": "今年蚜虫来得早，花前防控要做好",
+      "organization": "湖北省农业农村厅",
+      "url": "https://nyt.hubei.gov.cn/bmdt/yw/ywtz/sgcbgs_9007/202602/t20260228_5881705.shtml",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "桃园蚜虫花前发生和清园、监测、防控时机",
+      "allowed_contexts": [
+        "host:9:桃"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-SOY-VECTOR",
+      "title": "大豆蚜虫识别与防治技术（大豆花叶病毒传播范围）",
+      "organization": "黑龙江省农业农村厅／全国农技中心体系",
+      "url": "https://nynct.hlj.gov.cn/nynct/c115393/202608/c00_31966422.shtml",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "黑龙江官方资料明确列出 Aphis glycines 与 Acyrthosiphon solani 等大豆蚜虫种类，并说明大豆蚜可传播包括大豆花叶病毒在内的多种病毒；仅支持部分已知蚜虫种类，不外推为整个蚜虫类群。",
+      "allowed_contexts": [
+        "class:9",
+        "host:9:大豆",
+        "vector:9:大豆:大豆花叶病"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-WHEAT-VECTOR",
+      "title": "Barley Yellow Dwarf",
+      "organization": "University of Nebraska–Lincoln CropWatch",
+      "url": "https://cropwatch.unl.edu/plant-disease/wheat/barley-yellow-dwarf/",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "UNL 官方扩展资料说明小麦黄矮病由多种谷类蚜虫种类传播，并列举重要媒介种类及小麦症状；不支持所有蚜虫种类均传播。",
+      "allowed_contexts": [
+        "class:9",
+        "vector:9:小麦:小麦黄矮病"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true
+    },
+    {
+      "source_id": "R31-10-KASHGAR",
+      "title": "绿盲蝽防治期预测预报",
+      "organization": "喀什地区行政公署／林业和草原局",
+      "url": "https://www.kashi.gov.cn/ksdqxzgs/c106693/202506/f6e0a7337dec419480bc482fdbc9fb64.shtml",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "绿盲蝽在棉花、葡萄、枣、核桃等寄主上的发生、迁移和芽叶花果取食症状",
+      "allowed_contexts": [
+        "class:10",
+        "host:10:葡萄",
+        "host:10:棉花",
+        "host:10:枣",
+        "host:10:核桃"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-10-WUJIN",
+      "title": "果园绿盲蝽防控技术意见",
+      "organization": "常州市武进区人民政府",
+      "url": "https://www.wj.gov.cn/html/czwj/2024/BENLPFOF_0407/484571.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "绿盲蝽在桃、梨、葡萄、柑橘、枣等果树幼芽、嫩叶、花序和幼果上的危害及综合防控",
+      "allowed_contexts": [
+        "host:10:葡萄",
+        "host:10:枣"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-10-XILINGOL",
+      "title": "葡萄绿盲蝽防控技术",
+      "organization": "锡林郭勒盟农牧局",
+      "url": "https://www.xlgl.gov.cn/eportal/ui?articleKey=e62fe17b3b1743c3984c01379280c817&columnId=6e17a1ed3b684162abd0322628d20e83&pageId=c449e8dfef194a729e341df57d903d59",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "葡萄绿盲蝽芽、幼叶、新梢和幼果刺吸伤害，叶片孔洞皱缩、幼果黑斑，以及清园、诱捕、天敌保护",
+      "allowed_contexts": [
+        "host:10:葡萄"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL was checked during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-11-CHENGDE",
+      "title": "2020年承德市主要玉米虫害防控技术指导意见",
+      "organization": "承德市农业农村局",
+      "url": "https://www.chengde.gov.cn/art/2020/4/22/art_9944_538515.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "玉米蝼蛄和蛴螬地下活动、苗期根部危害与监测防控",
+      "allowed_contexts": [
+        "host:11:玉米",
+        "host:14:玉米"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL was checked during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-11-LINYI",
+      "title": "2025年植物保护情报第十期：秋播地下害虫发生防治预报",
+      "organization": "临沂市农业农村局",
+      "url": "https://nyj.linyi.gov.cn/info/1070/49838.htm",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "蝼蛄、蛴螬等地下害虫为害小麦根茎造成缺苗断垄；不同前茬虫量调查",
+      "allowed_contexts": [
+        "host:11:小麦",
+        "host:14:小麦"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-11-UFL",
+      "title": "Mole Cricket IPM Guide for Florida",
+      "organization": "University of Florida IFAS Extension",
+      "url": "https://ask.ifas.ufl.edu/publication/IN1021",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "蝼蛄可伤害花生、马铃薯、水稻、甘薯和多种蔬菜；取食与掘道造成根系和植株衰退；监测、阈值和综合管理框架",
+      "allowed_contexts": [
+        "host:11:花生",
+        "host:11:马铃薯",
+        "host:11:水稻"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL was checked during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-12-TEA",
+      "title": "2025年园艺作物重大病虫害防控技术方案（茶树主要病虫害）",
+      "organization": "全国农业技术推广服务中心／中国农业农村信息网",
+      "url": "https://www.agri.cn/sc/nszd/202502/t20250228_8758865.htm",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "茶小绿叶蝉在茶树上的发生监测、嫩梢叶片刺吸危害和绿色防控",
+      "allowed_contexts": [
+        "host:12:茶"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-12-MANGO",
+      "title": "2025年全国芒果重大病虫害发生趋势预报",
+      "organization": "农业农村部农垦局",
+      "url": "https://nkj.moa.gov.cn/rzny/202503/t20250310_6471444.htm",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "芒果叶蝉发生风险、监测和绿色防控技术方向",
+      "allowed_contexts": [
+        "host:12:芒果"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-12-GZ-RICE",
+      "title": "水稻病毒病绿色防控技术指引",
+      "organization": "广州市农业环境与植物保护总站",
+      "url": "https://nyncj.gz.gov.cn/fw/nsgl/content/post_10912921.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "明确电光叶蝉传播水稻橙叶病；给出水稻症状、分蘖期风险和绿色防控",
+      "allowed_contexts": [
+        "host:12:水稻",
+        "vector:12:水稻橙叶病"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-12-PKU-RDV",
+      "title": "水稻矮缩病毒（RDV）由叶蝉传播的研究介绍",
+      "organization": "北京大学生命科学学院",
+      "url": "https://web.bio.pku.edu.cn/homes/Index/news_cont/22/15242.html",
+      "doi": "https://doi.org/10.1371/journal.ppat.1009118",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "明确水稻矮缩病毒由叶蝉传播并描述水稻矮缩、分蘖增多和抽穗异常症状",
+      "allowed_contexts": [
+        "host:12:水稻",
+        "vector:12:水稻矮缩病毒"
+      ],
+      "source_reachability": "LIVE_URL_AND_STABLE_DOI_2026-09-07",
+      "reachability_note": "Official Peking University page opened successfully on 2026-09-07 and links the underlying PLOS Pathogens DOI."
+    },
+    {
+      "source_id": "R31-12-UMN-ALFALFA",
+      "title": "Alfalfa insects: What to look for and how to scout",
+      "organization": "University of Minnesota Extension",
+      "url": "https://extension.umn.edu/agriculture/crop-production/forages/alfalfa-insects-what-to-look-for-and-how-to-scout",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "苜蓿上叶蝉类害虫的取食部位、叶片失绿和巡查框架；未将所有叶蝉科物种等同",
+      "allowed_contexts": [
+        "host:12:苜蓿"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-13-MOA-LOCUST",
+      "title": "全国蝗虫灾害可持续治理规划（2014-2020年）",
+      "organization": "农业农村部",
+      "url": "https://zzys.moa.gov.cn/gzdt/201411/t20141115_6309929.htm",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "南方农区土蝗与水稻、玉米、小麦等农作物兼治；生物、生态和应急防控原则",
+      "allowed_contexts": [
+        "host:13:水稻",
+        "host:13:玉米",
+        "host:13:小麦",
+        "class:13"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-13-MOA-TROPICAL",
+      "title": "热作病虫害监测与防控简报：加强蝗情监测",
+      "organization": "农业农村部农垦局",
+      "url": "https://nkj.moa.gov.cn/rzny/202003/t20200302_6338000.htm",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "蝗虫可危害水稻、小麦、玉米、苜蓿、豆类、棉花、花生和多类蔬果；记录取食和迁移风险",
+      "allowed_contexts": [
+        "host:13:水稻",
+        "host:13:玉米",
+        "host:13:小麦",
+        "host:13:大豆",
+        "host:13:苜蓿"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-13-UMN-GRASSHOPPER",
+      "title": "Grasshoppers in Minnesota soybean",
+      "organization": "University of Minnesota Extension",
+      "url": "https://extension.umn.edu/agriculture/crop-production/soybean/grasshoppers-in-minnesota-soybean",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "蝗虫在小麦、玉米、苜蓿、大豆和菜豆间迁移；大豆叶片缺刻、豆荚和种子受害；含有基于密度/脱叶的行动阈值",
+      "allowed_contexts": [
+        "host:13:玉米",
+        "host:13:小麦",
+        "host:13:大豆",
+        "host:13:苜蓿"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL was checked during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-14-UMN-WHITE-GRUBS",
+      "title": "White grubs",
+      "organization": "University of Minnesota Extension",
+      "url": "https://extension.umn.edu/agriculture/crop-production/corn/white-grubs",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "蛴螬根系危害；明确玉米、谷物、大豆、马铃薯、蔬菜等寄主及取样/风险判断",
+      "allowed_contexts": [
+        "host:14:玉米",
+        "host:14:大豆",
+        "host:14:马铃薯",
+        "host:14:小麦"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL was checked during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-14-BEIJING-CROPS",
+      "title": "2025年北京市粮油作物病虫草害防控技术要点（花生地下害虫）",
+      "organization": "北京市农业农村局",
+      "url": "https://nyncj.beijing.gov.cn/nyj/zwgk/ztgk/zwbhxx/743558012/index.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "花生蛴螬等地下害虫的轮作、种子处理、灯光/机械/天敌等综合防控方向；不作为当前登记标签",
+      "allowed_contexts": [
+        "host:14:花生"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-15-DACHUAN",
+      "title": "植保情报[2024]第14期：警惕食叶性害虫豆芫菁局部暴发危害",
+      "organization": "达州市达川区农业农村局",
+      "url": "https://www.dachuan.gov.cn/xxgk-show-146920.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "豆芫菁成虫在玉米、豆类、桃/李和花生上的叶片与花取食、群聚和局部暴发；斑蝥毒素接触风险",
+      "allowed_contexts": [
+        "host:15:大豆",
+        "host:15:玉米",
+        "host:15:花生"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-15-NDSU",
+      "title": "Blister Beetle Management in Forages and Field Crops",
+      "organization": "North Dakota State University Extension",
+      "url": "https://www.ndsu.edu/agriculture/sites/default/files/2022-01/e1002%20%281%29.pdf",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "芫菁科在苜蓿、大豆、马铃薯、豆类等作物上的成虫取食、群集和饲草斑蝥素风险",
+      "allowed_contexts": [
+        "class:15",
+        "host:15:大豆",
+        "host:15:马铃薯",
+        "host:15:苜蓿"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-15-NCSU-SOY",
+      "title": "Blister Beetle in Soybean",
+      "organization": "North Carolina State University Extension",
+      "url": "https://content.ces.ncsu.edu/bilster-beetle-in-soybean",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "大豆芫菁成虫群集脱叶、按生育期脱叶行动阈值和来源限定的豆荚斑驳病毒关系",
+      "allowed_contexts": [
+        "host:15:大豆",
+        "vector:15:大豆:豆荚斑驳病毒"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-PLANT-00-SYM",
+      "title": "Alternaria spp. Associated with Leaf Blight of Maize in Heilongjiang Province, China",
+      "organization": "Plant Disease / APS",
+      "url": "https://apsjournals.apsnet.org/doi/10.1094/PDIS-06-21-1151-RE",
+      "doi": "10.1094/PDIS-06-21-1151-RE",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "中国黑龙江玉米链格孢属叶枯病研究；与现有玉米叶枯病症状序列配套使用，不声称原文采用三级严重度",
+      "allowed_contexts": [
+        "plant:0"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-PLANT-01-SYM",
+      "title": "Septoria Leaf Spot of Tomatoes",
+      "organization": "University of Maryland Extension",
+      "url": "https://www.extension.umd.edu/resource/septoria-leaf-spot-tomatoes",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "番茄斑枯病从下部小病斑、病斑扩大融合到叶片黄化死亡的可观察进展；不声称原文采用三级严重度",
+      "allowed_contexts": [
+        "plant:1"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-PLANT-02-SYM",
+      "title": "Powdery mildew of cucurbits",
+      "organization": "University of Minnesota Extension",
+      "url": "https://extension.umn.edu/agriculture/specialty-crops/vegetable-farming/disease-management/powdery-mildew-of-cucurbits",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "瓜类白粉病由初期叶斑、白粉斑扩展到覆盖叶片/茎叶、植株变弱和果实早熟的进展；不声称原文采用三级严重度",
+      "allowed_contexts": [
+        "plant:2"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-PLANT-03-SYM",
+      "title": "Early blight in tomato and potato",
+      "organization": "University of Minnesota Extension",
+      "url": "https://extension.umn.edu/agriculture/specialty-crops/vegetable-farming/disease-management/early-blight-in-tomato-and-potato",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "马铃薯早疫病叶片早期小斑、病斑扩大及严重叶片变褐脱落/茎部缢痕死亡等可观察进展；不声称原文采用三级严重度",
+      "allowed_contexts": [
+        "plant:3"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-PLANT-04-SYM",
+      "title": "农业农村局病虫情报第十一期：雨后警惕玉米南方锈病流行为害",
+      "organization": "灵寿县农业农村局",
+      "url": "https://www.lingshou.gov.cn/columns/5ee6ad3b-8418-434c-b707-1364ebd77165/202608/11/694f8a18-0b87-45af-ab9f-499087847537.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "玉米南方锈病从褪绿小斑、黄褐色疱斑到孢子堆覆盖、叶片干枯死亡的症状进展；含来源自身量化损失但本 rubric 不复制该数字",
+      "allowed_contexts": [
+        "plant:4"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-PLANT-05-SYM",
+      "title": "Bacterial Speck / Tomato / Agriculture: Pest Management Guidelines",
+      "organization": "University of California Statewide IPM Program",
+      "url": "https://ipm.ucanr.edu/agriculture/tomato/bacterial-speck/",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "番茄细菌性斑疹从叶/果/茎暗斑、边缘坏死到严重植株矮化、成熟延迟和产量影响的可观察后果；不声称原文采用三级严重度",
+      "allowed_contexts": [
+        "plant:5"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-PLANT-06-SYM",
+      "title": "Late Blight / Tomato / Agriculture: Pest Management Guidelines",
+      "organization": "University of California Statewide IPM Program",
+      "url": "https://ipm.ucanr.edu/agriculture/tomato/late-blight/",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "番茄晚疫病从小型水浸状斑、油状褐斑到整叶死亡并扩展到叶柄/嫩茎和果实的可观察进展；不声称原文采用三级严重度",
+      "allowed_contexts": [
+        "plant:6"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-PLANT-07-SYM",
+      "title": "Late blight of tomato and potato",
+      "organization": "University of Minnesota Extension",
+      "url": "https://extension.umn.edu/agriculture/specialty-crops/vegetable-farming/disease-management/late-blight",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "马铃薯晚疫病从叶片褐斑到叶柄/茎部干枯、整田褐化萎蔫及块茎变色/腐烂的可观察进展；不声称原文采用三级严重度",
+      "allowed_contexts": [
+        "plant:7"
+      ],
+      "source_reachability": "REACHABLE_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-SOY-VECTOR-APS",
+      "title": "Transmissibility of Field Isolates of Soybean Viruses by Aphis glycines",
+      "organization": "Plant Disease / American Phytopathological Society",
+      "url": "https://apsjournals.apsnet.org/doi/10.1094/PDIS.2002.86.11.1219",
+      "doi": "10.1094/PDIS.2002.86.11.1219",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "同行评议研究直接支持大豆蚜 Aphis glycines 传播多个大豆病毒分离物，包括大豆花叶病毒；不外推为所有蚜虫种类。",
+      "allowed_contexts": [
+        "class:9",
+        "vector:9:大豆:大豆花叶病"
+      ],
+      "source_reachability": "REACHABLE_DOI_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-15-ENTOMOLOGY-1956",
+      "title": "豆芫菁 Epicauta gorhami Marseul 的生活史及复变态讨论",
+      "organization": "昆虫学报",
+      "url": "https://doi.org/10.16380/j.kcxb.1956.01.003",
+      "doi": "10.16380/j.kcxb.1956.01.003",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "同行评议原始研究直接讨论豆芫菁 Epicauta gorhami；记录其在大豆上的嫩叶取食、聚集、叶片被取食至仅剩叶脉，以及茎部受害影响开花结实的进展。不得替代当前登记或泛化到芫菁科。",
+      "allowed_contexts": [
+        "class:15",
+        "host:15:大豆"
+      ],
+      "source_reachability": "REACHABLE_DOI_2026-09-07",
+      "critical": true,
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-08-CAU-BACKUP",
+      "title": "豆芫菁（Epicauta gorhami）危害与防治",
+      "organization": "中国农业大学在线课程",
+      "url": "https://course.cau-edu.net.cn/course/Z0637/ch06/se01/slide/slide05_wz.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "明确记录豆芫菁 Epicauta gorhami；成虫取食大豆幼叶并可造成缺刻、孔洞、网状叶脉以及对幼茎、花、豆荚的危害；包含人工/网捕、耕作和防治方向。",
+      "allowed_contexts": [
+        "host:8:大豆",
+        "host:15:大豆",
+        "class:8",
+        "class:15"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Official China Agricultural University course page opened successfully on 2026-09-07."
+    },
+    {
+      "source_id": "R31-08-BEIJING-STANDARD",
+      "title": "北京市地方标准：主要农作物病虫害综合防治技术规程（节选）",
+      "organization": "北京市市场监督管理局",
+      "url": "https://scjgj.beijing.gov.cn/hdjl/myzj/bzzxdyjzj/202007/P020200714640352548145.pdf",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "标准条目明确描述豆芫菁对豆科/茄科等作物叶片和花的群集取食、缺刻或孔洞等受害表现及综合防治方向；用于芫菁类来源范围的备份，不扩展到未命名种类。",
+      "allowed_contexts": [
+        "host:8:大豆",
+        "class:8",
+        "class:15"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Official Beijing market-regulation PDF opened from the government domain on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-PURDUE-CORN",
+      "title": "Aphids in Corn",
+      "organization": "Purdue University Extension",
+      "url": "https://ag.purdue.edu/department/entm/extension/field-crops-ipm/corn/aphids.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "玉米上蚜虫取食相关的叶片卷曲、失绿、蜜露/煤污、萎蔫，以及抽雄前重害对授粉和籽粒形成的影响。",
+      "allowed_contexts": [
+        "host:9:玉米"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-UIDAHO-CEREAL",
+      "title": "Aphids on cereals",
+      "organization": "University of Idaho Extension",
+      "url": "https://www.uidaho.edu/extension/food/ipm/ag-pests/aphids-cereals",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "小麦等禾谷作物上多个来源命名蚜虫类群的失绿斑、叶片/旗叶/穗部卷曲或扭曲、矮化及生长影响；不等同于所有蚜虫种类。",
+      "allowed_contexts": [
+        "host:9:小麦"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-UC-COTTON-APHID",
+      "title": "Cotton aphid",
+      "organization": "UC Statewide Integrated Pest Management Program",
+      "url": "https://ipm.ucanr.edu/agriculture/cotton/cotton-aphid/",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "明确以棉蚜 Aphis gossypii 为对象，记录棉花叶片皱缩/杯状卷曲、不能展开、蜜露/煤污、脱叶和严重矮化等受害表现。",
+      "allowed_contexts": [
+        "host:9:棉花"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-VT-PEACH-GPA",
+      "title": "Green Peach Aphid",
+      "organization": "Virginia Tech Extension",
+      "url": "https://www.virginiafruit.ento.vt.edu/GPA.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "明确以桃蚜 Myzus persicae 为对象，记录桃树叶片卷曲、变形、黄化、早落，蜜露/煤污，以及花果变形或脱落。",
+      "allowed_contexts": [
+        "host:9:桃"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-11-NCSU-POTATO-MOLECRICKET",
+      "title": "Pests of Potato — mole crickets",
+      "organization": "NC State Extension",
+      "url": "https://content.ces.ncsu.edu/insect-and-related-pests-of-vegetables/pests-of-potato",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 2,
+      "support_scope": "以马铃薯害虫资料中的 mole cricket/Neoscapteriscus borellii 为对象，记录根和块茎附近掘道、幼苗拔起及根/块茎严重受害。",
+      "allowed_contexts": [
+        "host:11:马铃薯"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "reachability_note": "Stable source URL/DOI was checked or retained as an approved source during the R3.1 evidence review on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-KSTATE-GREENBUG-WHEAT",
+      "title": "Greenbug — wheat crop protection",
+      "organization": "Kansas State University Research and Extension",
+      "url": "https://entomology.k-state.edu/extension/crop-protection/wheat/greenbug.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 3,
+      "support_scope": "Schizaphis graminum on wheat: tiny reddish lesions coalesce; leaves become yellow then reddish brown and die; yellow/red-brown field patches can expand.",
+      "allowed_contexts": [
+        "host:9:小麦"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "geographic_scope": "United States, Kansas/High Plains",
+      "taxonomic_scope": "Schizaphis graminum",
+      "crop_scope": "wheat",
+      "reachability_note": "Official K-State Extension page opened successfully on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-OSU-GREENBUG-WHEAT",
+      "title": "Check Your Wheat: Greenbugs Reported in Central Oklahoma",
+      "organization": "Oklahoma State University Extension",
+      "url": "https://extension.okstate.edu/e-pest-alerts/2026/check-your-wheat-greenbugs-reported-in-central-oklahoma",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 3,
+      "support_scope": "Schizaphis graminum in winter wheat: early reddish/copper feeding spots; advanced yellow/orange leaves, dead tissue, stunting and expanding dead-wheat patches; heavy infestations may kill seedlings and reduce tillering.",
+      "allowed_contexts": [
+        "host:9:小麦"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "geographic_scope": "United States, Oklahoma/southern Great Plains",
+      "taxonomic_scope": "Schizaphis graminum",
+      "crop_scope": "winter wheat",
+      "reachability_note": "Official Oklahoma State Extension page opened successfully on 2026-09-07."
+    },
+    {
+      "source_id": "R31-09-IOWA-SOY-APHID-IPM",
+      "title": "Soybean Aphid",
+      "organization": "Iowa State University Extension and Outreach",
+      "url": "https://crops.extension.iastate.edu/encyclopedia/soybean-aphid",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 3,
+      "support_scope": "Aphis glycines on soybean: scout every 7–10 days; lady beetles, lacewings, minute pirate bugs and parasitoids are natural enemies; preserve them by treating only when needed; Rag-gene resistant varieties may be effective with stated limitations.",
+      "allowed_contexts": [
+        "host:9:大豆"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "geographic_scope": "United States, Iowa/Midwest",
+      "taxonomic_scope": "Aphis glycines",
+      "crop_scope": "soybean",
+      "reachability_note": "Official Iowa State Extension page opened successfully on 2026-09-07."
+    },
+    {
+      "source_id": "R31-11-HAMI-PEANUT-IPM",
+      "title": "DB 6505/T 188—2024 花生病虫害绿色防控技术规程",
+      "organization": "哈密市市场监督管理局；哈密市农业农村局归口；哈密市农业农机技术推广服务中心起草",
+      "url": "https://www.hami.gov.cn/hami/c120122/202409/5d5342f355d34946be8dec33305b177a/files/e5e166dd845846fc9200caa1deadfe99.pdf",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "哈密市花生绿色防控标准明确将蝼蛄列为花生主要地下害虫，并给出农业、物理、生物和化学防控框架；本知识库仅采用原则性管理语义，不转录产品、剂量或阈值。",
+      "allowed_contexts": [
+        "host:11:花生"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "geographic_scope": "中国新疆哈密市",
+      "taxonomic_scope": "蝼蛄（标准命名地下害虫组）",
+      "crop_scope": "花生",
+      "reachability_note": "Official Hami government PDF opened successfully on 2026-09-07."
+    },
+    {
+      "source_id": "R31-08-DAZHOU-PEANUT-BACKUP",
+      "title": "植保情报[2024]第14期：警惕食叶性害虫豆芫菁局部暴发危害",
+      "organization": "达州市达川区人民政府／达川区农业农村局",
+      "url": "https://www.dachuan.gov.cn/xxgk-show-146920.html",
+      "doi": "",
+      "accessed_at": "2026-09-07",
+      "tier": 1,
+      "support_scope": "官方植保情报记录豆芫菁成虫群聚取食嫩叶和花、重发可吃光叶片仅留叶脉，并明确要求检查花生等作物地块；用于替代 R31-08-ORDOS 的花生当前使用语义。",
+      "allowed_contexts": [
+        "class:8",
+        "host:8:花生",
+        "class:15"
+      ],
+      "critical": true,
+      "source_reachability": "REACHABLE_2026-09-07",
+      "geographic_scope": "中国四川省达州市达川区",
+      "taxonomic_scope": "豆芫菁（来源命名组，未提供拉丁种名）",
+      "crop_scope": "花生等来源明确列出的巡查作物",
+      "reachability_note": "Official Dachuan District government page opened successfully on 2026-09-07."
+    },
+    {
+      "source_id": "R31-12-ANKANG-TEA-DAMAGE",
+      "title": "茶小绿叶蝉防治技术",
+      "organization": "安康市农业技术推广中心／安康市农业农村局",
+      "url": "https://nyj.ankang.gov.cn/Content-2290998.html",
+      "doi": "",
+      "accessed_at": "2026-09-08",
+      "tier": 1,
+      "support_scope": "茶小绿叶蝉在茶树上的轻度与严重田间受害表现：芽小、节间缩短或生长停止，以及大面积叶缘焦枯和茶园黄色火烧状。",
+      "allowed_contexts": [
+        "host:12:茶"
+      ],
+      "source_reachability": "LIVE_URL_2026-09-08",
+      "critical": true,
+      "reachability_note": "Live official URL or stable DOI verified during the bounded final knowledge expansion on 2026-09-08.",
+      "geographic_scope": "中国大陆（陕西茶区）",
+      "taxonomic_scope": "茶小绿叶蝉（来源命名种组）",
+      "crop_scope": "Camellia sinensis (茶)"
+    },
+    {
+      "source_id": "R31-12-FRONTIERS-ONUKII",
+      "title": "Fumigant activity and transcriptomic analysis of two plant essential oils against the tea green leafhopper, Empoasca onukii Matsuda",
+      "organization": "Frontiers in Physiology",
+      "url": "https://www.frontiersin.org/journals/physiology/articles/10.3389/fphys.2023.1217608/full",
+      "doi": "10.3389/fphys.2023.1217608",
+      "accessed_at": "2026-09-08",
+      "tier": 2,
+      "support_scope": "Empoasca (Matsumurasca) onukii 在茶树幼嫩芽叶取食和产卵，可阻断营养运输并使芽叶生长停止；严重时叶缘与叶尖红褐并萎缩。",
+      "allowed_contexts": [
+        "host:12:茶"
+      ],
+      "source_reachability": "STABLE_DOI_2026-09-08",
+      "critical": true,
+      "reachability_note": "Live official URL or stable DOI verified during the bounded final knowledge expansion on 2026-09-08.",
+      "geographic_scope": "中国茶树研究语境",
+      "taxonomic_scope": "Empoasca (Matsumurasca) onukii Matsuda",
+      "crop_scope": "Camellia sinensis (茶)"
+    },
+    {
+      "source_id": "R31-12-PLOS-ONUKII-TAXON",
+      "title": "Clarification of the Identity of the Tea Green Leafhopper Based on Morphological Comparison between Chinese and Japanese Specimens",
+      "organization": "PLOS ONE",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0139202",
+      "doi": "10.1371/journal.pone.0139202",
+      "accessed_at": "2026-09-08",
+      "tier": 2,
+      "support_scope": "中国茶园茶小绿叶蝉的种级鉴定与 Empoasca (Matsumurasca) onukii 名称范围。",
+      "allowed_contexts": [
+        "host:12:茶"
+      ],
+      "source_reachability": "STABLE_DOI_2026-09-08",
+      "critical": true,
+      "reachability_note": "Live official URL or stable DOI verified during the bounded final knowledge expansion on 2026-09-08.",
+      "geographic_scope": "中国大陆茶园",
+      "taxonomic_scope": "Empoasca (Matsumurasca) onukii Matsuda",
+      "crop_scope": "Camellia sinensis (茶)"
+    },
+    {
+      "source_id": "R31-12-CAAS-ONUKII-TAXON",
+      "title": "我国茶小绿叶蝉种名历史问题研究取得重要进展",
+      "organization": "中国农业科学院",
+      "url": "https://www.caas.cn/xwzx/kyhd/f9e8fa57997145a4977e2fa60b614094.htm",
+      "doi": "",
+      "accessed_at": "2026-09-08",
+      "tier": 1,
+      "support_scope": "中国茶小绿叶蝉应使用 Empoasca (Matsumurasca) onukii 的分类学范围说明。",
+      "allowed_contexts": [
+        "host:12:茶"
+      ],
+      "source_reachability": "LIVE_URL_2026-09-08",
+      "critical": true,
+      "reachability_note": "Live official URL or stable DOI verified during the bounded final knowledge expansion on 2026-09-08.",
+      "geographic_scope": "中国大陆",
+      "taxonomic_scope": "Empoasca (Matsumurasca) onukii Matsuda",
+      "crop_scope": "Camellia sinensis (茶)"
+    },
+    {
+      "source_id": "R31-12-WEIHAI-TEA-DAMAGE",
+      "title": "山东早春茶树主要病虫害绿色防控技术",
+      "organization": "威海市农业局／山东省现代农业产业技术体系茶叶创新团队",
+      "url": "https://nyj.weihai.gov.cn/art/2018/4/12/art_24524_1327014.html",
+      "doi": "",
+      "accessed_at": "2026-09-08",
+      "tier": 1,
+      "support_scope": "小贯小绿叶蝉危害茶树嫩梢的连续可见表现：凋萎、叶脉变红、叶尖叶缘变红以至枯焦，以及节间短缩和质地变脆。",
+      "allowed_contexts": [
+        "host:12:茶"
+      ],
+      "source_reachability": "LIVE_URL_2026-09-08",
+      "critical": true,
+      "reachability_note": "Live official URL or stable DOI verified during the bounded final knowledge expansion on 2026-09-08.",
+      "geographic_scope": "中国大陆（山东茶区）",
+      "taxonomic_scope": "茶小绿叶蝉（来源命名种组）",
+      "crop_scope": "Camellia sinensis (茶)"
+    },
+    {
+      "source_id": "R31-12-JTS-ONUKII-TAXON-2026",
+      "title": "陕西茶区叶蝉及蜡蝉类害虫学名厘定及中国茶树小绿叶蝉学名更正",
+      "organization": "《茶叶科学》／西北农林科技大学",
+      "url": "https://www.tea-science.com/CN/Y2026/V46/I1/101",
+      "doi": "10.13305/j.cnki.jts.2026.01.007",
+      "accessed_at": "2026-09-08",
+      "tier": 2,
+      "support_scope": "建议将中国茶树小绿叶蝉学名统一更正为 Matsumurasca (Matsumurasca) onukii (Matsuda, 1952)，并明确其与 Empoasca (Matsumurasca) onukii Matsuda, 1952 的名称关系。",
+      "allowed_contexts": [
+        "host:12:茶"
+      ],
+      "source_reachability": "STABLE_DOI_2026-09-08",
+      "critical": true,
+      "reachability_note": "Live official URL or stable DOI verified during the bounded final knowledge expansion on 2026-09-08.",
+      "geographic_scope": "中国大陆茶区",
+      "taxonomic_scope": "Matsumurasca (Matsumurasca) onukii (Matsuda, 1952)",
+      "crop_scope": "Camellia sinensis (茶)"
+    }
+  ],
+  "capability_registry": "capability-fallback.json",
+  "treatment_fallback_order": [
+    "host_severity",
+    "host_general",
+    "insect_general"
+  ],
+  "uncertain_treatment_level": "none",
+  "host_capabilities": [
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 8,
+      "insect": "芫菁",
+      "crop": "大豆",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": true,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": true,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-08-NCSU-SOY",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 8,
+        "insect": "芫菁",
+        "crop": "大豆",
+        "treatment_level": "host_severity",
+        "available": true,
+        "supported_severities": [
+          "mild",
+          "moderate",
+          "severe"
+        ],
+        "source_ids": [
+          "R31-08-NCSU-SOY"
+        ],
+        "note": "来源给出与生育期、受害阶段或行动级别相联系的管理强度参考：轻度以监测/局部处置为主，中度加强巡查/分区管理，重度才评估当前登记标签化干预；不把来源数字改写为本项目三级阈值。基础 IPM 仍贯穿各档。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-08-NCSU-SOY"
+        ],
+        "host_damage_source_ids": [
+          "R31-08-NCSU-SOY"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-08-NCSU-SOY",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-08-NCSU-SOY"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_severity",
+      "effective_treatment_fallback": {
+        "mild": "host_severity",
+        "moderate": "host_severity",
+        "severe": "host_severity",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 8,
+      "insect": "芫菁",
+      "crop": "马铃薯",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-08-NDSU-BLISTER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 8,
+        "insect": "芫菁",
+        "crop": "马铃薯",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-08-NDSU-BLISTER"
+        ],
+        "host_damage_source_ids": [
+          "R31-08-NDSU-BLISTER"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-08-NDSU-BLISTER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 8,
+      "insect": "芫菁",
+      "crop": "花生",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-08-DAZHOU-PEANUT-BACKUP",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 8,
+        "insect": "芫菁",
+        "crop": "花生",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-08-DAZHOU-PEANUT-BACKUP"
+        ],
+        "host_damage_source_ids": [
+          "R31-08-DAZHOU-PEANUT-BACKUP"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-08-DAZHOU-PEANUT-BACKUP",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 8,
+      "insect": "芫菁",
+      "crop": "甜菜",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-08-NDSU-BLISTER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 8,
+        "insect": "芫菁",
+        "crop": "甜菜",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-08-NDSU-BLISTER"
+        ],
+        "host_damage_source_ids": [
+          "R31-08-NDSU-BLISTER"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-08-NDSU-BLISTER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 8,
+      "insect": "芫菁",
+      "crop": "苜蓿",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-08-NDSU-BLISTER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 8,
+        "insect": "芫菁",
+        "crop": "苜蓿",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-08-NDSU-BLISTER"
+        ],
+        "host_damage_source_ids": [
+          "R31-08-NDSU-BLISTER"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-08-NDSU-BLISTER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "crop": "玉米",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-09-UMN-CORN",
+          "R31-09-BEIJING-CROPS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 9,
+        "insect": "蚜虫",
+        "crop": "玉米",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-09-UMN-CORN",
+          "R31-09-BEIJING-CROPS"
+        ],
+        "host_damage_source_ids": [
+          "R31-09-UMN-CORN"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-09-UMN-CORN",
+          "R31-09-BEIJING-CROPS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "crop": "大豆",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": true,
+        "vector_disease": true
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": true,
+      "vector_disease_available": true,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-09-IOWA-SOY-APHID-IPM",
+          "R31-09-HEILONGJIANG-SOY",
+          "R31-GLOBAL-IPM-MOA"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 9,
+        "insect": "蚜虫",
+        "crop": "大豆",
+        "treatment_level": "host_severity",
+        "available": true,
+        "supported_severities": [
+          "mild",
+          "moderate",
+          "severe"
+        ],
+        "source_ids": [
+          "R31-09-HEILONGJIANG-SOY"
+        ],
+        "note": "来源给出与生育期、受害阶段或行动级别相联系的管理强度参考：轻度以监测/局部处置为主，中度加强巡查/分区管理，重度才评估当前登记标签化干预；不把来源数字改写为本项目三级阈值。基础 IPM 仍贯穿各档。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": true,
+        "relations": [
+          {
+            "disease": "大豆花叶病",
+            "source_ids": [
+              "R31-09-SOY-VECTOR",
+              "R31-09-SOY-VECTOR-APS"
+            ]
+          }
+        ]
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-09-HEILONGJIANG-SOY",
+          "R31-09-BEIJING-CROPS"
+        ],
+        "host_damage_source_ids": [
+          "R31-09-HEILONGJIANG-SOY"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-09-IOWA-SOY-APHID-IPM",
+          "R31-09-HEILONGJIANG-SOY",
+          "R31-GLOBAL-IPM-MOA"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-09-HEILONGJIANG-SOY"
+        ],
+        "vector_disease_source_ids": [
+          "R31-09-SOY-VECTOR",
+          "R31-09-SOY-VECTOR-APS"
+        ],
+        "complete": true
+      },
+      "fallback_level": "host_severity",
+      "effective_treatment_fallback": {
+        "mild": "host_severity",
+        "moderate": "host_severity",
+        "severe": "host_severity",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "crop": "小麦",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": true
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": true,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-09-BEIJING-CROPS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 9,
+        "insect": "蚜虫",
+        "crop": "小麦",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": true,
+        "relations": [
+          {
+            "disease": "小麦黄矮病",
+            "source_ids": [
+              "R31-09-WHEAT-VECTOR"
+            ]
+          }
+        ]
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-09-BEIJING-CROPS"
+        ],
+        "host_damage_source_ids": [
+          "R31-09-KSTATE-GREENBUG-WHEAT",
+          "R31-09-OSU-GREENBUG-WHEAT"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-09-BEIJING-CROPS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [
+          "R31-09-WHEAT-VECTOR"
+        ],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "crop": "棉花",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-09-COTTON",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 9,
+        "insect": "蚜虫",
+        "crop": "棉花",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-09-COTTON"
+        ],
+        "host_damage_source_ids": [
+          "R31-09-COTTON"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-09-COTTON",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "crop": "桃",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-09-PEACH",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 9,
+        "insect": "蚜虫",
+        "crop": "桃",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-09-PEACH"
+        ],
+        "host_damage_source_ids": [
+          "R31-09-PEACH"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-09-PEACH",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "crop": "葡萄",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-10-XILINGOL",
+          "R31-10-KASHGAR",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-10-WUJIN",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 10,
+        "insect": "盲蝽科",
+        "crop": "葡萄",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-10-KASHGAR",
+          "R31-10-XILINGOL"
+        ],
+        "host_damage_source_ids": [
+          "R31-10-XILINGOL"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-10-XILINGOL",
+          "R31-10-KASHGAR",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-10-WUJIN",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "crop": "棉花",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-10-KASHGAR",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 10,
+        "insect": "盲蝽科",
+        "crop": "棉花",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-10-KASHGAR"
+        ],
+        "host_damage_source_ids": [
+          "R31-10-KASHGAR"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-10-KASHGAR",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "crop": "枣",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-10-KASHGAR",
+          "R31-10-WUJIN",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 10,
+        "insect": "盲蝽科",
+        "crop": "枣",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-10-KASHGAR",
+          "R31-10-WUJIN"
+        ],
+        "host_damage_source_ids": [
+          "R31-10-KASHGAR",
+          "R31-10-WUJIN"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-10-KASHGAR",
+          "R31-10-WUJIN",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "crop": "核桃",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-10-KASHGAR",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 10,
+        "insect": "盲蝽科",
+        "crop": "核桃",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-10-KASHGAR"
+        ],
+        "host_damage_source_ids": [
+          "R31-10-KASHGAR"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-10-KASHGAR",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "crop": "玉米",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-11-CHENGDE",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 11,
+        "insect": "蝼蛄",
+        "crop": "玉米",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-11-CHENGDE"
+        ],
+        "host_damage_source_ids": [
+          "R31-11-CHENGDE"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-11-CHENGDE",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "crop": "小麦",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-11-LINYI",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 11,
+        "insect": "蝼蛄",
+        "crop": "小麦",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-11-LINYI"
+        ],
+        "host_damage_source_ids": [
+          "R31-11-LINYI"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-11-LINYI",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "crop": "花生",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-11-HAMI-PEANUT-IPM",
+          "R31-GLOBAL-IPM-MOA"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 11,
+        "insect": "蝼蛄",
+        "crop": "花生",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-11-UFL"
+        ],
+        "host_damage_source_ids": [
+          "R31-11-UFL",
+          "R31-11-HAMI-PEANUT-IPM"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-11-HAMI-PEANUT-IPM",
+          "R31-GLOBAL-IPM-MOA"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "crop": "马铃薯",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-11-NCSU-POTATO-MOLECRICKET",
+          "R31-GLOBAL-IPM-FAO",
+          "R31-GLOBAL-IPM-MOA"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 11,
+        "insect": "蝼蛄",
+        "crop": "马铃薯",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-11-UFL"
+        ],
+        "host_damage_source_ids": [
+          "R31-11-UFL"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-11-NCSU-POTATO-MOLECRICKET",
+          "R31-GLOBAL-IPM-FAO",
+          "R31-GLOBAL-IPM-MOA"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "crop": "水稻",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-11-UFL",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 11,
+        "insect": "蝼蛄",
+        "crop": "水稻",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-11-UFL"
+        ],
+        "host_damage_source_ids": [
+          "R31-11-UFL"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-11-UFL",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "crop": "茶",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-12-TEA",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 12,
+        "insect": "叶蝉科",
+        "crop": "茶",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-12-TEA",
+          "R31-12-PLOS-ONUKII-TAXON",
+          "R31-12-CAAS-ONUKII-TAXON"
+        ],
+        "host_damage_source_ids": [
+          "R31-12-WEIHAI-TEA-DAMAGE",
+          "R31-12-FRONTIERS-ONUKII",
+          "R31-12-ANKANG-TEA-DAMAGE"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-12-TEA",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "crop": "芒果",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-12-MANGO",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 12,
+        "insect": "叶蝉科",
+        "crop": "芒果",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-12-MANGO"
+        ],
+        "host_damage_source_ids": [
+          "R31-12-MANGO"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-12-MANGO",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "crop": "水稻",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": true
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": true,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-12-GZ-RICE",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 12,
+        "insect": "叶蝉科",
+        "crop": "水稻",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": true,
+        "relations": [
+          {
+            "disease": "水稻橙叶病",
+            "source_ids": [
+              "R31-12-GZ-RICE"
+            ]
+          },
+          {
+            "disease": "水稻矮缩病毒",
+            "source_ids": [
+              "R31-12-PKU-RDV"
+            ]
+          }
+        ]
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-12-GZ-RICE",
+          "R31-12-PKU-RDV"
+        ],
+        "host_damage_source_ids": [
+          "R31-12-GZ-RICE",
+          "R31-12-PKU-RDV"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-12-GZ-RICE",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [
+          "R31-12-GZ-RICE",
+          "R31-12-PKU-RDV"
+        ],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "crop": "苜蓿",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-12-UMN-ALFALFA",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 12,
+        "insect": "叶蝉科",
+        "crop": "苜蓿",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-12-UMN-ALFALFA"
+        ],
+        "host_damage_source_ids": [
+          "R31-12-UMN-ALFALFA"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-12-UMN-ALFALFA",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "crop": "玉米",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-13-UMN-GRASSHOPPER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 13,
+        "insect": "蝗总科",
+        "crop": "玉米",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-13-MOA-TROPICAL"
+        ],
+        "host_damage_source_ids": [
+          "R31-13-MOA-TROPICAL",
+          "R31-13-UMN-GRASSHOPPER"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-13-UMN-GRASSHOPPER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "crop": "水稻",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 13,
+        "insect": "蝗总科",
+        "crop": "水稻",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-13-MOA-TROPICAL"
+        ],
+        "host_damage_source_ids": [
+          "R31-13-MOA-TROPICAL"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "crop": "小麦",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 13,
+        "insect": "蝗总科",
+        "crop": "小麦",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-13-MOA-TROPICAL"
+        ],
+        "host_damage_source_ids": [
+          "R31-13-MOA-TROPICAL"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-13-MOA-LOCUST",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "crop": "大豆",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": true,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": true,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-13-UMN-GRASSHOPPER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 13,
+        "insect": "蝗总科",
+        "crop": "大豆",
+        "treatment_level": "host_severity",
+        "available": true,
+        "supported_severities": [
+          "mild",
+          "moderate",
+          "severe"
+        ],
+        "source_ids": [
+          "R31-13-UMN-GRASSHOPPER"
+        ],
+        "note": "来源给出与生育期、受害阶段或行动级别相联系的管理强度参考：轻度以监测/局部处置为主，中度加强巡查/分区管理，重度才评估当前登记标签化干预；不把来源数字改写为本项目三级阈值。基础 IPM 仍贯穿各档。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-13-MOA-TROPICAL",
+          "R31-13-UMN-GRASSHOPPER"
+        ],
+        "host_damage_source_ids": [
+          "R31-13-UMN-GRASSHOPPER"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-13-UMN-GRASSHOPPER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-13-UMN-GRASSHOPPER"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_severity",
+      "effective_treatment_fallback": {
+        "mild": "host_severity",
+        "moderate": "host_severity",
+        "severe": "host_severity",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "crop": "苜蓿",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-13-UMN-GRASSHOPPER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-13-MOA-TROPICAL",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 13,
+        "insect": "蝗总科",
+        "crop": "苜蓿",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-13-MOA-TROPICAL",
+          "R31-13-UMN-GRASSHOPPER"
+        ],
+        "host_damage_source_ids": [
+          "R31-13-UMN-GRASSHOPPER"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-13-UMN-GRASSHOPPER",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-13-MOA-TROPICAL",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "crop": "玉米",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-14-UMN-WHITE-GRUBS",
+          "R31-11-CHENGDE",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 14,
+        "insect": "蛴螬",
+        "crop": "玉米",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-11-CHENGDE",
+          "R31-14-UMN-WHITE-GRUBS"
+        ],
+        "host_damage_source_ids": [
+          "R31-14-UMN-WHITE-GRUBS"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-14-UMN-WHITE-GRUBS",
+          "R31-11-CHENGDE",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "crop": "大豆",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-14-UMN-WHITE-GRUBS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 14,
+        "insect": "蛴螬",
+        "crop": "大豆",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-14-UMN-WHITE-GRUBS"
+        ],
+        "host_damage_source_ids": [
+          "R31-14-UMN-WHITE-GRUBS"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-14-UMN-WHITE-GRUBS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "crop": "马铃薯",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-14-UMN-WHITE-GRUBS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 14,
+        "insect": "蛴螬",
+        "crop": "马铃薯",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-14-UMN-WHITE-GRUBS"
+        ],
+        "host_damage_source_ids": [
+          "R31-14-UMN-WHITE-GRUBS"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-14-UMN-WHITE-GRUBS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "crop": "花生",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-14-BEIJING-CROPS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 14,
+        "insect": "蛴螬",
+        "crop": "花生",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-14-BEIJING-CROPS"
+        ],
+        "host_damage_source_ids": [
+          "R31-14-BEIJING-CROPS"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-14-BEIJING-CROPS",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "crop": "小麦",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-11-LINYI",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 14,
+        "insect": "蛴螬",
+        "crop": "小麦",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-11-LINYI"
+        ],
+        "host_damage_source_ids": [
+          "R31-11-LINYI"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-11-LINYI",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "crop": "大豆",
+      "status": "FULL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": true,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": true,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-15-DACHUAN",
+          "R31-15-NCSU-SOY",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-15-NDSU",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 15,
+        "insect": "豆芫菁",
+        "crop": "大豆",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-15-DACHUAN",
+          "R31-15-NCSU-SOY"
+        ],
+        "host_damage_source_ids": [
+          "R31-15-NCSU-SOY"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-15-DACHUAN",
+          "R31-15-NCSU-SOY",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-15-NDSU",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "crop": "玉米",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-15-DACHUAN",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 15,
+        "insect": "豆芫菁",
+        "crop": "玉米",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-15-DACHUAN"
+        ],
+        "host_damage_source_ids": [
+          "R31-15-DACHUAN"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-15-DACHUAN",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "crop": "花生",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-15-DACHUAN",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 15,
+        "insect": "豆芫菁",
+        "crop": "花生",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-15-DACHUAN"
+        ],
+        "host_damage_source_ids": [
+          "R31-15-DACHUAN"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-15-DACHUAN",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "crop": "马铃薯",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-15-NDSU",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 15,
+        "insect": "豆芫菁",
+        "crop": "马铃薯",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-15-NDSU"
+        ],
+        "host_damage_source_ids": [
+          "R31-15-NDSU"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-15-NDSU",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    },
+    {
+      "object_type": "insect_host_capability",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "crop": "苜蓿",
+      "status": "PARTIAL",
+      "capabilities": {
+        "host_relation": true,
+        "host_damage": true,
+        "severity": false,
+        "host_general_treatment": true,
+        "host_severity_treatment": false,
+        "vector_disease": false
+      },
+      "host_relation_available": true,
+      "host_damage_available": true,
+      "severity_available": false,
+      "host_general_treatment_available": true,
+      "host_severity_treatment_available": false,
+      "vector_disease_available": false,
+      "host_general_treatment": {
+        "available": true,
+        "treatment_level": "host_general",
+        "source_ids": [
+          "R31-15-NDSU",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ]
+      },
+      "host_severity_treatment": {
+        "object_type": "HOST_SEVERITY_TREATMENT",
+        "class_id": 15,
+        "insect": "豆芫菁",
+        "crop": "苜蓿",
+        "treatment_level": "host_severity",
+        "available": false,
+        "supported_severities": [],
+        "source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "note": "基础防治措施在轻/中/重下均适用；当前来源不能证明独立的 severity-specific 管理组合，保持 BASE_IPM_ONLY，不伪造三级药剂策略。",
+        "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。"
+      },
+      "vector_disease": {
+        "available": false,
+        "relations": []
+      },
+      "provenance": {
+        "host_relation_source_ids": [
+          "R31-15-NDSU"
+        ],
+        "host_damage_source_ids": [
+          "R31-15-NDSU"
+        ],
+        "host_general_treatment_source_ids": [
+          "R31-15-NDSU",
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "host_severity_treatment_source_ids": [
+          "R31-GLOBAL-IPM-MOA",
+          "R31-GLOBAL-IPM-FAO"
+        ],
+        "vector_disease_source_ids": [],
+        "complete": true
+      },
+      "fallback_level": "host_general",
+      "effective_treatment_fallback": {
+        "mild": "host_general",
+        "moderate": "host_general",
+        "severe": "host_general",
+        "uncertain": "none"
+      }
+    }
+  ],
+  "taxonomic_scope": [
+    {
+      "source_id": "R31-08-NCSU-SOY",
+      "evidence_taxon": "Epicauta funebris; Epicauta vittata",
+      "evidence_taxon_level": "species",
+      "scope_note": "NCSU 大豆资料涉及这两个来源物种；不是中国豆芫菁 Epicauta gorhami 的种级证据。",
+      "class_id": 8,
+      "insect": "芫菁"
+    },
+    {
+      "source_id": "R31-08-NDSU-BLISTER",
+      "evidence_taxon": "Meloidae",
+      "evidence_taxon_level": "family",
+      "scope_note": "资料对象为芫菁科成虫，不能外推到科外昆虫。",
+      "class_id": 8,
+      "insect": "芫菁"
+    },
+    {
+      "source_id": "R31-08-ORDOS",
+      "evidence_taxon": "芫菁（来源命名组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "来源使用芫菁类群名称，未给出可用于整科外推的精确种名。",
+      "class_id": 8,
+      "insect": "芫菁"
+    },
+    {
+      "source_id": "R31-09-BEIJING-CROPS",
+      "evidence_taxon": "Aphididae（来源命名的粮油作物蚜虫组）",
+      "evidence_taxon_level": "family",
+      "scope_note": "来源按作物病虫监测描述蚜虫组，未提供每个蚜虫种的等同性证据。",
+      "class_id": 9,
+      "insect": "蚜虫"
+    },
+    {
+      "source_id": "R31-09-COTTON",
+      "evidence_taxon": "Aphididae（棉蚜来源范围）",
+      "evidence_taxon_level": "family",
+      "scope_note": "来源以棉田棉蚜管理为对象；不扩展到所有蚜虫种。",
+      "class_id": 9,
+      "insect": "蚜虫"
+    },
+    {
+      "source_id": "R31-09-HEILONGJIANG-SOY",
+      "evidence_taxon": "Aphis glycines; Acyrthosiphon solani",
+      "evidence_taxon_level": "species",
+      "scope_note": "黑龙江官方资料明确列出大豆蚜和苜蓿蚜；不外推为所有蚜虫。",
+      "class_id": 9,
+      "insect": "蚜虫"
+    },
+    {
+      "source_id": "R31-09-PEACH",
+      "evidence_taxon": "Aphididae（桃园蚜虫来源范围）",
+      "evidence_taxon_level": "family",
+      "scope_note": "来源以桃园蚜虫为对象；不扩展到所有蚜虫种。",
+      "class_id": 9,
+      "insect": "蚜虫"
+    },
+    {
+      "source_id": "R31-09-SOY-VECTOR",
+      "evidence_taxon": "Aphis glycines; Acyrthosiphon solani",
+      "evidence_taxon_level": "species",
+      "scope_note": "黑龙江官方资料的明确种类；大豆花叶病传播关系仅限部分已知蚜虫种类。",
+      "class_id": 9,
+      "insect": "蚜虫"
+    },
+    {
+      "source_id": "R31-09-SOY-VECTOR-APS",
+      "evidence_taxon": "Aphis glycines",
+      "evidence_taxon_level": "species",
+      "scope_note": "同行评议实验直接支持大豆蚜 Aphis glycines 的传播关系。",
+      "class_id": 9,
+      "insect": "蚜虫"
+    },
+    {
+      "source_id": "R31-09-UMN-CORN",
+      "evidence_taxon": "Aphididae（来源命名的玉米蚜虫组）",
+      "evidence_taxon_level": "family",
+      "scope_note": "来源对象为玉米上的蚜虫组，未支持所有蚜虫种类均有相同表现。",
+      "class_id": 9,
+      "insect": "蚜虫"
+    },
+    {
+      "source_id": "R31-09-WHEAT-VECTOR",
+      "evidence_taxon": "Rhopalosiphum padi; Rhopalosiphum maidis; Sitobion avenae; Schizaphis graminum",
+      "evidence_taxon_level": "species",
+      "scope_note": "UNL 资料列举多个黄矮病毒蚜虫媒介；不表示所有蚜虫都传播。",
+      "class_id": 9,
+      "insect": "蚜虫"
+    },
+    {
+      "source_id": "R31-10-KASHGAR",
+      "evidence_taxon": "Apolygus lucorum",
+      "evidence_taxon_level": "species",
+      "scope_note": "绿色盲蝽来源种；不外推到盲蝽科所有成员。",
+      "class_id": 10,
+      "insect": "盲蝽科"
+    },
+    {
+      "source_id": "R31-10-WUJIN",
+      "evidence_taxon": "Apolygus lucorum",
+      "evidence_taxon_level": "species",
+      "scope_note": "绿色盲蝽来源种；不外推到盲蝽科所有成员。",
+      "class_id": 10,
+      "insect": "盲蝽科"
+    },
+    {
+      "source_id": "R31-10-XILINGOL",
+      "evidence_taxon": "Apolygus lucorum",
+      "evidence_taxon_level": "species",
+      "scope_note": "葡萄严重度证据主要来自绿盲蝽；不外推到盲蝽科所有成员。",
+      "class_id": 10,
+      "insect": "盲蝽科"
+    },
+    {
+      "source_id": "R31-11-CHENGDE",
+      "evidence_taxon": "蝼蛄/蛴螬（来源命名地下害虫组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "承德资料按地下害虫名称描述，未在当前条目中提供单一精确种。",
+      "class_id": 11,
+      "insect": "蝼蛄"
+    },
+    {
+      "source_id": "R31-11-LINYI",
+      "evidence_taxon": "蝼蛄/蛴螬（来源命名地下害虫组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "临沂资料按地下害虫名称描述，未在当前条目中提供单一精确种。",
+      "class_id": 11,
+      "insect": "蝼蛄"
+    },
+    {
+      "source_id": "R31-11-UFL",
+      "evidence_taxon": "Gryllotalpidae / mole crickets（来源命名组）",
+      "evidence_taxon_level": "family",
+      "scope_note": "UFL 资料为 mole cricket 管理组；不外推到其他直翅目类群。",
+      "class_id": 11,
+      "insect": "蝼蛄"
+    },
+    {
+      "source_id": "R31-12-GZ-RICE",
+      "evidence_taxon": "Recilia dorsalis（电光叶蝉）",
+      "evidence_taxon_level": "species",
+      "scope_note": "水稻橙叶病传播者明确写为电光叶蝉；不外推到叶蝉科全体。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-MANGO",
+      "evidence_taxon": "叶蝉（来源命名组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "芒果资料以叶蝉组描述，未提供可用于整科外推的精确种。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-PKU-RDV",
+      "evidence_taxon": "水稻叶蝉（来源命名组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "当前来源明确为叶蝉传播关系，但本条不把关系扩展为叶蝉科全体。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-TEA",
+      "evidence_taxon": "茶小绿叶蝉（来源命名种组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "全国农技中心资料以茶小绿叶蝉命名；精确种级范围由 PLOS 与中国农科院分类学来源补充限定。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-UMN-ALFALFA",
+      "evidence_taxon": "Cicadellidae（苜蓿叶蝉来源组）",
+      "evidence_taxon_level": "family",
+      "scope_note": "来源对象为苜蓿叶蝉组；不表示所有叶蝉种均有相同危害。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-13-MOA-LOCUST",
+      "evidence_taxon": "蝗虫（来源命名组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "农业农村部资料按蝗虫灾害组描述，保留来源的物种范围限制。",
+      "class_id": 13,
+      "insect": "蝗总科"
+    },
+    {
+      "source_id": "R31-13-MOA-TROPICAL",
+      "evidence_taxon": "蝗虫（来源命名组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "来源按热作区蝗虫组描述，不能外推到蝗总科所有成员。",
+      "class_id": 13,
+      "insect": "蝗总科"
+    },
+    {
+      "source_id": "R31-13-UMN-GRASSHOPPER",
+      "evidence_taxon": "Acrididae（草地蝗虫来源组）",
+      "evidence_taxon_level": "family",
+      "scope_note": "资料对象为草地蝗虫组；不表示蝗总科所有成员均有相同寄主关系。",
+      "class_id": 13,
+      "insect": "蝗总科"
+    },
+    {
+      "source_id": "R31-14-BEIJING-CROPS",
+      "evidence_taxon": "蛴螬（来源命名组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "北京资料按花生地下害虫/蛴螬组描述，未给出统一精确种。",
+      "class_id": 14,
+      "insect": "蛴螬"
+    },
+    {
+      "source_id": "R31-14-UMN-WHITE-GRUBS",
+      "evidence_taxon": "Scarabaeidae larvae（蛴螬）",
+      "evidence_taxon_level": "family",
+      "scope_note": "白蛴螬资料的范围是金龟甲科幼虫组，不扩展到所有土壤害虫。",
+      "class_id": 14,
+      "insect": "蛴螬"
+    },
+    {
+      "source_id": "R31-15-DACHUAN",
+      "evidence_taxon": "豆芫菁（来源命名组）",
+      "evidence_taxon_level": "source_named_group",
+      "scope_note": "达川资料使用豆芫菁中文名称；不把未给出种名的记录当作种级证据。",
+      "class_id": 15,
+      "insect": "豆芫菁"
+    },
+    {
+      "source_id": "R31-15-ENTOMOLOGY-1956",
+      "evidence_taxon": "Epicauta gorhami",
+      "evidence_taxon_level": "species",
+      "scope_note": "1956 年《昆虫学报》资料直接讨论豆芫菁 Epicauta gorhami 的大豆取食和受害进展。",
+      "class_id": 15,
+      "insect": "豆芫菁"
+    },
+    {
+      "source_id": "R31-15-NCSU-SOY",
+      "evidence_taxon": "Epicauta funebris; Epicauta vittata",
+      "evidence_taxon_level": "species",
+      "scope_note": "NCSU 资料对象是 E. funebris/E. vittata，不是 Epicauta gorhami。",
+      "class_id": 15,
+      "insect": "豆芫菁"
+    },
+    {
+      "source_id": "R31-15-NDSU",
+      "evidence_taxon": "Meloidae",
+      "evidence_taxon_level": "family",
+      "scope_note": "NDSU 资料对象为芫菁科成虫，不支持中国豆芫菁的精确种级严重度。",
+      "class_id": 15,
+      "insect": "豆芫菁"
+    },
+    {
+      "source_id": "R31-12-ANKANG-TEA-DAMAGE",
+      "evidence_taxon": "茶小绿叶蝉（来源命名种组）",
+      "evidence_taxon_level": "species",
+      "scope_note": "仅支持茶树上已审核的茶小绿叶蝉物种范围；不外推为叶蝉科所有成员。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-FRONTIERS-ONUKII",
+      "evidence_taxon": "Empoasca (Matsumurasca) onukii Matsuda",
+      "evidence_taxon_level": "species",
+      "scope_note": "仅支持茶树上已审核的茶小绿叶蝉物种范围；不外推为叶蝉科所有成员。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-PLOS-ONUKII-TAXON",
+      "evidence_taxon": "Empoasca (Matsumurasca) onukii Matsuda",
+      "evidence_taxon_level": "species",
+      "scope_note": "仅支持茶树上已审核的茶小绿叶蝉物种范围；不外推为叶蝉科所有成员。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-CAAS-ONUKII-TAXON",
+      "evidence_taxon": "Empoasca (Matsumurasca) onukii Matsuda",
+      "evidence_taxon_level": "species",
+      "scope_note": "仅支持茶树上已审核的茶小绿叶蝉物种范围；不外推为叶蝉科所有成员。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-WEIHAI-TEA-DAMAGE",
+      "evidence_taxon": "茶小绿叶蝉（来源命名种组）",
+      "evidence_taxon_level": "species",
+      "scope_note": "仅支持茶树上已审核的茶小绿叶蝉物种范围；不外推为叶蝉科所有成员。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    },
+    {
+      "source_id": "R31-12-JTS-ONUKII-TAXON-2026",
+      "evidence_taxon": "Matsumurasca (Matsumurasca) onukii (Matsuda, 1952)",
+      "evidence_taxon_level": "species",
+      "scope_note": "仅支持茶树上已审核的茶小绿叶蝉物种范围；不外推为叶蝉科所有成员。",
+      "class_id": 12,
+      "insect": "叶蝉科"
+    }
+  ],
+  "narrow_correction": {
+    "name": "R3.1 User Knowledge Review — Narrow Correction",
+    "date": "2026-09-07",
+    "r1_contract_changed": false,
+    "backend_web_formal_changed": false,
+    "ai_images_generated": false
+  },
+  "final_evidence_sprint": {
+    "status": "PASS",
+    "started_at": "2026-09-07",
+    "source_reachability_gate": "LIVE_URL | STABLE_DOI | OFFICIAL_ARCHIVE | VERIFIED_BACKUP",
+    "no_cross_host_inference": true,
+    "no_unsupported_quantitative_thresholds": true
+  },
+  "final_evidence_correction": {
+    "status": "PASS",
+    "date": "2026-09-07",
+    "scope": [
+      "aphid:wheat:severity",
+      "mole_cricket:peanut:severity_and_treatment",
+      "aphid:soybean:treatment",
+      "mole_cricket:potato:treatment",
+      "R31-08-ORDOS:resilience",
+      "validator:false_negative"
+    ],
+    "ai_images_generated": false,
+    "runtime_product_logic_changed": false
+  },
+  "final_knowledge_expansion": {
+    "status": "COMPLETE",
+    "date": "2026-09-08",
+    "leafhopper_candidates_researched": [
+      "茶",
+      "水稻",
+      "芒果"
+    ],
+    "new_full_hosts": [
+      {
+        "class_id": 12,
+        "insect": "叶蝉科",
+        "crop": "茶"
+      }
+    ],
+    "not_upgraded": [
+      {
+        "class_id": 12,
+        "crop": "水稻",
+        "reason": "高质量结果主要支持电光叶蝉传播水稻病害，未形成同一 taxon×水稻的直接取食三档进程；传毒症状不与害虫直接受害混合。"
+      },
+      {
+        "class_id": 12,
+        "crop": "芒果",
+        "reason": "官方标准与论文可支持叶蝉在嫩梢、花序和幼果取食及落花/落果后果，但未提供同一 taxon×芒果的三档损伤进程。"
+      }
+    ],
+    "knowledge_expansion_stopped": true,
+    "stop_reason": "茶小绿叶蝉已以同一种级 taxon×茶树证据闭环；后续高价值叶蝉候选开始缺少可分离的直接取食三档进程，继续扩充边际收益低且会引入跨病害/跨 taxon 推断风险。"
+  }
+}
