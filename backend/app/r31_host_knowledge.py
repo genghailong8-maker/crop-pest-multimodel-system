@@ -417,8 +417,6 @@ def resolve_treatment(
     severity: str | None,
 ) -> dict[str, Any]:
     """Resolve treatment without making severity or host claims."""
-    if severity == "uncertain":
-        return _none_treatment(FALLBACK_MESSAGES["uncertain"])
     capabilities = capability.get("capabilities") if isinstance(capability, Mapping) else {}
     capabilities = capabilities if isinstance(capabilities, Mapping) else {}
     severity_available = bool(capability.get("severity_available")) if isinstance(capability, Mapping) else False
@@ -441,6 +439,7 @@ def resolve_treatment(
         ids = list(host_general.get("source_ids") or [])
         return {
             "treatment_level": "host_general",
+            "treatment_mode": "generic",
             "body": {"sections": deepcopy(host_general.get("sections") or {}), "pesticide_policy": host_general.get("pesticide_policy")},
             "source_ids": ids,
             "provenance": {"type": "host_general", "source_ids": ids, "complete": bool(ids)},
@@ -450,6 +449,7 @@ def resolve_treatment(
         ids = list(insect_general.get("source_ids") or [])
         return {
             "treatment_level": "insect_general",
+            "treatment_mode": "generic",
             "body": {"measures": deepcopy(insect_general.get("measures") or {}), "pesticide_policy": insect_general.get("pesticide_policy")},
             "source_ids": ids,
             "provenance": {"type": "insect_general", "source_ids": ids, "complete": bool(ids)},
@@ -498,7 +498,7 @@ def host_knowledge_payload(record: Mapping[str, Any]) -> dict[str, Any]:
         }
         payload["treatment"] = {
             **resolve_treatment(None, None, None, general, _selected_severity(record)),
-            "fallback_message": FALLBACK_MESSAGES["other"] if _selected_severity(record) != "uncertain" else FALLBACK_MESSAGES["uncertain"],
+            "fallback_message": FALLBACK_MESSAGES["other"],
         }
         return payload
     capability = data["capabilities"].get((class_id, confirmed))

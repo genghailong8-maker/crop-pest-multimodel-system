@@ -136,7 +136,7 @@ def test_missing_host_general_falls_back_to_insect_general() -> None:
     assert treatment["body"]["measures"]["monitoring"] == "monitor"
 
 
-def test_other_and_uncertain_are_fail_closed() -> None:
+def test_other_and_uncertain_use_only_allowed_generic_treatment() -> None:
     other = host_knowledge_payload(_record(8, crop=OTHER_HOST))
     assert other["host"]["status"] == OTHER_HOST
     assert other["host_knowledge"]["severity_available"] is False
@@ -145,10 +145,10 @@ def test_other_and_uncertain_are_fail_closed() -> None:
     assert other["treatment"]["fallback_message"] == FALLBACK_MESSAGES["other"]
 
     uncertain = host_knowledge_payload(_record(8, crop="大豆", severity="uncertain"))
-    assert uncertain["treatment"]["treatment_level"] == "none"
-    assert uncertain["treatment"]["body"] is None
-    assert uncertain["treatment"]["source_ids"] == []
-    assert uncertain["treatment"]["fallback_message"] == FALLBACK_MESSAGES["uncertain"]
+    assert uncertain["treatment"]["treatment_level"] == "host_general"
+    assert uncertain["treatment"]["treatment_mode"] == "generic"
+    assert uncertain["treatment"]["body"]["sections"]
+    assert uncertain["treatment"].get("severity_level") is None
 
 
 def test_vector_available_and_vector_severity_unavailable_is_not_synthesized() -> None:

@@ -58,6 +58,12 @@ from .knowledge import (
 from .analysis import request_evidence_analysis
 from .knowledge_documents import get_knowledge_document, resolve_knowledge_asset
 from .reports import load_latest, save_snapshot
+from .r31_host_knowledge import (
+    OTHER_HOST,
+    confirmable_hosts,
+    host_knowledge_payload,
+    host_selection_snapshot,
+)
 from .prelabels import detail as prelabel_detail
 from .prelabels import image_path as prelabel_image_path
 from .prelabels import queue as prelabel_queue
@@ -115,6 +121,10 @@ class ReviewRequest(BaseModel):
 
 class SeverityV2Request(BaseModel):
     severity_level: Literal["mild", "moderate", "severe", "uncertain"]
+
+
+class HostConfirmationRequest(BaseModel):
+    confirmed_host: str = Field(min_length=1, max_length=40)
 
 
 class R3ContextConfirmationRequest(BaseModel):
@@ -362,8 +372,6 @@ def local_treatment_payload(record: dict[str, Any]) -> dict[str, Any]:
         if severity.get("status") != "available":
             return _blocked_treatment(severity, "unavailable", "severity_not_selected")
         level = str(severity.get("level") or "")
-        if level == "uncertain":
-            return _blocked_treatment(severity, "unavailable", "severity_uncertain")
         canonical = primary.get("class_name") if isinstance(primary, dict) else None
         if not isinstance(canonical, str):
             return _blocked_treatment(severity, "unavailable", "missing_canonical_class")
@@ -398,6 +406,8 @@ def local_treatment_payload(record: dict[str, Any]) -> dict[str, Any]:
         }
     return {
         "source": "local_knowledge_base",
+        "status": "available",
+        "treatment_mode": "generic",
         "content": {
             "prevention": card.get("prevention", []),
             "first_actions": card.get("first_actions", []),
@@ -586,6 +596,7 @@ def present_case(
         user_summary = "现有图片和信息足以给出可参考的辅助判断。"
         next_action = "查看发现位置、判断依据和下一步处理建议。"
 
+    r31_host_knowledge = host_knowledge_payload(record)
     response = {
         **record,
         "analysis": public_analysis,
@@ -603,6 +614,8 @@ def present_case(
         "resolution_reasons": reasons,
         "case_context": build_case_context(record, severity=severity),
     }
+    if r31_host_knowledge.get("available"):
+        response["host_knowledge"] = r31_host_knowledge
     if include_evidence_snapshots:
         response["evidence_snapshots"] = evidence_snapshots_for_record(record)
     return response
@@ -978,6 +991,8 @@ def _report_snapshot_is_current(existing: dict[str, Any], record: dict[str, Any]
         return False
     if snapshot_case.get("severity_rubric") != current_case.get("severity_rubric"):
         return False
+    if snapshot_case.get("host_knowledge") != current_case.get("host_knowledge"):
+        return False
 
     snapshot_treatment = snapshot_case.get("treatment")
     current_treatment = current_case.get("treatment")
@@ -1016,6 +1031,36 @@ def case_report(case_id: str) -> dict[str, Any]:
 @app.get("/api/cases/{case_id}")
 def case_detail(case_id: str) -> dict[str, Any]:
     return present_case(require_visible_case(case_id), include_evidence_snapshots=True)
+
+
+@app.get("/api/cases/{case_id}/host-knowledge")
+def case_host_knowledge(case_id: str) -> dict[str, Any]:
+    record = require_visible_case(case_id)
+    payload = host_knowledge_payload(record)
+    if not payload.get("available"):
+        raise HTTPException(status_code=409, detail="当前病例不是已识别的昆虫类别")
+    return payload
+
+
+@app.post("/api/cases/{case_id}/host-confirmation")
+def confirm_case_host(
+    case_id: str,
+    request: HostConfirmationRequest,
+    x_case_edit_token: Annotated[str | None, Header(alias="X-Case-Edit-Token")] = None,
+) -> dict[str, Any]:
+    record = require_case(case_id)
+    require_edit_token(case_id, x_case_edit_token)
+    payload = host_knowledge_payload(record)
+    if not payload.get("available"):
+        raise HTTPException(status_code=409, detail="当前病例不是已识别的昆虫类别")
+    confirmed_host = request.confirmed_host.strip()
+    if confirmed_host not in confirmable_hosts(record):
+        raise HTTPException(status_code=422, detail="confirmed_host 必须是支持寄主或固定 OTHER")
+    context = deepcopy(record.get("context") if isinstance(record.get("context"), dict) else {})
+    context["host_selection"] = host_selection_snapshot(record, confirmed_host)
+    updated = update_case(case_id, context=context)
+    snapshot_case_report(updated)
+    return present_case(updated)
 
 
 @app.get("/api/cases/{case_id}/image")
