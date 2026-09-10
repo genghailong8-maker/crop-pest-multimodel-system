@@ -1,0 +1,13 @@
+.git
+**/__pycache__
+**/*.pyc
+backend/.venv
+backend/runtime
+web/node_modules
+web/dist
+web/.vinext
+web/.wrangler
+runs
+data
+artifacts
+tmp

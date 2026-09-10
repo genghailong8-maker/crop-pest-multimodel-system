@@ -1,0 +1,41 @@
+{
+  "date": "2026-08-13",
+  "scope": "two-issue-remediation",
+  "experts_trained": false,
+  "active_route_enabled": false,
+  "main_model_switched": false,
+  "no_target": {
+    "case_id": "9607fad8942747a18736cff5b1ac006c",
+    "homepage_title": "无法可靠判断",
+    "case_detail_title": "无法可靠判断",
+    "report_title": "无法可靠判断",
+    "specific_guidance_hidden": true,
+    "candidate_marked_unconfirmed": true
+  },
+  "multimodal_unavailable": {
+    "http_status": 200,
+    "status": "multimodal_unavailable",
+    "resolution_status": "service_unavailable",
+    "diagnostic_risk": "high",
+    "field_severity": "unknown",
+    "case_and_detections_preserved": true,
+    "retry_action": "仅重试综合分析",
+    "recovery_retry": "pass"
+  },
+  "automated_tests": {
+    "backend_pytest": "25 passed",
+    "frontend_build_and_render": "6 passed",
+    "frontend_lint_errors": 0,
+    "frontend_lint_warnings": 5,
+    "compileall": "pass",
+    "git_diff_check": "pass"
+  },
+  "services_at_handoff": {
+    "frontend_3000": 200,
+    "fastapi_8000": 200,
+    "detector_8870": 200,
+    "qwen3_vl_8890": 200,
+    "detector_mode": "remote",
+    "routing_mode": "shadow"
+  }
+}

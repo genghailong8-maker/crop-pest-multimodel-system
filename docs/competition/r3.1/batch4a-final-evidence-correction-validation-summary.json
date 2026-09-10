@@ -1,0 +1,90 @@
+{
+  "batch": "R3.1 Batch 4A — Final Evidence Review Narrow Correction",
+  "date": "2026-09-07",
+  "overall": "PASS",
+  "validation": {
+    "validate_r31": {
+      "status": "NEEDS_EVIDENCE",
+      "accepted_fail_closed": true,
+      "invalid_issues": 0,
+      "issues": 0,
+      "insect_host_complete": 36,
+      "insect_host_needs_evidence": 78
+    },
+    "validate_narrow_correction": {
+      "status": "PASS",
+      "source_semantic_review": "PASS",
+      "critical_sources": 52,
+      "dangling_sources": 0,
+      "prompt_traceable": 36
+    },
+    "validate_final_evidence_sprint": {
+      "status": "PASS",
+      "source_reachability": "PASS",
+      "taxonomy_scope": "PASS",
+      "prompt_provenance": "PASS",
+      "positive_visual_feature_guard": "PASS",
+      "duplicate_rubric_guard": "PASS",
+      "unsupported_quantitative_guard": "PASS"
+    },
+    "validate_final_evidence_correction": {
+      "status": "PASS",
+      "cross_species_severity": "CLOSED",
+      "same_host_severity_progression": "PASS",
+      "treatment_entailment": "PASS",
+      "ordos_current_dependency": false,
+      "source_resolution": "PASS",
+      "source_reachability": "PASS"
+    },
+    "validate_archive": {
+      "status": "PASS",
+      "archive_knowledge_parity": "PASS",
+      "insect_count": 8,
+      "host_count": 38,
+      "source_count": 53
+    },
+    "validator_regression_tests": {
+      "status": "PASS",
+      "total_tests": 20,
+      "passed": 20,
+      "failed": 0,
+      "includes_requested_false_negative_cases": 5
+    },
+    "backend_capability_smoke": {
+      "status": "PASS",
+      "tests": 2,
+      "product_logic_changed": false,
+      "aphid_wheat": {
+        "host_status": "FULL",
+        "severity_available": true,
+        "treatment_level": "host_general"
+      },
+      "mole_cricket_peanut": {
+        "host_status": "PARTIAL",
+        "severity_available": false,
+        "treatment_level": "host_general",
+        "source_id": "R31-11-HAMI-PEANUT-IPM"
+      }
+    }
+  },
+  "final_counts": {
+    "total_full_hosts": 12,
+    "total_partial_hosts": 26,
+    "complete_insect_host_severity": 36,
+    "needs_evidence_insect_host_severity": 78,
+    "total_traceable_prompts": 36,
+    "total_ai_images_required": 36,
+    "host_general_treatment": 38,
+    "general_insect_fallback": 0
+  },
+  "safety": {
+    "formal_deploy": "NOT_RUN",
+    "sqlite_cleared": false,
+    "ai_images_generated": false,
+    "commit": false,
+    "push": false,
+    "r1_evidence_changed": false,
+    "backend_product_logic_changed": false,
+    "web_changed": false
+  }
+}

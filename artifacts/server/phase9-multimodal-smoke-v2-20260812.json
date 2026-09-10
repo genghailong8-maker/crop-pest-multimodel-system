@@ -1,0 +1,948 @@
+{
+  "schema_version": "phase9-evidence-v1",
+  "generated_at_epoch": 1786500544.1144853,
+  "configuration": {
+    "val_list": "data/official/splits/val.txt",
+    "limit_per_class": 1,
+    "detector_endpoint": "http://127.0.0.1:8870/v1/detect",
+    "vlm_endpoint_protocol": "openai_chat_completions",
+    "vlm_model": "crop-pest-vlm",
+    "active_routing_allowed": false,
+    "evaluation_mode": "phase9",
+    "field_input_note": "affected_ratio_percent=12.5 and spread_speed=slow are controlled protocol inputs, not field severity ground truth"
+  },
+  "services": {
+    "detector_health": {
+      "status": "ok",
+      "model": "best.pt",
+      "model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+      "device": "0",
+      "image_size": 640,
+      "class_count": 16,
+      "routing": {
+        "mode": "shadow",
+        "reclassify": false,
+        "score_mode": "keep",
+        "candidate_confidence": 0.05,
+        "background_threshold": 0.9,
+        "target_threshold": 0.15,
+        "threshold10": 0.15,
+        "threshold13": 0.15,
+        "temperature10": 1.25,
+        "temperature13": 0.75,
+        "class10_expert_threshold": 0.0,
+        "models": {
+          "main": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071"
+          },
+          "class10_detector": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49"
+          },
+          "crop_classifier": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c"
+          }
+        }
+      }
+    },
+    "vlm_models": {
+      "object": "list",
+      "data": [
+        {
+          "id": "crop-pest-vlm",
+          "object": "model",
+          "created": 1786500431,
+          "owned_by": "vllm",
+          "root": "/root/autodl-tmp/crop-pest-vlm/model",
+          "parent": null,
+          "max_model_len": 8192,
+          "permission": [
+            {
+              "id": "modelperm-a192979d9dea1e7c",
+              "object": "model_permission",
+              "created": 1786500431,
+              "allow_create_engine": false,
+              "allow_sampling": true,
+              "allow_logprobs": true,
+              "allow_search_indices": false,
+              "allow_view": true,
+              "allow_fine_tuning": false,
+              "organization": "*",
+              "group": null,
+              "is_blocking": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "selection": {
+    "total": 16,
+    "per_class": {
+      "0": 1,
+      "1": 1,
+      "2": 1,
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1,
+      "10": 1,
+      "11": 1,
+      "12": 1,
+      "13": 1,
+      "14": 1,
+      "15": 1
+    }
+  },
+  "summary": {
+    "successful": 16,
+    "failed": 0,
+    "failure_rate": 0.0,
+    "top1_accuracy": 0.5625,
+    "schema_valid_rate": 1.0,
+    "content_complete_rate": 1.0,
+    "severity_input_citation_rate": 1.0,
+    "expected_conflict_count": 3,
+    "conflict_identified_count": 3,
+    "conflict_identification_rate": 1.0,
+    "human_review_trigger_count": 15,
+    "human_review_trigger_rate": 0.9375,
+    "unsafe_output_count": 0,
+    "risk_preservation_failures": 0
+  },
+  "latency_and_throughput": {
+    "vlm_latency_mean_ms": 6210.351,
+    "vlm_latency_p50_ms": 6047.719,
+    "vlm_latency_p95_ms": 8893.756,
+    "end_to_end_p50_ms": 6115.937,
+    "end_to_end_p95_ms": 9011.527,
+    "sequential_wall_seconds": 101.182,
+    "sequential_throughput_images_s": 0.158131,
+    "concurrency_2_requests": 2,
+    "concurrency_2_success": 2,
+    "concurrency_2_wall_seconds": 11.099,
+    "concurrency_2_throughput_images_s": 0.180199
+  },
+  "resources": {
+    "gpu_memory_peak_mib": 22498,
+    "gpu_memory_samples": 383,
+    "vlm_root_bytes": 25888851121,
+    "model_directory_bytes": 17545920365,
+    "model_cache_bytes": 23089289,
+    "runtime_venv_bytes": 8319801095
+  },
+  "per_class": {
+    "0": {
+      "name": "玉米叶枯病",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "1": {
+      "name": "番茄斑枯病",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "2": {
+      "name": "南瓜白粉病",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "3": {
+      "name": "马铃薯早疫病",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "4": {
+      "name": "玉米锈病",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "5": {
+      "name": "番茄细菌性斑点病",
+      "samples": 1,
+      "top1_accuracy": 0.0
+    },
+    "6": {
+      "name": "番茄晚疫病",
+      "samples": 1,
+      "top1_accuracy": 0.0
+    },
+    "7": {
+      "name": "马铃薯晚疫病",
+      "samples": 1,
+      "top1_accuracy": 0.0
+    },
+    "8": {
+      "name": "芫菁",
+      "samples": 1,
+      "top1_accuracy": 0.0
+    },
+    "9": {
+      "name": "蚜虫",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "10": {
+      "name": "盲蝽科",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "11": {
+      "name": "蝼蛄",
+      "samples": 1,
+      "top1_accuracy": 0.0
+    },
+    "12": {
+      "name": "叶蝉科",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "13": {
+      "name": "蝗总科",
+      "samples": 1,
+      "top1_accuracy": 0.0
+    },
+    "14": {
+      "name": "蛴螬",
+      "samples": 1,
+      "top1_accuracy": 1.0
+    },
+    "15": {
+      "name": "豆芫菁",
+      "samples": 1,
+      "top1_accuracy": 0.0
+    }
+  },
+  "samples": [
+    {
+      "sample_id": "pd_0edcf38c97e38cb3",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "independent_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 2129.637
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 3900.174
+          }
+        ],
+        "total_latency_ms": 6046.418,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": true
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 6047.719,
+      "end_to_end_ms": 6115.937
+    },
+    {
+      "sample_id": "pd_04e52f07ef44af9d",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "independent_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1684.894
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 3044.552
+          }
+        ],
+        "total_latency_ms": 4754.884,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "独立图像判断与视觉候选冲突",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 4755.944,
+      "end_to_end_ms": 4798.093
+    },
+    {
+      "sample_id": "pd_157f93414a3c267c",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "independent_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例12.5%，扩散速度慢，符合轻度病害标准",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1476.63
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 2410.72
+          }
+        ],
+        "total_latency_ms": 3911.156,
+        "raw_detector_alignment": "agree",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 3912.589,
+      "end_to_end_ms": 4027.414
+    },
+    {
+      "sample_id": "pd_23c93cf06ae2bcc3",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "independent_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 2347.605
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 3856.408
+          }
+        ],
+        "total_latency_ms": 6234.225,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": true
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 6235.438,
+      "end_to_end_ms": 6309.381
+    },
+    {
+      "sample_id": "pd_1683c5da4843cb6d",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "independent_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 2155.411
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 3804.11
+          }
+        ],
+        "total_latency_ms": 5988.773,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": true
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 5991.451,
+      "end_to_end_ms": 6113.484
+    },
+    {
+      "sample_id": "pd_0156669b9d4a0fe6",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "independent_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例12.5%，扩散速度慢，但未提供足够证据支持严重度分级，且存在YOLO检测与独立判断冲突，需补充图像信息后重新评估",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 3864.308
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 5341.59
+          }
+        ],
+        "total_latency_ms": 9243.096,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "独立图像判断与视觉候选冲突",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 9244.568,
+      "end_to_end_ms": 9334.076
+    },
+    {
+      "sample_id": "pd_07011ffd5e239b05",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "independent_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 2787.561
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 4304.883
+          }
+        ],
+        "total_latency_ms": 7111.943,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "独立图像判断与视觉候选冲突",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 7115.711,
+      "end_to_end_ms": 7475.564
+    },
+    {
+      "sample_id": "pd_02dcbe3bfb27f2bd",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "independent_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 2072.529
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 4925.375
+          }
+        ],
+        "total_latency_ms": 7025.17,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "独立图像判断与视觉候选冲突",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 7026.836,
+      "end_to_end_ms": 7100.583
+    },
+    {
+      "sample_id": "ip_016c7fb254125099",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "豆芫菁",
+      "independent_primary_diagnosis": "豆芫菁",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例12.5%，扩散速度慢，符合低严重度标准",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1703.813
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 4125.287
+          }
+        ],
+        "total_latency_ms": 5858.445,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "独立图像判断与视觉候选冲突"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 5859.794,
+      "end_to_end_ms": 5990.093
+    },
+    {
+      "sample_id": "ip_001c4a0c013d9c7d",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蚜虫",
+      "independent_primary_diagnosis": "蚜虫",
+      "detector_alignment": "agree",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1588.867
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 4116.405
+          }
+        ],
+        "total_latency_ms": 5744.513,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": true
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 5745.734,
+      "end_to_end_ms": 5816.262
+    },
+    {
+      "sample_id": "ip_004b276b01fbbf14",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "盲蝽科",
+      "independent_primary_diagnosis": "盲蝽科",
+      "detector_alignment": "agree",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1650.394
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 3293.45
+          }
+        ],
+        "total_latency_ms": 4975.882,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": true
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "用户田间信息与图像判断明显矛盾",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 4978.245,
+      "end_to_end_ms": 5148.262
+    },
+    {
+      "sample_id": "ip_0316404250e17f8e",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蛴螬",
+      "independent_primary_diagnosis": "蛴螬",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。无法判断",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 2503.797
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 6200.904
+          }
+        ],
+        "total_latency_ms": 8748.296,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "独立图像判断与视觉候选冲突",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 8749.639,
+      "end_to_end_ms": 8831.243
+    },
+    {
+      "sample_id": "ip_016644fd4e101794",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "叶蝉科",
+      "independent_primary_diagnosis": "叶蝉科",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签，且未提供真实田间受害比例与扩散速度，故严重度无法判断。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1736.317
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 7123.13
+          }
+        ],
+        "total_latency_ms": 8892.496,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "独立图像判断与视觉候选冲突",
+        "用户田间信息与图像判断明显矛盾",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 8893.756,
+      "end_to_end_ms": 9011.527
+    },
+    {
+      "sample_id": "ip_033a9fced80bc8fc",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "豆芫菁",
+      "independent_primary_diagnosis": "豆芫菁",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。无法判断",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1470.335
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 2569.407
+          }
+        ],
+        "total_latency_ms": 4080.955,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "分辨率偏低",
+        "独立图像判断与视觉候选冲突",
+        "用户田间信息与图像判断明显矛盾",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 4082.207,
+      "end_to_end_ms": 4188.158
+    },
+    {
+      "sample_id": "ip_039ccd281d4f94b6",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蛴螬",
+      "independent_primary_diagnosis": "蛴螬",
+      "detector_alignment": "agree",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1732.894
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 2623.89
+          }
+        ],
+        "total_latency_ms": 4394.922,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": true
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "用户田间信息与图像判断明显矛盾",
+        "图片或田间信息不足",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 4396.404,
+      "end_to_end_ms": 4511.177
+    },
+    {
+      "sample_id": "ip_0540c74759ae687a",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "芫菁",
+      "independent_primary_diagnosis": "芫菁",
+      "detector_alignment": "conflict",
+      "severity_basis": "用户填写受害比例 12.5%、扩散速度缓慢。受害比例与扩散速度是统一的协议测试输入，不作为真实田间严重度标签。",
+      "analysis_provenance": {
+        "model": "crop-pest-vlm",
+        "protocol": "phase9-multimodal-v2",
+        "stages": [
+          {
+            "name": "independent_image_judgment",
+            "latency_ms": 1668.556
+          },
+          {
+            "name": "evidence_comparison",
+            "latency_ms": 4613.983
+          }
+        ],
+        "total_latency_ms": 6328.212,
+        "raw_detector_alignment": "conflict",
+        "alignment_reconciled": false
+      },
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "独立图像判断与视觉候选冲突",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "severity_input_cited": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 6329.588,
+      "end_to_end_ms": 6410.408
+    }
+  ]
+}

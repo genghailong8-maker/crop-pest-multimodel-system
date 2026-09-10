@@ -1,0 +1,28 @@
+{
+  "date": "2026-08-13",
+  "scope": "local-browser-acceptance",
+  "desktop_home": "pass",
+  "ordinary_navigation_hides_admin": "pass",
+  "normal_upload_detect_analyze_save_report": "pass",
+  "no_supported_target_backend_state": "pass",
+  "no_supported_target_detail_primary_heading": "fail",
+  "detector_failure_degradation": "pass",
+  "multimodal_failure_preserves_case": "pass",
+  "multimodal_failure_structured_user_state": "partial",
+  "multimodal_recovery_retry_analysis": "pass",
+  "history_trends_report": "pass",
+  "restart_persistence": "pass",
+  "mobile_viewport_390x844_basic": "pass",
+  "keyboard_focus_basic": "pass",
+  "chrome_edge_manual_acceptance": "pending_user",
+  "phase9_complete": false,
+  "blockers": [
+    "no-target detail page can show an independent multimodal candidate as the primary heading",
+    "multimodal transport failure is exposed as HTTP 502 instead of a structured service-unavailable result"
+  ],
+  "evidence": [
+    "artifacts/server/phase9-real-test-20260813.json",
+    "artifacts/server/phase9-detector-failure-20260813.json",
+    "artifacts/server/phase9-failure-recovery-v3-20260813.json"
+  ]
+}

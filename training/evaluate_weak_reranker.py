@@ -37,7 +37,14 @@ def label_path(image_path: Path) -> Path:
 
 
 def read_images(path: Path) -> list[Path]:
-    return [Path(line.strip()) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    base = path.resolve().parent
+    images: list[Path] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        image = Path(line.strip()).expanduser()
+        images.append(image if image.is_absolute() else (base / image).resolve())
+    return images
 
 
 def parse_ground_truth(path: Path, image_width: int, image_height: int) -> list[dict[str, Any]]:

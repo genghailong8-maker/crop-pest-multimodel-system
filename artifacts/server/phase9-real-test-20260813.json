@@ -1,0 +1,50 @@
+{
+  "sample": "C:\\Users\\genghailong\\Documents\\编程大赛\\backend\\runtime\\uploads\\ceb1c0cd242246a480a613a0227fc07b.jpg",
+  "created": {
+    "id": "85f52c48307b4be6b207827bf20c6aa8",
+    "status": "uploaded",
+    "is_test": false
+  },
+  "detected": {
+    "status": "detected",
+    "resolution_status": "conclusive",
+    "detections": [
+      {
+        "class_id": 10,
+        "class_name": "盲蝽科",
+        "class_name_en": "Mirid bugs (Miridae)",
+        "category_type": "害虫",
+        "confidence": 0.943703,
+        "bbox": [
+          0.1446577,
+          0.0812465,
+          0.7045311,
+          0.8233483
+        ]
+      }
+    ],
+    "diagnostic_risk": "low",
+    "routing_mode": "shadow",
+    "reclassify": null
+  },
+  "analyzed": {
+    "status": "analyzed",
+    "resolution_status": "conclusive",
+    "primary_diagnosis": "盲蝽科",
+    "detector_alignment": "agree",
+    "diagnostic_risk": "low",
+    "field_severity": "low",
+    "latency_ms": 4527.375,
+    "schema_version": "phase9-multimodal-v2"
+  },
+  "report": {
+    "report_number": "TZ-20260813-85F52C48",
+    "source_count": 5,
+    "has_safety_notice": true
+  },
+  "after_marking_test": {
+    "history_contains_case": false,
+    "trend_total": 0,
+    "trend_scope": "本机保存的诊断记录，不代表真实地区疫情趋势"
+  }
+}

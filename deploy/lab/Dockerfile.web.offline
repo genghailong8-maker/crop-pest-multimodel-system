@@ -1,0 +1,9 @@
+FROM public.ecr.aws/docker/library/node:22-bookworm-slim
+
+WORKDIR /opt/ghl/web
+COPY cache/npm /npm-cache
+COPY app/web/package.json app/web/package-lock.json ./
+RUN npm ci --offline --cache /npm-cache --no-audit --no-fund
+COPY app/web ./
+RUN npm run build
+CMD ["npm", "run", "start", "--", "--host", "0.0.0.0"]
