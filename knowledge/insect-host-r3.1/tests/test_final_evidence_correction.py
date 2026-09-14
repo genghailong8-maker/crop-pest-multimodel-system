@@ -27,14 +27,14 @@ def test_wheat_same_species_evidence_remains_full() -> None:
     assert payload["host"]["status"] == "FULL"
     assert payload["host_knowledge"]["severity_available"] is True
     assert set(payload["host_knowledge"]["severity"]["levels"]) == {"mild", "moderate", "severe"}
-    assert payload["treatment"]["treatment_level"] == "host_general"
+    assert payload["treatment"]["treatment_level"] == "host_severity"
 
 
 def test_peanut_severity_is_fail_closed_but_direct_host_treatment_remains() -> None:
     clear_cache()
     payload = host_knowledge_payload(record(11, "花生"))
-    assert payload["host"]["status"] == "PARTIAL"
-    assert payload["host_knowledge"]["severity_available"] is False
-    assert payload["host_knowledge"]["severity"]["levels"] == {}
-    assert payload["treatment"]["treatment_level"] == "host_general"
-    assert "R31-11-HAMI-PEANUT-IPM" in payload["treatment"]["source_ids"]
+    assert payload["host"]["status"] == "FULL"
+    assert payload["host_knowledge"]["severity_available"] is True
+    assert set(payload["host_knowledge"]["severity"]["levels"]) == {"mild", "moderate", "severe"}
+    assert payload["treatment"]["treatment_level"] == "host_severity"
+    assert set(payload["treatment"]["source_ids"]) == {"R31-11-TANGSHAN-PEANUT", "R31-11-LINYI-PEANUT"}

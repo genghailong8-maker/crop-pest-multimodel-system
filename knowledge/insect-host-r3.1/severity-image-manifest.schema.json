@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "severity-image-manifest.schema.json",
+  "type": "object",
+  "required": ["schema_version", "expected_pair_count", "expected_asset_count", "entries"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "expected_pair_count": {"const": 38},
+    "expected_severity_count": {"const": 3},
+    "expected_asset_count": {"const": 114},
+    "global_label": {"const": "AI示意图 · 非真实照片"},
+    "entries": {
+      "type": "array",
+      "minItems": 114,
+      "maxItems": 114,
+      "items": {
+        "type": "object",
+        "required": ["pair_id", "insect", "host", "severity", "asset_id", "knowledge_basis", "prompt_basis", "asset", "display_label", "qa"],
+        "properties": {
+          "pair_id": {"type": "string", "pattern": "^(0[1-9]|[12][0-9]|3[0-8])$"},
+          "severity": {"enum": ["mild", "moderate", "severe"]},
+          "prompt_basis": {"type": "string", "minLength": 1},
+          "display_label": {"const": "AI示意图 · 非真实照片"},
+          "knowledge_basis": {
+            "type": "object",
+            "required": ["source", "manifestation_text", "source_ids"],
+            "properties": {
+              "source": {"const": "FROZEN_R31_KNOWLEDGE"},
+              "manifestation_text": {"type": "string", "minLength": 1},
+              "source_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}}
+            }
+          },
+          "asset": {
+            "type": "object",
+            "required": ["original_png", "web_derivative", "status"],
+            "properties": {
+              "original_png": {"type": "string", "pattern": "^web/public/assets/severity/r31/(0[1-9]|[12][0-9]|3[0-8])/(mild|moderate|severe)\\.png$"},
+              "web_derivative": {"type": "string", "pattern": "^web/public/assets/severity/r31/(0[1-9]|[12][0-9]|3[0-8])/(mild|moderate|severe)\\.webp$"}
+            }
+          },
+          "qa": {"type": "object", "required": ["approved"], "properties": {"approved": {"type": "boolean"}}}
+        }
+      }
+    }
+  }
+}

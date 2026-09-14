@@ -409,6 +409,27 @@ def _none_treatment(message: str) -> dict[str, Any]:
     }
 
 
+def _host_severity_level(
+    host_severity: Mapping[str, Any] | None,
+    severity: str | None,
+) -> Mapping[str, Any] | None:
+    if not isinstance(host_severity, Mapping) or not host_severity.get("available"):
+        return None
+    if severity not in (host_severity.get("supported_severities") or []):
+        return None
+    levels = host_severity.get("levels")
+    level = levels.get(severity) if isinstance(levels, Mapping) and severity else None
+    if not isinstance(level, Mapping) or not isinstance(level.get("body"), Mapping) or not level.get("body"):
+        return None
+    source_ids = level.get("source_ids")
+    provenance = level.get("provenance")
+    if not isinstance(source_ids, list) or not source_ids:
+        return None
+    if not isinstance(provenance, Mapping) or provenance.get("type") != "host_severity" or provenance.get("source_ids") != source_ids or provenance.get("complete") is not True:
+        return None
+    return level
+
+
 def resolve_treatment(
     capability: Mapping[str, Any] | None,
     host_general: Mapping[str, Any] | None,
@@ -420,19 +441,17 @@ def resolve_treatment(
     capabilities = capability.get("capabilities") if isinstance(capability, Mapping) else {}
     capabilities = capabilities if isinstance(capabilities, Mapping) else {}
     severity_available = bool(capability.get("severity_available")) if isinstance(capability, Mapping) else False
-    if severity in SEVERITY_LEVELS and capabilities.get("host_severity_treatment") and isinstance(host_severity, Mapping) and host_severity.get("available") and severity in (host_severity.get("supported_severities") or []):
-        ids = list(host_severity.get("source_ids") or [])
+    severity_level = _host_severity_level(host_severity, severity) if severity in SEVERITY_LEVELS else None
+    if severity_level is not None and capabilities.get("host_severity_treatment"):
+        ids = list(severity_level["source_ids"])
         body = {
-            "mode": "severity_adjusted_ipm",
-            "sections": deepcopy((host_general or {}).get("sections") or {}),
-            "pesticide_policy": (host_general or {}).get("pesticide_policy"),
-            "severity_note": host_severity.get("note"),
+            **deepcopy(severity_level["body"]),
         }
         return {
             "treatment_level": "host_severity",
             "body": body,
             "source_ids": ids,
-            "provenance": {"type": "host_severity", "source_ids": ids, "complete": True},
+            "provenance": deepcopy(severity_level["provenance"]),
             "fallback_message": FALLBACK_MESSAGES["host_severity"],
         }
     if isinstance(host_general, Mapping) and host_general.get("available"):

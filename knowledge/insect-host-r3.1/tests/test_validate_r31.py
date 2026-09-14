@@ -22,8 +22,8 @@ class R31ValidatorTests(unittest.TestCase):
         self.assertEqual(result["evidence_summary"]["record_count"], 150)
         self.assertEqual(result["evidence_summary"]["treatment_audit_count"], 38)
         self.assertEqual(result["capability_summary"]["record_count"], 38)
-        self.assertEqual(result["capability_summary"]["status_counts"], {"FULL": 13, "PARTIAL": 25, "REJECTED": 0})
-        self.assertEqual(result["capability_summary"]["severity_available_hosts"], 13)
+        self.assertEqual(result["capability_summary"]["status_counts"], {"FULL": 38, "PARTIAL": 0, "REJECTED": 0})
+        self.assertEqual(result["capability_summary"]["severity_available_hosts"], 38)
         self.assertEqual(result["capability_summary"]["host_general_treatments"], 38)
         self.assertEqual(result["capability_summary"]["general_insect_treatments"], 8)
         self.assertFalse(any(item["level"] == validate_r31.INVALID for item in result["issues"]))
@@ -124,10 +124,9 @@ class R31ValidatorTests(unittest.TestCase):
             shutil.copytree(ROOT, staging)
             registry_path = staging / "capability-fallback.json"
             registry = json.loads(registry_path.read_text(encoding="utf-8"))
-            partial = next(item for item in registry["records"] if item["status"] == "PARTIAL")
-            partial["severity_available"] = True
-            partial["capabilities"]["severity"] = True
-            partial["status"] = "FULL"
+            partial = registry["records"][0]
+            partial["severity_available"] = False
+            partial["capabilities"]["severity"] = False
             registry_path.write_text(json.dumps(registry, ensure_ascii=False, indent=2), encoding="utf-8")
             result = validate_r31.validate_manifest(staging / "manifest.json")
             self.assertEqual(result["status"], validate_r31.INVALID)

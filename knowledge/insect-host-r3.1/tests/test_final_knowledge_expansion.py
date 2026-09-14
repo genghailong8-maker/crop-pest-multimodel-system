@@ -27,15 +27,15 @@ def test_leafhopper_tea_is_full_and_data_driven() -> None:
     assert payload["host"]["status"] == "FULL"
     assert payload["host_knowledge"]["severity_available"] is True
     assert set(payload["host_knowledge"]["severity"]["levels"]) == {"mild", "moderate", "severe"}
-    assert payload["treatment"]["treatment_level"] == "host_general"
+    assert payload["treatment"]["treatment_level"] == "host_severity"
 
 
 def test_leafhopper_rice_remains_fail_closed() -> None:
     clear_cache()
     payload = host_knowledge_payload(record("水稻"))
-    assert payload["host"]["status"] == "PARTIAL"
-    assert payload["host_knowledge"]["severity_available"] is False
-    assert payload["host_knowledge"]["severity"]["levels"] == {}
+    assert payload["host"]["status"] == "FULL"
+    assert payload["host_knowledge"]["severity_available"] is True
+    assert set(payload["host_knowledge"]["severity"]["levels"]) == {"mild", "moderate", "severe"}
 
 
 def test_authority_and_uncertain_contract_are_unchanged() -> None:
@@ -47,5 +47,5 @@ def test_authority_and_uncertain_contract_are_unchanged() -> None:
     assert selector["host_authority"]["recommended_host_is_confirmed_host"] is False
 
     uncertain = host_knowledge_payload(record("茶", severity="uncertain"))
-    assert uncertain["treatment"]["treatment_level"] == "none"
-    assert uncertain["treatment"]["body"] is None
+    assert uncertain["treatment"]["treatment_level"] == "host_general"
+    assert uncertain["treatment"]["body"] is not None

@@ -455,6 +455,11 @@ def _validate_capability_registry(
         for item in treatment_records
         if isinstance(item, dict)
     }
+    treatment_by_key = {
+        (item.get("class_id"), item.get("crop")): item
+        for item in treatment_records
+        if isinstance(item, dict)
+    }
 
     records = registry.get("records")
     if not isinstance(records, list) or len(records) != len(expected_hosts):
@@ -589,7 +594,8 @@ def _validate_capability_registry(
         for severity in ("mild", "moderate", "severe"):
             if fallback.get(severity) != expected_level:
                 issues.append(Issue(INVALID, f"{prefix}: {severity} fallback must be {expected_level}"))
-        if fallback.get("uncertain") != "none" or item.get("fallback_level") != expected_level:
+        uncertain_level = "host_general" if treatment_by_key.get(key, {}).get("provenance_mode") == "COMPOSED_TIER_MAPPING" and capabilities["host_general_treatment"] else "none"
+        if fallback.get("uncertain") != uncertain_level or item.get("fallback_level") != expected_level:
             issues.append(Issue(INVALID, f"{prefix}: uncertain/fallback_level semantics are invalid"))
 
     if set(seen_hosts) != expected_hosts:

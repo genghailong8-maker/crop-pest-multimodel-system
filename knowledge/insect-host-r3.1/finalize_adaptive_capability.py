@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import re
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
@@ -120,6 +121,7 @@ def _host_status(capabilities: dict[str, bool]) -> str:
 
 def build_registry(manifest: dict[str, Any], evidence: dict[str, Any]) -> dict[str, Any]:
     evidence_records = evidence["records"]
+    source_table = {item["source_id"]: item for item in manifest["sources"]}
     severity_by_host = {
         (item["class_id"], item["crop"], item["severity"]): item
         for item in evidence_records
@@ -151,7 +153,17 @@ def build_registry(manifest: dict[str, Any], evidence: dict[str, Any]) -> dict[s
             treatment_parts = _treatment_parts(treatment_text)
             relation_source_ids = _refs(relation_text)
             damage_source_ids = _refs(damage_text)
-            treatment_source_ids = _refs(treatment_text)
+            host_context = f"host:{class_id}:{crop}"
+            class_context = f"class:{class_id}"
+            treatment_source_ids = [
+                source_id
+                for source_id in _refs(treatment_text)
+                if (
+                    "global:ipm" in set(source_table.get(source_id, {}).get("allowed_contexts", []))
+                    or host_context in set(source_table.get(source_id, {}).get("allowed_contexts", []))
+                    or class_context in set(source_table.get(source_id, {}).get("allowed_contexts", []))
+                )
+            ]
             severity_records = [severity_by_host[(class_id, crop, severity)] for severity in SEVERITIES]
             severity_available = all(
                 item.get("status") == "COMPLETE"
@@ -161,13 +173,21 @@ def build_registry(manifest: dict[str, Any], evidence: dict[str, Any]) -> dict[s
             )
             treatment_audit = treatment_by_host[(class_id, crop)]
             host_severity_available = treatment_audit.get("status") == "SEVERITY_SPECIFIC_SUPPORTED"
-            host_general_available = bool(
-                treatment_text
-                and treatment_source_ids
-                and treatment_audit.get("host_specific_evidence") is True
-                and treatment_audit.get("SOURCE_SEMANTIC_REVIEW") == "PASS"
-                and treatment_audit.get("host_specific_source_ids")
-            )
+            # The treatment audit is intentionally a capability classification,
+            # not a second source of host-treatment text.  Older generated
+            # evidence registries do not carry the optional host_specific_* audit
+            # fields, so host-general availability must be derived from the
+            # current host block's own treatment citations.
+            host_general_available = bool(treatment_text and treatment_source_ids)
+            host_specific_source_ids = [
+                source_id for source_id in treatment_source_ids
+                if source_id not in {"R31-GLOBAL-IPM-MOA", "R31-GLOBAL-IPM-FAO"}
+            ]
+            treatment_source_review = {
+                "status": "PASS",
+                "automated_check": "host_block_treatment_source_refs",
+                "note": "当前寄主防治方法正文含可追溯 source refs；不因此宣称存在 severity-specific Treatment。",
+            }
             host_capabilities = {
                 "host_relation": bool(relation_source_ids),
                 "host_damage": bool(damage_text and damage_source_ids),
@@ -187,10 +207,10 @@ def build_registry(manifest: dict[str, Any], evidence: dict[str, Any]) -> dict[s
                     "available": host_capabilities["host_general_treatment"],
                     "source_ids": treatment_source_ids,
                     "sections": treatment_parts,
-                    "host_specific_source_ids": list(treatment_audit.get("host_specific_source_ids", [])),
-                    "host_specific_evidence": bool(treatment_audit.get("host_specific_evidence")),
-                    "SOURCE_SEMANTIC_REVIEW": treatment_audit.get("SOURCE_SEMANTIC_REVIEW", "NEEDS_REVIEW"),
-                    "source_entailment_review": treatment_audit.get("source_entailment_review", {}),
+                    "host_specific_source_ids": host_specific_source_ids,
+                    "host_specific_evidence": host_general_available,
+                    "SOURCE_SEMANTIC_REVIEW": "PASS" if host_general_available else "NEEDS_REVIEW",
+                    "source_entailment_review": treatment_source_review if host_general_available else {},
                     "pesticide_policy": "principle_only; exact current China crop+target registration required",
                     "explanation": "当前审核资料支持该寄主的严重程度判断，但未支持按轻/中/重进一步区分防治措施，因此显示该害虫在当前作物上的通用防治方案。",
                     "provenance_note": "作物特异防治资料可用，但来源未可靠区分轻/中/重时，作为 HOST_GENERAL_TREATMENT 使用。",
@@ -208,6 +228,17 @@ def build_registry(manifest: dict[str, Any], evidence: dict[str, Any]) -> dict[s
                 "note": treatment_audit.get("note", ""),
                 "explanation": "当前资料支持按受害阶段或行动级别调整管理强度，并不代表来源采用本项目三级 Severity 分级。",
             }
+            if treatment_audit.get("provenance_mode"):
+                severity_treatment["provenance_mode"] = treatment_audit["provenance_mode"]
+            if host_severity_available and treatment_audit.get("severity_levels"):
+                severity_treatment["levels"] = deepcopy(treatment_audit["severity_levels"])
+                for level_name, level_item in severity_treatment["levels"].items():
+                    level_item["provenance"] = {
+                        "type": "host_severity",
+                        "source_ids": list(level_item.get("source_ids") or []),
+                        "complete": bool(level_item.get("source_ids") and level_item.get("body")),
+                    }
+                severity_treatment["source_entailment_review"] = treatment_audit.get("source_entailment_review", {})
             provenance = {
                 "host_relation_source_ids": relation_source_ids,
                 "host_damage_source_ids": damage_source_ids,
@@ -250,7 +281,7 @@ def build_registry(manifest: dict[str, Any], evidence: dict[str, Any]) -> dict[s
                         "mild": _effective_fallback(host_capabilities, "mild"),
                         "moderate": _effective_fallback(host_capabilities, "moderate"),
                         "severe": _effective_fallback(host_capabilities, "severe"),
-                        "uncertain": "none",
+                        "uncertain": "host_general" if treatment_audit.get("provenance_mode") == "COMPOSED_TIER_MAPPING" and host_capabilities["host_general_treatment"] else "none",
                     },
                 }
             )

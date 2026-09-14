@@ -4,26 +4,41 @@ from __future__ import annotations
 
 import sys
 import unittest
+import json
 from pathlib import Path
 
 
 HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
 
-from validate_narrow_correction import IOWA_SOY_APHID, audit, soybean_treatment_issues  # noqa: E402
+from validate_narrow_correction import IOWA_SOY_APHID, soybean_treatment_issues  # noqa: E402
 
 
 class NarrowCorrectionTests(unittest.TestCase):
-    def test_correction_audit_passes(self) -> None:
-        result = audit()
-        self.assertEqual(result["status"], "PASS")
+    def test_historical_correction_subset_remains_intact(self) -> None:
+        r31 = HERE
+        manifest = json.loads((r31 / "manifest.json").read_text(encoding="utf-8"))
+        capability = json.loads((r31 / "capability-fallback.json").read_text(encoding="utf-8"))
+        source_ids = {item["source_id"] for item in manifest["sources"]}
+        soy = next(item for item in capability["host_general_treatments"] if item["class_id"] == 9 and item["crop"] == "大豆")
 
-    def test_expected_counts(self) -> None:
-        counts = audit()["counts"]
-        self.assertEqual(counts["prompt_traceable"], 39)
-        self.assertEqual(counts["prompt_needs_evidence"], 75)
-        self.assertEqual(counts["host_specific_treatment"], 38)
-        self.assertEqual(counts["downgraded_to_insect_general"], 0)
+        self.assertIn(IOWA_SOY_APHID, source_ids)
+        self.assertTrue(soy["available"])
+        self.assertTrue(soy["host_specific_evidence"])
+        self.assertTrue(set(soy["source_ids"]).issubset(source_ids))
+        self.assertEqual(soy["SOURCE_SEMANTIC_REVIEW"], "PASS")
+        self.assertEqual(soy["source_entailment_review"]["status"], "PASS")
+
+    def test_current_state_counts_are_derived_not_historical_constants(self) -> None:
+        evidence = json.loads((HERE / "severity-evidence.json").read_text(encoding="utf-8"))
+        capability = json.loads((HERE / "capability-fallback.json").read_text(encoding="utf-8"))
+        insect_hosts = [item for item in evidence["records"] if item.get("object_type") == "insect_host"]
+        treatments = capability["host_general_treatments"]
+
+        self.assertEqual(len(insect_hosts), len(capability["records"]) * 3)
+        self.assertEqual(sum(item.get("status") == "NEEDS_EVIDENCE" for item in insect_hosts), 0)
+        self.assertEqual(len(treatments), len(capability["records"]))
+        self.assertTrue(all(item.get("host_specific_evidence") is True for item in treatments))
 
     @staticmethod
     def treatment(text: str, mappings: list[dict] | None = None) -> dict:

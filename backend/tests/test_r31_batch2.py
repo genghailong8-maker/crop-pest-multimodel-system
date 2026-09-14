@@ -88,7 +88,7 @@ def _persisted_case(tmp_path: Path, monkeypatch, *, class_id: int = 8) -> str:
     return database.create_case(record)["id"]
 
 
-def test_full_host_uses_host_severity_and_preserves_recommendation_authority() -> None:
+def test_full_host_uses_verified_host_severity_treatment() -> None:
     payload = host_knowledge_payload(_record(8, crop="大豆"))
     assert payload["recommended_host"] == "大豆"
     assert payload["confirmed_host"] == "大豆"
@@ -96,8 +96,88 @@ def test_full_host_uses_host_severity_and_preserves_recommendation_authority() -
     assert payload["host"]["status"] == "FULL"
     assert payload["host_knowledge"]["severity_available"] is True
     assert set(payload["host_knowledge"]["severity"]["levels"]) == {"mild", "moderate", "severe"}
+    assert payload["host"]["capabilities"]["host_severity_treatment"] is True
     assert payload["treatment"]["treatment_level"] == "host_severity"
-    assert payload["treatment"]["fallback_message"] == FALLBACK_MESSAGES["host_severity"]
+    assert payload["treatment"]["provenance"]["type"] == "host_severity"
+
+
+def test_two_soybean_hosts_use_verified_host_severity_treatment() -> None:
+    for class_id in (8, 9):
+        for level in ("mild", "moderate", "severe"):
+            payload = host_knowledge_payload(_record(class_id, crop="大豆", severity=level))
+            treatment = payload["treatment"]
+            assert treatment["treatment_level"] == "host_severity"
+            assert treatment["provenance"]["type"] == "host_severity"
+            assert treatment["source_ids"]
+
+
+def test_soybean_grasshopper_uses_verified_host_severity_levels() -> None:
+    for level in ("mild", "moderate", "severe"):
+        payload = host_knowledge_payload(_record(13, crop="大豆", severity=level))
+        treatment = payload["treatment"]
+        assert treatment["treatment_level"] == "host_severity"
+        assert treatment["source_ids"] == ["R31-13-UMN-GRASSHOPPER"]
+        assert treatment["provenance"] == {
+            "type": "host_severity",
+            "source_ids": ["R31-13-UMN-GRASSHOPPER"],
+            "complete": True,
+        }
+
+
+def test_soybean_grasshopper_uncertain_falls_back_to_host_general() -> None:
+    payload = host_knowledge_payload(_record(13, crop="大豆", severity="uncertain"))
+    assert payload["treatment"]["treatment_level"] == "host_general"
+    assert payload["treatment"]["provenance"]["type"] == "host_general"
+
+
+def test_independent_host_severity_body_keeps_priority_and_provenance() -> None:
+    host_general = {
+        "available": True,
+        "source_ids": ["host-general"],
+        "sections": {"management": "general"},
+        "pesticide_policy": "principle_only",
+    }
+    host_severity = {
+        "available": True,
+        "supported_severities": ["mild", "moderate", "severe"],
+        "levels": {
+            level: {
+                "body": {"sections": {"management": level}},
+                "source_ids": [f"host-severity-{level}"],
+                "provenance": {"type": "host_severity", "source_ids": [f"host-severity-{level}"], "complete": True},
+            }
+            for level in ("mild", "moderate", "severe")
+        },
+    }
+    for level in ("mild", "moderate", "severe"):
+        treatment = resolve_treatment(
+            {"capabilities": {"host_severity_treatment": True}, "severity_available": True},
+            host_general,
+            host_severity,
+            None,
+            level,
+        )
+        assert treatment["treatment_level"] == "host_severity"
+        assert treatment["body"]["sections"]["management"] == level
+        assert treatment["source_ids"] == [f"host-severity-{level}"]
+        assert treatment["provenance"] == {
+            "type": "host_severity",
+            "source_ids": [f"host-severity-{level}"],
+            "complete": True,
+        }
+
+
+def test_capability_cannot_upgrade_host_general_without_independent_level_body() -> None:
+    treatment = resolve_treatment(
+        {"capabilities": {"host_severity_treatment": True}, "severity_available": True},
+        {"available": True, "source_ids": ["host-general"], "sections": {"management": "general"}},
+        {"available": True, "supported_severities": ["mild", "moderate", "severe"], "source_ids": ["stale-specific"]},
+        None,
+        "mild",
+    )
+    assert treatment["treatment_level"] == "host_general"
+    assert treatment["provenance"]["type"] == "host_general"
+    assert treatment["source_ids"] == ["host-general"]
 
 
 def test_full_host_falls_back_to_host_general_when_severity_treatment_is_unavailable() -> None:
@@ -115,13 +195,22 @@ def test_full_host_falls_back_to_host_general_when_severity_treatment_is_unavail
     assert treatment["body"]["sections"]["prevention_monitoring"] == "monitor"
 
 
-def test_partial_host_exposes_unavailable_severity_but_uses_host_general() -> None:
-    payload = host_knowledge_payload(_record(8, crop="马铃薯", severity="moderate"))
-    assert payload["host"]["status"] == "PARTIAL"
-    assert payload["host_knowledge"]["severity_available"] is False
-    assert payload["host_knowledge"]["severity"]["levels"] == {}
-    assert payload["treatment"]["treatment_level"] == "host_general"
-    assert payload["treatment"]["fallback_message"] != FALLBACK_MESSAGES["host_general"]
+def test_supported_host_exposes_verified_severity_for_each_level() -> None:
+    for level in ("mild", "moderate", "severe"):
+        payload = host_knowledge_payload(_record(8, crop="马铃薯", severity=level))
+        assert payload["host"]["status"] == "FULL"
+        assert payload["host_knowledge"]["severity_available"] is True
+        assert set(payload["host_knowledge"]["severity"]["levels"]) == {"mild", "moderate", "severe"}
+        assert payload["treatment"]["treatment_level"] == "host_severity"
+
+
+def test_completed_hosts_use_host_severity_across_severity_levels() -> None:
+    cases = ((9, "玉米"), (9, "小麦"), (9, "棉花"), (9, "桃"), (10, "葡萄"), (11, "玉米"), (11, "马铃薯"), (12, "茶"), (14, "玉米"), (15, "大豆"))
+    for class_id, crop in cases:
+        for level in ("mild", "moderate", "severe"):
+            treatment = host_knowledge_payload(_record(class_id, crop=crop, severity=level))["treatment"]
+            assert treatment["treatment_level"] == "host_severity"
+            assert treatment["provenance"]["type"] == "host_severity"
 
 
 def test_missing_host_general_falls_back_to_insect_general() -> None:
@@ -179,7 +268,7 @@ def test_host_confirmation_api_persists_only_explicit_supported_host_and_refresh
         payload = confirmed.json()
         assert payload["host_knowledge"]["confirmed_host"] == "马铃薯"
         assert payload["host_knowledge"]["recommended_host"] == "大豆"
-        assert payload["host_knowledge"]["host"]["status"] == "PARTIAL"
+        assert payload["host_knowledge"]["host"]["status"] == "FULL"
         assert payload["host_knowledge"]["host"]["crop"] == "马铃薯"
         assert database.get_case(case_id)["context"]["host_selection"]["confirmed_host"] == "马铃薯"
 
