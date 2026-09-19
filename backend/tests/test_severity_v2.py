@@ -84,13 +84,12 @@ def test_mole_cricket_severe_resolves_document_level_sources() -> None:
     assert "防治措施来源" not in treatment["content"]["markdown"]
 
 
-def test_uncertain_uses_generic_content_without_selecting_a_tier() -> None:
+def test_uncertain_has_no_severity_specific_treatment() -> None:
     treatment = local_treatment_payload(_record(0, "uncertain"))
-    assert treatment["status"] == "available"
-    assert treatment["treatment_mode"] == "generic"
-    assert "markdown" not in treatment["content"]
-    assert treatment["content"]["prevention"] or treatment["content"]["first_actions"] or treatment["content"]["management"]
-    assert "severity_level" not in treatment
+    assert treatment["status"] == "unavailable"
+    assert treatment["content"] == {}
+    assert treatment["source_ids"] == []
+    assert treatment["severity_level"] == "uncertain"
 
 
 def test_historical_v1_record_remains_readable_and_unchanged() -> None:

@@ -7,8 +7,8 @@ from typing import Any
 import httpx
 from PIL import Image, ImageFilter, ImageStat
 
-from .catalog import CLASS_BY_ID
 from .config import LOW_CONFIDENCE_THRESHOLD, settings
+from .taxonomy import class_by_id, identity_for_detection
 
 
 class DetectorUnavailable(RuntimeError):
@@ -107,7 +107,7 @@ class UltralyticsDetector:
         ):
             left, top, right, bottom = map(float, xyxy)
             class_id = int(class_id_value)
-            catalog_item = CLASS_BY_ID.get(class_id, {})
+            catalog_item = class_by_id(settings.taxonomy_version, class_id) or {}
             left_normalized = min(1.0, max(0.0, left / width))
             top_normalized = min(1.0, max(0.0, top / height))
             right_normalized = min(1.0, max(0.0, right / width))
@@ -118,6 +118,9 @@ class UltralyticsDetector:
                     "class_name": catalog_item.get("name_zh", str(class_id)),
                     "class_name_en": catalog_item.get("name_en", str(class_id)),
                     "category_type": catalog_item.get("type", "未知"),
+                    "taxonomy_version": settings.taxonomy_version,
+                    "canonical_key": catalog_item.get("canonical_key"),
+                    "canonical_class_name": catalog_item.get("canonical_class_name", catalog_item.get("name_zh", str(class_id))),
                     "confidence": round(float(confidence), 6),
                     "bbox": [
                         left_normalized,
@@ -145,7 +148,8 @@ def validate_remote_detections(payload: Any) -> list[dict[str, Any]]:
             bbox = [float(value) for value in raw["bbox"]]
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(f"第 {index + 1} 个检测结果字段错误") from exc
-        if class_id not in CLASS_BY_ID:
+        catalog_item = class_by_id(settings.taxonomy_version, class_id)
+        if catalog_item is None:
             raise ValueError(f"视觉服务返回未知类别：{class_id}")
         if not 0 <= confidence <= 1:
             raise ValueError(f"视觉服务返回非法置信度：{confidence}")
@@ -153,13 +157,15 @@ def validate_remote_detections(payload: Any) -> list[dict[str, Any]]:
             raise ValueError("视觉服务必须返回归一化 [x, y, width, height] 框")
         if bbox[0] + bbox[2] > 1.001 or bbox[1] + bbox[3] > 1.001:
             raise ValueError("视觉服务返回的检测框超出图片范围")
-        catalog_item = CLASS_BY_ID[class_id]
         detections.append(
             {
                 "class_id": class_id,
                 "class_name": catalog_item["name_zh"],
                 "class_name_en": catalog_item["name_en"],
                 "category_type": catalog_item["type"],
+                "taxonomy_version": settings.taxonomy_version,
+                "canonical_key": catalog_item["canonical_key"],
+                "canonical_class_name": catalog_item["canonical_class_name"],
                 "confidence": round(confidence, 6),
                 "bbox": bbox,
             }
@@ -192,6 +198,7 @@ class RemoteDetector:
                 self.last_metadata = {
                     "mode": "remote",
                     "model_sha256": payload.get("model_sha256"),
+                    "taxonomy_version": payload.get("taxonomy_version") or settings.taxonomy_version,
                     "speed_ms": payload.get("speed_ms"),
                     "routing": payload.get("routing"),
                 }
@@ -232,11 +239,14 @@ def summarize_detections(detections: list[dict[str, Any]]) -> dict[str, Any]:
         by_class.setdefault(item["class_id"], []).append(item["confidence"])
     candidates = []
     for class_id, confidences in by_class.items():
-        catalog_item = CLASS_BY_ID.get(class_id, {})
+        catalog_item = class_by_id(settings.taxonomy_version, class_id) or {}
         candidates.append(
             {
                 "class_id": class_id,
                 "class_name": catalog_item.get("name_zh", str(class_id)),
+                "taxonomy_version": settings.taxonomy_version,
+                "canonical_key": catalog_item.get("canonical_key"),
+                "canonical_class_name": catalog_item.get("canonical_class_name", catalog_item.get("name_zh", str(class_id))),
                 "max_confidence": max(confidences),
                 "mean_confidence": sum(confidences) / len(confidences),
                 "target_count": len(confidences),

@@ -1,0 +1,23 @@
+services:
+  backend:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.backend.official10-candidate
+    image: crop-pest-candidate-backend:official-10class-runtime-foundation-20260919
+    restart: unless-stopped
+    ports: ["127.0.0.1:18083:8000"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    environment:
+      CROP_STORAGE_DIR: /data/storage
+      CROP_CONTROL_DIR: /data/control
+      CROP_TAXONOMY_VERSION: official_10class_20260917
+      CROP_MODEL_SHA256: e233fc1971f88288fabed8d37af32047f6d1cb643213d9de0ee61385666479ba
+      CROP_OFFICIAL_KNOWLEDGE_DIR: /opt/ghl/knowledge/official_10class_20260917
+      CROP_DETECTOR_ENDPOINT: http://host.docker.internal:18871/v1/detect
+      CROP_SEARCH_PROVIDER: disabled
+      CROP_INSTANCE_ID: candidate_10class
+      CROP_INSTANCE_LABEL: 官方10类 Candidate
+      CROP_GATEWAY_MODE: "false"
+    volumes:
+      - /data/ghl/validation/official10-candidate-runtime-20260919/storage:/data/storage
+      - /data/ghl/validation/official10-candidate-runtime-20260919/control:/data/control

@@ -5,6 +5,7 @@
     {"value": "insect", "label": "昆虫", "clip_prompt": "a photo of an insect"}
   ],
   "crops": [
+    {"value": "水稻", "label": "水稻", "clip_prompt": "a photo of a rice plant"},
     {"value": "南瓜", "label": "南瓜", "clip_prompt": "a photo of a pumpkin plant"},
     {"value": "番茄", "label": "番茄", "clip_prompt": "a photo of a tomato plant"},
     {"value": "马铃薯", "label": "马铃薯", "clip_prompt": "a photo of a potato plant"},

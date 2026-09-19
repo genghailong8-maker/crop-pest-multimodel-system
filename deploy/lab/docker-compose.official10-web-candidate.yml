@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.web.official10-candidate
+    image: crop-pest-candidate-web:official-10class-runtime-foundation-20260919
+    restart: unless-stopped
+    ports: ["127.0.0.1:13083:8787"]
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://127.0.0.1:18083

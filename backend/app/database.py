@@ -72,7 +72,11 @@ def init_database() -> None:
                 field_severity TEXT NOT NULL DEFAULT 'unknown',
                 edit_token_hash TEXT,
                 is_test INTEGER NOT NULL DEFAULT 0,
-                instance_id TEXT
+                instance_id TEXT,
+                taxonomy_version TEXT,
+                canonical_key TEXT,
+                canonical_class_name TEXT,
+                detector_model_sha256 TEXT
             )
             """
         )
@@ -93,6 +97,10 @@ def init_database() -> None:
             "is_test": "INTEGER NOT NULL DEFAULT 0",
             "instance_id": "TEXT",
             "context_json": "TEXT",
+            "taxonomy_version": "TEXT",
+            "canonical_key": "TEXT",
+            "canonical_class_name": "TEXT",
+            "detector_model_sha256": "TEXT",
         }
         for column, definition in migrations.items():
             if column not in columns:
@@ -171,6 +179,10 @@ def create_case(record: dict[str, Any]) -> dict[str, Any]:
         "edit_token_hash": record.get("edit_token_hash"),
         "is_test": int(bool(record.get("is_test", False))),
         "instance_id": record.get("instance_id") or settings.instance_id,
+        "taxonomy_version": record.get("taxonomy_version"),
+        "canonical_key": record.get("canonical_key"),
+        "canonical_class_name": record.get("canonical_class_name"),
+        "detector_model_sha256": record.get("detector_model_sha256"),
     }
     with connect() as connection:
         existing_columns = {
@@ -185,6 +197,7 @@ def create_case(record: dict[str, Any]) -> dict[str, Any]:
             "detections_json", "detector_summary_json",
             "field_severity", "severity_json", "edit_token_hash", "is_test",
             "instance_id", "context_json",
+            "taxonomy_version", "canonical_key", "canonical_class_name", "detector_model_sha256",
         ]
         insert_columns = [column for column in ordered_columns if column in existing_columns]
         names = ", ".join(insert_columns)

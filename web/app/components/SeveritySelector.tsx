@@ -5,6 +5,7 @@
 import { useState } from "react";
 
 import type { CaseRecord, SeverityLevel } from "../lib/api";
+import { resolveOfficialSeverityAsset } from "../lib/officialSeverityAssets";
 
 const LEVELS = ["mild", "moderate", "severe"] as const;
 const LABELS: Record<SeverityLevel, string> = {
@@ -38,6 +39,7 @@ export default function SeveritySelector({
     <div className="severity-options" role="radiogroup" aria-label="当前样本受害程度">
       {LEVELS.map((level) => {
         const reference = rubric.references[level];
+        const imageAsset = reference?.image_asset || resolveOfficialSeverityAsset(record, level);
         const checked = selected === level;
         return <button
           key={level}
@@ -49,8 +51,8 @@ export default function SeveritySelector({
           disabled={busy}
         >
           <span className="severity-option-image">
-            {reference?.image_asset ? <>
-              <img src={reference.image_asset} alt={`${rubric.canonical_class}${LABELS[level]}参考图`} />
+            {imageAsset ? <>
+              <img src={imageAsset} alt={`${rubric.canonical_class}${LABELS[level]}参考图`} />
               {reference.image_type === "AI_ILLUSTRATION" ? <small className="severity-image-badge">{reference.fallback_label || "AI示意图 · 仅供辅助判断"}</small> : null}
             </> : <span role="img" aria-label={`${rubric.canonical_class}${LABELS[level]}参考图待补齐`}><span>图示待补齐</span><small>{reference?.fallback_label || "AI示意图"}</small></span>}
           </span>

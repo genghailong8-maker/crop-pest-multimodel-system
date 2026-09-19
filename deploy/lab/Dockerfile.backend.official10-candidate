@@ -1,0 +1,13 @@
+FROM crop-pest-candidate-backend:16class-harms-causes-sweep-20260918
+
+ENV PYTHONPATH=/opt/ghl/backend \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /opt/ghl/backend
+COPY backend/app ./app
+COPY backend/scripts ./scripts
+COPY knowledge/official_10class_20260917 /opt/ghl/knowledge/official_10class_20260917
+COPY config/r3-taxonomy.json /opt/ghl/config/r3-taxonomy.json
+
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

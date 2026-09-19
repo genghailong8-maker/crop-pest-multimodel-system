@@ -10,6 +10,7 @@ from .search import collect_external_evidence, persisted_evidence_snapshots, pub
 from .search.curated import curated_analysis, curated_evidence_for_class, curated_public_sources
 from .search.evidence_extractor import EvidenceExtractor
 from .severity import severity_for_record
+from .taxonomy import OFFICIAL_TAXONOMY_VERSION
 
 
 ANALYSIS_SCHEMA_VERSION = "evidence-extractor-v1"
@@ -51,9 +52,12 @@ async def request_evidence_analysis(record: dict[str, Any]) -> dict[str, Any]:
     else:
         uncertainty = []
 
+    # Curated evidence is legacy-taxonomy scoped.  Official ten-class cases
+    # must never enter it through a reused numeric id such as 0 or 8.
     curated = (
         curated_evidence_for_class(class_id, class_name)
-        if isinstance(class_id, int) and class_name and confidence >= LOW_CONFIDENCE_THRESHOLD
+        if record.get("taxonomy_version") != OFFICIAL_TAXONOMY_VERSION
+        and isinstance(class_id, int) and class_name and confidence >= LOW_CONFIDENCE_THRESHOLD
         else None
     )
     if curated is not None:

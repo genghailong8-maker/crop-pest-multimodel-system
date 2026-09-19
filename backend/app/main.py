@@ -26,6 +26,14 @@ import httpx
 from markdown_it import MarkdownIt
 
 from .catalog import CLASS_CATALOG
+from .official_knowledge import (
+    knowledge_card as official_knowledge_card,
+    knowledge_document as official_knowledge_document,
+    severity_payload as official_severity_payload,
+    source_registry as official_source_registry,
+    treatment_payload as official_treatment_payload,
+    validate_bundle as validate_official_bundle,
+)
 from .case_context import (
     GROWTH_STAGE_INPUTS,
     GROWTH_STAGE_LABELS,
@@ -48,6 +56,14 @@ from .detector import DetectorUnavailable, detector, inspect_image_quality, summ
 from .context_inference import ContextInferenceUnavailable, infer_context
 from .drafts import create_draft, draft_image_path, draft_response, get_draft, update_draft
 from .r3_taxonomy import taxonomy_payload, validate_context_values
+from .taxonomy import (
+    OFFICIAL_MODEL_SHA256,
+    OFFICIAL_TAXONOMY_VERSION,
+    catalog_for_version,
+    identity_for_detection,
+    is_official,
+    legacy_insect_id_for_key,
+)
 from .knowledge import (
     build_explainability,
     get_knowledge_card,
@@ -80,7 +96,7 @@ from .severity_v2 import (
 
 MAX_UPLOAD_BYTES = 15 * 1024 * 1024
 ALLOWED_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp"}
-CROP_OPTIONS = {"玉米", "番茄", "南瓜", "马铃薯", "昆虫"}
+CROP_OPTIONS = {"水稻", "玉米", "番茄", "南瓜", "马铃薯", "昆虫"}
 PART_OPTIONS = {"叶片", "茎秆", "果实", "根部", "整株"}
 GROWTH_STAGE_OPTIONS = set(GROWTH_STAGE_INPUTS) | set(GROWTH_STAGE_LABELS)
 ENVIRONMENT_OPTIONS = {"露地", "温室", "大棚", "室内样本", "未知"}
@@ -343,12 +359,106 @@ def derive_diagnostic_risk(record: dict[str, Any], analysis: dict[str, Any] | No
     return "low"
 
 
+def runtime_catalog() -> list[dict[str, Any]]:
+    """Return the configured catalog without changing legacy defaults."""
+    return catalog_for_version(settings.taxonomy_version) if is_official(settings.taxonomy_version) else deepcopy(CLASS_CATALOG)
+
+
+def primary_detection(record: dict[str, Any]) -> dict[str, Any]:
+    summary = record.get("detector_summary") or {}
+    primary = summary.get("primary_candidate")
+    if isinstance(primary, dict):
+        return primary
+    detections = record.get("detections") or []
+    return detections[0] if detections and isinstance(detections[0], dict) else {}
+
+
+def record_identity(record: dict[str, Any]) -> dict[str, Any] | None:
+    primary = primary_detection(record)
+    if not primary:
+        return None
+    stored_version = record.get("taxonomy_version")
+    detector_version = primary.get("taxonomy_version")
+    if not stored_version and not detector_version:
+        # Pre-migration rows are not rewritten or looked up through the active
+        # catalog.  Their saved class_name is the only safe identity snapshot.
+        return {
+            "taxonomy_version": "legacy_unknown",
+            "class_id": primary.get("class_id"),
+            "canonical_key": record.get("canonical_key") or primary.get("canonical_key"),
+            "canonical_class_name": record.get("canonical_class_name") or primary.get("class_name"),
+            "class_name": record.get("canonical_class_name") or primary.get("class_name"),
+        }
+    version = str(stored_version or detector_version or settings.taxonomy_version)
+    identity = identity_for_detection(primary, version)
+    if identity is None:
+        # Historical rows may only have a saved class name.  Preserve that
+        # snapshot instead of looking it up in the active catalog.
+        return {
+            "taxonomy_version": stored_version or "legacy_unknown",
+            "class_id": primary.get("class_id"),
+            "canonical_key": record.get("canonical_key") or primary.get("canonical_key"),
+            "canonical_class_name": record.get("canonical_class_name") or primary.get("class_name"),
+            "class_name": record.get("canonical_class_name") or primary.get("class_name"),
+        }
+    identity["taxonomy_version"] = stored_version or identity["taxonomy_version"]
+    identity["canonical_key"] = record.get("canonical_key") or primary.get("canonical_key") or identity["canonical_key"]
+    identity["canonical_class_name"] = record.get("canonical_class_name") or primary.get("canonical_class_name") or primary.get("class_name") or identity["canonical_class_name"]
+    identity["class_name"] = identity["canonical_class_name"]
+    return identity
+
+
+def r31_record_adapter(record: dict[str, Any]) -> dict[str, Any]:
+    """Adapt retained official insect keys to the legacy R3.1 data ids.
+
+    This is an explicit canonical-key adapter; the official numeric ids are
+    never treated as legacy ids.
+    """
+    identity = record_identity(record)
+    if not identity or not is_official(identity.get("taxonomy_version")):
+        return record
+    legacy_id = legacy_insect_id_for_key(str(identity.get("canonical_key") or ""))
+    if legacy_id is None:
+        return record
+    adapted = deepcopy(record)
+    old_item = next((item for item in CLASS_CATALOG if item.get("id") == legacy_id), None) or {}
+    detections = [deepcopy(item) for item in (record.get("detections") or []) if isinstance(item, dict)]
+    for item in detections:
+        item["class_id"] = legacy_id
+        item["class_name"] = old_item.get("name_zh", item.get("class_name"))
+    adapted["detections"] = detections
+    summary = deepcopy(record.get("detector_summary") or {})
+    if isinstance(summary.get("primary_candidate"), dict):
+        summary["primary_candidate"]["class_id"] = legacy_id
+        summary["primary_candidate"]["class_name"] = old_item.get("name_zh", summary["primary_candidate"].get("class_name"))
+    adapted["detector_summary"] = summary
+    return adapted
+
+
+def host_knowledge_for_runtime(record: dict[str, Any]) -> dict[str, Any]:
+    identity = record_identity(record)
+    payload = host_knowledge_payload(r31_record_adapter(record))
+    if payload.get("available") and identity and is_official(identity.get("taxonomy_version")):
+        payload["class_id"] = identity["class_id"]
+        payload["taxonomy_version"] = identity["taxonomy_version"]
+        payload["canonical_key"] = identity["canonical_key"]
+        payload["canonical_class_name"] = identity["canonical_class_name"]
+    return payload
+
+
 def local_treatment_payload(record: dict[str, Any]) -> dict[str, Any]:
     detections = record.get("detections") or []
     primary = (record.get("detector_summary") or {}).get("primary_candidate") or (
         detections[0] if detections else {}
     )
     class_id = primary.get("class_id") if isinstance(primary, dict) else None
+    identity = record_identity(record)
+    if is_official(identity.get("taxonomy_version") if identity else None) and isinstance(class_id, int):
+        severity = record.get("severity")
+        if not isinstance(severity, dict):
+            severity = (record.get("analysis") or {}).get("severity")
+        level = severity.get("level") if isinstance(severity, dict) and severity.get("status") == "available" else None
+        return official_treatment_payload(class_id, str(level) if level else None)
     card = get_knowledge_card(int(class_id)) if isinstance(class_id, int) else None
     document = get_knowledge_document(int(class_id)) if isinstance(class_id, int) else None
     if card is None:
@@ -436,9 +546,30 @@ def _blocked_treatment(severity: dict[str, Any], status: str, reason: str) -> di
 
 def severity_rubric_payload(record: dict[str, Any]) -> dict[str, Any]:
     """Expose only the exact YOLO-selected V2 rubric; never guess a class."""
+    host_payload = host_knowledge_for_runtime(record)
+    host_details = host_payload.get("host_knowledge") if isinstance(host_payload, dict) else None
+    if (
+        isinstance(host_payload, dict)
+        and host_payload.get("available")
+        and host_payload.get("confirmed_host")
+        and isinstance(host_details, dict)
+        and host_details.get("severity_available")
+        and isinstance(host_details.get("severity"), dict)
+        and host_details["severity"].get("levels")
+    ):
+        return {
+            "status": "available",
+            "canonical_class": host_payload.get("canonical_class_name"),
+            "rubric": host_details["severity"]["levels"],
+            "references": host_details["severity"].get("sources") or [],
+            "source": "r31_host_knowledge",
+        }
     summary = record.get("detector_summary") or {}
     detections = record.get("detections") or []
     primary = summary.get("primary_candidate") or (detections[0] if detections else {})
+    identity = record_identity(record)
+    if identity and is_official(identity.get("taxonomy_version")):
+        return official_severity_payload(int(identity["class_id"]), str(identity.get("canonical_key") or ""))
     canonical = primary.get("class_name") if isinstance(primary, dict) else None
     if not isinstance(canonical, str):
         return {"status": "unavailable", "reason": "missing_canonical_class"}
@@ -475,6 +606,26 @@ def evidence_snapshots_for_record(record: dict[str, Any]) -> list[dict[str, Any]
 
 
 _PUBLIC_EVIDENCE_TRANSLATIONS = {
+    "Brown spot has been historically largely ignored as one of the most common and most damaging rice diseases.":
+        "水稻褐斑病长期以来常被忽视，但它是最常见且危害较重的水稻病害之一。",
+    "Brown spot caused by Bipolaris oryzae (syn. Cochliobolus miyabeanus) is a re-emerging disease worldwide.":
+        "由稻褐斑病菌引起的水稻褐斑病正在全球重新发生。",
+    "The disease can develop in areas with high relative humidity (86−100%) and temperature between 16 and 36°C.":
+        "相对湿度较高且温度处于16至36℃的地区，有利于该病发生。",
+    "Tungro incidence depends on the availability of the virus sources and vector population":
+        "东格鲁病的发生程度取决于病毒来源和媒介叶蝉种群。",
+    "Grain yield reduction due to the tungro-associated viruses and ragged stunt virus in plants varied depending on the cul ti vars and growth stage when the plants were infected":
+        "东格鲁相关病毒导致的稻谷产量下降程度，会随水稻品种和感染时的生育阶段而变化。",
+    "Grain yield loss due to tungro Tungro can potentially cause total yield loss because of the lack of effective and corrective measures":
+        "东格鲁病可能造成严重甚至全部产量损失，因为目前缺少有效的纠正性措施。",
+    "It causes leaf discoloration, stunted growth, reduced tiller numbers and sterile or partly filled grains":
+        "该病会造成叶片变色、植株生长矮化、分蘖数减少以及籽粒不育或部分灌浆。",
+    "Blister beetles damage crops by eating the foliage, so the established defoliation threshold for other insects in beans [dry edible beans, faba beans and soybeans is suggested for blister beetle control":
+        "芫菁成虫取食作物叶片，可造成叶片脱落和作物受害。",
+    "Blister beetles begin feeding on the edges of leaves eventually leaving only stems (fig. 1)":
+        "芫菁成虫从叶缘开始取食，严重时可只留下叶脉和叶柄。",
+    "Having large numbers of grasshoppers near your vegetable fields over the years can increase blister beetle numbers greatly in the general area because the larvae feed on grasshopper eggs":
+        "蔬菜田附近长期存在大量蝗虫，可能使周边芫菁数量增加，因为芫菁幼虫以蝗虫卵为食。",
     "A shortage of nitrogen supply, increased humidity, appropriate temperature, and rainy weather all increase the possibility of an EB outbreak":
         "氮素供应不足、湿度升高、温度适宜以及多雨天气，都会增加早疫病暴发的可能性。",
     # Deterministic public-language contract for the currently accepted
@@ -509,6 +660,39 @@ _PUBLIC_TRADITIONAL_TO_SIMPLIFIED = str.maketrans({
 
 def _format_public_evidence_conclusion(value: str) -> str | None:
     formatted = _PUBLIC_EVIDENCE_TRANSLATIONS.get(value, value)
+    lowered = formatted.lower()
+    if "tungro" in lowered:
+        if "incidence" in lowered and ("virus" in lowered or "vector" in lowered or "source" in lowered):
+            formatted = "东格鲁病的发生程度取决于病毒来源和媒介叶蝉种群。"
+        elif "yield" in lowered and ("reduction" in lowered or "loss" in lowered):
+            formatted = "东格鲁相关病毒可造成稻谷产量下降，损失程度会随品种和感染生育阶段而变化。"
+        elif "leaf discoloration" in lowered or "tiller" in lowered or "sterile" in lowered:
+            formatted = "东格鲁病可造成叶片变色、植株矮化、分蘖减少以及籽粒不育或部分灌浆。"
+    elif "brown spot" in lowered:
+        if "under natural conditions" in lowered:
+            return None
+        if "pathogen" in lowered or "cause brown spot" in lowered:
+            formatted = "相关病原可引起水稻褐斑病。"
+        elif "damage" in lowered or "damaging" in lowered or "disease" in lowered or "lesion" in lowered:
+            formatted = "水稻褐斑病可造成叶片病斑和植株受害。"
+    elif "high relative humidity" in lowered or ("temperature" in lowered and "disease can develop" in lowered):
+        formatted = "较高湿度和适宜温度等环境条件有利于水稻褐斑病发生。"
+    elif "blister beetle" in lowered:
+        if "because" in lowered or "increase" in lowered or "grasshopper" in lowered:
+            formatted = "周边蝗虫数量较多可能增加芫菁数量，因为其幼虫以蝗虫卵为食。"
+        elif "feed" in lowered or "damage" in lowered or "defoliation" in lowered:
+            formatted = "芫菁成虫取食作物叶片，可造成叶片脱落和作物受害。"
+    elif "gray leaf spot" in lowered or re.search(r"\bgls\b", lowered):
+        if "yellow halo" in lowered:
+            formatted = "玉米灰斑病病斑可出现黄色晕圈。"
+        elif "lesions" in lowered and ("yellow" in lowered or "tan" in lowered or "brown" in lowered):
+            formatted = "玉米灰斑病病斑可先呈黄色，随后变为黄褐色至褐色，并可能与其他叶部病害混淆。"
+        elif "lesions" in lowered:
+            formatted = "玉米灰斑病可形成叶片病斑，并造成叶部组织受害。"
+        elif "environmental conditions" in lowered or ("temperature" in lowered and "humidity" in lowered):
+            formatted = "温度、湿度和水分等环境条件有利于玉米灰斑病病斑扩展。"
+        elif "spores" in lowered or "debris" in lowered:
+            formatted = "温度和湿度升高时，病残体上的孢子形成可能增加。"
     formatted = formatted.translate(_PUBLIC_TRADITIONAL_TO_SIMPLIFIED)
     formatted = re.sub(r"\s*\|\s*", "；", formatted).strip(" ；")
     # Public Evidence is Chinese-only. Unknown English is withheld rather
@@ -596,9 +780,15 @@ def present_case(
         user_summary = "现有图片和信息足以给出可参考的辅助判断。"
         next_action = "查看发现位置、判断依据和下一步处理建议。"
 
-    r31_host_knowledge = host_knowledge_payload(record)
+    r31_host_knowledge = host_knowledge_for_runtime(record)
     response = {
         **record,
+        **({
+            "taxonomy_version": record_identity(record)["taxonomy_version"],
+            "canonical_key": record_identity(record).get("canonical_key"),
+            "canonical_class_name": record_identity(record).get("canonical_class_name"),
+            "detector_model_sha256": record.get("detector_model_sha256") or (summary.get("inference") or {}).get("model_sha256"),
+        } if record_identity(record) else {}),
         "analysis": public_analysis,
         "evidence_analysis": public_analysis.get(
             "evidence_analysis",
@@ -647,6 +837,10 @@ def health() -> dict[str, Any]:
             if settings.model_path and settings.model_path.exists()
             else "unconfigured"
         ),
+        "taxonomy_version": settings.taxonomy_version,
+        "class_count": len(runtime_catalog()),
+        "class_names": [item["name_zh"] for item in runtime_catalog()],
+        "model_sha256": settings.model_sha256 or (OFFICIAL_MODEL_SHA256 if settings.taxonomy_version == OFFICIAL_TAXONOMY_VERSION else None),
         "evidence_extractor": "deterministic_cpu",
         "public_mode": settings.public_mode,
         "storage_free_bytes": usage.free,
@@ -746,25 +940,43 @@ async def activate_instance(payload: InstanceSwitchRequest, request: Request) ->
 
 @app.get("/api/catalog/classes")
 def classes() -> list[dict[str, Any]]:
-    return CLASS_CATALOG
+    return runtime_catalog()
 
 
 @app.get("/api/catalog/knowledge")
 def knowledge() -> dict[str, Any]:
+    if settings.taxonomy_version == OFFICIAL_TAXONOMY_VERSION:
+        return {
+            "taxonomy_version": OFFICIAL_TAXONOMY_VERSION,
+            "schema_version": "official-10class-knowledge-v1",
+            "classes": [official_knowledge_card(item["id"]) for item in runtime_catalog() if item["type"] == "病害"],
+            "sources": official_source_registry(),
+            "contract": validate_official_bundle(),
+        }
     return knowledge_contract()
 
 
 @app.get("/api/catalog/classes/{class_id}/knowledge")
-def class_knowledge(class_id: int) -> dict[str, Any]:
-    card = get_knowledge_card(class_id)
+def class_knowledge(
+    class_id: int,
+    taxonomy_version: str | None = None,
+    canonical_key: str | None = None,
+) -> dict[str, Any]:
+    use_official = taxonomy_version == OFFICIAL_TAXONOMY_VERSION or settings.taxonomy_version == OFFICIAL_TAXONOMY_VERSION
+    card = official_knowledge_card(class_id, canonical_key) if use_official else get_knowledge_card(class_id)
     if card is None:
         raise HTTPException(status_code=404, detail="类别知识卡片不存在")
     return card
 
 
 @app.get("/api/catalog/classes/{class_id}/knowledge-document")
-def class_knowledge_document(class_id: int) -> dict[str, Any]:
-    document = get_knowledge_document(class_id)
+def class_knowledge_document(
+    class_id: int,
+    taxonomy_version: str | None = None,
+    canonical_key: str | None = None,
+) -> dict[str, Any]:
+    use_official = taxonomy_version == OFFICIAL_TAXONOMY_VERSION or settings.taxonomy_version == OFFICIAL_TAXONOMY_VERSION
+    document = official_knowledge_document(class_id, canonical_key) if use_official else get_knowledge_document(class_id)
     if document is None:
         raise HTTPException(status_code=404, detail="类别知识文档不存在")
     return document
@@ -942,10 +1154,20 @@ def trends(days: Annotated[int, Query(ge=7, le=30)] = 30) -> dict[str, Any]:
 def build_case_report(record: dict[str, Any]) -> dict[str, Any]:
     detections = record.get("detections") or []
     primary_id = detections[0].get("class_id") if detections else None
-    knowledge = get_knowledge_card(primary_id) if isinstance(primary_id, int) else None
+    identity = record_identity(record)
+    official = identity and is_official(identity.get("taxonomy_version"))
+    knowledge = (
+        official_knowledge_card(primary_id, identity.get("canonical_key"))
+        if official and isinstance(primary_id, int)
+        else get_knowledge_card(primary_id)
+        if isinstance(primary_id, int)
+        else None
+    )
     case_payload = present_case(record)
     knowledge_document = (
-        get_knowledge_document(primary_id)
+        official_knowledge_document(primary_id, identity.get("canonical_key"))
+        if official and isinstance(primary_id, int) and case_payload["resolution_status"] == "conclusive"
+        else get_knowledge_document(primary_id)
         if isinstance(primary_id, int) and case_payload["resolution_status"] == "conclusive"
         else None
     )
@@ -955,12 +1177,18 @@ def build_case_report(record: dict[str, Any]) -> dict[str, Any]:
         "case": case_payload,
         "knowledge": knowledge,
         "knowledge_document": knowledge_document,
-        "sources": get_knowledge_sources(knowledge["source_ids"]) if knowledge else [],
+        "sources": (
+            official_source_registry().get("sources", [])
+            if official and knowledge
+            else get_knowledge_sources(knowledge["source_ids"])
+            if knowledge
+            else []
+        ),
         "evidence_analysis": case_payload["evidence_analysis"],
         "external_sources": case_payload["sources"],
         "evidence_snapshots": evidence_snapshots_for_record(record),
         "treatment": case_payload["treatment"],
-        "prioritized_guidance": prioritized_guidance(
+        "prioritized_guidance": None if official else prioritized_guidance(
             primary_id,
             record.get("diagnostic_risk") or "unknown",
             record.get("field_severity") or "unknown",
@@ -1036,7 +1264,7 @@ def case_detail(case_id: str) -> dict[str, Any]:
 @app.get("/api/cases/{case_id}/host-knowledge")
 def case_host_knowledge(case_id: str) -> dict[str, Any]:
     record = require_visible_case(case_id)
-    payload = host_knowledge_payload(record)
+    payload = host_knowledge_for_runtime(record)
     if not payload.get("available"):
         raise HTTPException(status_code=409, detail="当前病例不是已识别的昆虫类别")
     return payload
@@ -1050,14 +1278,20 @@ def confirm_case_host(
 ) -> dict[str, Any]:
     record = require_case(case_id)
     require_edit_token(case_id, x_case_edit_token)
-    payload = host_knowledge_payload(record)
+    payload = host_knowledge_for_runtime(record)
     if not payload.get("available"):
         raise HTTPException(status_code=409, detail="当前病例不是已识别的昆虫类别")
     confirmed_host = request.confirmed_host.strip()
-    if confirmed_host not in confirmable_hosts(record):
+    if confirmed_host not in confirmable_hosts(r31_record_adapter(record)):
         raise HTTPException(status_code=422, detail="confirmed_host 必须是支持寄主或固定 OTHER")
     context = deepcopy(record.get("context") if isinstance(record.get("context"), dict) else {})
-    context["host_selection"] = host_selection_snapshot(record, confirmed_host)
+    context["host_selection"] = host_selection_snapshot(r31_record_adapter(record), confirmed_host)
+    identity = record_identity(record)
+    if identity and is_official(identity.get("taxonomy_version")):
+        context["host_selection"]["taxonomy_version"] = identity["taxonomy_version"]
+        context["host_selection"]["class_id"] = identity["class_id"]
+        context["host_selection"]["canonical_key"] = identity["canonical_key"]
+        context["host_selection"]["canonical_class_name"] = identity["canonical_class_name"]
     updated = update_case(case_id, context=context)
     snapshot_case_report(updated)
     return present_case(updated)
@@ -1265,6 +1499,7 @@ def confirm_r3_draft(
         **context,
         "model_prediction": draft.get("context_prediction"),
     }
+    draft_identity = identity_for_detection(draft["detections"][0], settings.taxonomy_version) if draft.get("detections") else None
     created = create_case(
         {
             "id": case_id,
@@ -1292,6 +1527,12 @@ def confirm_r3_draft(
             "diagnostic_risk": derive_diagnostic_risk(draft),
             "field_severity": "unknown",
             "severity": severity_pending_payload(),
+            "taxonomy_version": draft_identity.get("taxonomy_version") if draft_identity else None,
+            "canonical_key": draft_identity.get("canonical_key") if draft_identity else None,
+            "canonical_class_name": draft_identity.get("canonical_class_name") if draft_identity else None,
+            "detector_model_sha256": (draft.get("detector_summary") or {}).get("inference", {}).get("model_sha256")
+            if isinstance((draft.get("detector_summary") or {}).get("inference"), dict)
+            else settings.model_sha256,
             "edit_token_hash": hashlib.sha256(case_token.encode("utf-8")).hexdigest()
             if case_token
             else None,
@@ -1456,12 +1697,16 @@ def detect_case(
             *summary["review_reasons"],
             *quality["flags"],
         ]
+    detected_identity = identity_for_detection(detections[0], settings.taxonomy_version) if detections else None
     summary["explainability"] = build_explainability(
         detections,
         summary,
         quality,
         detector.last_metadata,
+        taxonomy_version=detected_identity.get("taxonomy_version") if detected_identity else None,
+        canonical_key=detected_identity.get("canonical_key") if detected_identity else None,
     )
+    detector_model_sha256 = (detector.last_metadata or {}).get("model_sha256") or settings.model_sha256
     risk_record = {
         **record,
         "quality": quality,
@@ -1474,6 +1719,10 @@ def detect_case(
         quality=quality,
         detections=detections,
         detector_summary=summary,
+        taxonomy_version=detected_identity.get("taxonomy_version") if detected_identity else None,
+        canonical_key=detected_identity.get("canonical_key") if detected_identity else None,
+        canonical_class_name=detected_identity.get("canonical_class_name") if detected_identity else None,
+        detector_model_sha256=detector_model_sha256,
         diagnostic_risk=derive_diagnostic_risk(risk_record),
     ))
 

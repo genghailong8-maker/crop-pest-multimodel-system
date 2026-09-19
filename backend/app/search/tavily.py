@@ -27,6 +27,26 @@ QUERY_VOCABULARY = {
 # Retrieval-only disambiguation for this closely named disease. The diagnosed
 # label, knowledge lookup, and evidence attribution remain unchanged.
 SEARCH_QUERY_OVERRIDES = {
+    "水稻稻瘟病": {
+        "harms": "水稻稻瘟病 叶片 病斑 白穗 不结实 减产 农业农村局",
+        "possible_causes": "水稻稻瘟病 发病条件 叶面湿润 病原菌 菌源 湿度 农业大学",
+    },
+    "水稻褐斑病": {
+        "harms": "site:knowledgebank.irri.org rice brown spot disease symptoms causes",
+        "possible_causes": "site:knowledgebank.irri.org Brown spot rice why and where it occurs humidity soil",
+    },
+    "玉米大斑病": {
+        "harms": "玉米大斑病 长椭圆 雪茄形 病斑 叶片 产量损失 农业大学",
+        "possible_causes": "玉米大斑病 发病规律 病原菌 病残体 越冬 降雨 农业技术",
+    },
+    "水稻东格鲁病毒病": {
+        "harms": "site:knowledgebank.irri.org Tungro rice what it does stunting yellow leaves tillers grains IRRI 水稻东格鲁病毒病",
+        "possible_causes": "site:knowledgebank.irri.org Tungro rice why where leafhopper virus source vector IRRI 水稻东格鲁病毒病",
+    },
+    "玉米灰斑病": {
+        "harms": "玉米灰斑病 corn gray leaf spot symptoms lesions leaf damage yield loss extension",
+        "possible_causes": "玉米灰斑病 灰斑 发病条件 流行规律 温度 湿度 降雨 病残体 病原 农业农村局 corn gray leaf spot Cercospora zeae-maydis",
+    },
     "玉米叶枯病": {
         "harms": "玉米链格孢菌叶枯病 细交链孢菌 症状 危害 叶片 叶鞘 苞叶 病斑 枯死 农业",
         "possible_causes": "玉米链格孢菌叶枯病 细交链孢菌 发病条件 流行规律 温度 湿度 菌源 病残体 传播 农业",

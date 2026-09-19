@@ -5,6 +5,8 @@ from typing import Any
 
 from .catalog import CLASS_CATALOG
 from .config import LOW_CONFIDENCE_THRESHOLD
+from .official_knowledge import knowledge_card as official_knowledge_card
+from .taxonomy import OFFICIAL_TAXONOMY_VERSION
 
 
 KNOWLEDGE_SCHEMA_VERSION = "phase9-knowledge-v2"
@@ -430,11 +432,19 @@ def build_explainability(
     summary: dict[str, Any],
     quality: dict[str, Any] | None,
     inference: dict[str, Any] | None,
+    taxonomy_version: str | None = None,
+    canonical_key: str | None = None,
 ) -> dict[str, Any]:
     primary = summary.get("primary_candidate") if isinstance(summary, dict) else None
     primary_class_id = primary.get("class_id") if isinstance(primary, dict) else None
     primary_confidence = primary.get("max_confidence") if isinstance(primary, dict) else None
-    card = get_knowledge_card(int(primary_class_id)) if primary_class_id is not None else None
+    card = (
+        official_knowledge_card(int(primary_class_id), canonical_key)
+        if taxonomy_version == OFFICIAL_TAXONOMY_VERSION and primary_class_id is not None
+        else get_knowledge_card(int(primary_class_id))
+        if primary_class_id is not None
+        else None
+    )
     reasons = list(summary.get("review_reasons") or []) if isinstance(summary, dict) else []
     quality_flags = list((quality or {}).get("flags") or [])
     for flag in quality_flags:

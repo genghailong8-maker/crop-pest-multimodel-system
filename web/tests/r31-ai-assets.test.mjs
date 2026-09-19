@@ -66,3 +66,13 @@ test("plant disease reference path remains untouched", async () => {
   assert.match(selector, /reference\.image_asset/);
   assert.doesNotMatch(selector, /r31SeverityAssets/);
 });
+
+test("history uses severity-v2 snapshots for labels and filtering", async () => {
+  const history = await readFile(path.join(root, "app/history/page.tsx"), "utf8");
+  assert.match(history, /item\.severity\?\.algorithm_version === "severity-v2"/);
+  assert.match(history, /historySeverityValue\(item\) === severity/);
+  assert.match(history, /historySeverityLabel\(item\)/);
+  assert.match(history, /option value="mild"/);
+  assert.match(history, /option value="moderate"/);
+  assert.match(history, /option value="severe"/);
+});

@@ -34,7 +34,10 @@ export default function CasePage() {
   async function loadKnowledge(nextRecord: CaseRecord) {
     const classId = nextRecord.detector_summary?.primary_candidate?.class_id ?? nextRecord.detections?.[0]?.class_id;
     if (!isConclusive(nextRecord) || classId == null) { setKnowledge(null); return; }
-    try { setKnowledge(await readJson<KnowledgeDocument>(await fetch(apiUrl(`/api/catalog/classes/${classId}/knowledge-document`)))); }
+    const params = new URLSearchParams();
+    if (nextRecord.taxonomy_version) params.set("taxonomy_version", nextRecord.taxonomy_version);
+    if (nextRecord.canonical_key) params.set("canonical_key", nextRecord.canonical_key);
+    try { setKnowledge(await readJson<KnowledgeDocument>(await fetch(apiUrl(`/api/catalog/classes/${classId}/knowledge-document?${params.toString()}`)))); }
     catch { setKnowledge(null); }
   }
 

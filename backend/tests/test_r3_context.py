@@ -8,6 +8,7 @@ from PIL import Image
 
 from app import config, database, drafts, main
 from app.context_inference import ContextInferenceUnavailable
+from app.r3_taxonomy import taxonomy_payload, validate_context_values
 
 
 def image_bytes() -> bytes:
@@ -135,3 +136,17 @@ def test_r3_context_failure_still_allows_manual_confirmation(tmp_path, monkeypat
         )
         assert confirmed.status_code == 201
         assert confirmed.json()["context"]["source"] == "user_confirmed"
+
+
+def test_official_plant_context_includes_rice_for_new_diseases() -> None:
+    crops = {item["value"] for item in taxonomy_payload()["crops"]}
+    assert "水稻" in crops
+    validated = validate_context_values(
+        subject_type="plant", crop_species="水稻", affected_part="叶片", insect_species=None
+    )
+    assert validated == {
+        "subject_type": "plant",
+        "crop_species": "水稻",
+        "affected_part": "叶片",
+        "insect_species": None,
+    }

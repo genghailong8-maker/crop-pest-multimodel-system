@@ -12,6 +12,7 @@ from typing import Any
 
 from .catalog import CLASS_CATALOG
 from .severity import severity_for_record
+from .taxonomy import OFFICIAL_CLASS_BY_ID, OFFICIAL_TAXONOMY_VERSION
 
 
 SYSTEM_DEFAULT_ENVIRONMENT: dict[str, Any] = {
@@ -105,6 +106,13 @@ def crop_context(record: dict[str, Any]) -> dict[str, Any]:
     detections = record.get("detections") or []
     primary = summary.get("primary_candidate") or (detections[0] if detections else {})
     class_id = primary.get("class_id") if isinstance(primary, dict) else None
+    if record.get("taxonomy_version") == OFFICIAL_TAXONOMY_VERSION and isinstance(class_id, int):
+        official_item = OFFICIAL_CLASS_BY_ID.get(class_id)
+        if official_item and official_item.get("type") == "病害":
+            crop = "水稻" if "水稻" in official_item["name_zh"] else "玉米"
+            return {"status": "available", "value": crop, "source": "yolo_class_mapping"}
+        if official_item and official_item.get("type") == "害虫":
+            return {"status": "not_applicable", "value": None, "source": None}
     mapping = CLASS_CROP_BY_ID.get(class_id) if isinstance(class_id, int) else None
     if mapping and mapping["status"] == "available_from_yolo":
         return {

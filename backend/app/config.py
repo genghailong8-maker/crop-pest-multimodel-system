@@ -61,6 +61,9 @@ class Settings:
     report_dir: Path
     control_dir: Path
     knowledge_dir: Path
+    taxonomy_version: str
+    model_sha256: str | None
+    official_knowledge_dir: Path
     gateway_mode: bool
     remote_instance_id: str
     remote_instance_label: str
@@ -130,6 +133,11 @@ def load_settings() -> Settings:
         control_dir=optional_path(os.getenv("CROP_CONTROL_DIR")) or storage_dir / "control",
         knowledge_dir=optional_path(os.getenv("CROP_KNOWLEDGE_DIR"))
         or (BACKEND_DIR.parent / "knowledge" / "baidu-baike-20260818").resolve(),
+        taxonomy_version=os.getenv("CROP_TAXONOMY_VERSION", "legacy_16class").strip()
+        or "legacy_16class",
+        model_sha256=optional_text(os.getenv("CROP_MODEL_SHA256")),
+        official_knowledge_dir=optional_path(os.getenv("CROP_OFFICIAL_KNOWLEDGE_DIR"))
+        or (BACKEND_DIR.parent / "knowledge" / "official_10class_20260917").resolve(),
         gateway_mode=env_bool("CROP_GATEWAY_MODE"),
         remote_instance_id=remote_name,
         remote_instance_label=os.getenv("CROP_REMOTE_INSTANCE_LABEL", "原 GPU 服务器").strip() or remote_name,

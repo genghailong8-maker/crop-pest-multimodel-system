@@ -1,6 +1,9 @@
 export type Detection = {
   class_id: number;
   class_name: string;
+  taxonomy_version?: string;
+  canonical_key?: string | null;
+  canonical_class_name?: string;
   class_name_en?: string;
   category_type?: string;
   confidence: number;
@@ -210,6 +213,8 @@ export type DraftRecord = {
 
 export type SeverityReference = {
   class_id: number;
+  taxonomy_version?: string;
+  canonical_key?: string;
   canonical_class: string;
   severity: "mild" | "moderate" | "severe";
   rubric_reference: string;
@@ -311,6 +316,10 @@ export type CaseRecord = {
   image_filename: string;
   image_url: string;
   status: string;
+  taxonomy_version?: string | null;
+  canonical_key?: string | null;
+  canonical_class_name?: string | null;
+  detector_model_sha256?: string | null;
   is_test: boolean;
   resolution_status: "conclusive" | "retake_required" | "no_supported_target" | "service_unavailable";
   user_summary: string;
@@ -391,9 +400,12 @@ export type HealthStatus = {
 };
 
 export type KnowledgeDocument = {
-  schema_version: "baidu-knowledge-v1";
+  schema_version: string;
   version: string;
   class_id: number;
+  taxonomy_version?: string;
+  canonical_key?: string;
+  canonical_class_name?: string;
   class_name: string;
   title: string;
   source: { title: string; url: string; attribution: string };

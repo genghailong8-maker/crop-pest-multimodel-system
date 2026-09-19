@@ -5,6 +5,7 @@ import re
 from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 from ..catalog import CLASS_CATALOG
+from ..taxonomy import OFFICIAL_CLASS_CATALOG
 from .models import QueryType, SearchEvidence, SearchSource
 
 
@@ -118,13 +119,13 @@ def _normalized_class_text(value: str) -> str:
 
 def _title_names_a_competing_class(source: SearchSource, class_name: str) -> bool:
     title = _normalized_class_text(source.title)
-    target = next((item for item in CLASS_CATALOG if item["name_zh"] == class_name), None)
+    target = next((item for item in (*CLASS_CATALOG, *OFFICIAL_CLASS_CATALOG) if item["name_zh"] == class_name), None)
     target_aliases = {
         _normalized_class_text(str(value))
         for value in ((target or {}).get("name_zh"), (target or {}).get("name_en"))
         if value
     }
-    for item in CLASS_CATALOG:
+    for item in (*CLASS_CATALOG, *OFFICIAL_CLASS_CATALOG):
         aliases = {
             _normalized_class_text(str(value))
             for value in (item.get("name_zh"), item.get("name_en"))

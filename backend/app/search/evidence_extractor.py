@@ -15,6 +15,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from ..catalog import CLASS_CATALOG
+from ..taxonomy import OFFICIAL_CLASS_CATALOG
 from .models import SearchEvidence, SearchSource
 
 
@@ -46,7 +47,7 @@ _OMISSION_PATTERN = r"(?:\[\s*(?:\.{3,}|…+)\s*\]|\.{3,}|…+)"
 _OMISSION_MARK = re.compile(_OMISSION_PATTERN)
 _SENTENCE = re.compile(rf"(?<=[。！？；!?])|\n+|(?<=[a-z0-9\)])\.\s+(?=[A-Z])|{_OMISSION_PATTERN}")
 _TRAILING_OMITTED_CONNECTOR = re.compile(r",\s*of\s*$", re.IGNORECASE)
-_OBVIOUS_LEADING_FRAGMENT = re.compile(r"^(?:and|or|but|because|which|cereus)\b", re.IGNORECASE)
+_OBVIOUS_LEADING_FRAGMENT = re.compile(r"^(?:and|or|but|because|which|cereus|under)\b", re.IGNORECASE)
 _LEADING_NUMBERED_LABEL = re.compile(
     r"^(?:(?:\d+(?:[.．]\d+)*)[\s、．.]*){1,4}"
     r"(?=(?:为害症状|危害症状|发生规律|流行规律|发生条件|发病条件|药效试验|施药方法|试验方法|试验设计))"
@@ -125,8 +126,8 @@ _RESEARCH_METADATA_PATTERN = re.compile(
     re.IGNORECASE,
 )
 _RELIABILITY = {"政府农业部门": 5, "农业科研院所": 4, "高校农学院/植保学院": 3, "农技推广/植保机构": 3, "权威农业数据库": 2, "其他可信农业专业站点": 1}
-_HARM_ACTIONS = ("咬食", "取食", "侵染", "蛀食", "吸食", "危害根", "危害叶", "为害根", "为害叶", "infect")
-_HARM_EFFECTS = ("死亡", "枯萎", "腐烂", "黄化", "病斑", "根系损伤", "叶片受损", "减产", "品质下降", "倒伏", "损伤", "受损", "缺苗", "生长受阻", "枯死", "断裂", "lesion", "necrosis", "defoliation", "yield loss", "damage", "wilt")
+_HARM_ACTIONS = ("咬食", "取食", "侵染", "蛀食", "吸食", "危害根", "危害叶", "为害根", "为害叶", "infect", "feed", "feeding")
+_HARM_EFFECTS = ("死亡", "枯萎", "腐烂", "黄化", "病斑", "根系损伤", "叶片受损", "减产", "品质下降", "倒伏", "损伤", "受损", "缺苗", "生长受阻", "枯死", "断裂", "lesion", "necrosis", "defoliation", "yield loss", "damage", "damaging", "wilt")
 _EXPERIMENT_METHOD_MARKERS = ("药效试验", "施药方法", "试验方法", "试验设计", "试验处理", "处理设置", "小区试验")
 _EXPERIMENT_CONTEXT_MARKERS = ("土壤类型", "栽培条件", "管理水平", "小区", "重复", "对照", "施药")
 _MANAGEMENT_ADVICE_MARKERS = ("适时灌溉", "合理施肥", "增施", "腐熟肥", "防治措施", "防治方法", "农业防治", "化学防治", "生物防治", "物理防治", "药剂防治", "拌种", "喷药", "喷施", "用药", "抗虫能力", "抗病能力", "壮苗")
@@ -139,7 +140,8 @@ _MANAGEMENT_ADVICE_PATTERN = re.compile(
 _MANAGEMENT_IMPERATIVE_PATTERN = re.compile(
     r"^\s*.{0,24}?(?:不种植|不宜(?:种植|栽培)?|不应(?:种植|栽培)?|避免(?:种植|栽培)?|应避免|建议|应及时|及时清除|加强(?:管理|防治)?|"
     r"防治|防止|预防|可采取|可使用|应采取|采取措施|以免|从而避免|以防|喷施|用药|施药|清除病残体|合理轮作|轮作防治|消灭虫源)"
-    r"|^\s*.{0,24}?(?:减少|控制).{0,80}(?:危害|发生|病原|虫源|病害)",
+    r"|^\s*.{0,24}?(?:减少|控制).{0,80}(?:危害|发生|病原|虫源|病害)"
+    r"|^\s*(?:要|应|需).{0,40}(?:掌握|了解|熟悉)",
     re.IGNORECASE,
 )
 _MANAGEMENT_PURPOSE_PATTERN = re.compile(
@@ -162,7 +164,7 @@ _INTERVENTION_EFFECT_PATTERN = re.compile(
     re.IGNORECASE,
 )
 _STRONG_CAUSAL_MARKERS = ("导致", "诱发", "易发生", "有利于", "盛发", "高发", "发生严重")
-_CAUSE_CONTEXT_MARKERS = ("发生条件", "发病条件", "发生规律", "流行规律", "发生原因", "高温", "低温", "温度", "高湿", "湿度", "降雨", "雨水", "积水", "土壤", "连作", "密植", "通风", "虫源", "病原", "传播", "虫卵", "成虫", "有利于", "易发生", "盛发", "高发")
+_CAUSE_CONTEXT_MARKERS = ("发生条件", "发病条件", "发生规律", "流行规律", "发生原因", "高温", "低温", "温度", "高湿", "湿度", "降雨", "雨水", "积水", "土壤", "连作", "密植", "通风", "虫源", "病原", "传播", "虫卵", "成虫", "有利于", "易发生", "盛发", "高发", "because", "increase", "favorable")
 
 # Matching-only normalization for source text. Raw/persisted evidence stays
 # verbatim; only conservative token/entity matching sees this translation.
@@ -242,6 +244,8 @@ def _is_research_context_fragment(source: SearchSource, sentence: str) -> bool:
 
 def _is_management_advice_fragment(value: str) -> bool:
     text = _plain_text(value)
+    if re.search(r"\b(?:control|threshold|insecticide|pre[- ]harvest interval|pyrethroid|spinosad|spray|application)\b", text, re.IGNORECASE):
+        return True
     if (
         _MANAGEMENT_ADVICE_PATTERN.search(text)
         or _MANAGEMENT_IMPERATIVE_PATTERN.search(text)
@@ -292,6 +296,11 @@ def _normalized(value: str) -> str:
 
 
 _CLASS_EXTRA_ALIASES = {
+    "水稻稻瘟病": ("稻瘟病", "rice blast", "Magnaporthe oryzae", "Pyricularia oryzae"),
+    "水稻褐斑病": ("褐斑病", "rice brown spot", "brown spot", "brown spot of rice", "Bipolaris oryzae"),
+    "玉米大斑病": ("大斑病", "northern corn leaf blight", "Exserohilum turcicum"),
+    "水稻东格鲁病毒病": ("东格鲁病", "tungro", "rice tungro", "tungro virus", "rice tungro virus"),
+    "玉米灰斑病": ("灰斑病", "gray leaf spot", "gray leaf spot of corn", "corn gray leaf spot", "Cercospora zeae-maydis"),
     "玉米叶枯病": ("玉米链格孢菌叶枯病",),
     # The frozen knowledge entity explicitly documents 斑疹病 as the
     # maintained Tomato bacterial speck wording; the second alias is the
@@ -304,7 +313,7 @@ _CLASS_EXTRA_ALIASES = {
 }
 _CLASS_ALIASES = {
     _normalized(item["name_zh"]): tuple(sorted({_normalized(item["name_zh"]), _normalized(item["name_en"]), *(_normalized(alias) for alias in _CLASS_EXTRA_ALIASES.get(item["name_zh"], ()))}, key=len, reverse=True))
-    for item in CLASS_CATALOG
+    for item in (*CLASS_CATALOG, *OFFICIAL_CLASS_CATALOG)
 }
 _CLASS_SECTION_ALIASES = {
     ("蝗总科", "harms"): ("蝗虫", "蚱蜢"),
@@ -312,9 +321,14 @@ _CLASS_SECTION_ALIASES = {
 }
 
 _WRONG_ENTITY_MARKERS = {
+    "水稻褐斑病": ("narrow brown spot", "narrow brown leaf spot", "rice cercospora leaf spot", "sphaerulina oryzina", "cercospora janseana"),
     "玉米叶枯病": ("南方玉米叶枯病", "南方玉米葉枯病", "southern corn leaf blight", "cochliobolus heterostrophus", "sclb"),
 }
 _CLASS_HARM_PATTERNS = {
+    "水稻褐斑病": re.compile(r"(?:褐斑|brown spot|lesion|病斑).{0,80}(?:叶片|稻穗|谷粒|产量|枯死|leaf|grain|yield|damage|damaging)"),
+    "水稻东格鲁病毒病": re.compile(r"(?:矮化|黄化|分蘖|穗|籽粒|stunt|yellow|tiller|panicle|grain|yield).{0,80}(?:水稻|东格鲁|rice|tungro|reduction|loss|sterile)"),
+    "玉米灰斑病": re.compile(r"(?:灰斑|gray leaf spot|lesion|病斑).{0,80}(?:叶片|枯死|产量|leaf|kill|yield|damage)"),
+    "芫菁": re.compile(r"(?:芫菁|成虫|主食|取食|危害|beetle|adult|feed).{0,60}(?:豆科|叶片|作物|植物|legume|leaf|crop|plant|damage|damaging)"),
     "玉米叶枯病": re.compile(r"玉米链格孢菌叶枯病.{0,48}主要侵染.{0,36}(?:叶片|叶鞘|苞叶)"),
     "南瓜白粉病": re.compile(r"(?:主要侵染(?:叶片|叶柄|茎)|白色粉状小霉点)"),
     "盲蝽科": re.compile(r"刺吸.{0,36}(?:坏死|畸形|穿孔|皱缩|焦枯)"),
@@ -322,6 +336,12 @@ _CLASS_HARM_PATTERNS = {
     "蝗总科": re.compile(r"(?:重大害虫|极大危害|吃掉大量.{0,24}植物枝叶)"),
 }
 _CLASS_CAUSE_PATTERNS = {
+    "水稻稻瘟病": re.compile(r"(?:稻瘟病|rice blast).{0,70}(?:发生|发病|流行|爆发|传播).{0,80}(?:条件|温度|湿度|降雨|湿润|病原|菌源|品种|孢子)|(?:菌源|病原菌|叶面湿润|高湿度).{0,60}(?:稻瘟病|rice blast|发生|传播|发病)"),
+    "水稻褐斑病": re.compile(r"(?:高相对湿度|湿度|温度|降雨|叶片湿|病残体|带菌种子|种子).{0,60}(?:发生|发病|传播|流行|有利|感染)|(?:发生|发病).{0,60}(?:温度|湿度|降雨|土壤|肥力)|(?:disease can develop|high relative humidity|temperature between).{0,100}(?:humidity|temperature|soil|infection|develop)"),
+    "玉米大斑病": re.compile(r"(?:温度|雨水|湿度|病残体|分生孢子|气流|传播).{0,60}(?:发生|发病|流行|决定|传播|有利)|(?:发病|发生).{0,60}(?:温度|雨水|湿度|病残体)"),
+    "水稻东格鲁病毒病": re.compile(r"(?:叶蝉|病毒源|感染水稻|媒介|传播).{0,60}(?:传播|感染|发生|发病|取食|媒介)|(?:incidence|transmit|transmitted|vector|leafhopper).{0,80}(?:tungro|virus|plant|rice)"),
+    "玉米灰斑病": re.compile(r"(?:温度|湿度|降雨|病残体|孢子|病原|weather|humidity|rain|residue).{0,70}(?:发生|发病|流行|传播|有利|development|infection|disease)|(?:disease|infection).{0,70}(?:humidity|rain|residue|temperature)"),
+    "芫菁": re.compile(r"(?:芫菁|成虫|幼虫).{0,50}(?:出现|发生|群聚|越冬|土壤|寄主|主食|豆科|活动)|(?:beetle|adult|larva).{0,60}(?:host|soil|occur|feed|legume|overwinter)"),
     "番茄斑枯病": re.compile(r"(?:病残体.{0,24}越冬|阴雨.{0,24}(?:流行|发生)|气温.{0,24}阴雨.{0,24}(?:流行|发生))"),
     "南瓜白粉病": re.compile(r"(?:高温干旱|高温高湿|高温.{0,12}高湿).{0,36}(?:易暴发|暴发|适发温度|相对湿度)|(?:秋末干季|冬季).{0,20}发生"),
     "番茄细菌性斑点病": re.compile(r"(?:传播途径|種子傳播|种子传播|雨水飞溅|雨水飛濺|适宜发病|適宜發病|最适发病温度|高湿高降雨量|高濕高降雨量|病原菌.{0,24}(?:种子|種子).{0,24}(?:污染|帶菌|带菌).{0,24}(?:传|傳播))"),
@@ -594,7 +614,7 @@ class EvidenceExtractor:
             return 0
         if _is_research_context_fragment(source, sentence):
             return 0
-        if _is_management_advice_fragment(sentence):
+        if _is_management_advice_fragment(sentence) and not (section == "harms" and _has_class_harm_pattern(class_name, sentence)):
             return 0
         if _is_wrong_entity_fragment(class_name, source, sentence):
             return 0
@@ -603,6 +623,8 @@ class EvidenceExtractor:
         if section == "harms" and _is_reverse_locust_harm(class_name, sentence):
             return 0
         if _is_obvious_leading_fragment(sentence):
+            return 0
+        if re.match(r"^\s*(?:fig(?:ure)?\.?|图\s*\d+)", sentence, re.IGNORECASE):
             return 0
         if _is_obvious_toc_fragment(sentence):
             return 0
