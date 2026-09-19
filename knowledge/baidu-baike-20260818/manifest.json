@@ -1,0 +1,384 @@
+{
+  "schema_version": "baidu-knowledge-v1",
+  "version": "baidu-baike-20260818",
+  "source": {
+    "title": "百度百科",
+    "url": "https://baike.baidu.com/",
+    "attribution": "知识内容来源：百度百科（由项目组整理，知识库版本 2026-08-18）"
+  },
+  "documents": [
+    {
+      "class_id": 0,
+      "class_name": "玉米叶枯病",
+      "document": "documents/00.md",
+      "document_sha256": "34050ebcdcc1a2d407e14e4b4b40ce49ddb077ecec9458b3a1275089a39482eb",
+      "images": [
+        {
+          "path": "assets/0/1.jpg",
+          "sha256": "ea2d34f243f914aa55c82c0b4ede1c99fec27debbb8b77d07dc8720f316ba30a"
+        }
+      ]
+    },
+    {
+      "class_id": 1,
+      "class_name": "番茄斑枯病",
+      "document": "documents/01.md",
+      "document_sha256": "ed0931ee0da1a878ece218b49aa695dd4ff7b9edc09b775ffdec7526b8fdba1b",
+      "images": [
+        {
+          "path": "assets/1/1.jpg",
+          "sha256": "d81179e9295f87e8bcc2f5ff7bab96293b618f72ebf6205ac0edfce5878e7cf9"
+        },
+        {
+          "path": "assets/1/2.jpg",
+          "sha256": "1f82b67a09f091d0e7d2df881dae85c784f93a81ed74b45e7bc02137b4fdb0b0"
+        },
+        {
+          "path": "assets/1/3.jpg",
+          "sha256": "13c11df12a26a0b6b87167b47a851848ea6160f6b64c7ddaf4bb45514a8ad843"
+        },
+        {
+          "path": "assets/1/4.jpg",
+          "sha256": "6635e39e7b5f248685bded81766fbaf67492eee5f5df6f617acef42b634563ad"
+        }
+      ]
+    },
+    {
+      "class_id": 2,
+      "class_name": "南瓜白粉病",
+      "document": "documents/02.md",
+      "document_sha256": "fdb3baa5d93c6c48b2bc7f7ca3f7ed8365bba9780140100f4d8a1d462041fbf4",
+      "images": [
+        {
+          "path": "assets/2/1.jpg",
+          "sha256": "0825093e7c15b534625bf1454a79070e1d2784735e6e7be872216f5b3efa7b81"
+        },
+        {
+          "path": "assets/2/2.jpg",
+          "sha256": "148fe1cadd1c0c71d222d865b4b21133ba2c1e111f62534ef87926452bf72268"
+        },
+        {
+          "path": "assets/2/3.jpg",
+          "sha256": "dafcdf45cb1e21b3103949895267dad7868a4c57b38ea5d65d668c8d8dd98909"
+        },
+        {
+          "path": "assets/2/4.jpg",
+          "sha256": "dd2c62648483327e7829ac513ae6fffb42faa373d0f7931af0fd0d29ec8f2ce3"
+        }
+      ]
+    },
+    {
+      "class_id": 3,
+      "class_name": "马铃薯早疫病",
+      "document": "documents/03.md",
+      "document_sha256": "6f2c05fdce2b27cd1260bf55f9bd1da82584ed2cb9f12f6f61ba5faaddf557ac",
+      "images": [
+        {
+          "path": "assets/3/1.jpg",
+          "sha256": "07c015f65944f15ee0292774e5ffe23ec26cb8c174bf5b978bc8a75659454d0b"
+        },
+        {
+          "path": "assets/3/2.jpg",
+          "sha256": "bcc96af0d0d8a5e9fd50f2d6c695d22464edce31283b113a08da5f02939c18e2"
+        },
+        {
+          "path": "assets/3/3.jpg",
+          "sha256": "9cf53cae6e7b18ab015c3ced7dc41d719e52e3b01201c384d780eebd8ad99401"
+        },
+        {
+          "path": "assets/3/4.jpg",
+          "sha256": "878ec3dccf930676a3879143ec6b3c4bc8f808ad2abb3d3ecb217e1736180ff7"
+        }
+      ]
+    },
+    {
+      "class_id": 4,
+      "class_name": "玉米锈病",
+      "document": "documents/04.md",
+      "document_sha256": "5142666b8d40e1ce1f6dcef67e8f935c1da104fb23d25aab0bcefb5191440f75",
+      "images": [
+        {
+          "path": "assets/4/1.jpg",
+          "sha256": "8223aa891936369031903fd4765f78efa2f3a39de1bb6e0cbc4bda8b38dc00ed"
+        },
+        {
+          "path": "assets/4/2.jpg",
+          "sha256": "a0fe1c649cbc59640e7a9a0d1170ed65a3b68d88882976022d7de8b4e13729bd"
+        },
+        {
+          "path": "assets/4/3.jpg",
+          "sha256": "ecd6b9e3180e681e3f396b6969e1f090a062d8b667129f2bbc1f35921768e567"
+        },
+        {
+          "path": "assets/4/4.jpg",
+          "sha256": "ae6e4033308575def9b0f9159585a61953640df89defa26c98cb9c5d5a719f34"
+        }
+      ]
+    },
+    {
+      "class_id": 5,
+      "class_name": "番茄细菌性斑点病",
+      "document": "documents/05.md",
+      "document_sha256": "bbcb325d8b7b9d3ac3f2513de6a7949353905250c0c0a3485b85beb6a8436400",
+      "images": [
+        {
+          "path": "assets/5/1.jpg",
+          "sha256": "618daf39326b0b5efe2abdc1c4278f6af8b7a6309ac00635797acfddb9bf9036"
+        },
+        {
+          "path": "assets/5/2.jpg",
+          "sha256": "330a38b5fc06da6a8193477c444713d06cc8359f921fad846f37f93f2ee7bb29"
+        },
+        {
+          "path": "assets/5/3.jpg",
+          "sha256": "887ffcc6ed8741e6826ef75e4e6a40e2c526491830ddad5fe9b212470ae2e6a2"
+        },
+        {
+          "path": "assets/5/4.jpg",
+          "sha256": "344051bc01b20ad06537c4363648dc75bb48c94ff22d38ef6a399b2580fb1b29"
+        }
+      ]
+    },
+    {
+      "class_id": 6,
+      "class_name": "番茄晚疫病",
+      "document": "documents/06.md",
+      "document_sha256": "8b3966489809683e9b56e158d6987d843efd8df683d16881ee3ecf68edf116d2",
+      "images": [
+        {
+          "path": "assets/6/1.jpg",
+          "sha256": "fe041a14de0962700936d04f0f076ee0695f490cb8de40b2dda1aa71d58987b0"
+        },
+        {
+          "path": "assets/6/2.jpg",
+          "sha256": "8d53e43b095fe22bac5df7592679654b64c0a3c72f60a0399b82b03b27bb41ac"
+        },
+        {
+          "path": "assets/6/3.jpg",
+          "sha256": "01d350d84d4fa01905fc434856acf881d2535022ad8522e056cdd9ff308c1a73"
+        },
+        {
+          "path": "assets/6/4.jpg",
+          "sha256": "41fde730d862fda6c7196b6202e145d23dfe295648a9a05459d8e4a576757099"
+        }
+      ]
+    },
+    {
+      "class_id": 7,
+      "class_name": "马铃薯晚疫病",
+      "document": "documents/07.md",
+      "document_sha256": "83cef5be76f22017305041e9bf007adfe20fdaa290c3cf111100c556ea1a866b",
+      "images": [
+        {
+          "path": "assets/7/1.jpg",
+          "sha256": "18e687f88400abdd30fa777389788a71aadde42088b29342b347f23723043ac2"
+        },
+        {
+          "path": "assets/7/2.jpg",
+          "sha256": "57fd0474be505d76c772082d37a955d60dcc5641162f4051e82857bb41bd50ec"
+        },
+        {
+          "path": "assets/7/3.jpg",
+          "sha256": "de4af8b4cc34f964a7c0a2b12c63f0541877fa78ccef7acfefc0f03d58a12ab5"
+        },
+        {
+          "path": "assets/7/4.jpg",
+          "sha256": "c3394cda98b2615657cee7e8c1a4e6c85676f408e2be2836464e57009655f539"
+        }
+      ]
+    },
+    {
+      "class_id": 8,
+      "class_name": "芫菁",
+      "document": "documents/08.md",
+      "document_sha256": "24fc81f29aa8559727938783c17bee8a2c77b6cfa0b97c9d390b26244bd149f3",
+      "images": [
+        {
+          "path": "assets/8/1.jpg",
+          "sha256": "a877ade0ee8c00397044bf4941fa358f5d8eb93f8d966170ec070e1a2c83f10b"
+        },
+        {
+          "path": "assets/8/2.jpg",
+          "sha256": "a2f43b36ff78c4f245528a3696c4377d764d17a67cf67179e2343b5f0a11b9ad"
+        },
+        {
+          "path": "assets/8/3.jpg",
+          "sha256": "0f7a9d7b2c0d90bfba6525f0a7b6ae6d020e89574f3276803938ee024b5f1f6e"
+        },
+        {
+          "path": "assets/8/4.jpg",
+          "sha256": "e5a84415d7e9331d7e235e987d309c85f62a6f13746faef11653ace37462360d"
+        }
+      ]
+    },
+    {
+      "class_id": 9,
+      "class_name": "蚜虫",
+      "document": "documents/09.md",
+      "document_sha256": "e4404c348ceee7e142d861c1848c3de15aa07fddbfaf0853c3a6431b5a59dfa0",
+      "images": [
+        {
+          "path": "assets/9/1.jpg",
+          "sha256": "42f0a0c2175cd6adb7952efafe3f531b37123161640621a231ad28d7517e9602"
+        },
+        {
+          "path": "assets/9/2.jpg",
+          "sha256": "f7356124a53590f9ff1ffd3e8661c8b6797ba5107c41727fc80ee639c41232b5"
+        },
+        {
+          "path": "assets/9/3.jpg",
+          "sha256": "b25d5a40bc64b59ec748bb8d6e5c3f7f6384314804873b324856d26a4b4fca62"
+        },
+        {
+          "path": "assets/9/4.jpg",
+          "sha256": "217e284a6826526b515628a35ab704fa208ef3c8af05f8e2324bcd549b6c6727"
+        }
+      ]
+    },
+    {
+      "class_id": 10,
+      "class_name": "盲蝽科",
+      "document": "documents/10.md",
+      "document_sha256": "e805418f3f6b5c07924e0b58b4a90d7ae8cf179856e9adf4d583a81261eb7b18",
+      "images": [
+        {
+          "path": "assets/10/1.jpg",
+          "sha256": "001c00bcba926f878fc898084d8ea14e3a47be05cb10edd41565d2630e0ffb0e"
+        },
+        {
+          "path": "assets/10/2.jpg",
+          "sha256": "9290a9903626babd31c2d930bbeb98f378043eab7c2bf0cb8e75d5e5341141d5"
+        },
+        {
+          "path": "assets/10/3.jpg",
+          "sha256": "d1dfd80ff112a6afb92816d44d23cb12b802ba01859b4be7a0db1982f123f609"
+        },
+        {
+          "path": "assets/10/4.jpg",
+          "sha256": "b460694ef1ecdaed65d6b768f7b7bd143ed46c7047c631f4c71c82496f174d88"
+        }
+      ]
+    },
+    {
+      "class_id": 11,
+      "class_name": "蝼蛄",
+      "document": "documents/11.md",
+      "document_sha256": "f939ead8f1b4c6be52b52e6476ea6d08edbf722a83127aec480feebb9e56ec07",
+      "images": [
+        {
+          "path": "assets/11/1.jpg",
+          "sha256": "23b37faf812b75cbfffe6c578b28f27f01e93b3f03af0971c72672bac9fe04a5"
+        },
+        {
+          "path": "assets/11/2.jpg",
+          "sha256": "c7009debfb9c12419c7c093c1d8bac9acbe8afbc522093c73c412cd89a10a9bd"
+        },
+        {
+          "path": "assets/11/3.jpg",
+          "sha256": "701644f303ae32e2a42efae80c3ba5a1041a4ca06e49d1cac0421d88351f7caa"
+        },
+        {
+          "path": "assets/11/4.jpg",
+          "sha256": "decc7abf9435e6b25843146c9a6dc863b2c34225c9e7034a87ee0c715c730ee1"
+        }
+      ]
+    },
+    {
+      "class_id": 12,
+      "class_name": "叶蝉科",
+      "document": "documents/12.md",
+      "document_sha256": "09a72559648f7d08dc00d7dfcf3bd2dbc59d59e6d1a119c3447a5051d936a99d",
+      "images": [
+        {
+          "path": "assets/12/1.jpg",
+          "sha256": "8b68618d94aa282f40010cf6fbdb7be5b1f723ca1c7199bbfc40d6336bdc8c75"
+        },
+        {
+          "path": "assets/12/2.jpg",
+          "sha256": "2717c163f419866f7b6c7e9cb87f5dc6ebbf214f560baf1dbf9117dde9e1d8a3"
+        },
+        {
+          "path": "assets/12/3.jpg",
+          "sha256": "aae6c3b4adc04a877ffd7651c6034c5ece1d7aedc0bcb01718862a9dece29b99"
+        },
+        {
+          "path": "assets/12/4.jpg",
+          "sha256": "9d9c2df9b530009414a490f51a27cd548bcbb901de814941cee215cc46987851"
+        }
+      ]
+    },
+    {
+      "class_id": 13,
+      "class_name": "蝗总科",
+      "document": "documents/13.md",
+      "document_sha256": "e379b2d26de154b88e798efc55911247c9a5d27a6579efdfd8cc5d151ff98ec0",
+      "images": [
+        {
+          "path": "assets/13/1.jpg",
+          "sha256": "4e8d8c366db12dab828e41d69ca995f329f05b4d538adc705e6eac07840d9003"
+        },
+        {
+          "path": "assets/13/2.jpg",
+          "sha256": "686401f027b9df3e9617979b1354f4098bd609e171be72cd2e40a981354f8cdf"
+        },
+        {
+          "path": "assets/13/3.jpg",
+          "sha256": "5d32bbde456eb6dfcf439a6e29e3c12933bd0c0904d5fd5d37d04a43fb4e8c45"
+        },
+        {
+          "path": "assets/13/4.jpg",
+          "sha256": "40a5e63398ce59bc1f85041d432d3c6d46911e264c45bbaec74ed8e008672057"
+        }
+      ]
+    },
+    {
+      "class_id": 14,
+      "class_name": "蛴螬",
+      "document": "documents/14.md",
+      "document_sha256": "bf72df6f7992e1d9b47ed86a5ba2d481ecc3d7975dfe850dcdac2094e34f393c",
+      "images": [
+        {
+          "path": "assets/14/1.jpg",
+          "sha256": "3da2e79a220f2a7554b8197e706ea53cd7b998e21e9b496bd3642a97e021ee8b"
+        },
+        {
+          "path": "assets/14/2.jpg",
+          "sha256": "43eff2c69fbdf3fd31bdec13861688971d26b727ec7a745bf0d84f5e18d577a0"
+        },
+        {
+          "path": "assets/14/3.jpg",
+          "sha256": "e719c3fdc99adbd69cd73cb97fdc5010fc87ba96e961b7dd420498e4831154d6"
+        },
+        {
+          "path": "assets/14/4.jpg",
+          "sha256": "34a5c67cbfffa636beec0dfdf4a027bff64741c578303402a741096d290ffd1e"
+        }
+      ]
+    },
+    {
+      "class_id": 15,
+      "class_name": "豆芫菁",
+      "document": "documents/15.md",
+      "document_sha256": "27908b08d8b11aca54c77b2a3da533807f9580e55278529c8f4f6f929a7dd057",
+      "images": [
+        {
+          "path": "assets/15/1.jpg",
+          "sha256": "b68db54ad703d98b7f1402f6f010087ecd71a800747429f276681aca7e341145"
+        },
+        {
+          "path": "assets/15/2.jpg",
+          "sha256": "0f3221ca542364d61c4bb398ded760baf9d1bc62232740408b4cd851d6b9cbd6"
+        },
+        {
+          "path": "assets/15/3.jpg",
+          "sha256": "54a760f3017c011bf7f4ed90841d756f4eb1884c2ddccd1bc84d28848cc2cbec"
+        },
+        {
+          "path": "assets/15/4.jpg",
+          "sha256": "75a18905f4c3d8f9c216584f42fedd3f402804c759981f15da1bcd7ea5eaef67"
+        }
+      ]
+    }
+  ],
+  "referenced_image_count": 61
+}

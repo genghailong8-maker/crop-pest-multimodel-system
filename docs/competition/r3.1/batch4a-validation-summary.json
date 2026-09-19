@@ -1,0 +1,315 @@
+{
+  "batch": "R3.1 Batch 4A — Final Evidence Sprint",
+  "generated_at": "2026-09-07",
+  "overall": "PASS_WITH_NEEDS_EVIDENCE",
+  "results": {
+    "validate_r31": {
+      "exit_code": 1,
+      "status": "NEEDS_EVIDENCE",
+      "payload": {
+        "status": "NEEDS_EVIDENCE",
+        "documents": {
+          "8": {
+            "status": "NEEDS_EVIDENCE",
+            "issues": []
+          },
+          "9": {
+            "status": "NEEDS_EVIDENCE",
+            "issues": []
+          },
+          "10": {
+            "status": "NEEDS_EVIDENCE",
+            "issues": []
+          },
+          "11": {
+            "status": "NEEDS_EVIDENCE",
+            "issues": []
+          },
+          "12": {
+            "status": "NEEDS_EVIDENCE",
+            "issues": []
+          },
+          "13": {
+            "status": "NEEDS_EVIDENCE",
+            "issues": []
+          },
+          "14": {
+            "status": "NEEDS_EVIDENCE",
+            "issues": []
+          },
+          "15": {
+            "status": "NEEDS_EVIDENCE",
+            "issues": []
+          }
+        },
+        "evidence_summary": {
+          "counts": {
+            "insect_host:COMPLETE": 39,
+            "insect_host:NEEDS_EVIDENCE": 75,
+            "plant_disease:COMPLETE": 24,
+            "vector_disease:COMPLETE": 3,
+            "vector_disease:NEEDS_EVIDENCE": 9
+          },
+          "record_count": 150,
+          "treatment_audit_count": 38,
+          "registry_path": "C:\\Users\\genghailong\\.codex\\worktrees\\d7bb\\编程大赛\\knowledge\\insect-host-r3.1\\severity-evidence.json"
+        },
+        "capability_summary": {
+          "record_count": 38,
+          "status_counts": {
+            "FULL": 13,
+            "PARTIAL": 25,
+            "REJECTED": 0
+          },
+          "severity_available_hosts": 13,
+          "host_general_treatments": 38,
+          "general_insect_treatments": 8,
+          "registry_path": "C:\\Users\\genghailong\\.codex\\worktrees\\d7bb\\编程大赛\\knowledge\\insect-host-r3.1\\capability-fallback.json"
+        },
+        "issues": []
+      }
+    },
+    "validate_narrow_correction": {
+      "exit_code": 0,
+      "status": "PASS",
+      "payload": {
+        "status": "PASS",
+        "checks": [
+          {
+            "name": "critical_source_reachability",
+            "passed": true,
+            "detail": "bad=[] total=47"
+          },
+          {
+            "name": "taxonomic_scope_metadata",
+            "passed": true,
+            "detail": "bad=0 total=126"
+          },
+          {
+            "name": "epicauta_gorhami_exact_species",
+            "passed": true,
+            "detail": "records=3"
+          },
+          {
+            "name": "soy_vector_replacement",
+            "passed": true,
+            "detail": "APS source present"
+          },
+          {
+            "name": "wheat_vector_replacement",
+            "passed": true,
+            "detail": "UNL source present"
+          },
+          {
+            "name": "soybean_aphid_treatment_entailment",
+            "passed": true,
+            "detail": "unsupported=[]"
+          },
+          {
+            "name": "host_general_entailment_metadata",
+            "passed": true,
+            "detail": "host_specific=38/38 downgraded=0"
+          },
+          {
+            "name": "prompt_positive_feature_provenance",
+            "passed": true,
+            "detail": "traceable=39 expected=39 bad=[]"
+          },
+          {
+            "name": "source_semantic_review_fields",
+            "passed": true,
+            "detail": "evidence=['NEEDS_REVIEW', 'PASS'] treatment=['PASS']"
+          },
+          {
+            "name": "source_entailment_review_flag",
+            "passed": true,
+            "detail": "bad=0"
+          }
+        ],
+        "counts": {
+          "prompt_traceable": 39,
+          "prompt_needs_evidence": 75,
+          "host_specific_treatment": 38,
+          "downgraded_to_insect_general": 0
+        },
+        "SOURCE_SEMANTIC_REVIEW": "PASS"
+      }
+    },
+    "validate_archive": {
+      "exit_code": 0,
+      "status": "PASS",
+      "payload": {
+        "status": "PASS",
+        "checks": [
+          {
+            "name": "insect_count",
+            "passed": true,
+            "detail": "archive=8 ssot=8"
+          },
+          {
+            "name": "host_count",
+            "passed": true,
+            "detail": "archive=38 ssot=38"
+          },
+          {
+            "name": "severity_texts",
+            "passed": true,
+            "detail": "missing=0 total=150"
+          },
+          {
+            "name": "severity_provenance_markers",
+            "passed": true,
+            "detail": "missing=0 total=150"
+          },
+          {
+            "name": "source_registry",
+            "passed": true,
+            "detail": "missing=[] total=48"
+          },
+          {
+            "name": "critical_source_reachability",
+            "passed": true,
+            "detail": "bad=[]"
+          },
+          {
+            "name": "taxonomic_scope_metadata",
+            "passed": true,
+            "detail": "archive_taxon=682 archive_level=275 ssot=126"
+          },
+          {
+            "name": "capabilities",
+            "passed": true,
+            "detail": "missing=0 total=38"
+          },
+          {
+            "name": "fallback_levels",
+            "passed": true,
+            "detail": "missing=0 total=38"
+          },
+          {
+            "name": "vector_relations",
+            "passed": true,
+            "detail": "missing=0 total=4"
+          },
+          {
+            "name": "treatment_texts",
+            "passed": true,
+            "detail": "missing=0 total=154"
+          },
+          {
+            "name": "prompt_positive_feature_gate",
+            "passed": true,
+            "detail": "traceable=39 expected=39"
+          },
+          {
+            "name": "archive_parity_marker",
+            "passed": true,
+            "detail": "marker must be promoted only after parity validation"
+          },
+          {
+            "name": "contract_terms",
+            "passed": true,
+            "detail": "missing=[]"
+          }
+        ]
+      }
+    },
+    "taxonomy_scope_validation": {
+      "exit_code": 0,
+      "status": "PASS",
+      "payload": {
+        "status": "PASS",
+        "checks": [
+          {
+            "name": "source_reachability",
+            "passed": true,
+            "detail": "critical=47 bad=[]"
+          },
+          {
+            "name": "R31-08-ORDOS_resilience",
+            "passed": true,
+            "detail": "historical=UNREACHABLE_2026-09-07_SEARCH_INDEX_ONLY backups=['R31-08-CAU-BACKUP', 'R31-08-BEIJING-STANDARD']"
+          },
+          {
+            "name": "evidence_count",
+            "passed": true,
+            "detail": "insect_host_records=114"
+          },
+          {
+            "name": "full_capability_parity",
+            "passed": true,
+            "detail": "full=13 complete_cells=39"
+          },
+          {
+            "name": "taxonomy_scope_and_semantic_review",
+            "passed": true,
+            "detail": "bad=[] total_complete=39"
+          },
+          {
+            "name": "source_id_resolution",
+            "passed": true,
+            "detail": "referenced=46 dangling=[]"
+          },
+          {
+            "name": "unsupported_quantitative_guard",
+            "passed": true,
+            "detail": "bad=[]"
+          },
+          {
+            "name": "duplicate_rubric_guard",
+            "passed": true,
+            "detail": "duplicate_groups=0"
+          },
+          {
+            "name": "prompt_provenance_gate",
+            "passed": true,
+            "detail": "traceable=39 expected=39 bad=[]"
+          },
+          {
+            "name": "prompt_positive_visual_features",
+            "passed": true,
+            "detail": "negative_mapping=[]"
+          },
+          {
+            "name": "WHY_NOT_UPGRADED_register",
+            "passed": true,
+            "detail": "path=C:\\Users\\genghailong\\.codex\\worktrees\\d7bb\\编程大赛\\docs\\competition\\r3.1\\batch4a-why-not-upgraded.md"
+          },
+          {
+            "name": "archive_present",
+            "passed": true,
+            "detail": "path=C:\\Users\\genghailong\\.codex\\worktrees\\d7bb\\编程大赛\\docs\\competition\\r3.1\\《R3.1完整知识库归档版》.md"
+          }
+        ],
+        "counts": {
+          "insect_host_complete_cells": 39,
+          "insect_host_needs_evidence_cells": 75,
+          "full_hosts": 13,
+          "traceable_prompts": 39,
+          "critical_sources": 47
+        }
+      }
+    },
+    "prompt_provenance_validation": "PASS",
+    "source_resolution": "PASS",
+    "source_reachability": "PASS",
+    "duplicate_rubric_guard": "PASS",
+    "unsupported_quantitative_guard": "PASS",
+    "backend_capability_smoke": {
+      "status": "NOT_RUN",
+      "reason": "Knowledge-only Batch 4A; existing Backend PASS was not rerun."
+    },
+    "archive_parity": "PASS"
+  },
+  "counts": {
+    "insect_host_complete_cells": 39,
+    "insect_host_needs_evidence_cells": 75,
+    "full_hosts": 13,
+    "traceable_prompts": 39,
+    "critical_sources": 47
+  },
+  "notes": [
+    "validate_r31 status NEEDS_EVIDENCE is expected because 75 insect-host cells remain fail-closed; issues=[] and no INVALID findings.",
+    "No Backend/Web/Formal/SQLite/AI-image action was executed in this knowledge-only sprint."
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "created_at_utc": "2026-08-07T03:00:00Z",
+  "model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+  "evaluation_scope": "official frozen validation split only",
+  "image_count": 833,
+  "classes": {
+    "8": {
+      "name": "Blister beetle",
+      "ground_truth_instances": 98,
+      "recommended_shadow_threshold": 0.5,
+      "precision": 0.7380952380952381,
+      "recall": 0.6326530612244898,
+      "f1": 0.6813186813186813,
+      "major_errors": {
+        "predicted_as_class_15": 15,
+        "background_misses": 18,
+        "predicted_as_class_13": 2,
+        "predicted_as_class_12": 1
+      }
+    },
+    "15": {
+      "name": "Legume blister beetle",
+      "ground_truth_instances": 83,
+      "recommended_shadow_threshold": 0.7,
+      "precision": 0.8421052631578947,
+      "recall": 0.7710843373493976,
+      "f1": 0.8050314465408805,
+      "major_errors": {
+        "predicted_as_class_8": 13,
+        "background_misses": 4
+      }
+    }
+  },
+  "decision": "audit_complete_no_retraining_yet",
+  "rationale": "The dominant problem is bidirectional class-8/class-15 confusion. Class 8 is materially weaker; class 15 is usable at a higher operating threshold.",
+  "next_action": "Review the 30 bidirectional confusion cases first, then add visually hard class-8 positives and class-15 hard negatives before considering a pairwise expert model. Shadow-test per-class thresholds without changing production defaults."
+}

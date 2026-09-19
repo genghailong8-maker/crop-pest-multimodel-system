@@ -18,6 +18,26 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def yaml_path_value(data_path: Path, key: str) -> Path | None:
+    prefix = f"{key}:"
+    for raw_line in data_path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line.startswith(prefix):
+            continue
+        value = line[len(prefix) :].strip().strip('"').strip("'")
+        if not value or value.startswith("["):
+            return None
+        return Path(value).expanduser().resolve()
+    return None
+
+
+def list_record(path: Path | None) -> dict[str, Any] | None:
+    if path is None or not path.is_file():
+        return None
+    lines = [line for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    return {"path": str(path), "sha256": sha256(path), "non_empty_lines": len(lines)}
+
+
 def package_version(name: str) -> str | None:
     try:
         return version(name)
@@ -50,6 +70,10 @@ def main() -> None:
     model_path = args.model.expanduser().resolve(strict=True)
     data_path = args.data.expanduser().resolve(strict=True)
     project_path = args.project.expanduser().resolve()
+    dataset_lists = {
+        key: list_record(yaml_path_value(data_path, key))
+        for key in ("train", "val")
+    }
     from ultralytics import YOLO
 
     model = YOLO(str(model_path), task="detect")
@@ -99,6 +123,8 @@ def main() -> None:
             "size_bytes": model_path.stat().st_size,
         },
         "data": str(data_path),
+        "data_yaml_sha256": sha256(data_path),
+        "dataset_lists": dataset_lists,
         "configuration": {
             "device": args.device,
             "image_size": args.image_size,

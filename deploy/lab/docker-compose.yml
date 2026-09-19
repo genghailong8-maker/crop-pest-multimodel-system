@@ -1,0 +1,58 @@
+services:
+  gateway:
+    image: public.ecr.aws/docker/library/nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on: [backend, web]
+    ports: ["${CROP_HTTP_PORT:-8080}:80"]
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+  web:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.web
+    restart: unless-stopped
+    expose: ["3000"]
+
+  backend:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.backend
+    restart: unless-stopped
+    depends_on: [detector]
+    expose: ["8000"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    env_file: [.env]
+    environment:
+      CROP_STORAGE_DIR: /data/storage
+      CROP_KNOWLEDGE_DIR: /opt/ghl/knowledge/baidu-baike-20260818
+      CROP_INSTANCE_ID: lab_cpu
+      CROP_INSTANCE_LABEL: 实验室 CPU
+      CROP_GATEWAY_MODE: "true"
+      CROP_CONTROL_DIR: /data/control
+      CROP_DETECTOR_ENDPOINT: http://detector:8870/v1/detect
+    volumes:
+      - /data/ghl/storage:/data/storage
+      - /data/ghl/runtime/control:/data/control
+
+  detector:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.inference
+    restart: unless-stopped
+    expose: ["8870"]
+    env_file: [.env]
+    environment:
+      CROP_INFERENCE_DEVICE: cpu
+      CROP_INFERENCE_WARMUP: "0"
+      CROP_INFERENCE_MODEL_PATH: /models/detector/main.pt
+      CROP_INFERENCE_CLASS10_EXPERT_PATH: /models/experts/class10.pt
+      CROP_INFERENCE_CROP_EXPERT_PATH: /models/experts/crop-classifier.pt
+      CROP_INFERENCE_ROUTING_MODE: shadow
+      CROP_INFERENCE_RECLASSIFY: "0"
+    volumes:
+      - /data/ghl/models:/models:ro
+
+networks:
+  default:
+    name: ghl-internal

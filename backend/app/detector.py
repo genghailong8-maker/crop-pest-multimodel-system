@@ -7,8 +7,8 @@ from typing import Any
 import httpx
 from PIL import Image, ImageFilter, ImageStat
 
-from .catalog import CLASS_BY_ID
-from .config import settings
+from .config import LOW_CONFIDENCE_THRESHOLD, settings
+from .taxonomy import class_by_id, identity_for_detection
 
 
 class DetectorUnavailable(RuntimeError):
@@ -65,6 +65,7 @@ def inspect_image_quality(image_path: Path) -> ImageQuality:
 class UltralyticsDetector:
     def __init__(self) -> None:
         self._model: Any | None = None
+        self.last_metadata: dict[str, Any] = {}
 
     def _load(self) -> Any:
         if settings.model_path is None:
@@ -89,6 +90,10 @@ class UltralyticsDetector:
             device=settings.model_device,
             verbose=False,
         )
+        self.last_metadata = {
+            "mode": "local",
+            "model": settings.model_path.name if settings.model_path else None,
+        }
         detections: list[dict[str, Any]] = []
         if not results:
             return detections
@@ -102,7 +107,7 @@ class UltralyticsDetector:
         ):
             left, top, right, bottom = map(float, xyxy)
             class_id = int(class_id_value)
-            catalog_item = CLASS_BY_ID.get(class_id, {})
+            catalog_item = class_by_id(settings.taxonomy_version, class_id) or {}
             left_normalized = min(1.0, max(0.0, left / width))
             top_normalized = min(1.0, max(0.0, top / height))
             right_normalized = min(1.0, max(0.0, right / width))
@@ -113,6 +118,9 @@ class UltralyticsDetector:
                     "class_name": catalog_item.get("name_zh", str(class_id)),
                     "class_name_en": catalog_item.get("name_en", str(class_id)),
                     "category_type": catalog_item.get("type", "未知"),
+                    "taxonomy_version": settings.taxonomy_version,
+                    "canonical_key": catalog_item.get("canonical_key"),
+                    "canonical_class_name": catalog_item.get("canonical_class_name", catalog_item.get("name_zh", str(class_id))),
                     "confidence": round(float(confidence), 6),
                     "bbox": [
                         left_normalized,
@@ -140,7 +148,8 @@ def validate_remote_detections(payload: Any) -> list[dict[str, Any]]:
             bbox = [float(value) for value in raw["bbox"]]
         except (KeyError, TypeError, ValueError) as exc:
             raise ValueError(f"第 {index + 1} 个检测结果字段错误") from exc
-        if class_id not in CLASS_BY_ID:
+        catalog_item = class_by_id(settings.taxonomy_version, class_id)
+        if catalog_item is None:
             raise ValueError(f"视觉服务返回未知类别：{class_id}")
         if not 0 <= confidence <= 1:
             raise ValueError(f"视觉服务返回非法置信度：{confidence}")
@@ -148,13 +157,15 @@ def validate_remote_detections(payload: Any) -> list[dict[str, Any]]:
             raise ValueError("视觉服务必须返回归一化 [x, y, width, height] 框")
         if bbox[0] + bbox[2] > 1.001 or bbox[1] + bbox[3] > 1.001:
             raise ValueError("视觉服务返回的检测框超出图片范围")
-        catalog_item = CLASS_BY_ID[class_id]
         detections.append(
             {
                 "class_id": class_id,
                 "class_name": catalog_item["name_zh"],
                 "class_name_en": catalog_item["name_en"],
                 "category_type": catalog_item["type"],
+                "taxonomy_version": settings.taxonomy_version,
+                "canonical_key": catalog_item["canonical_key"],
+                "canonical_class_name": catalog_item["canonical_class_name"],
                 "confidence": round(confidence, 6),
                 "bbox": bbox,
             }
@@ -163,6 +174,9 @@ def validate_remote_detections(payload: Any) -> list[dict[str, Any]]:
 
 
 class RemoteDetector:
+    def __init__(self) -> None:
+        self.last_metadata: dict[str, Any] = {}
+
     def detect(self, image_path: Path) -> list[dict[str, Any]]:
         if not settings.detector_endpoint:
             raise DetectorUnavailable("尚未配置服务器视觉识别地址")
@@ -179,7 +193,18 @@ class RemoteDetector:
                     timeout=settings.detector_timeout_seconds,
                 )
             response.raise_for_status()
-            return validate_remote_detections(response.json())
+            payload = response.json()
+            if isinstance(payload, dict):
+                self.last_metadata = {
+                    "mode": "remote",
+                    "model_sha256": payload.get("model_sha256"),
+                    "taxonomy_version": payload.get("taxonomy_version") or settings.taxonomy_version,
+                    "speed_ms": payload.get("speed_ms"),
+                    "routing": payload.get("routing"),
+                }
+            else:
+                self.last_metadata = {"mode": "remote"}
+            return validate_remote_detections(payload)
         except (OSError, httpx.HTTPError, ValueError) as exc:
             raise DetectorUnavailable(f"服务器视觉识别调用失败：{exc}") from exc
 
@@ -188,11 +213,16 @@ class ConfiguredDetector:
     def __init__(self) -> None:
         self.remote = RemoteDetector()
         self.local = UltralyticsDetector()
+        self.last_metadata: dict[str, Any] = {}
 
     def detect(self, image_path: Path) -> list[dict[str, Any]]:
         if settings.detector_endpoint:
-            return self.remote.detect(image_path)
-        return self.local.detect(image_path)
+            detections = self.remote.detect(image_path)
+            self.last_metadata = self.remote.last_metadata
+            return detections
+        detections = self.local.detect(image_path)
+        self.last_metadata = self.local.last_metadata
+        return detections
 
 
 def summarize_detections(detections: list[dict[str, Any]]) -> dict[str, Any]:
@@ -209,11 +239,14 @@ def summarize_detections(detections: list[dict[str, Any]]) -> dict[str, Any]:
         by_class.setdefault(item["class_id"], []).append(item["confidence"])
     candidates = []
     for class_id, confidences in by_class.items():
-        catalog_item = CLASS_BY_ID.get(class_id, {})
+        catalog_item = class_by_id(settings.taxonomy_version, class_id) or {}
         candidates.append(
             {
                 "class_id": class_id,
                 "class_name": catalog_item.get("name_zh", str(class_id)),
+                "taxonomy_version": settings.taxonomy_version,
+                "canonical_key": catalog_item.get("canonical_key"),
+                "canonical_class_name": catalog_item.get("canonical_class_name", catalog_item.get("name_zh", str(class_id))),
                 "max_confidence": max(confidences),
                 "mean_confidence": sum(confidences) / len(confidences),
                 "target_count": len(confidences),
@@ -221,7 +254,7 @@ def summarize_detections(detections: list[dict[str, Any]]) -> dict[str, Any]:
         )
     candidates.sort(key=lambda item: item["max_confidence"], reverse=True)
     review_reasons: list[str] = []
-    if candidates[0]["max_confidence"] < 0.45:
+    if candidates[0]["max_confidence"] < LOW_CONFIDENCE_THRESHOLD:
         review_reasons.append("最高视觉置信度较低")
     if len(candidates) > 1 and candidates[0]["max_confidence"] - candidates[1]["max_confidence"] < 0.12:
         review_reasons.append("候选类别接近，需进行差异诊断")

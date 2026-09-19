@@ -67,7 +67,6 @@ def test_prelabel_queue_detail_image_and_review(tmp_path, monkeypatch):
         upload_dir=tmp_path / "runtime" / "uploads",
         prelabel_dir=prelabel_dir,
         detector_endpoint=None,
-        vlm_endpoint=None,
     )
     monkeypatch.setattr(database, "settings", test_settings)
     monkeypatch.setattr(main, "settings", test_settings)
@@ -114,7 +113,6 @@ def test_needs_rework_remains_in_active_queue(tmp_path, monkeypatch):
         upload_dir=tmp_path / "runtime" / "uploads",
         prelabel_dir=prelabel_dir,
         detector_endpoint=None,
-        vlm_endpoint=None,
     )
     monkeypatch.setattr(database, "settings", test_settings)
     monkeypatch.setattr(main, "settings", test_settings)

@@ -1,0 +1,3916 @@
+{
+  "schema_version": "phase8-evidence-v1",
+  "generated_at_epoch": 1786354357.205742,
+  "configuration": {
+    "val_list": "data/official/splits/val.txt",
+    "limit_per_class": 10,
+    "detector_endpoint": "http://127.0.0.1:8870/v1/detect",
+    "vlm_endpoint_protocol": "openai_chat_completions",
+    "vlm_model": "crop-pest-vlm",
+    "active_routing_allowed": false
+  },
+  "services": {
+    "detector_health": {
+      "status": "ok",
+      "model": "best.pt",
+      "model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+      "device": "0",
+      "image_size": 640,
+      "class_count": 16,
+      "routing": {
+        "mode": "shadow",
+        "reclassify": false,
+        "score_mode": "keep",
+        "candidate_confidence": 0.05,
+        "background_threshold": 0.9,
+        "target_threshold": 0.15,
+        "threshold10": 0.15,
+        "threshold13": 0.15,
+        "temperature10": 1.25,
+        "temperature13": 0.75,
+        "class10_expert_threshold": 0.0,
+        "models": {
+          "main": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071"
+          },
+          "class10_detector": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49"
+          },
+          "crop_classifier": {
+            "configured": true,
+            "loaded": true,
+            "model": "best.pt",
+            "sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c"
+          }
+        }
+      }
+    },
+    "vlm_models": {
+      "object": "list",
+      "data": [
+        {
+          "id": "crop-pest-vlm",
+          "object": "model",
+          "created": 1786353974,
+          "owned_by": "vllm",
+          "root": "/root/autodl-tmp/crop-pest-vlm/model",
+          "parent": null,
+          "max_model_len": 8192,
+          "permission": [
+            {
+              "id": "modelperm-a71079e4b3263efc",
+              "object": "model_permission",
+              "created": 1786353974,
+              "allow_create_engine": false,
+              "allow_sampling": true,
+              "allow_logprobs": true,
+              "allow_search_indices": false,
+              "allow_view": true,
+              "allow_fine_tuning": false,
+              "organization": "*",
+              "group": null,
+              "is_blocking": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "selection": {
+    "total": 160,
+    "per_class": {
+      "0": 10,
+      "1": 10,
+      "2": 10,
+      "3": 10,
+      "4": 10,
+      "5": 10,
+      "6": 10,
+      "7": 10,
+      "8": 10,
+      "9": 10,
+      "10": 10,
+      "11": 10,
+      "12": 10,
+      "13": 10,
+      "14": 10,
+      "15": 10
+    }
+  },
+  "summary": {
+    "successful": 160,
+    "failed": 0,
+    "failure_rate": 0.0,
+    "top1_accuracy": 0.8625,
+    "schema_valid_rate": 1.0,
+    "content_complete_rate": 0.58125,
+    "expected_conflict_count": 17,
+    "conflict_identified_count": 1,
+    "conflict_identification_rate": 0.058824,
+    "human_review_trigger_count": 132,
+    "human_review_trigger_rate": 0.825,
+    "unsafe_output_count": 0,
+    "risk_preservation_failures": 0
+  },
+  "latency_and_throughput": {
+    "vlm_latency_mean_ms": 2221.518,
+    "vlm_latency_p50_ms": 2238.267,
+    "vlm_latency_p95_ms": 2756.89,
+    "end_to_end_p50_ms": 2325.747,
+    "end_to_end_p95_ms": 2949.004,
+    "sequential_wall_seconds": 372.763,
+    "sequential_throughput_images_s": 0.429228,
+    "concurrency_2_requests": 8,
+    "concurrency_2_success": 8,
+    "concurrency_2_wall_seconds": 9.51,
+    "concurrency_2_throughput_images_s": 0.841212
+  },
+  "resources": {
+    "gpu_memory_peak_mib": 24024,
+    "gpu_memory_samples": 1262,
+    "vlm_root_bytes": 25888950823,
+    "model_directory_bytes": 17545920365,
+    "model_cache_bytes": 23089289,
+    "runtime_venv_bytes": 8319801095
+  },
+  "per_class": {
+    "0": {
+      "name": "玉米叶枯病",
+      "samples": 10,
+      "top1_accuracy": 1.0
+    },
+    "1": {
+      "name": "番茄斑枯病",
+      "samples": 10,
+      "top1_accuracy": 0.5
+    },
+    "2": {
+      "name": "南瓜白粉病",
+      "samples": 10,
+      "top1_accuracy": 1.0
+    },
+    "3": {
+      "name": "马铃薯早疫病",
+      "samples": 10,
+      "top1_accuracy": 1.0
+    },
+    "4": {
+      "name": "玉米锈病",
+      "samples": 10,
+      "top1_accuracy": 1.0
+    },
+    "5": {
+      "name": "番茄细菌性斑点病",
+      "samples": 10,
+      "top1_accuracy": 0.9
+    },
+    "6": {
+      "name": "番茄晚疫病",
+      "samples": 10,
+      "top1_accuracy": 0.8
+    },
+    "7": {
+      "name": "马铃薯晚疫病",
+      "samples": 10,
+      "top1_accuracy": 0.9
+    },
+    "8": {
+      "name": "芫菁",
+      "samples": 10,
+      "top1_accuracy": 0.7
+    },
+    "9": {
+      "name": "蚜虫",
+      "samples": 10,
+      "top1_accuracy": 0.9
+    },
+    "10": {
+      "name": "盲蝽科",
+      "samples": 10,
+      "top1_accuracy": 0.8
+    },
+    "11": {
+      "name": "蝼蛄",
+      "samples": 10,
+      "top1_accuracy": 1.0
+    },
+    "12": {
+      "name": "叶蝉科",
+      "samples": 10,
+      "top1_accuracy": 0.8
+    },
+    "13": {
+      "name": "蝗总科",
+      "samples": 10,
+      "top1_accuracy": 0.7
+    },
+    "14": {
+      "name": "蛴螬",
+      "samples": 10,
+      "top1_accuracy": 1.0
+    },
+    "15": {
+      "name": "豆芫菁",
+      "samples": 10,
+      "top1_accuracy": 0.8
+    }
+  },
+  "samples": [
+    {
+      "sample_id": "pd_0edcf38c97e38cb3",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2239.66,
+      "end_to_end_ms": 2304.104
+    },
+    {
+      "sample_id": "pd_0f2d23d5ea5b8b00",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2261.706,
+      "end_to_end_ms": 2328.865
+    },
+    {
+      "sample_id": "pd_2084e7c5a10e78c5",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2266.18,
+      "end_to_end_ms": 2381.852
+    },
+    {
+      "sample_id": "pd_25ef04e526007b07",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2246.805,
+      "end_to_end_ms": 2316.546
+    },
+    {
+      "sample_id": "pd_26057ebc47c86f20",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2395.052,
+      "end_to_end_ms": 2510.044
+    },
+    {
+      "sample_id": "pd_3c276f03c7df3f66",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2310.957,
+      "end_to_end_ms": 2415.644
+    },
+    {
+      "sample_id": "pd_499ea10d06e4e35e",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2257.419,
+      "end_to_end_ms": 2336.051
+    },
+    {
+      "sample_id": "pd_53b8c416ce12c460",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1758.031,
+      "end_to_end_ms": 1871.893
+    },
+    {
+      "sample_id": "pd_545a50647c2cd3ef",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2121.931,
+      "end_to_end_ms": 2191.399
+    },
+    {
+      "sample_id": "pd_54dcc903fb725d81",
+      "target_class_id": 0,
+      "target_class_name": "玉米叶枯病",
+      "ground_truth_classes": [
+        0
+      ],
+      "detector_primary_class_id": 0,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米叶枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2707.817,
+      "end_to_end_ms": 2862.218
+    },
+    {
+      "sample_id": "pd_04e52f07ef44af9d",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2340.902,
+      "end_to_end_ms": 2405.738
+    },
+    {
+      "sample_id": "pd_126d67a051e16765",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 1,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2878.06,
+      "end_to_end_ms": 3060.103
+    },
+    {
+      "sample_id": "pd_1882f59cf3086e9f",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2597.744,
+      "end_to_end_ms": 2671.752
+    },
+    {
+      "sample_id": "pd_1d78be79865bfc86",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2381.096,
+      "end_to_end_ms": 2445.112
+    },
+    {
+      "sample_id": "pd_3176e28c3c25d7c4",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 1,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2325.847,
+      "end_to_end_ms": 2401.826
+    },
+    {
+      "sample_id": "pd_36cba2156d8e3328",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 1,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2827.316,
+      "end_to_end_ms": 3004.341
+    },
+    {
+      "sample_id": "pd_3a756d2baec2776b",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 1,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2179.576,
+      "end_to_end_ms": 2239.466
+    },
+    {
+      "sample_id": "pd_54c936157dd97fae",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 1,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1765.341,
+      "end_to_end_ms": 1839.774
+    },
+    {
+      "sample_id": "pd_59f59e8a63471471",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2102.213,
+      "end_to_end_ms": 2180.557
+    },
+    {
+      "sample_id": "pd_5fb0090953b4c0eb",
+      "target_class_id": 1,
+      "target_class_name": "番茄斑枯病",
+      "ground_truth_classes": [
+        1
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2157.098,
+      "end_to_end_ms": 2313.169
+    },
+    {
+      "sample_id": "pd_157f93414a3c267c",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2387.321,
+      "end_to_end_ms": 2539.677
+    },
+    {
+      "sample_id": "pd_324f9ae1b639873a",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2238.267,
+      "end_to_end_ms": 2331.919
+    },
+    {
+      "sample_id": "pd_3964142593f09f17",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2505.836,
+      "end_to_end_ms": 2692.095
+    },
+    {
+      "sample_id": "pd_4218cc496046e6c5",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2633.735,
+      "end_to_end_ms": 2988.609
+    },
+    {
+      "sample_id": "pd_47f914e6a625490c",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2667.166,
+      "end_to_end_ms": 3136.644
+    },
+    {
+      "sample_id": "pd_4b42d3761fff6d78",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1995.107,
+      "end_to_end_ms": 2081.737
+    },
+    {
+      "sample_id": "pd_4d4bc09c3a5a1dca",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2323.674,
+      "end_to_end_ms": 2397.229
+    },
+    {
+      "sample_id": "pd_4fbafffcb8030a43",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2279.958,
+      "end_to_end_ms": 2360.11
+    },
+    {
+      "sample_id": "pd_52317b22af14e5a7",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1869.488,
+      "end_to_end_ms": 1944.068
+    },
+    {
+      "sample_id": "pd_6f42d533c0714795",
+      "target_class_id": 2,
+      "target_class_name": "南瓜白粉病",
+      "ground_truth_classes": [
+        2
+      ],
+      "detector_primary_class_id": 2,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "南瓜白粉病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2650.207,
+      "end_to_end_ms": 2827.578
+    },
+    {
+      "sample_id": "pd_23c93cf06ae2bcc3",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2403.89,
+      "end_to_end_ms": 2490.125
+    },
+    {
+      "sample_id": "pd_33fdec41e4be360a",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2056.262,
+      "end_to_end_ms": 2129.947
+    },
+    {
+      "sample_id": "pd_52588a689ff8317f",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2591.139,
+      "end_to_end_ms": 2663.04
+    },
+    {
+      "sample_id": "pd_5484a8c69f878b8d",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2303.295,
+      "end_to_end_ms": 2780.492
+    },
+    {
+      "sample_id": "pd_68fade2bcd9da171",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2391.775,
+      "end_to_end_ms": 2539.702
+    },
+    {
+      "sample_id": "pd_7b019c2fd1837c33",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2516.113,
+      "end_to_end_ms": 2620.788
+    },
+    {
+      "sample_id": "pd_7d4029f81a3aa2a2",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2251.751,
+      "end_to_end_ms": 2317.907
+    },
+    {
+      "sample_id": "pd_893b32249df296fa",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2353.901,
+      "end_to_end_ms": 2504.135
+    },
+    {
+      "sample_id": "pd_92dd24b8d00e6d52",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2177.882,
+      "end_to_end_ms": 2250.002
+    },
+    {
+      "sample_id": "pd_9e1b035f1cd8e819",
+      "target_class_id": 3,
+      "target_class_name": "马铃薯早疫病",
+      "ground_truth_classes": [
+        3
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2328.688,
+      "end_to_end_ms": 2443.789
+    },
+    {
+      "sample_id": "pd_1683c5da4843cb6d",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1689.771,
+      "end_to_end_ms": 1803.533
+    },
+    {
+      "sample_id": "pd_175adbccd422fbf2",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2362.756,
+      "end_to_end_ms": 2513.653
+    },
+    {
+      "sample_id": "pd_254b0e671e9e95af",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2230.014,
+      "end_to_end_ms": 2328.316
+    },
+    {
+      "sample_id": "pd_359fb3b4baaefd22",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2186.187,
+      "end_to_end_ms": 2246.957
+    },
+    {
+      "sample_id": "pd_568e3b3fa4f18ac2",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1799.001,
+      "end_to_end_ms": 1869.866
+    },
+    {
+      "sample_id": "pd_5d8164d673dc0fad",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2361.194,
+      "end_to_end_ms": 2717.325
+    },
+    {
+      "sample_id": "pd_5ddad43020b56db6",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1544.677,
+      "end_to_end_ms": 1589.278
+    },
+    {
+      "sample_id": "pd_606f2199de5d1d99",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2050.131,
+      "end_to_end_ms": 2109.178
+    },
+    {
+      "sample_id": "pd_a05d43f128a913ae",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1895.454,
+      "end_to_end_ms": 1971.373
+    },
+    {
+      "sample_id": "pd_b75a0f7e5b232f44",
+      "target_class_id": 4,
+      "target_class_name": "玉米锈病",
+      "ground_truth_classes": [
+        4
+      ],
+      "detector_primary_class_id": 4,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "玉米锈病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2111.413,
+      "end_to_end_ms": 2275.342
+    },
+    {
+      "sample_id": "pd_0156669b9d4a0fe6",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2226.964,
+      "end_to_end_ms": 2302.597
+    },
+    {
+      "sample_id": "pd_03836c04e76a5f9d",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1313.892,
+      "end_to_end_ms": 1386.493
+    },
+    {
+      "sample_id": "pd_0ad6f786f5890bc3",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2210.374,
+      "end_to_end_ms": 2325.182
+    },
+    {
+      "sample_id": "pd_24611a79cd77ccdf",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2142.645,
+      "end_to_end_ms": 2215.432
+    },
+    {
+      "sample_id": "pd_2e05ed4ac8ea6e84",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2833.28,
+      "end_to_end_ms": 2907.894
+    },
+    {
+      "sample_id": "pd_3ea33e8c49309280",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 1,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄斑枯病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2003.113,
+      "end_to_end_ms": 2121.752
+    },
+    {
+      "sample_id": "pd_5d44c69fb8578f81",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2348.487,
+      "end_to_end_ms": 2422.196
+    },
+    {
+      "sample_id": "pd_6abf8e377c4da9b3",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2323.495,
+      "end_to_end_ms": 2624.241
+    },
+    {
+      "sample_id": "pd_6f051f380ae881d0",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2662.045,
+      "end_to_end_ms": 3099.309
+    },
+    {
+      "sample_id": "pd_77c23db52d82858b",
+      "target_class_id": 5,
+      "target_class_name": "番茄细菌性斑点病",
+      "ground_truth_classes": [
+        5
+      ],
+      "detector_primary_class_id": 5,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "番茄细菌性斑点病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2363.785,
+      "end_to_end_ms": 2416.349
+    },
+    {
+      "sample_id": "pd_07011ffd5e239b05",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "番茄晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2504.917,
+      "end_to_end_ms": 2827.544
+    },
+    {
+      "sample_id": "pd_19a466aca0392926",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2490.047,
+      "end_to_end_ms": 2596.879
+    },
+    {
+      "sample_id": "pd_1c23f6704c9a1446",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2344.099,
+      "end_to_end_ms": 2493.322
+    },
+    {
+      "sample_id": "pd_2a9858d32271ce46",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2553.999,
+      "end_to_end_ms": 2640.878
+    },
+    {
+      "sample_id": "pd_304388a83292615f",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2084.82,
+      "end_to_end_ms": 2126.14
+    },
+    {
+      "sample_id": "pd_3beb202f14ee4f79",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2052.774,
+      "end_to_end_ms": 2100.335
+    },
+    {
+      "sample_id": "pd_473e223da011c49b",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1926.184,
+      "end_to_end_ms": 1990.9
+    },
+    {
+      "sample_id": "pd_5510ff72b82bfe4f",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2417.197,
+      "end_to_end_ms": 2522.653
+    },
+    {
+      "sample_id": "pd_5a08378c57c9e9e3",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2648.637,
+      "end_to_end_ms": 2799.089
+    },
+    {
+      "sample_id": "pd_5baacb20cda08631",
+      "target_class_id": 6,
+      "target_class_name": "番茄晚疫病",
+      "ground_truth_classes": [
+        6
+      ],
+      "detector_primary_class_id": 6,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "番茄晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2395.974,
+      "end_to_end_ms": 2525.804
+    },
+    {
+      "sample_id": "pd_02dcbe3bfb27f2bd",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1583.766,
+      "end_to_end_ms": 1641.311
+    },
+    {
+      "sample_id": "pd_06c8fc7b3ab880f0",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2840.34,
+      "end_to_end_ms": 3177.294
+    },
+    {
+      "sample_id": "pd_0a7c537b5e1a5fc1",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2692.286,
+      "end_to_end_ms": 2797.353
+    },
+    {
+      "sample_id": "pd_0b1228aa40618f67",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2421.535,
+      "end_to_end_ms": 2510.237
+    },
+    {
+      "sample_id": "pd_2186b2a8390d5ecf",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 3,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯早疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2206.104,
+      "end_to_end_ms": 2359.861
+    },
+    {
+      "sample_id": "pd_24b7e04c8fb311ee",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2229.964,
+      "end_to_end_ms": 2358.338
+    },
+    {
+      "sample_id": "pd_8e5b272d2bcefa9a",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2484.407,
+      "end_to_end_ms": 2567.212
+    },
+    {
+      "sample_id": "pd_a7e10512c282ab01",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2037.244,
+      "end_to_end_ms": 2095.626
+    },
+    {
+      "sample_id": "pd_b41b841288690f51",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2031.35,
+      "end_to_end_ms": 2143.382
+    },
+    {
+      "sample_id": "pd_ba3684464cb64d32",
+      "target_class_id": 7,
+      "target_class_name": "马铃薯晚疫病",
+      "ground_truth_classes": [
+        7
+      ],
+      "detector_primary_class_id": 7,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "马铃薯晚疫病",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2390.907,
+      "end_to_end_ms": 2504.299
+    },
+    {
+      "sample_id": "ip_016c7fb254125099",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "检测到芫菁（Blister beetle）害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1948.097,
+      "end_to_end_ms": 2051.504
+    },
+    {
+      "sample_id": "ip_051711182097ae43",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现芫菁（Blister beetle），疑似为害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2365.048,
+      "end_to_end_ms": 2430.659
+    },
+    {
+      "sample_id": "ip_05c5a8ff8b20d21d",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "检测到芫菁（Blister beetle），疑似为害虫。",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2626.439,
+      "end_to_end_ms": 2730.715
+    },
+    {
+      "sample_id": "ip_0694a67180747a02",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "叶蝉科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1918.197,
+      "end_to_end_ms": 1996.066
+    },
+    {
+      "sample_id": "ip_06cf350bd2c5e22f",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现芫菁与豆芫菁，疑似豆科作物害虫",
+      "detector_alignment": "conflict",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态判断与视觉候选冲突",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2785.988,
+      "end_to_end_ms": 2850.91
+    },
+    {
+      "sample_id": "ip_0e83982f784fb1d4",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）在苜蓿及豆科作物叶片上活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2442.877,
+      "end_to_end_ms": 2510.096
+    },
+    {
+      "sample_id": "ip_11cd05a61b42b906",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "田间发现芫菁（Blister beetle）成虫，寄主植物疑似为菊科花卉，非苜蓿或豆科作物。",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2992.626,
+      "end_to_end_ms": 3074.093
+    },
+    {
+      "sample_id": "ip_14f3568b7c3a6e3a",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "田间发现芫菁（Blister beetle）",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2248.11,
+      "end_to_end_ms": 2325.747
+    },
+    {
+      "sample_id": "ip_19e6c9b750a83ca4",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "检测到芫菁（Blister beetle），疑似为苜蓿及豆科作物害虫。",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2168.452,
+      "end_to_end_ms": 2268.167
+    },
+    {
+      "sample_id": "ip_1d9d44caf3e0b326",
+      "target_class_id": 8,
+      "target_class_name": "芫菁",
+      "ground_truth_classes": [
+        8
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "田间发现芫菁（Blister beetle），疑似危害苜蓿及豆科作物。",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2330.001,
+      "end_to_end_ms": 2408.071
+    },
+    {
+      "sample_id": "ip_001c4a0c013d9c7d",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蚜虫在玉米植株上活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2577.207,
+      "end_to_end_ms": 2638.016
+    },
+    {
+      "sample_id": "ip_02bc6a974619be89",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蚜虫",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1707.604,
+      "end_to_end_ms": 1783.635
+    },
+    {
+      "sample_id": "ip_08d048c746506e05",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蚜虫在玉米植株上活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2336.54,
+      "end_to_end_ms": 2385.816
+    },
+    {
+      "sample_id": "ip_08d10c5c74e20915",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蚜虫在玉米植株上",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2135.472,
+      "end_to_end_ms": 2196.137
+    },
+    {
+      "sample_id": "ip_0bda008da701e853",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蚜虫在玉米植株上活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2231.159,
+      "end_to_end_ms": 2292.724
+    },
+    {
+      "sample_id": "ip_0c1a341c626ab8a7",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蚜虫在玉米植株上活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2148.797,
+      "end_to_end_ms": 2216.874
+    },
+    {
+      "sample_id": "ip_0e4eb581d4635a6a",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蚜虫在玉米植株上聚集",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2328.705,
+      "end_to_end_ms": 2392.659
+    },
+    {
+      "sample_id": "ip_0e70ab68ace06efa",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蚜虫在叶片上聚集",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2271.968,
+      "end_to_end_ms": 2348.238
+    },
+    {
+      "sample_id": "ip_11964422298418ee",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": 9,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蚜虫在玉米植株上活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2305.598,
+      "end_to_end_ms": 2422.246
+    },
+    {
+      "sample_id": "ip_145f697e7d3bab05",
+      "target_class_id": 9,
+      "target_class_name": "蚜虫",
+      "ground_truth_classes": [
+        9
+      ],
+      "detector_primary_class_id": null,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": null,
+      "detector_alignment": "uncertain",
+      "needs_human_review": true,
+      "review_reasons": [
+        "未检测到目标，请检查图片质量、拍摄部位或补充图片",
+        "视觉模型未定位到明确目标",
+        "多模态判断与视觉候选的一致性不确定",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1861.446,
+      "end_to_end_ms": 1967.543
+    },
+    {
+      "sample_id": "ip_004b276b01fbbf14",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "盲蝽科害虫（Miridae）",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1778.658,
+      "end_to_end_ms": 1923.874
+    },
+    {
+      "sample_id": "ip_00aeaff90df4f5cb",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "盲蝽科害虫（Miridae）",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1775.269,
+      "end_to_end_ms": 1921.078
+    },
+    {
+      "sample_id": "ip_028dfaafe45be9b1",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "盲蝽科害虫（Miridae）",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2092.962,
+      "end_to_end_ms": 2238.145
+    },
+    {
+      "sample_id": "ip_0435b08344436e05",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "盲蝽科害虫（Miridae）",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1931.888,
+      "end_to_end_ms": 2081.179
+    },
+    {
+      "sample_id": "ip_07fa7a338e050b8e",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "盲蝽科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1637.326,
+      "end_to_end_ms": 1756.212
+    },
+    {
+      "sample_id": "ip_08a5f7f62e7af53d",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "盲蝽科害虫在葡萄田间环境被检测到",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2324.955,
+      "end_to_end_ms": 2483.88
+    },
+    {
+      "sample_id": "ip_096ea26c844915ad",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "盲蝽科害虫（Miridae）",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1786.327,
+      "end_to_end_ms": 1903.833
+    },
+    {
+      "sample_id": "ip_0b1067882b2d313b",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "田间发现盲蝽科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1851.898,
+      "end_to_end_ms": 1966.174
+    },
+    {
+      "sample_id": "ip_0f53a5bb503c16b5",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 13,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蝗总科",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1726.992,
+      "end_to_end_ms": 1853.956
+    },
+    {
+      "sample_id": "ip_10cfd7fd291803c0",
+      "target_class_id": 10,
+      "target_class_name": "盲蝽科",
+      "ground_truth_classes": [
+        10
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现芫菁（Blister beetle）",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2450.716,
+      "end_to_end_ms": 2562.084
+    },
+    {
+      "sample_id": "ip_0316404250e17f8e",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蝼蛄（Mole cricket）在田间土壤表面活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2393.387,
+      "end_to_end_ms": 2465.323
+    },
+    {
+      "sample_id": "ip_03c36c3314117282",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蝼蛄在田间土壤中活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2094.506,
+      "end_to_end_ms": 2161.588
+    },
+    {
+      "sample_id": "ip_07448806cd74e2c9",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蝼蛄在田间土壤中活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1923.033,
+      "end_to_end_ms": 1986.787
+    },
+    {
+      "sample_id": "ip_07b7cdbbf815ab36",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蝼蛄（Mole cricket）在玉米田土壤中活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2192.885,
+      "end_to_end_ms": 2273.698
+    },
+    {
+      "sample_id": "ip_0aa8d074e8e7824e",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蝼蛄（Mole cricket）在田间土壤表面活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1952.481,
+      "end_to_end_ms": 2016.722
+    },
+    {
+      "sample_id": "ip_110a9f9e3e9c6405",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蝼蛄（Mole cricket）在田间环境被检测到",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2198.003,
+      "end_to_end_ms": 2279.732
+    },
+    {
+      "sample_id": "ip_11af9488b449400f",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蝼蛄（Mole cricket）在田间土壤表面活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2051.562,
+      "end_to_end_ms": 2178.365
+    },
+    {
+      "sample_id": "ip_155bc724a5333c49",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现蝼蛄，疑似为害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2009.095,
+      "end_to_end_ms": 2072.384
+    },
+    {
+      "sample_id": "ip_1bb87e5e2e93c4c9",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蝼蛄（Mole cricket）在田间土壤中活动",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1772.673,
+      "end_to_end_ms": 1839.956
+    },
+    {
+      "sample_id": "ip_1c645690e47e0aaf",
+      "target_class_id": 11,
+      "target_class_name": "蝼蛄",
+      "ground_truth_classes": [
+        11
+      ],
+      "detector_primary_class_id": 11,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "田间发现蝼蛄成虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1911.237,
+      "end_to_end_ms": 1985.152
+    },
+    {
+      "sample_id": "ip_016644fd4e101794",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": true,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "检测到的昆虫为芫菁，非芒果害虫。",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2240.035,
+      "end_to_end_ms": 2346.005
+    },
+    {
+      "sample_id": "ip_01bc5ca64a2da4ac",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "叶蝉科害虫在芒果植株上被检测到",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1960.226,
+      "end_to_end_ms": 2032.775
+    },
+    {
+      "sample_id": "ip_0226c3a44282a68c",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "叶蝉科害虫在芒果植株上被检测到",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2287.819,
+      "end_to_end_ms": 2357.625
+    },
+    {
+      "sample_id": "ip_02f21d9ded7b3ec7",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "叶蝉科害虫在芒果植株茎部栖息",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1968.295,
+      "end_to_end_ms": 2077.667
+    },
+    {
+      "sample_id": "ip_039a85058a48502f",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "叶蝉科害虫（Leafhoppers）",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1484.358,
+      "end_to_end_ms": 1553.193
+    },
+    {
+      "sample_id": "ip_069914fd0d51889d",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "叶蝉科害虫在芒果植株枝条上活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2334.584,
+      "end_to_end_ms": 2443.631
+    },
+    {
+      "sample_id": "ip_07cb5327c292eeb0",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "叶蝉科害虫在芒果叶片上",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2643.075,
+      "end_to_end_ms": 2746.184
+    },
+    {
+      "sample_id": "ip_1329f8c79cabe802",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "叶蝉科害虫存在",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2203.59,
+      "end_to_end_ms": 2271.085
+    },
+    {
+      "sample_id": "ip_1672edff1540ccf1",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": null,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": null,
+      "detector_alignment": "uncertain",
+      "needs_human_review": true,
+      "review_reasons": [
+        "未检测到目标，请检查图片质量、拍摄部位或补充图片",
+        "视觉模型未定位到明确目标",
+        "多模态判断与视觉候选的一致性不确定",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2367.568,
+      "end_to_end_ms": 2489.951
+    },
+    {
+      "sample_id": "ip_1a985f920e35832e",
+      "target_class_id": 12,
+      "target_class_name": "叶蝉科",
+      "ground_truth_classes": [
+        12
+      ],
+      "detector_primary_class_id": 12,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "叶蝉科害虫在芒果植株上被检测到",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2459.584,
+      "end_to_end_ms": 2564.016
+    },
+    {
+      "sample_id": "ip_033a9fced80bc8fc",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 10,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "盲蝽科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2001.202,
+      "end_to_end_ms": 2104.945
+    },
+    {
+      "sample_id": "ip_03c32916277c8eaf",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 13,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蝗总科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1954.708,
+      "end_to_end_ms": 2096.564
+    },
+    {
+      "sample_id": "ip_03fc29f31d00e7d6",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 13,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蝗总科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": false,
+      "review_reasons": [],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1723.605,
+      "end_to_end_ms": 1849.872
+    },
+    {
+      "sample_id": "ip_0483e0300895de2f",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 13,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蝗总科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1563.946,
+      "end_to_end_ms": 1656.632
+    },
+    {
+      "sample_id": "ip_056767c859fd27d9",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 13,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蝗总科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1649.145,
+      "end_to_end_ms": 1730.013
+    },
+    {
+      "sample_id": "ip_112115f99a5d1cc9",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": null,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": null,
+      "detector_alignment": "uncertain",
+      "needs_human_review": true,
+      "review_reasons": [
+        "未检测到目标，请检查图片质量、拍摄部位或补充图片",
+        "分辨率偏低",
+        "视觉模型未定位到明确目标",
+        "多模态判断与视觉候选的一致性不确定",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2050.699,
+      "end_to_end_ms": 2148.859
+    },
+    {
+      "sample_id": "ip_116b71c07571f39d",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 13,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "图像中昆虫为绿色盲蝽科（Miridae），非蝗总科。",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 3050.177,
+      "end_to_end_ms": 3194.1
+    },
+    {
+      "sample_id": "ip_15af4289ef773142",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 13,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蝗总科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2103.074,
+      "end_to_end_ms": 2189.971
+    },
+    {
+      "sample_id": "ip_1681efe6a30c551d",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "检测到的绿色昆虫为盲蝽科（Miridae），非芫菁。",
+      "detector_alignment": "conflict",
+      "needs_human_review": true,
+      "review_reasons": [
+        "最高视觉置信度较低",
+        "多模态判断与视觉候选冲突",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2823.287,
+      "end_to_end_ms": 2949.004
+    },
+    {
+      "sample_id": "ip_19bce2111c0db22f",
+      "target_class_id": 13,
+      "target_class_name": "蝗总科",
+      "ground_truth_classes": [
+        13
+      ],
+      "detector_primary_class_id": 13,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "检测到蝗总科害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2386.485,
+      "end_to_end_ms": 2510.472
+    },
+    {
+      "sample_id": "ip_039ccd281d4f94b6",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "田间发现蛴螬（White grub）",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1866.44,
+      "end_to_end_ms": 1950.622
+    },
+    {
+      "sample_id": "ip_0a46cccd17337538",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "田间发现蛴螬（White grub）幼虫，疑似玉米根部害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2737.84,
+      "end_to_end_ms": 2915.071
+    },
+    {
+      "sample_id": "ip_0b02668c41182acb",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现蛴螬（White grub）",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2005.668,
+      "end_to_end_ms": 2061.712
+    },
+    {
+      "sample_id": "ip_0cb77c9f7ca3e713",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "田间发现蛴螬（White grub）",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2096.966,
+      "end_to_end_ms": 2164.473
+    },
+    {
+      "sample_id": "ip_119ed48ab64833a5",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现蛴螬（White grub）幼虫，疑似地下害虫为害",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2414.111,
+      "end_to_end_ms": 2475.167
+    },
+    {
+      "sample_id": "ip_12e8faaff340e947",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蛴螬（White grub）在玉米根部或土壤中活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2202.086,
+      "end_to_end_ms": 2266.271
+    },
+    {
+      "sample_id": "ip_14bd3e5872dd69a7",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "蛴螬（White grub）在土壤中活动",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1674.521,
+      "end_to_end_ms": 1745.725
+    },
+    {
+      "sample_id": "ip_1b36509194700de7",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现蛴螬（White grub）幼虫，疑似为害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2559.303,
+      "end_to_end_ms": 2627.812
+    },
+    {
+      "sample_id": "ip_1d1fb098af681fc0",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "蛴螬（White grub）",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 1744.179,
+      "end_to_end_ms": 1809.462
+    },
+    {
+      "sample_id": "ip_1de94effb1019e1b",
+      "target_class_id": 14,
+      "target_class_name": "蛴螬",
+      "ground_truth_classes": [
+        14
+      ],
+      "detector_primary_class_id": 14,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现蛴螬（White grub）",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2110.498,
+      "end_to_end_ms": 2179.401
+    },
+    {
+      "sample_id": "ip_0540c74759ae687a",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）疑似存在",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2162.311,
+      "end_to_end_ms": 2227.54
+    },
+    {
+      "sample_id": "ip_0729b5004f0808c2",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 8,
+      "expected_conflict": true,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "田间发现芫菁害虫",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2146.708,
+      "end_to_end_ms": 2210.873
+    },
+    {
+      "sample_id": "ip_072d0b2fe329fa9c",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）成虫在苜蓿植株上",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": true,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2756.89,
+      "end_to_end_ms": 2830.297
+    },
+    {
+      "sample_id": "ip_0c460b246b8c475b",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": false,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）在苜蓿及豆科作物田间被检测到",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2110.936,
+      "end_to_end_ms": 2186.629
+    },
+    {
+      "sample_id": "ip_0dc9e2130e47f67c",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）在苜蓿或豆科作物叶片上",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2230.851,
+      "end_to_end_ms": 2298.546
+    },
+    {
+      "sample_id": "ip_11ecf534376dd6bc",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）在苜蓿及豆科作物叶片上",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2363.258,
+      "end_to_end_ms": 2429.44
+    },
+    {
+      "sample_id": "ip_16cdd956dd938128",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）在苜蓿及豆科作物叶片上",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2495.181,
+      "end_to_end_ms": 2560.978
+    },
+    {
+      "sample_id": "ip_1b26ebf5d5597883",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）疑似存在",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2164.569,
+      "end_to_end_ms": 2229.892
+    },
+    {
+      "sample_id": "ip_1d7564bfab410ea9",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": 15,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": "豆芫菁（Legume blister beetle）在苜蓿及豆科作物上被检测到",
+      "detector_alignment": "agree",
+      "needs_human_review": true,
+      "review_reasons": [
+        "分辨率偏低",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": true,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2572.65,
+      "end_to_end_ms": 2639.864
+    },
+    {
+      "sample_id": "ip_2d9a2478f3606a0b",
+      "target_class_id": 15,
+      "target_class_name": "豆芫菁",
+      "ground_truth_classes": [
+        15
+      ],
+      "detector_primary_class_id": null,
+      "expected_conflict": false,
+      "detector_needs_review": true,
+      "analysis_primary_diagnosis": null,
+      "detector_alignment": "uncertain",
+      "needs_human_review": true,
+      "review_reasons": [
+        "未检测到目标，请检查图片质量、拍摄部位或补充图片",
+        "分辨率偏低",
+        "视觉模型未定位到明确目标",
+        "多模态判断与视觉候选的一致性不确定",
+        "多模态模型建议人工复核"
+      ],
+      "top1_match": false,
+      "schema_valid": true,
+      "content_complete": false,
+      "unsafe_marker_hits": [],
+      "vlm_latency_ms": 2144.808,
+      "end_to_end_ms": 2254.553
+    }
+  ]
+}

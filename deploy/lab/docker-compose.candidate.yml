@@ -1,0 +1,101 @@
+name: crop-pest-candidate
+
+services:
+  gateway:
+    image: public.ecr.aws/docker/library/nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on: [backend, web]
+    ports: ["${CROP_CANDIDATE_HTTP_PORT:-18080}:80"]
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+  web:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.web.r3-candidate-offline
+    command:
+      - sh
+      - -c
+      - >-
+        npm run start -- --ip 0.0.0.0 --port 3000
+        --var CROP_API_ORIGIN:http://backend:8000
+        --var CROP_ORIGIN_SECRET:$${CROP_ORIGIN_SECRET}
+    restart: unless-stopped
+    depends_on: [backend]
+    expose: ["3000"]
+    env_file: [.env]
+    environment:
+      CROP_API_ORIGIN: http://backend:8000
+      CROP_ORIGIN_SECRET: candidate-local-origin
+
+  backend:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.backend.r3-candidate
+      network: host
+      args:
+        HTTP_PROXY: http://127.0.0.1:18081
+        HTTPS_PROXY: http://127.0.0.1:18081
+        NO_PROXY: localhost,127.0.0.1,::1
+    restart: unless-stopped
+    depends_on: [detector, context]
+    expose: ["8000"]
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      - api.tavily.com:host-gateway
+    env_file: [.env]
+    environment:
+      CROP_SEARCH_PROVIDER: tavily
+      TAVILY_API_KEY: ${TAVILY_API_KEY:?TAVILY_API_KEY is required for Candidate evidence}
+      CROP_TAVILY_ENDPOINT: ${CROP_TAVILY_ENDPOINT:-https://api.tavily.com/search}
+      CROP_STORAGE_DIR: /data/storage
+      CROP_KNOWLEDGE_DIR: /opt/ghl/knowledge/baidu-baike-20260818
+      CROP_INSTANCE_ID: lab_cpu_candidate
+      CROP_INSTANCE_LABEL: 实验室 CPU Candidate
+      CROP_GATEWAY_MODE: "true"
+      CROP_CONTROL_DIR: /data/control
+      CROP_DETECTOR_ENDPOINT: http://detector:8870/v1/detect
+      CROP_CONTEXT_ENDPOINT: http://context:8891/v1/context
+    volumes:
+      - crop-pest-candidate-storage:/data/storage
+      - crop-pest-candidate-control:/data/control
+
+  detector:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.inference.r3-candidate-offline
+    restart: unless-stopped
+    expose: ["8870"]
+    env_file: [.env]
+    environment:
+      CROP_INFERENCE_DEVICE: cpu
+      CROP_INFERENCE_WARMUP: "0"
+      CROP_INFERENCE_MODEL_PATH: /models/detector/main.pt
+      CROP_INFERENCE_CLASS10_EXPERT_PATH: /models/experts/class10.pt
+      CROP_INFERENCE_CROP_EXPERT_PATH: /models/experts/crop-classifier.pt
+      CROP_INFERENCE_ROUTING_MODE: shadow
+      CROP_INFERENCE_RECLASSIFY: "0"
+    volumes:
+      - /data/ghl/models:/models:ro
+
+  context:
+    image: r3-candidate-context:20260904
+    restart: unless-stopped
+    expose: ["8891"]
+    environment:
+      CROP_CONTEXT_TAXONOMY_PATH: /opt/ghl/config/r3-taxonomy.json
+      CROP_CONTEXT_MODEL_PATH: /models/context/openai-clip-vit-base-patch32
+      CROP_CONTEXT_REVISION: 3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268
+      CROP_CONTEXT_THREADS: "8"
+    volumes:
+      - /data/ghl/r3-lightweight-model-selection-20260904/models:/models/context:ro
+
+volumes:
+  crop-pest-candidate-storage:
+    name: crop-pest-candidate-storage
+  crop-pest-candidate-control:
+    name: crop-pest-candidate-control
+
+networks:
+  default:
+    name: ghl-internal-candidate

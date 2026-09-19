@@ -1,0 +1,63 @@
+{
+  "created_at_local": "2026-08-12T22:49:41+08:00",
+  "scope": "Phase 9.11 弱类混淆、数据独立性和 shadow 专项会话封存",
+  "online_model_decision": {
+    "selected_for_tomorrow": "current_official_plus_public_weak_main",
+    "reason": "YOLO12s 全量重训后官方冻结门失败；当前主模型仍是已验证线上版本。",
+    "active_routing": false,
+    "expert_decision_right": false,
+    "expert_role": "类10检测专家与类10/13 crop专家只产生shadow第二意见，不覆盖主模型类别、不拥有最终决定权。"
+  },
+  "services_before_shutdown": {
+    "local_backend": "http://127.0.0.1:8000/health ok",
+    "local_detector": "http://127.0.0.1:8870/health ok",
+    "local_vlm": "http://127.0.0.1:8890/v1/models ok",
+    "detector_model_sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071",
+    "class10_expert_sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49",
+    "crop_expert_sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c",
+    "routing_mode": "shadow",
+    "reclassify": false,
+    "remote_gpu": "NVIDIA GeForce RTX 5090, 23140 MiB / 32607 MiB before shutdown"
+  },
+  "evidence_files": {
+    "weak_confusion_audit": {
+      "path": "artifacts/server/phase9-weak-classes-audit-20260812.json",
+      "sha256": "39172e8ea829a323a0a17bd013dc0b22bba1267044f1a13e48e2cd946b9cbc23"
+    },
+    "shadow_route": {
+      "path": "artifacts/server/phase9-shadow-route-20260812.json",
+      "sha256": "8fbf19b33b20d3975773c6c015ea11c68d6bfc564e79bb1aa77bf9e43222062d"
+    },
+    "combined_weak_evidence": {
+      "path": "artifacts/server/phase9-weak-classes-shadow-evidence-20260812.json",
+      "sha256": "5b63d9ee0deadcb7f9c7036420c0dca16774b89aa603f46b863296ef9758f95c"
+    },
+    "unified_dataset_manifest": {
+      "path": "artifacts/server/phase9-unified-dataset-manifest-20260812.json",
+      "sha256": "4cc320ab66c08f505002a029c59e257205d5a2a1e50347befcef38c5da12ba3d"
+    },
+    "opencv_audit": {
+      "path": "artifacts/server/phase9-opencv-audit-20260812.json",
+      "sha256": "c3b3733b41ba79d6b9ce6c55f968dcb4f9b89710e3c362e373f2a74fad11634c"
+    },
+    "rejected_yolo12s_gate": {
+      "path": "artifacts/server/phase9-yolo12s-detector-gate-20260812.json",
+      "sha256": "9f0249b181d45ccbe87b21c991b89e0f469de1e8e3ce4aaa929531c70cd3e646"
+    },
+    "post_remediation_evidence": {
+      "path": "artifacts/server/phase9-post-remediation-multimodal-evidence-20260812.json",
+      "sha256": "2c395815227dd88281002d7fa9815b581a29f27cefa12418d5961ed6a3d897c1"
+    }
+  },
+  "shutdown": {
+    "requested": true,
+    "method": "先停止模型服务与 SSH 隧道；容器关机命令由平台拒绝",
+    "host": "connect.bjb2.seetacloud.com:10373",
+    "remote_model_services_stopped": true,
+    "remote_gpu_memory_after_stop": "0 MiB",
+    "remote_container_poweroff_completed": false,
+    "remote_container_status": "SSH 仍可连接，平台 PID 1 为 /init/boot/boot.sh；systemctl/poweroff/reboot 被容器环境拒绝，强制退出未改变平台容器状态。",
+    "required_manual_action": "在 SeetaCloud/AutoDL 控制台停止或关机该实例；SSH 权限无法完成实例级停止。",
+    "note": "本机历史、趋势、病例详情和报告仍可读；模型服务关闭后真实检测与多模态分析需服务器恢复并重新建立隧道。"
+  }
+}

@@ -1,0 +1,18 @@
+services:
+  backend:
+    depends_on: [detector, context]
+    environment:
+      CROP_CONTEXT_ENDPOINT: http://context:8891/v1/context
+
+  context:
+    build:
+      context: ../..
+      dockerfile: deploy/lab/Dockerfile.context
+    restart: unless-stopped
+    expose: ["8891"]
+    environment:
+      CROP_CONTEXT_MODEL_PATH: /models/context/openai-clip-vit-base-patch32
+      CROP_CONTEXT_REVISION: 3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268
+      CROP_CONTEXT_THREADS: "8"
+    volumes:
+      - /data/ghl/r3-lightweight-model-selection-20260904/models:/models/context:ro

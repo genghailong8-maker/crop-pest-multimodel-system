@@ -1,0 +1,17 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+COPY cache/wheels/context /wheels
+COPY deploy/lab/context-requirements.r3-candidate.txt /app/requirements.txt
+RUN python -m pip install --no-index --find-links=/wheels -r /app/requirements.txt && rm -rf /wheels
+COPY inference/context_service.py /app/context_service.py
+COPY config/r3-taxonomy.json /opt/ghl/config/r3-taxonomy.json
+
+ENV PYTHONUNBUFFERED=1 \
+    CROP_CONTEXT_TAXONOMY_PATH=/opt/ghl/config/r3-taxonomy.json \
+    CROP_CONTEXT_MODEL_PATH=/models/context/openai-clip-vit-base-patch32 \
+    CROP_CONTEXT_THREADS=8 \
+    CROP_CONTEXT_REVISION=3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268
+
+EXPOSE 8891
+CMD ["uvicorn", "context_service:app", "--host", "0.0.0.0", "--port", "8891"]

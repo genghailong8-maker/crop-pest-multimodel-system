@@ -1,0 +1,7 @@
+fastapi==0.141.1
+pillow==12.3.0
+python-multipart==0.0.32
+torch==2.8.0+cpu
+torchvision==0.23.0+cpu
+ultralytics-opencv-headless==8.4.120
+uvicorn==0.52.1

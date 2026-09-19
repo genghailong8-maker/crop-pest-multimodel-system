@@ -1,0 +1,27 @@
+{
+  "completed_at_utc": "2026-08-12T13:19:08.546424+00:00",
+  "weights": "/root/autodl-tmp/crop-pest-system/runs/phase9-finalist/phase9-final-yolo12s-e120-b32/weights/last.pt",
+  "weights_sha256": "f330fb7c54f4ae8ec0ac689804d06ab5551b38e69aab6626057400f150b0c263",
+  "dataset_yaml": "/root/autodl-tmp/crop-pest-system/data/experiments/phase9-unified-v4/dataset-refit.yaml",
+  "dataset_yaml_sha256": "aec1c19845ace2088fc5f3182ba108b7b927fff98132144f3ab3ec523b9208fc",
+  "frozen_validation_used_during_training": false,
+  "training_arguments": {
+    "data": "data/experiments/phase9-unified-v4/dataset-refit.yaml",
+    "model": "yolo12s.pt",
+    "epochs": 120,
+    "image_size": 640,
+    "batch": 32,
+    "device": "0",
+    "workers": 4,
+    "seed": 20260729,
+    "project": "runs/phase9-finalist",
+    "name": "phase9-final-yolo12s-e120-b32"
+  },
+  "environment": {
+    "python": "3.12.3 | packaged by Anaconda, Inc. | (main, May  6 2024, 19:46:43) [GCC 11.2.0]",
+    "platform": "Linux-5.15.0-119-generic-x86_64-with-glibc2.35",
+    "torch": "2.8.0+cu128",
+    "torch_cuda_build": "12.8",
+    "ultralytics": "8.4.115"
+  }
+}

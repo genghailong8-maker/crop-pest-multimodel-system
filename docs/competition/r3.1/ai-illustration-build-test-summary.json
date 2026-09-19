@@ -1,0 +1,10 @@
+{
+  "batch": "R3.1 Batch 4B",
+  "asset_validation": "PASS",
+  "web_tests": "PASS (27/27)",
+  "web_build": "PASS",
+  "lint": "PASS",
+  "typecheck": "BASELINE_BLOCKED",
+  "typecheck_detail": "Pre-existing unrelated errors remain in app/review/page.tsx, db/index.ts and worker/index.ts; the production build passes and no Batch 4B file appears in the typecheck error list.",
+  "knowledge_prompt_drift": "PASS"
+}

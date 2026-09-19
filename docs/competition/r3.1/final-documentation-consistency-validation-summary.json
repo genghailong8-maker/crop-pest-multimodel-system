@@ -1,0 +1,15 @@
+{
+  "task": "R3.1 Final Documentation Consistency",
+  "status": "PASS",
+  "cotton_stale_status": "CLOSED",
+  "peach_stale_status": "CLOSED",
+  "potato_molecricket_stale_status": "CLOSED",
+  "FULL_HOST_STALE_NEEDS_EVIDENCE": 0,
+  "issues": [],
+  "regression_tests": {
+    "FULL_host_plus_host_severity_NEEDS_EVIDENCE": "PASS_FAILS_AS_REQUIRED",
+    "FULL_host_plus_vector_severity_NEEDS_EVIDENCE": "PASS",
+    "PARTIAL_host_plus_severity_unavailable": "PASS",
+    "real_cotton_peach_potato": "PASS"
+  }
+}

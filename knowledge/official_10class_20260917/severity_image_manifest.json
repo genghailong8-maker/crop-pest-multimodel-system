@@ -1,0 +1,351 @@
+{
+  "taxonomy_version": "official_10class_20260917",
+  "generated_at": "2026-09-19T02:01:05.210Z",
+  "uncertain_images": 0,
+  "entries": [
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_blast",
+      "canonical_name": "水稻稻瘟病",
+      "severity": "mild",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_blast/mild.png",
+      "sha256": "13678d7691839d8ab928941f890e7ccde453bc703abe135ea2a233ea8b44c61d",
+      "manifestation_source_ids": [
+        "BLAST-SES",
+        "BLAST-SES-RESEARCH",
+        "BLAST-IRRI-LEAF"
+      ],
+      "prompt_id": "rice_blast-mild",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_blast",
+      "canonical_name": "水稻稻瘟病",
+      "severity": "moderate",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_blast/moderate.png",
+      "sha256": "491f56d00c351eae32941297f5037c5cc8c3439bb973077bbcd94fd59e2d0c9f",
+      "manifestation_source_ids": [
+        "BLAST-SES",
+        "BLAST-SES-RESEARCH",
+        "BLAST-IRRI-LEAF"
+      ],
+      "prompt_id": "rice_blast-moderate",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_blast",
+      "canonical_name": "水稻稻瘟病",
+      "severity": "severe",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_blast/severe.png",
+      "sha256": "d5827c1c379d19ac35649067e8a5c011b680f083a36eb5964e5d88d488f16417",
+      "manifestation_source_ids": [
+        "BLAST-SES",
+        "BLAST-SES-RESEARCH",
+        "BLAST-IRRI-NECK"
+      ],
+      "prompt_id": "rice_blast-severe",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_brown_spot",
+      "canonical_name": "水稻褐斑病",
+      "severity": "mild",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_brown_spot/mild.png",
+      "sha256": "198027c1c8a4dd0ea412c6812162b04c1e124477270a468f1432dd69512188f7",
+      "manifestation_source_ids": [
+        "BROWN-SES"
+      ],
+      "prompt_id": "rice_brown_spot-mild",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_brown_spot",
+      "canonical_name": "水稻褐斑病",
+      "severity": "moderate",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_brown_spot/moderate.png",
+      "sha256": "ee6cf631db537e40771e06fa0a479d0cd2b10cc058db9f8f0dcd246a4ee48655",
+      "manifestation_source_ids": [
+        "BROWN-SES"
+      ],
+      "prompt_id": "rice_brown_spot-moderate",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_brown_spot",
+      "canonical_name": "水稻褐斑病",
+      "severity": "severe",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_brown_spot/severe.png",
+      "sha256": "56a9faab193c5dcc653e96bff366b435e709ee886f416313aa398167c536713d",
+      "manifestation_source_ids": [
+        "BROWN-SES"
+      ],
+      "prompt_id": "rice_brown_spot-severe",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_tungro",
+      "canonical_name": "水稻东格鲁病毒病",
+      "severity": "mild",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_tungro/mild.png",
+      "sha256": "d2718ef6704ffed655eba30bf720809f39baea0fdcef8e88b7f5d85925c6d58f",
+      "manifestation_source_ids": [
+        "TUNGRO-SES"
+      ],
+      "prompt_id": "rice_tungro-mild",
+      "qa_status": "PASS_REVISION_2",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS",
+        "height_growth_suppression_difference": "PASS",
+        "mild_moderate_difference": "PASS"
+      },
+      "revision": 2,
+      "previous_sha256": "ce8b28bd13e49c7da8ea4cf48fc23fb6b41059f9c10049b032b159000eebd776",
+      "revision_reason": "Improve visual separation between mild and moderate rice tungro using source-backed plant-height reduction and growth suppression rather than unsupported color exaggeration."
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_tungro",
+      "canonical_name": "水稻东格鲁病毒病",
+      "severity": "moderate",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_tungro/moderate.png",
+      "sha256": "dcc0d7104bf2dfd3e4adb747c6cd0d8c91ab10f7efd5105e44ad2e3f288a2c96",
+      "manifestation_source_ids": [
+        "TUNGRO-SES"
+      ],
+      "prompt_id": "rice_tungro-moderate",
+      "qa_status": "PASS_REVISION_2",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS",
+        "height_growth_suppression_difference": "PASS",
+        "mild_moderate_difference": "PASS"
+      },
+      "revision": 2,
+      "previous_sha256": "c38ca3ba5e56d356d6efc987f080b7462ee361ccc848c51774cd783787554ed8",
+      "revision_reason": "Improve visual separation between mild and moderate rice tungro using source-backed plant-height reduction and growth suppression rather than unsupported color exaggeration."
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::rice_tungro",
+      "canonical_name": "水稻东格鲁病毒病",
+      "severity": "severe",
+      "image_path": "artifacts/severity-images/official_10class_20260917/rice_tungro/severe.png",
+      "sha256": "9fb0b7085f7bfc256ce40d6cee58ac9548e19461ed7a15b346e4f2940baadd58",
+      "manifestation_source_ids": [
+        "TUNGRO-SES",
+        "TUNGRO-IRRI"
+      ],
+      "prompt_id": "rice_tungro-severe",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::northern_corn_leaf_blight",
+      "canonical_name": "玉米大斑病",
+      "severity": "mild",
+      "image_path": "artifacts/severity-images/official_10class_20260917/northern_corn_leaf_blight/mild.png",
+      "sha256": "006f81635985e8aa3d8d94fc0e10982afe0a297d26674b2ed3b07d083a8b309a",
+      "manifestation_source_ids": [
+        "NCLB-PURDUE"
+      ],
+      "prompt_id": "northern_corn_leaf_blight-mild",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::northern_corn_leaf_blight",
+      "canonical_name": "玉米大斑病",
+      "severity": "moderate",
+      "image_path": "artifacts/severity-images/official_10class_20260917/northern_corn_leaf_blight/moderate.png",
+      "sha256": "95f95184da0681fe4e604e51e71fb3f4d498dd43242cb360c3a8d6b1a6c710d7",
+      "manifestation_source_ids": [
+        "NCLB-PURDUE"
+      ],
+      "prompt_id": "northern_corn_leaf_blight-moderate",
+      "qa_status": "PASS_REVISION_1",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "large_cigar_shaped_lesions": "PASS",
+        "small_eye_spot_pollution": 0,
+        "gls_rectangular_lesion_pollution": 0,
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      },
+      "previous_sha256": "a5ecb7044b67fc73862350003c40009b59d1ad052ec7c9c790666195f6483ad7",
+      "revision": 1,
+      "revision_reason": "independent realism review found insufficiently characteristic NCLB lesion morphology"
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::northern_corn_leaf_blight",
+      "canonical_name": "玉米大斑病",
+      "severity": "severe",
+      "image_path": "artifacts/severity-images/official_10class_20260917/northern_corn_leaf_blight/severe.png",
+      "sha256": "cda60b5bbeabe2ea383d3b1e0e054ae6090d33c6d7b8a1e9f396985b5825c3e6",
+      "manifestation_source_ids": [
+        "NCLB-PURDUE"
+      ],
+      "prompt_id": "northern_corn_leaf_blight-severe",
+      "qa_status": "PASS_REVISION_1",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "large_cigar_shaped_lesions": "PASS",
+        "small_eye_spot_pollution": 0,
+        "gls_rectangular_lesion_pollution": 0,
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      },
+      "previous_sha256": "649078c1f93802312218491d020d7d097a69c8021457b8731ddb2f9bb11f7f81",
+      "revision": 1,
+      "revision_reason": "independent realism review found insufficiently characteristic NCLB lesion morphology"
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::gray_leaf_spot",
+      "canonical_name": "玉米灰斑病",
+      "severity": "mild",
+      "image_path": "artifacts/severity-images/official_10class_20260917/corn_gray_leaf_spot/mild.png",
+      "sha256": "1a6eb934cc8bf356e145545827f3d5950e01c02fc990d7d5f87b69e972a7c469",
+      "manifestation_source_ids": [
+        "GLS-PURDUE"
+      ],
+      "prompt_id": "corn_gray_leaf_spot-mild",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::gray_leaf_spot",
+      "canonical_name": "玉米灰斑病",
+      "severity": "moderate",
+      "image_path": "artifacts/severity-images/official_10class_20260917/corn_gray_leaf_spot/moderate.png",
+      "sha256": "785721c30f3d6d7b84a78066ac061bbbd0b5441f834d816ee60fbcdbbf20abc5",
+      "manifestation_source_ids": [
+        "GLS-PURDUE"
+      ],
+      "prompt_id": "corn_gray_leaf_spot-moderate",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    },
+    {
+      "taxonomy_version": "official_10class_20260917",
+      "disease_key": "official_10class_20260917::gray_leaf_spot",
+      "canonical_name": "玉米灰斑病",
+      "severity": "severe",
+      "image_path": "artifacts/severity-images/official_10class_20260917/corn_gray_leaf_spot/severe.png",
+      "sha256": "1300d33699746dd03cc64ad5040def7c562a3d2bd6ab3f37c832e489b8890977",
+      "manifestation_source_ids": [
+        "GLS-PURDUE"
+      ],
+      "prompt_id": "corn_gray_leaf_spot-severe",
+      "qa_status": "PASS",
+      "visual_qa": {
+        "crop_match": "PASS",
+        "disease_match": "PASS",
+        "severity_match": "PASS",
+        "no_text_or_watermark": "PASS",
+        "no_treatment_action": "PASS",
+        "no_wrong_disease_or_crop": "PASS"
+      }
+    }
+  ]
+}

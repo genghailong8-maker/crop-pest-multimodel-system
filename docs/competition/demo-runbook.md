@@ -1,0 +1,121 @@
+# 比赛演示流程与离线容错
+
+## 1. 演示目标
+
+用一张真实田间图片在 5 分钟内展示完整证据链：上传与质检、16 类主模型、专家 `shadow` 证据、知识来源与安全边界、人工复核审计，以及训练监控。演示只展示已经固化的事实，不现场切换 `active`、不现场重训、不把无标签图片当成准确率样本。
+
+## 2. 演示前检查
+
+### 需要服务器的部分
+
+完整识别 E2E 只需要 RTX 5090 上的检测服务；检测端应报告 `status=ok`、`class_count=16`、三份模型 `loaded=true`、`routing.mode=shadow`。Tavily 仅增强来源证据，不是识别链路硬依赖。
+
+### 不需要服务器的部分
+
+架构讲解、数据治理、知识卡片、安全边界、公开仓库审计和静态复现检查均可离线完成。没有 GPU 时不要把 CPU 结果写成正式性能数据。
+
+### 本机启动（比赛现场推荐）
+
+比赛现场优先使用项目统一入口，先做依赖预检，再启动本地后端、网页和必要的 GPU 隧道：
+
+```powershell
+cd "C:\Users\genghailong\Documents\编程大赛"
+.\scripts\competition.ps1 start
+.\scripts\competition.ps1 status
+.\scripts\competition.ps1 smoke
+```
+
+默认页面为 `http://localhost:3000/`。`status` 只检查，不启动服务；`smoke` 会执行核心链路检查，并将 Tavily 网络不可用标为 `DEGRADED`，不会阻止核心诊断服务启动。停止时执行：
+
+```powershell
+.\scripts\competition.ps1 stop
+```
+
+比赛外部证据搜索默认使用 Tavily：
+
+```powershell
+$env:CROP_SEARCH_PROVIDER = "tavily"
+```
+
+Google Grounding（`google_grounding`）是可选兼容 provider；Google Custom Search（`google_legacy`）仅作为 legacy provider，适用于已有 Custom Search JSON API 资格的用户。三种 provider 的 API Key 示例均保持为空，真实密钥只通过本机环境变量或部署环境注入，不写入仓库。
+
+统一入口只停止它自己创建的本地 backend、web 和 SSH 隧道，不会停止远端 detector。若 GPU 隧道使用非默认密钥或地址，请在启动前设置 `CROP_GPU_SSH_HOST`、`CROP_GPU_SSH_PORT`、`CROP_GPU_SSH_USER`、`CROP_GPU_SSH_IDENTITY_FILE`；密钥内容不要写入脚本、日志或文档。
+
+### 人工恢复流程（统一入口失败时）
+
+```powershell
+# 终端 1：后端
+cd backend
+$env:CROP_DETECTOR_ENDPOINT = "http://127.0.0.1:8870/v1/detect"
+$env:CROP_DETECTOR_TIMEOUT_SECONDS = "30"
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+
+# 终端 2：网页
+cd web
+npm.cmd run dev
+```
+
+服务器推理服务和 SSH 隧道按 `inference/README.md` 的既定流程启动；启动后先执行健康检查，再打开网页。
+如果只做离线降级演示，省略两行 `CROP_DETECTOR_*` 环境变量即可；如果要做真实识别，确认 endpoint 末尾没有空格，并在后端进程启动前设置它。
+
+```powershell
+Invoke-WebRequest http://127.0.0.1:8000/health | Select-Object -ExpandProperty Content
+Invoke-WebRequest http://127.0.0.1:8870/health | Select-Object -ExpandProperty Content
+Invoke-WebRequest http://localhost:3000/ | Select-Object -ExpandProperty StatusCode
+```
+
+统一入口失败时，按以下顺序人工恢复：
+
+A. SSH 隧道：按 `inference/open_tunnel.ps1` 的既定流程建立本地 `8870` 转发，不直接停止远端服务。
+B. Backend：在 `backend` 的项目虚拟环境中启动 `uvicorn app.main:app --host 127.0.0.1 --port 8000`，并确认 `/health` 返回 `status=ok`。
+C. Frontend：在 `web` 执行 `npm.cmd run dev -- --host 127.0.0.1 --port 3000`，再访问 `http://localhost:3000/`。
+D. 依次检查 `8870/health`、`8000/health` 和网页根路径。
+E. 只要 detector、backend 或 frontend 任一核心项失败，就不要把演示结果说成完整诊断；Tavily 不可用时按页面状态提示展示来源证据降级边界。
+F. Tavily 仅是外部证据增强项；其 key 缺失或网络失败时可以继续核心演示，并在状态页标为 `DEGRADED`。
+
+## 3. 5 分钟讲解脚本
+
+| 时间 | 操作 | 要讲的证据 |
+| ---: | --- | --- |
+| 0:00–0:30 | 打开首页，指向 4,164/5,920/16 数据概览 | 类别空间与数据治理，不是写死的演示结论 |
+| 0:30–1:20 | 上传一张清晰图片，填写作物、部位、生育期和环境 | 图片先经过分辨率、亮度、对比度、清晰度检查 |
+| 1:20–2:10 | 点击“开始分析”，观察上传、检测、证据整理三段状态 | 主模型负责定位；专家结果显示为 `shadow`，不覆盖主结果 |
+| 2:10–2:50 | 展示结果与“可信边界” | YOLO 置信度门、危害、可能诱因、来源证据和本地知识库 |
+| 2:50–3:35 | 点击“请求补充证据”，填写拍摄建议并保存 | `review_pending`、reviewer ID、证据快照与审计事件 |
+| 3:35–4:10 | 打开历史记录或复核页 | 可追溯病例、复核队列和人工决定 |
+| 4:10–4:40 | 打开 `/training` | 训练运行、完成 epoch、GPU 快照和监控证据 |
+| 4:40–5:00 | 指向 shadow-only 门和独立 frozen 结论 | 解释为什么当前不批准 active：安全性与证据优先 |
+
+## 4. 离线/故障演示
+
+故意停止后端、隧道或模型服务时，按下面顺序展示，不要刷新到看似成功的旧页面：
+
+1. 后端不可达：网页顶部变为“本地服务未启动”，保留上传界面但不提交虚假结果。
+2. 后端可达、模型不可用：上传仍会保存图片；检测状态为 `model_unavailable`，摘要包含原因、`needs_review=true` 和可解释边界。
+3. 远程推理超时：后端保留病例和图像质量检查，返回“服务器视觉识别调用失败”，人工复核入口仍可用。
+4. 知识服务可用：`GET /api/catalog/knowledge` 和类别卡片不依赖模型权重，可继续展示安全的 IPM 方向。
+5. 服务恢复：重新执行健康检查，刷新历史记录；只有新的真实检测完成后才展示新的模型证据。
+
+离线模式绝不执行的动作：伪造检测框、把上一病例套到新图片、自动批准 active、把低置信度结果写成确定诊断、给出具体药剂/剂量/混配建议。
+
+## 5. 现场应急检查表
+
+- [ ] 网页 `http://localhost:3000/` 返回 200。
+- [ ] 后端 `/health` 返回 `status=ok`。
+- [ ] 推理 `/health` 返回 16 类、三份模型已加载、`routing.mode=shadow`。
+- [ ] 有一张本地演示图片；图片无标签时只作为 E2E 证据。
+- [ ] 能打开知识卡片来源和安全边界。
+- [ ] 能保存一次 `needs_more_evidence` 复核事件。
+- [ ] 备好离线截图/录屏；断服时展示降级行为而不是重试到超时。
+
+## 6. Phase 9 本机用户演示顺序
+
+1. 在当前电脑的 Chrome 或 Edge 打开 `http://localhost:3000/`，说明病例和图片保存在本机。
+2. 拍照/选图，填写作物、部位、生育期、环境、受害比例和扩散速度。
+3. 展示检测框、类别和置信度，再展示确定性来源证据、诊断风险和田间严重度。
+4. 若结论冲突、图片质量异常、无目标或低置信度，指出人工复核原因；不要把候选说成确诊。
+5. 打开病例详情、病例历史、7/30 天记录趋势和可打印报告。
+6. 展开“查看技术证据”说明主模型、shadow 专家、协议版本和权威来源。
+7. 故障演示时关闭模型隧道，确认本机页面显示“识别服务暂时未开放”且不展示伪造结果；历史、详情和报告仍可读取。
+
+本机运行固定使用 `CROP_PUBLIC_MODE=false`，后端和 detector 隧道只监听 `127.0.0.1`。现场仍应把低置信度与复核显示为辅助证据，不把它包装成自动确诊。

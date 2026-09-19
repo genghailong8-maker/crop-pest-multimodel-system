@@ -1,5 +1,7 @@
 "use client";
 
+/* eslint-disable @next/next/no-img-element -- The review canvas needs the original API image dimensions for exact pointer-to-box coordinates. */
+
 import Link from "next/link";
 import { PointerEvent, useCallback, useEffect, useMemo, useState } from "react";
 
@@ -372,7 +374,7 @@ export default function ReviewPage() {
               <div className="review-canvas-help"><span>拖动空白处绘制新框</span><span>拖动框体移动</span><span>拖动四角调整</span><span>Delete 删除选中框</span></div>
               <div className="review-image-wrap">
                 <div className="review-image-stage" style={{ aspectRatio: `${detail.source_size.width} / ${detail.source_size.height}` }} onPointerDown={startDrawing} onPointerMove={movePointer} onPointerUp={endPointer} onPointerCancel={endPointer}>
-                  <img src={apiUrl(detail.image_url)} alt="待复核的蚜虫图片" draggable={false} />
+                  <img src={apiUrl(detail.image_url)} alt="待复核的蚜虫图片" width={detail.source_size.width} height={detail.source_size.height} loading="eager" fetchPriority="high" decoding="async" draggable={false} />
                   {boxes.map((box, index) => {
                     const [left, top, width, height] = box.bbox;
                     const selected = selectedIndex === index;

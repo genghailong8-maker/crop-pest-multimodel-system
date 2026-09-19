@@ -1,0 +1,595 @@
+{
+  "status": "PASS",
+  "records": [
+    {
+      "asset_id": "r31-class8-soybean-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class8-soybean-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class8-soybean-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-soybean-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-soybean-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-soybean-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-wheat-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-wheat-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-wheat-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-peach-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-peach-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-peach-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-cotton-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-cotton-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-cotton-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-corn-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-corn-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class9-corn-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class10-grape-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class10-grape-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class10-grape-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class11-corn-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class11-corn-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class11-corn-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class11-potato-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class11-potato-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class11-potato-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class12-tea-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class12-tea-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class12-tea-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class13-soybean-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class13-soybean-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class13-soybean-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class14-corn-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class14-corn-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class14-corn-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class15-soybean-mild",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class15-soybean-moderate",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    },
+    {
+      "asset_id": "r31-class15-soybean-severe",
+      "status": "PASS",
+      "checks": {
+        "crop_identity": "PASS",
+        "affected_organ": "PASS",
+        "prompt_features": "PASS",
+        "unsupported_symptom": 0,
+        "unrelated_disease_symptom": 0,
+        "anatomy_or_growth_error": 0,
+        "text_watermark_logo": 0,
+        "severity_progression_distinguishable": "PASS",
+        "vector_disease_contamination": 0
+      }
+    }
+  ],
+  "generated": 39,
+  "passed_review": 39,
+  "requiring_regeneration": 0,
+  "regeneration_events_completed": 4,
+  "review_method": "four contact sheets plus targeted full-size inspection of taxonomy/anatomy-sensitive outputs"
+}

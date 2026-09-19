@@ -1,0 +1,81 @@
+{
+  "created_at": "2026-08-07T11:24:00+08:00",
+  "purpose": "Shutdown checkpoint before releasing the current AutoDL RTX 5090 server",
+  "server": {
+    "ssh": "ssh -p 10373 root@connect.bjb2.seetacloud.com",
+    "hostname": "autodl-container-4129428075-000fbcc8",
+    "project_path": "/root/autodl-tmp/crop-pest-system",
+    "storage_used": "7.2G/50G",
+    "storage_available": "43G",
+    "gpu": "NVIDIA GeForce RTX 5090 32GB",
+    "gpu_memory_used_mib": 0,
+    "gpu_utilization_percent": 0,
+    "active_training_or_inference_processes": 0,
+    "tmux_sessions": 0,
+    "screen_sessions": 0
+  },
+  "production_changed": false,
+  "critical_local_backups": [
+    {
+      "role": "official baseline PT",
+      "path": "artifacts/server/official-baseline-yolo26n-e120-b64/weights/best.pt",
+      "sha256": "0443b179564564fce071b7595e1c4a68484a339230951c5e8cefe279af066192"
+    },
+    {
+      "role": "official baseline ONNX",
+      "path": "artifacts/server/remote-runs/official-baseline-yolo26n-e120-b64/weights/best.onnx",
+      "sha256": "1ef159f4e5ca32bcbdcf62938dede3a2ce9fffe992bd39e78ecc277cc22988b5"
+    },
+    {
+      "role": "current 16-class production candidate PT",
+      "path": "artifacts/server/remote-runs/official-plus-public-weak-v1-e120-b64/weights/best.pt",
+      "sha256": "cbb26d83e47df06b6ae135d8adebd89453cb496d99d00242dfa92d8ea3f58071"
+    },
+    {
+      "role": "current 16-class production candidate ONNX",
+      "path": "artifacts/server/remote-runs/official-plus-public-weak-v1-e120-b64/weights/best.onnx",
+      "sha256": "048b9050caa2db6389881865fe16818968e75d3f11fd288d4fa6a88181a258e2"
+    },
+    {
+      "role": "class 10 weak detector expert",
+      "path": "artifacts/server/experiments/weak-expert-v2-full-public10-ft-freeze10-lr1e4-e18-b64/best.pt",
+      "sha256": "95a03f1d613681259680f7018f16cdbfef41ff99dd881fd3b9342bfbfcc00a49"
+    },
+    {
+      "role": "class 10/13 pairwise crop expert best checkpoint",
+      "path": "artifacts/server/experiments/pairwise-crop-cls-10-13-v5-e30-b128/best.pt",
+      "sha256": "9804458da627e30299114f31e032ad5bcc08a7f74694f6559dcf45b27d7c242c"
+    },
+    {
+      "role": "class 10/13 pairwise crop expert last checkpoint",
+      "path": "artifacts/server/experiments/pairwise-crop-cls-10-13-v5-e30-b128/last.pt",
+      "sha256": "50fc0af58e3254aac910683670a31b715ad3731a11c80113f28cc8aa3a40364d"
+    },
+    {
+      "role": "reproducible class 10/13 hard-crop dataset archive",
+      "path": "artifacts/server/pairwise-hard-crops-10-13-v5.tar.gz",
+      "size_bytes": 287927564
+    }
+  ],
+  "experiment_reports": [
+    "artifacts/experiments/pairwise-crop-reranker-v2/report.json",
+    "artifacts/experiments/pairwise-calibration-v1/report.json",
+    "artifacts/experiments/class-pair-audit-8-15-v1/report.json",
+    "artifacts/experiments/class-pair-audit-6-12-v1/report.json",
+    "artifacts/experiments/independent-field-calibration-10-13-v2/source-audit.json"
+  ],
+  "git": {
+    "branch_before_checkpoint_commit": "codex/publish-audits-and-calibration-plan",
+    "commit_before_checkpoint": "25d4b82",
+    "remote": "https://github.com/genghailong8-maker/crop-pest-multimodel-system.git",
+    "github_repository_created": true,
+    "github_push_complete": false,
+    "github_push_blocker": "Git Credential Manager browser authorization still pending"
+  },
+  "resume_next": [
+    "Complete GitHub push authorization, push master and the Codex branch, and open a draft PR",
+    "Acquire and independently review the licensed class 13 field dataset",
+    "Run the frozen class 10/13 second calibration",
+    "Keep the official validation split unchanged"
+  ]
+}

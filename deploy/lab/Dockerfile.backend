@@ -1,0 +1,12 @@
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
+WORKDIR /opt/ghl/backend
+COPY backend/pyproject.toml ./
+COPY backend/app ./app
+COPY backend/scripts ./scripts
+COPY knowledge /opt/ghl/knowledge
+COPY docs/competition /opt/ghl/docs/competition
+COPY config/r3-taxonomy.json /opt/ghl/config/r3-taxonomy.json
+RUN python -m pip install --no-cache-dir .
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

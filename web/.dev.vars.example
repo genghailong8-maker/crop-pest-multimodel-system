@@ -1,0 +1,4 @@
+# Sites Worker 本地/部署变量；不要提交真实密钥。
+CROP_PUBLIC_MODE=true
+CROP_API_ORIGIN=https://api.example.com
+CROP_ORIGIN_SECRET=replace-with-a-long-random-secret

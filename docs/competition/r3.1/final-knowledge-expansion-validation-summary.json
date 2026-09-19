@@ -1,0 +1,390 @@
+{
+  "task": "R3.1 Final Controlled Knowledge Expansion",
+  "status": "PASS",
+  "validate_r31": {
+    "status": "NEEDS_EVIDENCE",
+    "issues": [],
+    "interpretation": "NEEDS_EVIDENCE is allowed fail-closed coverage; INVALID=0"
+  },
+  "validate_narrow_correction": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "critical_source_reachability",
+        "passed": true,
+        "detail": "bad=[] total=58"
+      },
+      {
+        "name": "taxonomic_scope_metadata",
+        "passed": true,
+        "detail": "bad=0 total=126"
+      },
+      {
+        "name": "epicauta_gorhami_exact_species",
+        "passed": true,
+        "detail": "records=3"
+      },
+      {
+        "name": "soy_vector_replacement",
+        "passed": true,
+        "detail": "APS source present"
+      },
+      {
+        "name": "wheat_vector_replacement",
+        "passed": true,
+        "detail": "UNL source present"
+      },
+      {
+        "name": "soybean_aphid_treatment_entailment",
+        "passed": true,
+        "detail": "unsupported=[]"
+      },
+      {
+        "name": "host_general_entailment_metadata",
+        "passed": true,
+        "detail": "host_specific=38/38 downgraded=0"
+      },
+      {
+        "name": "prompt_positive_feature_provenance",
+        "passed": true,
+        "detail": "traceable=39 expected=39 bad=[]"
+      },
+      {
+        "name": "source_semantic_review_fields",
+        "passed": true,
+        "detail": "evidence=['NEEDS_REVIEW', 'PASS'] active_treatment=['PASS']"
+      },
+      {
+        "name": "source_entailment_review_flag",
+        "passed": true,
+        "detail": "bad=0"
+      }
+    ],
+    "counts": {
+      "prompt_traceable": 39,
+      "prompt_needs_evidence": 75,
+      "host_specific_treatment": 38,
+      "downgraded_to_insect_general": 0
+    },
+    "SOURCE_SEMANTIC_REVIEW": "PASS"
+  },
+  "validate_final_evidence_sprint": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "source_reachability",
+        "passed": true,
+        "detail": "critical=58 bad=[]"
+      },
+      {
+        "name": "R31-08-ORDOS_resilience",
+        "passed": true,
+        "detail": "historical=UNREACHABLE_2026-09-07_SEARCH_INDEX_ONLY backups=['R31-08-CAU-BACKUP', 'R31-08-BEIJING-STANDARD', 'R31-08-NCSU-SOY', 'R31-08-NDSU-BLISTER', 'R31-08-DAZHOU-PEANUT-BACKUP']"
+      },
+      {
+        "name": "evidence_count",
+        "passed": true,
+        "detail": "insect_host_records=114"
+      },
+      {
+        "name": "full_capability_parity",
+        "passed": true,
+        "detail": "full=13 complete_cells=39"
+      },
+      {
+        "name": "taxonomy_scope_and_semantic_review",
+        "passed": true,
+        "detail": "bad=[] total_complete=39"
+      },
+      {
+        "name": "source_id_resolution",
+        "passed": true,
+        "detail": "referenced=52 dangling=[]"
+      },
+      {
+        "name": "unsupported_quantitative_guard",
+        "passed": true,
+        "detail": "bad=[]"
+      },
+      {
+        "name": "duplicate_rubric_guard",
+        "passed": true,
+        "detail": "duplicate_groups=0"
+      },
+      {
+        "name": "prompt_provenance_gate",
+        "passed": true,
+        "detail": "traceable=39 expected=39 bad=[]"
+      },
+      {
+        "name": "prompt_positive_visual_features",
+        "passed": true,
+        "detail": "negative_mapping=[]"
+      },
+      {
+        "name": "WHY_NOT_UPGRADED_register",
+        "passed": true,
+        "detail": "path=C:\\Users\\genghailong\\.codex\\worktrees\\d7bb\\编程大赛\\docs\\competition\\r3.1\\batch4a-why-not-upgraded.md"
+      },
+      {
+        "name": "archive_present",
+        "passed": true,
+        "detail": "path=C:\\Users\\genghailong\\.codex\\worktrees\\d7bb\\编程大赛\\docs\\competition\\r3.1\\《R3.1完整知识库归档版》.md"
+      }
+    ],
+    "counts": {
+      "insect_host_complete_cells": 39,
+      "insect_host_needs_evidence_cells": 75,
+      "full_hosts": 13,
+      "traceable_prompts": 39,
+      "critical_sources": 58
+    }
+  },
+  "validate_final_evidence_correction": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "aphid_wheat_same_species_progression",
+        "passed": true,
+        "detail": "records=3 sources=['R31-09-KSTATE-GREENBUG-WHEAT', 'R31-09-OSU-GREENBUG-WHEAT']"
+      },
+      {
+        "name": "mole_cricket_peanut_severity_fail_closed",
+        "passed": true,
+        "detail": "status=PARTIAL severity=False"
+      },
+      {
+        "name": "soybean_aphid_clause_entailment",
+        "passed": true,
+        "detail": "issues=[] removed_terms_still_present=[]"
+      },
+      {
+        "name": "mole_cricket_potato_direct_treatment",
+        "passed": true,
+        "detail": "source_ids=['R31-11-NCSU-POTATO-MOLECRICKET']"
+      },
+      {
+        "name": "mole_cricket_peanut_host_general_treatment",
+        "passed": true,
+        "detail": "source_ids=['R31-11-HAMI-PEANUT-IPM'] fallback=host_general"
+      },
+      {
+        "name": "R31_08_ORDOS_not_active",
+        "passed": true,
+        "detail": "active=[] backups=['R31-08-CAU-BACKUP', 'R31-08-BEIJING-STANDARD', 'R31-08-NCSU-SOY', 'R31-08-NDSU-BLISTER', 'R31-08-DAZHOU-PEANUT-BACKUP']"
+      },
+      {
+        "name": "source_resolution_and_reachability",
+        "passed": true,
+        "detail": "dangling=[] unreachable=[]"
+      },
+      {
+        "name": "final_counts",
+        "passed": true,
+        "detail": "full=13 partial=25 complete=39 needs=75; correction baseline>=12 with later evidence expansion allowed"
+      },
+      {
+        "name": "unsupported_quantitative_guard",
+        "passed": true,
+        "detail": "bad=[]"
+      },
+      {
+        "name": "duplicate_rubric_guard",
+        "passed": true,
+        "detail": "duplicate_groups=0"
+      },
+      {
+        "name": "prompt_provenance_count",
+        "passed": true,
+        "detail": "traceable=39 expected=39 peanut_prompt=False"
+      }
+    ],
+    "counts": {
+      "total_full_hosts": 13,
+      "total_partial_hosts": 25,
+      "complete_insect_host_severity": 39,
+      "needs_evidence_insect_host_severity": 75,
+      "traceable_prompts": 39,
+      "total_ai_images_required": 39
+    }
+  },
+  "validate_archive": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "insect_count",
+        "passed": true,
+        "detail": "archive=8 ssot=8"
+      },
+      {
+        "name": "host_count",
+        "passed": true,
+        "detail": "archive=38 ssot=38"
+      },
+      {
+        "name": "severity_texts",
+        "passed": true,
+        "detail": "missing=0 total=150"
+      },
+      {
+        "name": "severity_provenance_markers",
+        "passed": true,
+        "detail": "missing=0 total=150"
+      },
+      {
+        "name": "source_registry",
+        "passed": true,
+        "detail": "missing=[] total=59"
+      },
+      {
+        "name": "critical_source_reachability",
+        "passed": true,
+        "detail": "bad=[]"
+      },
+      {
+        "name": "taxonomic_scope_metadata",
+        "passed": true,
+        "detail": "archive_taxon=693 archive_level=282 ssot=126"
+      },
+      {
+        "name": "capabilities",
+        "passed": true,
+        "detail": "missing=0 total=38"
+      },
+      {
+        "name": "fallback_levels",
+        "passed": true,
+        "detail": "missing=0 total=38"
+      },
+      {
+        "name": "vector_relations",
+        "passed": true,
+        "detail": "missing=0 total=4"
+      },
+      {
+        "name": "treatment_texts",
+        "passed": true,
+        "detail": "missing=0 total=154"
+      },
+      {
+        "name": "prompt_positive_feature_gate",
+        "passed": true,
+        "detail": "traceable=39 expected=39"
+      },
+      {
+        "name": "archive_parity_marker",
+        "passed": true,
+        "detail": "marker must be promoted only after parity validation"
+      },
+      {
+        "name": "contract_terms",
+        "passed": true,
+        "detail": "missing=[]"
+      }
+    ]
+  },
+  "validate_semantic_consistency": {
+    "status": "PASS",
+    "FULL_HOST_STALE_NEEDS_EVIDENCE": 0,
+    "issues": []
+  },
+  "validate_final_knowledge_expansion": {
+    "status": "PASS",
+    "checks": [
+      {
+        "name": "new_source_resolution",
+        "passed": true,
+        "detail": "missing=[]"
+      },
+      {
+        "name": "new_source_reachability",
+        "passed": true,
+        "detail": "bad=[]"
+      },
+      {
+        "name": "leafhopper_tea_full",
+        "passed": true,
+        "detail": "status=FULL severity=True"
+      },
+      {
+        "name": "leafhopper_tea_three_complete",
+        "passed": true,
+        "detail": "statuses=['COMPLETE', 'COMPLETE', 'COMPLETE']"
+      },
+      {
+        "name": "same_taxon_same_host_progression",
+        "passed": true,
+        "detail": "tea records are species-scoped and same-host"
+      },
+      {
+        "name": "current_taxon_name_provenance",
+        "passed": true,
+        "detail": "current Matsumurasca combination has Journal of Tea Science DOI provenance"
+      },
+      {
+        "name": "prompt_feature_provenance",
+        "passed": true,
+        "detail": "every positive feature has an in-record source mapping"
+      },
+      {
+        "name": "leafhopper_fail_closed",
+        "passed": true,
+        "detail": "states=[('芒果', 'PARTIAL'), ('水稻', 'PARTIAL'), ('苜蓿', 'PARTIAL')]"
+      },
+      {
+        "name": "tea_treatment_unchanged_host_general",
+        "passed": true,
+        "detail": "fallback=host_general"
+      },
+      {
+        "name": "final_counts",
+        "passed": true,
+        "detail": "full=13 complete=39 needs=75 traceable=39"
+      },
+      {
+        "name": "why_not_upgraded",
+        "passed": true,
+        "detail": "crops=['水稻', '芒果']"
+      },
+      {
+        "name": "formal_expansion_stop",
+        "passed": true,
+        "detail": "status=COMPLETE"
+      },
+      {
+        "name": "semantic_consistency",
+        "passed": true,
+        "detail": "{\"status\": \"PASS\", \"FULL_HOST_STALE_NEEDS_EVIDENCE\": 0, \"issues\": []}"
+      },
+      {
+        "name": "archive_parity",
+        "passed": true,
+        "detail": "status=PASS"
+      }
+    ],
+    "counts": {
+      "new_full_hosts": 1,
+      "total_full_hosts": 13,
+      "total_partial_hosts": 25,
+      "complete_insect_host_severity": 39,
+      "needs_evidence_insect_host_severity": 75,
+      "traceable_prompts": 39,
+      "total_ai_images_required": 39
+    },
+    "KNOWLEDGE_EXPANSION_STOPPED": "YES"
+  },
+  "knowledge_pytest": {
+    "status": "PASS",
+    "result": "27 passed"
+  },
+  "backend_capability_smoke": {
+    "status": "PASS",
+    "result": "leafhopper tea FULL; three severity levels readable; host_general fallback; recommendation not confirmation; uncertain NO_TREATMENT"
+  },
+  "forbidden_actions": {
+    "ai_images_generated": false,
+    "formal_deployed": false,
+    "sqlite_cleared": false,
+    "commit_or_push": false
+  }
+}
