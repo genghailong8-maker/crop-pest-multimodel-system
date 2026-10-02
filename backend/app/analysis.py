@@ -74,8 +74,20 @@ async def request_evidence_analysis(record: dict[str, Any]) -> dict[str, Any]:
     elif class_name and confidence >= LOW_CONFIDENCE_THRESHOLD:
         evidence = await collect_external_evidence(class_name)
         external_analysis = EvidenceExtractor().extract(evidence)
-        sources = public_sources(evidence)
-        evidence_snapshots = persisted_evidence_snapshots(evidence)
+        accepted_source_ids = {
+            source_id
+            for conclusions in (external_analysis.harms, external_analysis.possible_causes)
+            for conclusion in conclusions
+            for source_id in conclusion.source_ids
+        }
+        sources = [
+            source for source in public_sources(evidence)
+            if source["id"] in accepted_source_ids
+        ]
+        evidence_snapshots = [
+            snapshot for snapshot in persisted_evidence_snapshots(evidence)
+            if snapshot["source_id"] in accepted_source_ids
+        ]
         external_search_status = evidence.status
         external_search_queries = evidence.queries
         external_search_message = evidence.message

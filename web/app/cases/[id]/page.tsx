@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -24,26 +24,56 @@ function GroundedAssessment({ record }: { record: CaseRecord }) {
 
 export default function CasePage() {
   const { id } = useParams<{ id: string }>();
-  const [record, setRecord] = useState<CaseRecord | null>(null);
-  const [knowledge, setKnowledge] = useState<KnowledgeDocument | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [recordState, setRecordState] = useState<{ caseId: string; value: CaseRecord | null }>({ caseId: id, value: null });
+  const [knowledgeState, setKnowledgeState] = useState<{ caseId: string; value: KnowledgeDocument | null }>({ caseId: id, value: null });
+  const [errorState, setErrorState] = useState<{ caseId: string; value: string | null }>({ caseId: id, value: null });
+  const record = recordState.caseId === id ? recordState.value : null;
+  const knowledge = knowledgeState.caseId === id ? knowledgeState.value : null;
+  const error = errorState.caseId === id ? errorState.value : null;
+  const knowledgeRequestId = useRef(0);
   const [retrying, setRetrying] = useState(false);
   const [severityBusy, setSeverityBusy] = useState(false);
   const visibleResolutionReasons = publicResolutionReasons(record?.resolution_reasons);
 
-  async function loadKnowledge(nextRecord: CaseRecord) {
+  function setRecord(nextRecord: CaseRecord) {
+    setRecordState({ caseId: nextRecord.id, value: nextRecord });
+  }
+
+  function setError(value: string | null) {
+    setErrorState({ caseId: id, value });
+  }
+
+  const loadKnowledge = useCallback(async (nextRecord: CaseRecord) => {
+    const requestId = ++knowledgeRequestId.current;
+    setKnowledgeState({ caseId: nextRecord.id, value: null });
     const classId = nextRecord.detector_summary?.primary_candidate?.class_id ?? nextRecord.detections?.[0]?.class_id;
-    if (!isConclusive(nextRecord) || classId == null) { setKnowledge(null); return; }
+    if (!isConclusive(nextRecord) || isInsectCase(nextRecord) || classId == null) return;
     const params = new URLSearchParams();
     if (nextRecord.taxonomy_version) params.set("taxonomy_version", nextRecord.taxonomy_version);
     if (nextRecord.canonical_key) params.set("canonical_key", nextRecord.canonical_key);
-    try { setKnowledge(await readJson<KnowledgeDocument>(await fetch(apiUrl(`/api/catalog/classes/${classId}/knowledge-document?${params.toString()}`)))); }
-    catch { setKnowledge(null); }
-  }
+    try {
+      const document = await readJson<KnowledgeDocument>(await fetch(apiUrl(`/api/catalog/classes/${classId}/knowledge-document?${params.toString()}`)));
+      if (requestId === knowledgeRequestId.current) setKnowledgeState({ caseId: nextRecord.id, value: document });
+    } catch {
+      if (requestId === knowledgeRequestId.current) setKnowledgeState({ caseId: nextRecord.id, value: null });
+    }
+  }, []);
 
   useEffect(() => {
-    fetch(apiUrl(`/api/cases/${id}`)).then(readJson<CaseRecord>).then((nextRecord) => { setRecord(nextRecord); void loadKnowledge(nextRecord); }).catch(() => setError("当前识别服务器暂时无法读取这份病例，请稍后重试或返回病例历史。"));
-  }, [id]);
+    let active = true;
+    knowledgeRequestId.current += 1;
+    fetch(apiUrl(`/api/cases/${id}`)).then(readJson<CaseRecord>).then((nextRecord) => {
+      if (!active) return;
+      setRecord(nextRecord);
+      void loadKnowledge(nextRecord);
+    }).catch(() => {
+      if (active) setErrorState({ caseId: id, value: "当前识别服务器暂时无法读取这份病例，请稍后重试或返回病例历史。" });
+    });
+    return () => {
+      active = false;
+      knowledgeRequestId.current += 1;
+    };
+  }, [id, loadKnowledge]);
 
   async function retry() {
     if (!record) return;
@@ -98,7 +128,7 @@ export default function CasePage() {
            <CaseContextCard record={record} />
            <R31HostKnowledgePanel record={record} busy={severityBusy} onRecord={setRecord} onSeverity={chooseSeverity} />
            {!isInsectCase(record) && <SeveritySelector record={record} busy={severityBusy} onConfirm={chooseSeverity} />}
-          {isConclusive(record) ? <section className="final-knowledge-overview"><h2>完整知识库</h2><div className="final-knowledge-document"><KnowledgeSectionGrid sections={knowledge?.sections} fallbackHtml={knowledge?.full_html} /></div></section> : <section className="final-knowledge-overview"><h2>暂不形成具体诊断</h2><p>当前证据不足，页面不会把候选病虫害当作已经确认的结论。请按照上方提示补拍图片。</p></section>}
+          {!isInsectCase(record) && (isConclusive(record) ? <section className="final-knowledge-overview"><h2>完整知识库</h2><div className="final-knowledge-document"><KnowledgeSectionGrid sections={knowledge?.sections} fallbackHtml={knowledge?.full_html} /></div></section> : <section className="final-knowledge-overview"><h2>暂不形成具体诊断</h2><p>当前证据不足，页面不会把候选病虫害当作已经确认的结论。请按照上方提示补拍图片。</p></section>)}
           <div className="final-brief-actions">{record.status === "detected" && !record.analysis && <button className="final-secondary" onClick={retry} disabled={retrying}>{retrying ? "正在重试…" : "整理来源证据"}</button>}{record.resolution_status === "retake_required" && <Link className="final-secondary action-link" href="/">重新拍一张图片</Link>}</div>
           <details className="final-technical"><summary>技术详情</summary><div>{record.analysis && <GroundedAssessment record={record} />}<p>诊断风险：{riskLabel(record.diagnostic_risk)}；田间严重度：{severityLabel(record.field_severity)}</p><p>候选：{(record.analysis?.candidate_diagnoses ?? record.detector_summary?.candidate_classes?.map((item) => item.class_name) ?? ["暂无"]).join("、")}</p><p>系统记录：{record.resolution_reasons.length ? record.resolution_reasons.join("；") : "无"}</p><pre>{JSON.stringify({ detector: record.detector_summary?.inference, provenance: record.analysis?.provenance }, null, 2)}</pre></div></details>
         </>}

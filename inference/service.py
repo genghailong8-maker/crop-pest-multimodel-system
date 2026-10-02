@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Annotated, Any
 
 from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
-from PIL import Image, UnidentifiedImageError
+from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageStat, UnidentifiedImageError
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -73,6 +73,13 @@ DEFAULT_CROP_EXPERT_PATH = first_existing(
     / "best.pt",
 )
 MAX_IMAGE_BYTES = 15 * 1024 * 1024
+AUTHORITATIVE_CONFIDENCE_THRESHOLD = 0.50
+LOW_QUALITY_VARIANT_NAMES = (
+    "auto_orient_rgb",
+    "moderate_local_contrast",
+    "mild_unsharp",
+    "brightness_normalized",
+)
 ROUTING_TARGETS = {10, 13}
 CLASSIFIER_TO_OFFICIAL = {0: 10, 1: 13, 2: 99}
 CLASS10_EXPERT_TO_OFFICIAL = {0: 8, 1: 10}
@@ -108,6 +115,93 @@ def int_env(name: str, default: int, minimum: int, maximum: int) -> int:
 def text_env(name: str, default: str) -> str:
     value = os.getenv(name, default).strip().lower()
     return value or default
+
+
+def exif_orientation(image: Image.Image) -> int:
+    try:
+        value = int(image.getexif().get(274, 1))
+    except (AttributeError, TypeError, ValueError):
+        return 1
+    return value if value in range(1, 9) else 1
+
+
+def remap_bbox_to_source(
+    bbox: list[float], *, source_width: int, source_height: int, orientation: int
+) -> list[float]:
+    """Map a normalized bbox from an EXIF-oriented image back to source pixels."""
+    if orientation == 1:
+        return bbox
+    oriented_width, oriented_height = (
+        (source_height, source_width) if orientation in {5, 6, 7, 8} else (source_width, source_height)
+    )
+    x, y, width, height = bbox
+    left, top = x * oriented_width, y * oriented_height
+    right, bottom = (x + width) * oriented_width, (y + height) * oriented_height
+    corners = ((left, top), (right, top), (left, bottom), (right, bottom))
+
+    def inverse(point: tuple[float, float]) -> tuple[float, float]:
+        oriented_x, oriented_y = point
+        if orientation == 2:
+            return source_width - oriented_x, oriented_y
+        if orientation == 3:
+            return source_width - oriented_x, source_height - oriented_y
+        if orientation == 4:
+            return oriented_x, source_height - oriented_y
+        if orientation == 5:
+            return oriented_y, oriented_x
+        if orientation == 6:
+            return oriented_y, source_height - oriented_x
+        if orientation == 7:
+            return source_width - oriented_y, source_height - oriented_x
+        if orientation == 8:
+            return source_width - oriented_y, oriented_x
+        return oriented_x, oriented_y
+
+    mapped = [inverse(point) for point in corners]
+    mapped_left = min(point[0] for point in mapped)
+    mapped_top = min(point[1] for point in mapped)
+    mapped_right = max(point[0] for point in mapped)
+    mapped_bottom = max(point[1] for point in mapped)
+    x = min(1.0, max(0.0, mapped_left / source_width))
+    y = min(1.0, max(0.0, mapped_top / source_height))
+    right = min(1.0, max(0.0, mapped_right / source_width))
+    bottom = min(1.0, max(0.0, mapped_bottom / source_height))
+    return [round(x, 7), round(y, 7), round(max(0.0, right - x), 7), round(max(0.0, bottom - y), 7)]
+
+
+def low_quality_variants(image: Image.Image) -> list[tuple[str, Image.Image, int]]:
+    """Build a bounded, conservative set of non-generative recovery inputs."""
+    orientation = exif_orientation(image)
+    oriented = ImageOps.exif_transpose(image).convert("RGB")
+    brightness = float(ImageStat.Stat(oriented.convert("L")).mean[0])
+    if brightness < 96:
+        brightness_factor = 1.12
+    elif brightness > 176:
+        brightness_factor = 0.92
+    else:
+        brightness_factor = 1.0
+    return [
+        (LOW_QUALITY_VARIANT_NAMES[0], oriented, orientation),
+        (
+            LOW_QUALITY_VARIANT_NAMES[1],
+            ImageEnhance.Contrast(oriented).enhance(1.20),
+            orientation,
+        ),
+        (
+            LOW_QUALITY_VARIANT_NAMES[2],
+            oriented.filter(ImageFilter.UnsharpMask(radius=1.0, percent=110, threshold=3)),
+            orientation,
+        ),
+        (
+            LOW_QUALITY_VARIANT_NAMES[3],
+            ImageEnhance.Brightness(oriented).enhance(brightness_factor),
+            orientation,
+        ),
+    ]
+
+
+def max_detection_confidence(detections: list[dict[str, Any]]) -> float:
+    return max((float(item["confidence"]) for item in detections), default=0.0)
 
 
 @dataclass(frozen=True)
@@ -434,6 +528,89 @@ class DetectorRuntime:
                     verbose=False,
                 )
 
+    def _recover_low_quality(
+        self,
+        image: Image.Image,
+        model_confidence: float,
+        original_detections: list[dict[str, Any]],
+    ) -> tuple[list[dict[str, Any]], dict[str, Any], float]:
+        trigger = "no_detection" if not original_detections else "low_confidence"
+        recovery: dict[str, Any] = {
+            "status": "rejected",
+            "trigger": trigger,
+            "threshold": AUTHORITATIVE_CONFIDENCE_THRESHOLD,
+            "variant_count": len(LOW_QUALITY_VARIANT_NAMES),
+            "variants": [],
+        }
+        variant_results: list[tuple[str, list[dict[str, Any]], int]] = []
+        started = time.perf_counter()
+        for name, variant, orientation in low_quality_variants(image):
+            entry: dict[str, Any] = {"name": name, "status": "rejected"}
+            try:
+                results = self.model.predict(
+                    source=variant,
+                    imgsz=settings.image_size,
+                    conf=model_confidence,
+                    device=settings.device,
+                    verbose=False,
+                )
+                detections = normalized_detections(results[0], variant.width, variant.height) if results else []
+                primary = max(detections, key=lambda item: item["confidence"], default=None)
+                entry.update(
+                    {
+                        "detection_count": len(detections),
+                        "top_class_id": primary["class_id"] if primary else None,
+                        "top_confidence": round(float(primary["confidence"]), 6) if primary else None,
+                    }
+                )
+                variant_results.append((name, detections, orientation))
+            except Exception as exc:
+                entry.update({"detection_count": 0, "error": str(exc)})
+            recovery["variants"].append(entry)
+
+        top_rows = [
+            (name, detections, orientation, max(detections, key=lambda item: item["confidence"]))
+            for name, detections, orientation in variant_results
+            if detections
+        ]
+        top_class_ids = {int(row[3]["class_id"]) for row in top_rows}
+        if len(top_class_ids) > 1:
+            recovery["reason"] = "class_conflict"
+        elif len(top_rows) < 2:
+            recovery["reason"] = "insufficient_consistency"
+        else:
+            shared_class_id = next(iter(top_class_ids))
+            shared_rows = [row for row in top_rows if int(row[3]["class_id"]) == shared_class_id]
+            recovery["support_count"] = len(shared_rows)
+            best = max(shared_rows, key=lambda row: float(row[3]["confidence"]))
+            best_confidence = float(best[3]["confidence"])
+            if best_confidence < AUTHORITATIVE_CONFIDENCE_THRESHOLD:
+                recovery["reason"] = "below_authoritative_threshold"
+            else:
+                _, best_detections, orientation, _ = best
+                recovered = [
+                    {
+                        **detection,
+                        "bbox": remap_bbox_to_source(
+                            detection["bbox"],
+                            source_width=image.width,
+                            source_height=image.height,
+                            orientation=orientation,
+                        ),
+                    }
+                    for detection in best_detections
+                ]
+                recovery.update(
+                    {
+                        "status": "success",
+                        "class_id": shared_class_id,
+                        "selected_variant": best[0],
+                        "selected_confidence": round(best_confidence, 6),
+                    }
+                )
+                return recovered, recovery, (time.perf_counter() - started) * 1000
+        return original_detections, recovery, (time.perf_counter() - started) * 1000
+
     def _expert_route(
         self,
         image: Image.Image,
@@ -586,15 +763,30 @@ class DetectorRuntime:
             )
             result = results[0]
             detections = normalized_detections(result, image.width, image.height)
+            low_quality_recovery: dict[str, Any] = {
+                "status": "not_triggered",
+                "trigger": "none",
+                "threshold": AUTHORITATIVE_CONFIDENCE_THRESHOLD,
+            }
+            fallback_model_ms = 0.0
+            if max_detection_confidence(detections) < AUTHORITATIVE_CONFIDENCE_THRESHOLD:
+                detections, low_quality_recovery, fallback_model_ms = self._recover_low_quality(
+                    image,
+                    model_confidence,
+                    detections,
+                )
             route_started = time.perf_counter()
             routed, routing, route_timings = self._expert_route(image, detections, confidence)
         elapsed_ms = (time.perf_counter() - started) * 1000
         speed = {key: round(float(value), 3) for key, value in (result.speed or {}).items()}
         speed["request_model_ms"] = round(elapsed_ms, 3)
+        if low_quality_recovery["status"] != "not_triggered":
+            speed["low_quality_fallback_ms"] = round(fallback_model_ms, 3)
         speed["routing_ms"] = round((time.perf_counter() - route_started) * 1000, 3)
         speed.update({f"expert_{key}": value for key, value in route_timings.items()})
         routing["timing_ms"] = {key: value for key, value in route_timings.items()}
         routing["timing_ms"]["total"] = speed["routing_ms"]
+        routing["low_quality_fallback"] = low_quality_recovery
         return routed, speed, routing
 
 

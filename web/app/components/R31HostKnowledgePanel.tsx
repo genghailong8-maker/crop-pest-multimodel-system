@@ -76,6 +76,7 @@ function HostSeverity({
   busy,
   onConfirm,
   classId,
+  insectName,
   confirmedHost,
 }: {
   record: CaseRecord;
@@ -83,6 +84,7 @@ function HostSeverity({
   busy: boolean;
   onConfirm: (level: SeverityLevel) => Promise<void> | void;
   classId: number;
+  insectName: string;
   confirmedHost: string;
 }) {
   const current = record.severity?.status === "available" ? record.severity.level : null;
@@ -95,7 +97,7 @@ function HostSeverity({
         const item = details.severity.levels[level];
         if (!item) return null;
         const checked = selected === level;
-        const asset = resolveR31SeverityAsset(classId, confirmedHost, level, details.severity_available);
+        const asset = resolveR31SeverityAsset(classId, confirmedHost, level, details.severity_available, insectName);
         const showAsset = Boolean(asset && !failedAssets.has(asset));
         return <button key={level} type="button" role="radio" aria-checked={checked} className={`r31-severity-option ${checked ? "is-selected" : ""}`} disabled={busy} onClick={() => setSelected(level)}>
           <span className="r31-severity-placeholder">
@@ -214,6 +216,7 @@ export default function R31HostKnowledgePanel({
   const selected = visibleKnowledge.confirmed_host;
   const details = visibleKnowledge.host_knowledge;
   const isOther = selected === visibleKnowledge.other.value;
+  const hasUncertainSeverity = record.severity?.status === "available" && record.severity.level === "uncertain";
   const capabilities = visibleKnowledge.host?.capabilities;
 
   return <section className="r31-host-panel" aria-labelledby="r31-host-panel-title" data-testid="r31-host-panel">
@@ -234,14 +237,14 @@ export default function R31HostKnowledgePanel({
       <p className="r31-host-authority-note">最终寄主 authority：USER_CONFIRMED_HOST</p>
     </section> : <>
       <div className="r31-confirmed-host"><span>USER_CONFIRMED_HOST</span><strong>{isOther ? visibleKnowledge.other.label : `已确认寄主：${selected}`}</strong></div>
-      {isOther ? <p className="r31-other-message">{visibleKnowledge.treatment?.fallback_message || "当前作物暂未收录，以下仅显示该害虫的通用危害、可能诱因和通用防治建议。"}</p> : null}
+      {isOther && !hasUncertainSeverity ? <p className="r31-other-message">{visibleKnowledge.treatment?.fallback_message || "当前作物暂未收录，以下仅显示该害虫的通用危害、可能诱因和通用防治建议。"}</p> : null}
       {!isOther && details ? <>
         <section className="r31-host-damage"><h3>当前作物受害表现</h3>{details.damage.available && details.damage.text ? <p>{details.damage.text}</p> : <p className="r31-capability-note">当前寄主暂无可用的作物特异受害表现资料。</p>}<SourceBlock sourceIds={details.damage.source_ids} sources={details.damage.sources} /></section>
         <section className="r31-capabilities"><h3>当前寄主能力</h3><ul>{Object.entries(capabilities ?? {}).map(([key, value]) => <li key={key} className={value ? "is-available" : "is-unavailable"}><span>{CAPABILITY_LABELS[key as keyof typeof CAPABILITY_LABELS] ?? key}</span><strong>{value ? "可用" : "暂不可用"}</strong></li>)}</ul></section>
-        {details.severity_available && details.severity.available ? <HostSeverity record={record} details={details} busy={busy} onConfirm={onSeverity} classId={visibleKnowledge.class_id} confirmedHost={selected} /> : <p className="r31-severity-unavailable">当前寄主已有可靠受害资料，但暂缺完整的轻/中/重分级依据。</p>}
+        {details.severity_available && details.severity.available ? <HostSeverity record={record} details={details} busy={busy} onConfirm={onSeverity} classId={visibleKnowledge.class_id} insectName={visibleKnowledge.insect} confirmedHost={selected} /> : <p className="r31-severity-unavailable">当前寄主已有可靠受害资料，但暂缺完整的轻/中/重分级依据。</p>}
         <VectorDiseases diseases={details.vector_diseases} />
       </> : null}
-      <TreatmentPanel treatment={visibleKnowledge.treatment} />
+      {hasUncertainSeverity ? null : <TreatmentPanel treatment={visibleKnowledge.treatment} />}
       {!isOther && details ? <SourceBlock sourceIds={details.provenance.host_damage_source_ids as string[] | undefined} sources={details.damage.sources} /> : null}
     </>}
   </section>;

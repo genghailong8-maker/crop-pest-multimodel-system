@@ -122,6 +122,7 @@ _RESEARCH_TITLE_PATTERN = re.compile(
 )
 _RESEARCH_METADATA_PATTERN = re.compile(
     r"(?:作者简介|收稿日期|修回日期|摘要\s*[:：]|【(?:目的|方法|结果|结论)】|模型分析|"
+    r"本期.{0,64}(?:专题.{0,16}形式)?集中发表.{0,16}论文|(?:\d+\s*篇)?论文各有侧重|"
     r"\[[Jj]\]|\b(?:abstract|methods?|results?|conclusions?)\b)",
     re.IGNORECASE,
 )
@@ -164,6 +165,30 @@ _INTERVENTION_EFFECT_PATTERN = re.compile(
     re.IGNORECASE,
 )
 _STRONG_CAUSAL_MARKERS = ("导致", "诱发", "易发生", "有利于", "盛发", "高发", "发生严重")
+_PESTICIDE_MECHANISM_PATTERN = re.compile(
+    r"(?:氟啶虫酰胺|杀虫剂|杀菌剂|农药|药剂|有效成分|insecticide|pesticide|fungicide|flonicamid)"
+    r".{0,100}(?:阻止|抑制|停止|药效|防效|死亡率|因饥饿而死亡|mortality|efficacy)|"
+    r"(?:阻止|抑制|停止|药效|防效|死亡率|因饥饿而死亡|mortality|efficacy)"
+    r".{0,100}(?:氟啶虫酰胺|杀虫剂|杀菌剂|农药|药剂|有效成分|insecticide|pesticide|fungicide|flonicamid)",
+    re.IGNORECASE,
+)
+_NON_OCCURRENCE_CAUSE_PATTERN = re.compile(
+    r"(?:难治|难以防治|防治困难|难以控制|难防治|防控困难|防治效果差|药效.{0,8}(?:差|不佳|低)|"
+    r"difficult\s+to\s+control|hard\s+to\s+control)",
+    re.IGNORECASE,
+)
+_LIFECYCLE_NARRATIVE_PATTERN = re.compile(
+    r"(?:生殖|繁殖|产卵|卵期|幼虫|蛹期|羽化|越冬|世代|寿命|生活史|生活周期|"
+    r"无翅|有翅|后代|生长季.{0,16}(?:孤雌|生殖|繁殖))"
+)
+_EXPLICIT_ECOLOGICAL_DRIVER_PATTERN = re.compile(
+    r"(?:温度|湿度|气温|降雨|雨水|土壤|环境|气候|季节|营养条件).{0,24}"
+    r"(?:影响|适宜|适合|有利|导致|促进|升高|降低|回升|下降|降至|升至)|"
+    r"(?:回升|降至|升至).{0,24}(?:开始|迁飞|扩散|越冬|出土|盛发|发生|活动|繁殖)|"
+    r"(?:影响|适宜|适合|有利于|导致|促进).{0,24}(?:发生|迁飞|扩散|越冬|盛发|虫源|种群|繁殖|活动|危害)|"
+    r"(?:活动|发生|繁殖|出土|迁飞|扩散).{0,24}(?:与|受).{0,24}(?:条件|影响|有关)|"
+    r"(?:越冬|卵越冬).{0,36}(?:场所|残茬|病残枝|剪口|树皮|组织|寄主|栖息|找到|发现)"
+)
 _CAUSE_CONTEXT_MARKERS = ("发生条件", "发病条件", "发生规律", "流行规律", "发生原因", "高温", "低温", "温度", "高湿", "湿度", "降雨", "雨水", "积水", "土壤", "连作", "密植", "通风", "虫源", "病原", "传播", "虫卵", "成虫", "有利于", "易发生", "盛发", "高发", "because", "increase", "favorable")
 
 # Matching-only normalization for source text. Raw/persisted evidence stays
@@ -172,7 +197,7 @@ _MATCH_TRADITIONAL_TO_SIMPLIFIED = str.maketrans({
     "細": "细", "點": "点", "軟": "软",
     "於": "于", "發": "发", "乾": "干", "氣": "气", "溫": "温", "濕": "湿",
     "與": "与", "傳": "传", "飛": "飞", "濺": "溅", "適": "适",
-    "葉": "叶", "現": "现", "狀": "状", "徵": "征", "為": "为",
+    "葉": "叶", "現": "现", "狀": "状", "徵": "征", "為": "为", "蟲": "虫",
     "農": "农", "業": "业", "區": "区", "嚴": "严",
 })
 
@@ -260,6 +285,10 @@ def _is_management_advice_fragment(value: str) -> bool:
     return is_advice and not any(marker in text for marker in _STRONG_CAUSAL_MARKERS)
 
 
+def _is_pesticide_mechanism_fragment(value: str) -> bool:
+    return bool(_PESTICIDE_MECHANISM_PATTERN.search(_plain_text(value)))
+
+
 def _is_harm_only_fragment(value: str) -> bool:
     text = _plain_text(value)
     harm_like = any(marker in text for marker in _HARM_ACTIONS) or any(marker in text for marker in _HARM_EFFECTS)
@@ -315,6 +344,18 @@ _CLASS_ALIASES = {
     _normalized(item["name_zh"]): tuple(sorted({_normalized(item["name_zh"]), _normalized(item["name_en"]), *(_normalized(alias) for alias in _CLASS_EXTRA_ALIASES.get(item["name_zh"], ()))}, key=len, reverse=True))
     for item in (*CLASS_CATALOG, *OFFICIAL_CLASS_CATALOG)
 }
+_CLASS_SUBTYPES = {
+    # The legacy catalog contains 豆芫菁 as a separate leaf label, while the
+    # current official taxonomy uses the broader 芫菁 family-level identity.
+    "芫菁": {"豆芫菁"},
+}
+
+
+def _mentions_target_or_subtype(mentioned: set[str], target: str) -> bool:
+    allowed = {target, *(_normalized(item) for item in _CLASS_SUBTYPES.get(target, set()))}
+    return bool(mentioned & allowed) and mentioned <= allowed
+
+
 _CLASS_SECTION_ALIASES = {
     ("蝗总科", "harms"): ("蝗虫", "蚱蜢"),
     ("蝗总科", "possible_causes"): ("蝗虫", "蚱蜢"),
@@ -328,7 +369,7 @@ _CLASS_HARM_PATTERNS = {
     "水稻褐斑病": re.compile(r"(?:褐斑|brown spot|lesion|病斑).{0,80}(?:叶片|稻穗|谷粒|产量|枯死|leaf|grain|yield|damage|damaging)"),
     "水稻东格鲁病毒病": re.compile(r"(?:矮化|黄化|分蘖|穗|籽粒|stunt|yellow|tiller|panicle|grain|yield).{0,80}(?:水稻|东格鲁|rice|tungro|reduction|loss|sterile)"),
     "玉米灰斑病": re.compile(r"(?:灰斑|gray leaf spot|lesion|病斑).{0,80}(?:叶片|枯死|产量|leaf|kill|yield|damage)"),
-    "芫菁": re.compile(r"(?:芫菁|成虫|主食|取食|危害|beetle|adult|feed).{0,60}(?:豆科|叶片|作物|植物|legume|leaf|crop|plant|damage|damaging)"),
+    "芫菁": re.compile(r"(?:(?:取食|啃食|咬食|危害|为害).{0,45}(?:豆科|叶片|作物|植物|legume|leaf|crop|plant|damage|damaging)|(?:beetle|adult).{0,45}(?:feed|damage|damaging))"),
     "玉米叶枯病": re.compile(r"玉米链格孢菌叶枯病.{0,48}主要侵染.{0,36}(?:叶片|叶鞘|苞叶)"),
     "南瓜白粉病": re.compile(r"(?:主要侵染(?:叶片|叶柄|茎)|白色粉状小霉点)"),
     "盲蝽科": re.compile(r"刺吸.{0,36}(?:坏死|畸形|穿孔|皱缩|焦枯)"),
@@ -341,7 +382,12 @@ _CLASS_CAUSE_PATTERNS = {
     "玉米大斑病": re.compile(r"(?:温度|雨水|湿度|病残体|分生孢子|气流|传播).{0,60}(?:发生|发病|流行|决定|传播|有利)|(?:发病|发生).{0,60}(?:温度|雨水|湿度|病残体)"),
     "水稻东格鲁病毒病": re.compile(r"(?:叶蝉|病毒源|感染水稻|媒介|传播).{0,60}(?:传播|感染|发生|发病|取食|媒介)|(?:incidence|transmit|transmitted|vector|leafhopper).{0,80}(?:tungro|virus|plant|rice)"),
     "玉米灰斑病": re.compile(r"(?:温度|湿度|降雨|病残体|孢子|病原|weather|humidity|rain|residue).{0,70}(?:发生|发病|流行|传播|有利|development|infection|disease)|(?:disease|infection).{0,70}(?:humidity|rain|residue|temperature)"),
-    "芫菁": re.compile(r"(?:芫菁|成虫|幼虫).{0,50}(?:出现|发生|群聚|越冬|土壤|寄主|主食|豆科|活动)|(?:beetle|adult|larva).{0,60}(?:host|soil|occur|feed|legume|overwinter)"),
+    "芫菁": re.compile(
+        r"(?:芫菁|成虫|幼虫).{0,50}(?:季节发生|出现于|发生于|越冬|温度|湿度|寄主条件|虫源|易发生|有利于)"
+        r"|(?:芫菁|成虫).{0,40}(?:春季|夏季|秋季|冬季).{0,24}(?:出现|活动|群聚|成群)"
+        r"|(?:芫菁|成虫).{0,40}(?:成群|群聚|群集).{0,32}(?:出没|出现|危害|取食|啃食)"
+        r"|(?:beetle|adult|larva).{0,60}(?:host conditions|soil conditions|occur during|overwinter|favorable conditions)"
+    ),
     "番茄斑枯病": re.compile(r"(?:病残体.{0,24}越冬|阴雨.{0,24}(?:流行|发生)|气温.{0,24}阴雨.{0,24}(?:流行|发生))"),
     "南瓜白粉病": re.compile(r"(?:高温干旱|高温高湿|高温.{0,12}高湿).{0,36}(?:易暴发|暴发|适发温度|相对湿度)|(?:秋末干季|冬季).{0,20}发生"),
     "番茄细菌性斑点病": re.compile(r"(?:传播途径|種子傳播|种子传播|雨水飞溅|雨水飛濺|适宜发病|適宜發病|最适发病温度|高湿高降雨量|高濕高降雨量|病原菌.{0,24}(?:种子|種子).{0,24}(?:污染|帶菌|带菌).{0,24}(?:传|傳播))"),
@@ -388,6 +434,51 @@ def _is_wrong_entity_fragment(class_name: str, source: SearchSource, sentence: s
     markers = _WRONG_ENTITY_MARKERS.get(_normalized(class_name), ())
     haystack = f"{source.title} {sentence}".lower()
     return any(marker.lower() in haystack for marker in markers)
+
+
+_NAMED_INSECT_ENTITY = re.compile(
+    r"[\u4e00-\u9fff]{1,5}?(?:翅虫|蚜虫|瓢虫|蝶|牛|蜂|蛾|螟|蚜|蝽|蝉|蛄|螬|甲)"
+)
+_GENERIC_INSECT_TERMS = {"昆虫", "害虫", "幼虫", "若虫", "成虫", "虫卵", "天敌"}
+_HUMAN_MEDICAL_ONLY_MARKERS = (
+    "人体", "人类", "患者", "临床", "中毒", "血尿", "肾脏衰竭", "皮肤接触",
+    "皮肤损伤", "治疗神经性", "药理作用", "抗癌", "肿瘤", "白细胞",
+)
+_AGRICULTURE_CONTEXT_MARKERS = (
+    "农业", "田间", "农田", "作物", "农作物", "寄主", "植物", "叶片", "叶面",
+    "茎叶", "嫩梢", "花瓣", "植食", "啃食", "取食", "为害", "危害", "发生",
+)
+
+
+def _has_foreign_leading_insect_subject(class_name: str, sentence: str, section: Section | None = None) -> bool:
+    """Reject a clause led by a different explicitly named insect, not title context."""
+    if _normalized(class_name) != "芫菁" and _normalized(class_name) in _mentioned_classes(sentence, _normalized(class_name), section):
+        return False
+    target_class = next((item for item in CLASS_CATALOG if item["name_zh"] == class_name), None)
+    if target_class and target_class.get("type") != "害虫":
+        return False
+    named_entities = set()
+    for match in _NAMED_INSECT_ENTITY.finditer(sentence):
+        entity = _normalized(match.group(0))
+        if match.group(0).endswith("甲") and sentence[match.end():match.end() + 1] == "虫":
+            continue
+        if entity in _GENERIC_INSECT_TERMS or entity.endswith(("幼虫", "若虫", "成虫", "虫卵")):
+            continue
+        named_entities.add(entity)
+    target_aliases = _CLASS_ALIASES.get(_normalized(class_name), (_normalized(class_name),))
+    target_aliases = tuple(alias for alias in target_aliases if alias)
+    return any(
+        not any(alias in entity for alias in target_aliases)
+        for entity in named_entities
+    )
+
+
+def _is_human_medical_only_fragment(sentence: str) -> bool:
+    """Reject human/medical-only claims unless the same clause has crop/agriculture context."""
+    return (
+        any(marker in sentence for marker in _HUMAN_MEDICAL_ONLY_MARKERS)
+        and not any(marker in sentence for marker in _AGRICULTURE_CONTEXT_MARKERS)
+    )
 
 
 _TOMATO_WRONG_CONTEXT_MARKERS = ("花朵大", "花莖倒伏", "花茎倒伏", "居家盆花", "立枝架")
@@ -576,12 +667,71 @@ def _title_has_competing_entity(title: str, class_name: str) -> bool:
     ))
 
 
+def _same_line_target_context(class_name: str, source: SearchSource, sentence: str, section: Section | None) -> bool:
+    """Allow a nearby subject only when the same source line has one unambiguous target anchor."""
+    normalized_sentence = _normalized(sentence)
+    target = _normalized(class_name)
+    if not normalized_sentence:
+        return False
+    target_class = next((item for item in CLASS_CATALOG if item["name_zh"] == class_name), None)
+    if not target_class or target_class.get("type") != "害虫":
+        return False
+
+    for field in (source.snippet, source.content):
+        if not field:
+            continue
+        for raw_line in field.splitlines():
+            line = _plain_text(raw_line)
+            normalized_line = _normalized(line)
+            if normalized_sentence not in normalized_line or len(normalized_line) > 900:
+                continue
+            sentence_start = normalized_line.find(normalized_sentence)
+            context_prefix = normalized_line[:sentence_start]
+            # Reset inherited context after visible page-section/entity headers.
+            boundaries = list(re.finditer(r"(?:image\d+|图片\d+|生活习性|生长繁殖|形态特征|分布范围|栖息环境)", context_prefix, re.IGNORECASE))
+            if boundaries:
+                context_prefix = context_prefix[boundaries[-1].end():]
+            context_window = (context_prefix[-360:] + normalized_sentence)
+            mentioned = _mentioned_classes(context_window, target, section)
+            if not _mentions_target_or_subtype(mentioned, target):
+                continue
+            # Do not widen a child-species fact to the official family-level
+            # 芫菁 identity when the child name is only inherited from nearby
+            # source context. The clause must carry its own subject scope.
+            scoped_subtypes = _CLASS_SUBTYPES.get(target, set())
+            inherited_subtype = any(subtype in context_prefix for subtype in scoped_subtypes)
+            sentence_names_scope = any(subtype in normalized_sentence for subtype in scoped_subtypes)
+            sentence_names_target = target in _mentioned_classes(normalized_sentence, target, section)
+            if inherited_subtype and not (sentence_names_scope or sentence_names_target):
+                continue
+            # A heading/topic boundary or another explicitly named insect in
+            # the same line makes inheritance ambiguous; never use page title.
+            if re.search(r"(?:Image\s*\d+|图片\s*\d+|第\s*\d+\s*条)", line, re.IGNORECASE):
+                continue
+            aliases = _CLASS_ALIASES.get(target, (target,))
+            named_entities = []
+            for match in _NAMED_INSECT_ENTITY.finditer(context_window):
+                entity = _normalized(match.group(0))
+                # The heuristic's terminal 甲 pattern can otherwise classify
+                # the generic word 甲虫 as a named competing entity.
+                if match.group(0).endswith("甲") and context_window[match.end():match.end() + 1] == "虫":
+                    continue
+                if entity not in _GENERIC_INSECT_TERMS:
+                    named_entities.append(entity)
+            if any(not any(alias in entity for alias in aliases) for entity in named_entities):
+                continue
+            if _has_foreign_leading_insect_subject(class_name, context_window, section):
+                continue
+            return True
+    return False
+
+
 def _associate_candidate_with_target(class_name: str, source: SearchSource, sentence: str, section: Section | None = None) -> tuple[bool, bool]:
     """Return whether a sentence belongs to the target and whether it names it explicitly."""
     target = _normalized(class_name)
     sentence_mentions = _mentioned_classes(sentence, target, section)
     if target in sentence_mentions:
-        return not bool(sentence_mentions - {target}), True
+        return _mentions_target_or_subtype(sentence_mentions, target), True
     if sentence_mentions:
         return False, False
     title_mentions = _mentioned_classes(source.title, target, section)
@@ -590,7 +740,13 @@ def _associate_candidate_with_target(class_name: str, source: SearchSource, sent
         and not bool(title_mentions - {target})
         and not _title_has_competing_entity(source.title, class_name)
     )
-    if single_subject_title:
+    target_class = next((item for item in CLASS_CATALOG if item["name_zh"] == class_name), None)
+    # Preserve accepted attribution behavior for other classes; this candidate
+    # review is limited to the observed blister-beetle collision.
+    is_insect_target = bool(target_class and target_class.get("type") == "害虫" and target == "芫菁")
+    if single_subject_title and not is_insect_target:
+        return True, False
+    if is_insect_target and _same_line_target_context(class_name, source, sentence, section):
         return True, False
     if target == "番茄细菌性斑点病":
         if _is_tomato_bacterial_spot_section_fragment(class_name, source, sentence):
@@ -616,7 +772,21 @@ class EvidenceExtractor:
             return 0
         if _is_management_advice_fragment(sentence) and not (section == "harms" and _has_class_harm_pattern(class_name, sentence)):
             return 0
+        if _is_pesticide_mechanism_fragment(sentence):
+            return 0
+        if section == "possible_causes" and _NON_OCCURRENCE_CAUSE_PATTERN.search(sentence):
+            return 0
+        if (
+            section == "possible_causes"
+            and _LIFECYCLE_NARRATIVE_PATTERN.search(sentence)
+            and not _EXPLICIT_ECOLOGICAL_DRIVER_PATTERN.search(sentence)
+        ):
+            return 0
         if _is_wrong_entity_fragment(class_name, source, sentence):
+            return 0
+        if _has_foreign_leading_insect_subject(class_name, sentence, section):
+            return 0
+        if _is_human_medical_only_fragment(sentence):
             return 0
         if _is_wrong_context_fragment(class_name, sentence):
             return 0

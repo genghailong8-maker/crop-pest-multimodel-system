@@ -1,0 +1,129 @@
+{
+  "strategy": "CONTROLLED_RECONSTRUCTION",
+  "historical_byte_parity": "UNVERIFIED",
+  "model_id": "openai/clip-vit-base-patch32",
+  "model_revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+  "source_manifest_sha256": "c23d725b709228502add2c439068ef848cd6c55cf93dbe4b89739eb5bb61caa6",
+  "model_manifest_sha256": "cbbd8cc47afcb9a9cbe9af77b93908cbacbf843e31152cd5f96a7352ac4f2337",
+  "config_manifest_sha256": "8375b2e7b3f62744a7d057b9ef0bdd8121f1f1d42ff982b49be4f136dbd905e8",
+  "dependency_manifest_sha256": "2db9b594d475834afc99ede1242df91e4e90d5cfbaa2087afd954598ce239b75",
+  "files": [
+    {
+      "relative_path": "config/r3-taxonomy.json",
+      "size": 2040,
+      "sha256": "5e7918f62b3c92f763fe45215143c79b5f7e8cd35f75c2ae28df30d87ccf38e9"
+    },
+    {
+      "relative_path": "manifests/official-revision-metadata.json",
+      "size": 6447,
+      "sha256": "3a3c7512c10726562c2f8e6234ba92b3dc00094d13c1058a8f2b28356dc91632"
+    },
+    {
+      "relative_path": "manifests/R3_TEMP_CLIP_MODEL_MANIFEST.json",
+      "size": 2058,
+      "sha256": "cbbd8cc47afcb9a9cbe9af77b93908cbacbf843e31152cd5f96a7352ac4f2337"
+    },
+    {
+      "relative_path": "manifests/R3_TEMP_CONFIG_MANIFEST.json",
+      "size": 238,
+      "sha256": "8375b2e7b3f62744a7d057b9ef0bdd8121f1f1d42ff982b49be4f136dbd905e8"
+    },
+    {
+      "relative_path": "manifests/R3_TEMP_CONTEXT_SOURCE_MANIFEST.json",
+      "size": 1770,
+      "sha256": "c23d725b709228502add2c439068ef848cd6c55cf93dbe4b89739eb5bb61caa6"
+    },
+    {
+      "relative_path": "manifests/R3_TEMP_DEPENDENCY_MANIFEST.json",
+      "size": 285,
+      "sha256": "2db9b594d475834afc99ede1242df91e4e90d5cfbaa2087afd954598ce239b75"
+    },
+    {
+      "relative_path": "model/config.json",
+      "size": 4186,
+      "sha256": "b575ef3c36f2a057fa19e221650105052d61cc9c1a972ec15019c6261ec98770"
+    },
+    {
+      "relative_path": "model/merges.txt",
+      "size": 524657,
+      "sha256": "f526393189112391ce6f9795d4695f704121ce452c3aad1f5335cc41337eba85"
+    },
+    {
+      "relative_path": "model/preprocessor_config.json",
+      "size": 316,
+      "sha256": "910e70b3956ac9879ebc90b22fb3bc8a75b6a0677814500101a4c072bd7857bd"
+    },
+    {
+      "relative_path": "model/pytorch_model.bin",
+      "size": 605247071,
+      "sha256": "a63082132ba4f97a80bea76823f544493bffa8082296d62d71581a4feff1576f"
+    },
+    {
+      "relative_path": "model/README.md",
+      "size": 7942,
+      "sha256": "8f0e8c678e0afe5f384f3bf8a6694c1cb53c41e52f86277967b6c5354cb0f9f4"
+    },
+    {
+      "relative_path": "model/special_tokens_map.json",
+      "size": 389,
+      "sha256": "f8c0d6c39aee3f8431078ef6646567b0aba7f2246e9c54b8b99d55c22b707cbf"
+    },
+    {
+      "relative_path": "model/tokenizer.json",
+      "size": 2224041,
+      "sha256": "b556ac8c99757ffb677208af34bc8c6721572114111a6e0aaf5fa69ff0b8d842"
+    },
+    {
+      "relative_path": "model/tokenizer_config.json",
+      "size": 592,
+      "sha256": "34b7336e4bee12e0a9730eaf5189f582ef3c3eea5027f65730e5717256755aad"
+    },
+    {
+      "relative_path": "model/vocab.json",
+      "size": 862328,
+      "sha256": "5047b556ce86ccaf6aa22b3ffccfc52d391ea4accdab9c2f2407da5b742d4363"
+    },
+    {
+      "relative_path": "runtime/context-requirements.txt",
+      "size": 123,
+      "sha256": "89d16b90c4220bfbade33d1d3e2d40dddb36e378e65069eaaf4399e0b73ade1f"
+    },
+    {
+      "relative_path": "runtime/Dockerfile.context",
+      "size": 575,
+      "sha256": "31b833479861aae5f4af75ae11238cc386536e2079e8e1e2124771d2d34ebbce"
+    },
+    {
+      "relative_path": "runtime/reconstructed-requirements.lock",
+      "size": 794,
+      "sha256": "8fe8da6655f63d6f6aba99170c84c3f2da8b9c9924fd4334a045fc407173753c"
+    },
+    {
+      "relative_path": "source/backend_context_inference.py",
+      "size": 1144,
+      "sha256": "8c1576138819374bc1da1ea459705fff23f23a588425fba835d9c8362dc2d70c"
+    },
+    {
+      "relative_path": "source/backend_r3_taxonomy.py",
+      "size": 3337,
+      "sha256": "75237cba15bb38cc5d98bd4a4cebfc6c6daab20b116b96a889551114fed3aadd"
+    },
+    {
+      "relative_path": "source/context_service.py",
+      "size": 5389,
+      "sha256": "ec53636a4aa1215b971024ac6e4b8ae313427072327757ccbf5b0ce14e98f9f1"
+    },
+    {
+      "relative_path": "source/test_r3_context.py",
+      "size": 6256,
+      "sha256": "3a05e273134d444db5a76ad7f14c1d9efff2c3e88cdad176c3f6132ccd7dfcb0"
+    }
+  ],
+  "bundle_sha256": "80b39844b46c0390f8dd268357465b4efe75826d0a4ca0bb73f6cdba05e995a4",
+  "bundle_hash_algorithm": "SHA256 canonical sorted file-manifest JSON; root manifest excluded",
+  "created_at": "2026-09-30T10:53:08.306159+00:00",
+  "certification": "CERTIFIED_CURRENT_RC",
+  "controller_decision": "ACCEPT_CURRENT_RC_FIVE_CANDIDATE_BASELINE",
+  "historical_topk_parity": "NOT_APPLICABLE",
+  "functional_equivalence": "PASS_CURRENT_TAXONOMY"
+}

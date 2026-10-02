@@ -443,6 +443,13 @@ def host_knowledge_for_runtime(record: dict[str, Any]) -> dict[str, Any]:
         payload["taxonomy_version"] = identity["taxonomy_version"]
         payload["canonical_key"] = identity["canonical_key"]
         payload["canonical_class_name"] = identity["canonical_class_name"]
+    severity = record.get("severity")
+    if (
+        isinstance(severity, dict)
+        and severity.get("status") == "available"
+        and severity.get("level") == "uncertain"
+    ):
+        payload["treatment"] = None
     return payload
 
 
@@ -1417,7 +1424,15 @@ def analyze_r3_draft(
     if quality["flags"]:
         summary["needs_review"] = True
         summary["review_reasons"] = [*(summary["review_reasons"]), *quality["flags"]]
-    summary["explainability"] = build_explainability(detections, summary, quality, detector.last_metadata)
+    detected_identity = identity_for_detection(detections[0], settings.taxonomy_version) if detections else None
+    summary["explainability"] = build_explainability(
+        detections,
+        summary,
+        quality,
+        detector.last_metadata,
+        taxonomy_version=detected_identity.get("taxonomy_version") if detected_identity else None,
+        canonical_key=detected_identity.get("canonical_key") if detected_identity else None,
+    )
     confidence = (summary.get("primary_candidate") or {}).get("max_confidence")
     confidence_gate = {
         "status": "allowed",

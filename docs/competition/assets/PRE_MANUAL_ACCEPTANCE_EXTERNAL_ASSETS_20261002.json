@@ -1,0 +1,60 @@
+{
+  "version_state": "PRE_MANUAL_ACCEPTANCE_CANDIDATE",
+  "this_is_formal": false,
+  "git_lfs_required": false,
+  "historical_context_byte_parity": "UNVERIFIED",
+  "asset_source_bundle": "separately backed-up final-delivery-20261002 artifact directory",
+  "assets": [
+    {
+      "name": "Frozen YOLO26N detector weights",
+      "role": "required production detector asset; CPU runtime",
+      "relative_path_in_local_asset_bundle": "source/models/frozen-yolo26n.pt",
+      "included_in_git": false,
+      "size_bytes": 5387333,
+      "sha256": "e233fc1971f88288fabed8d37af32047f6d1cb643213d9de0ee61385666479ba"
+    },
+    {
+      "name": "Reconstructed R3 CLIP model snapshot",
+      "role": "required Context model asset",
+      "model_id": "openai/clip-vit-base-patch32",
+      "revision": "3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+      "relative_path_in_local_asset_bundle": "models/r3-context-reconstructed/model/",
+      "included_in_git": false,
+      "file_count": 9,
+      "total_size_bytes": 608871522,
+      "model_manifest_path_in_git": "docs/competition/assets/R3_TEMP_CLIP_MODEL_MANIFEST.json",
+      "model_manifest_sha256": "cbbd8cc47afcb9a9cbe9af77b93908cbacbf843e31152cd5f96a7352ac4f2337"
+    },
+    {
+      "name": "Reconstructed R3 Context source/config/runtime bundle evidence",
+      "role": "provenance manifests; runtime source/config is represented by candidate source files",
+      "relative_path_in_local_asset_bundle": "models/r3-context-reconstructed/",
+      "included_in_git": false,
+      "manifest_entry_count": 22,
+      "manifest_entry_total_size_bytes": 608901978,
+      "bundle_sha256": "80b39844b46c0390f8dd268357465b4efe75826d0a4ca0bb73f6cdba05e995a4",
+      "bundle_manifest_path_in_git": "docs/competition/assets/R3_TEMP_CONTEXT_BUNDLE_MANIFEST.json",
+      "bundle_manifest_file_sha256": "c8b1fec8471501e416599ca3001f65a7f51180970be853ed8376ef4d9ae6c408",
+      "source_manifest_sha256": "c23d725b709228502add2c439068ef848cd6c55cf93dbe4b89739eb5bb61caa6",
+      "config_manifest_sha256": "8375b2e7b3f62744a7d057b9ef0bdd8121f1f1d42ff982b49be4f136dbd905e8",
+      "dependency_manifest_sha256": "2db9b594d475834afc99ede1242df91e4e90d5cfbaa2087afd954598ce239b75"
+    },
+    {
+      "name": "Recovery inference source",
+      "role": "recovery contract implementation, included in Git source",
+      "relative_path_in_git": "inference/service.py",
+      "included_in_git": true,
+      "size_bytes": 37261,
+      "sha256": "ba386dcd7cc32ebec1ff7ee0649ede247b4048dabacf3091b7d57b2da55fa342"
+    }
+  ],
+  "excluded_from_git": [
+    "CLIP model weight and snapshot assets",
+    "Frozen detector weight file",
+    "runtime SQLite databases and user case records",
+    "Tavily credentials or other secrets",
+    "validation/public datasets and training data",
+    "temporary runtime logs, process files, caches, and complete runtime archives"
+  ],
+  "verification": "Recompute SHA256 and file size for every model-manifest entry before offline loading. No floating revision or network fallback is permitted."
+}
