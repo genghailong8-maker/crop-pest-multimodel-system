@@ -1,0 +1,15 @@
+{
+  "taxonomy_version": "official_10class_20260917",
+  "task": "detect",
+  "class_count": 10,
+  "active_candidate_classes": [
+    {"class_id": 0, "canonical_class_name": "水稻稻瘟病", "stable_key": "official_10class_20260917::rice_blast"},
+    {"class_id": 1, "canonical_class_name": "水稻褐斑病", "stable_key": "official_10class_20260917::rice_brown_spot"},
+    {"class_id": 2, "canonical_class_name": "玉米大斑病", "stable_key": "official_10class_20260917::northern_corn_leaf_blight"},
+    {"class_id": 3, "canonical_class_name": "水稻东格鲁病毒病", "stable_key": "official_10class_20260917::rice_tungro"},
+    {"class_id": 4, "canonical_class_name": "玉米灰斑病", "stable_key": "official_10class_20260917::gray_leaf_spot"}
+  ],
+  "legacy_classes_preserved": true,
+  "active_runtime_changed": false,
+  "source": "artifacts/training/official_10class_20260917/taxonomy.json"
+}

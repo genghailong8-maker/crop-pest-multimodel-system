@@ -1,0 +1,1575 @@
+{
+  "schema_version": "phase3a-knowledge-candidate-v1",
+  "taxonomy_version": "official_10class_20260917",
+  "candidate_only": true,
+  "formal_runtime_changed": false,
+  "severity_images_included": false,
+  "uncertain_contract": {
+    "label": "无法判断",
+    "severity_specific_treatment": null,
+    "severity_image": null
+  },
+  "diseases": [
+    {
+      "class_id": 0,
+      "canonical_class_name": "水稻稻瘟病",
+      "stable_key": "official_10class_20260917::rice_blast",
+      "full_knowledge": {
+        "basic_info": {
+          "rows": [
+            {
+              "field": "中文名",
+              "value": "水稻稻瘟病"
+            },
+            {
+              "field": "外文名",
+              "value": "Rice blast"
+            },
+            {
+              "field": "作物",
+              "value": "水稻（Oryza sativa）"
+            },
+            {
+              "field": "病害类型",
+              "value": "真菌性病害"
+            },
+            {
+              "field": "主要病原",
+              "value": "Magnaporthe oryzae"
+            },
+            {
+              "field": "主要受害部位",
+              "value": "叶片、叶枕、节、穗颈、穗部；部分资料亦报告叶鞘症状"
+            },
+            {
+              "field": "主要识别点",
+              "value": "叶部病斑常呈椭圆、梭形或近菱形，中央灰白，边缘红褐至坏死色；节瘟、穗颈瘟可出现灰褐或黑褐病变"
+            }
+          ],
+          "source_ids": [
+            "BLAST-IRRI-LEAF",
+            "BLAST-IRRI-NECK",
+            "BLAST-IRRI-DIAG"
+          ]
+        },
+        "features": {
+          "paragraphs": [
+            "稻瘟病可侵染水稻地上部多个部位。叶瘟初期可出现白色至灰绿色小斑，外缘较深；随着病斑发展，常形成椭圆形、梭形或近菱形病斑，中央灰白，周缘红褐或坏死。多个病斑可扩大并融合，严重时可造成整片叶片死亡。",
+            "稻瘟病与水稻褐斑病容易混淆。IRRI 资料指出，叶瘟病斑通常更细长、两端较尖，而褐斑病病斑通常更圆、更褐，并常见黄色晕圈。",
+            "节瘟病变多呈黑褐至灰褐色，受害节可使茎秆折断；穗颈瘟可出现灰褐色病斑并环割穗颈，使穗部下垂。若穗颈在乳熟前受侵，可造成不结实；较晚感染也会影响籽粒质量。"
+          ],
+          "source_ids": [
+            "BLAST-IRRI-LEAF",
+            "BLAST-IRRI-NECK",
+            "BLAST-IRRI-DIAG"
+          ]
+        },
+        "harm_symptoms": {
+          "paragraphs": [
+            "苗期或分蘖期发生严重叶瘟时，可造成幼苗或植株死亡。后期严重叶瘟会减少灌浆所需的有效叶面积并降低产量。节瘟和穗颈瘟直接影响穗部，能够造成折秆、白穗、不结实或低质量籽粒，因此其产量风险明显高于少量叶斑。"
+          ],
+          "source_ids": [
+            "BLAST-IRRI-LEAF",
+            "BLAST-IRRI-NECK"
+          ]
+        }
+      },
+      "severity": {
+        "mild": {
+          "manifestation": {
+            "text": "对应 IRRI SES 1–3：针尖褐斑或小型灰色坏死斑，病斑面积很小，尚未进入典型大面积感病病斑阶段；不应出现节瘟/穗颈瘟。",
+            "source_ids": [
+              "BLAST-SES",
+              "BLAST-SES-RESEARCH",
+              "BLAST-IRRI-LEAF"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES 1–3",
+              "system_tier": "mild"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "优先通过抗病品种、氮肥分次并避免过量施氮、合理水分管理降低继续扩展风险；下一季播期也应结合当地发病季节调整。",
+              "如使用稻草等硅源，应避免使用带有稻瘟病菌的感染稻草，以免增加病原来源。",
+              "可将当地已登记/可获得的稻瘟病微生物制剂作为综合防治补充；Pseudomonas fluorescens 与 Bacillus spp. 均有田间研究支持，但具体菌株/产品不能由研究菌株直接等同为当地登记产品。",
+              "轻度阶段不因“轻度”标签自动施药；若天气、生育期和病情发展提示风险升高，可依据当地登记选择稻瘟病杀菌剂。IRRI 支持审慎使用三唑类和甲氧基丙烯酸酯（strobilurin/QoI）类系统性杀菌剂。"
+            ],
+            "source_ids": [
+              "BLAST-IRRI-LEAF",
+              "BLAST_BIO_PF",
+              "BLAST_BIO_BACILLUS"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "优先通过抗病品种、氮肥分次并避免过量施氮、合理水分管理降低继续扩展风险；下一季播期也应结合当地发病季节调整。",
+                  "source_ids": [
+                    "BLAST-IRRI-LEAF"
+                  ],
+                  "evidence_level": "IRRI_DIRECT",
+                  "source_ids_original": [
+                    "BLAST_IRRI_LEAF"
+                  ]
+                },
+                {
+                  "text": "如使用稻草等硅源，应避免使用带有稻瘟病菌的感染稻草，以免增加病原来源。",
+                  "source_ids": [
+                    "BLAST-IRRI-LEAF"
+                  ],
+                  "evidence_level": "IRRI_DIRECT",
+                  "source_ids_original": [
+                    "BLAST_IRRI_LEAF"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "可将当地已登记/可获得的稻瘟病微生物制剂作为综合防治补充；Pseudomonas fluorescens 与 Bacillus spp. 均有田间研究支持，但具体菌株/产品不能由研究菌株直接等同为当地登记产品。",
+                  "source_ids": [
+                    "BLAST_BIO_PF",
+                    "BLAST_BIO_BACILLUS"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_FIELD",
+                  "note": "RESEARCH_TO_PRODUCT_CAUTION",
+                  "source_ids_original": [
+                    "BLAST_BIO_PF",
+                    "BLAST_BIO_BACILLUS"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "轻度阶段不因“轻度”标签自动施药；若天气、生育期和病情发展提示风险升高，可依据当地登记选择稻瘟病杀菌剂。IRRI 支持审慎使用三唑类和甲氧基丙烯酸酯（strobilurin/QoI）类系统性杀菌剂。",
+                  "source_ids": [
+                    "BLAST-IRRI-LEAF"
+                  ],
+                  "evidence_level": "IRRI_DIRECT",
+                  "source_ids_original": [
+                    "BLAST_IRRI_LEAF"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "moderate": {
+          "manifestation": {
+            "text": "对应 IRRI SES 4–6：已出现典型稻瘟病感病病斑，受害叶面积从小于 4% 到约 25%，可出现更多上部叶病斑，但尚未达到大面积叶死。",
+            "source_ids": [
+              "BLAST-SES",
+              "BLAST-SES-RESEARCH",
+              "BLAST-IRRI-LEAF"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES 4–6; leaf area <4%–25%",
+              "system_tier": "moderate"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "继续执行氮肥、水分和抗病品种等综合措施，并加强病情调查，特别关注病斑是否向上位叶、节或穗颈发展。",
+              "在有合规产品和适用标签的前提下，可将经验证的微生物生防制剂作为化学防治之外的补充；Pseudomonas fluorescens、Bacillus spp. 有田间研究证据。",
+              "若病情继续扩展且处于抽穗等关键时期，可按当地登记与标签使用对稻瘟病有效的系统性杀菌剂；IRRI 明确提到三唑类和甲氧基丙烯酸酯类可审慎用于稻瘟病。"
+            ],
+            "source_ids": [
+              "BLAST-IRRI-LEAF",
+              "BLAST-IRRI-NECK",
+              "BLAST_BIO_PF",
+              "BLAST_BIO_BACILLUS"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "继续执行氮肥、水分和抗病品种等综合措施，并加强病情调查，特别关注病斑是否向上位叶、节或穗颈发展。",
+                  "source_ids": [
+                    "BLAST-IRRI-LEAF",
+                    "BLAST-IRRI-NECK"
+                  ],
+                  "evidence_level": "IRRI_DIRECT",
+                  "source_ids_original": [
+                    "BLAST_IRRI_LEAF",
+                    "BLAST_IRRI_NECK"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "在有合规产品和适用标签的前提下，可将经验证的微生物生防制剂作为化学防治之外的补充；Pseudomonas fluorescens、Bacillus spp. 有田间研究证据。",
+                  "source_ids": [
+                    "BLAST_BIO_PF",
+                    "BLAST_BIO_BACILLUS"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_FIELD",
+                  "source_ids_original": [
+                    "BLAST_BIO_PF",
+                    "BLAST_BIO_BACILLUS"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "若病情继续扩展且处于抽穗等关键时期，可按当地登记与标签使用对稻瘟病有效的系统性杀菌剂；IRRI 明确提到三唑类和甲氧基丙烯酸酯类可审慎用于稻瘟病。",
+                  "source_ids": [
+                    "BLAST-IRRI-LEAF",
+                    "BLAST-IRRI-NECK"
+                  ],
+                  "evidence_level": "IRRI_DIRECT",
+                  "source_ids_original": [
+                    "BLAST_IRRI_LEAF",
+                    "BLAST_IRRI_NECK"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "severe": {
+          "manifestation": {
+            "text": "对应 IRRI SES 7–9（约 26% 以上叶面积感染；score 8 可见大量叶片死亡，score 9 超过 75%），或出现节瘟/穗颈瘟、折秆、穗颈环割、白穗或不结实等高影响表现。",
+            "source_ids": [
+              "BLAST-SES",
+              "BLAST-SES-RESEARCH",
+              "BLAST-IRRI-NECK"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES 7–9 or node/neck blast high-impact signs",
+              "system_tier": "severe"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "重点保护仍健康的功能叶和穗部，并记录本田病史；下一季优先采用抗病品种、合理施氮和水分管理，减少高风险生产条件。",
+              "生物防治可作为长期综合管理组成，但在已经出现大面积坏死、节瘟或穗颈瘟时，不应把微生物制剂表述成能够逆转已发生组织损伤的“治疗药”。",
+              "若仍处于具有保护价值的抽穗/穗部关键窗口且存在较高产量损失风险，可依据当地登记和标签实施杀菌剂防治；IRRI 指出高风险时抽穗期施药可有效控制稻瘟病。不得因“重度”自行提高剂量。"
+            ],
+            "source_ids": [
+              "BLAST-IRRI-NECK",
+              "BLAST-IRRI-LEAF",
+              "BLAST_BIO_PF",
+              "BLAST_BIO_BACILLUS"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "重点保护仍健康的功能叶和穗部，并记录本田病史；下一季优先采用抗病品种、合理施氮和水分管理，减少高风险生产条件。",
+                  "source_ids": [
+                    "BLAST-IRRI-NECK",
+                    "BLAST-IRRI-LEAF"
+                  ],
+                  "evidence_level": "IRRI_DIRECT",
+                  "source_ids_original": [
+                    "BLAST_IRRI_NECK",
+                    "BLAST_IRRI_LEAF"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "生物防治可作为长期综合管理组成，但在已经出现大面积坏死、节瘟或穗颈瘟时，不应把微生物制剂表述成能够逆转已发生组织损伤的“治疗药”。",
+                  "source_ids": [
+                    "BLAST_BIO_PF",
+                    "BLAST_BIO_BACILLUS"
+                  ],
+                  "evidence_level": "SYSTEM_INTERPRETATION_FROM_FIELD_BIOCONTROL",
+                  "source_ids_original": [
+                    "BLAST_BIO_PF",
+                    "BLAST_BIO_BACILLUS"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "若仍处于具有保护价值的抽穗/穗部关键窗口且存在较高产量损失风险，可依据当地登记和标签实施杀菌剂防治；IRRI 指出高风险时抽穗期施药可有效控制稻瘟病。不得因“重度”自行提高剂量。",
+                  "source_ids": [
+                    "BLAST-IRRI-NECK"
+                  ],
+                  "evidence_level": "IRRI_DIRECT",
+                  "source_ids_original": [
+                    "BLAST_IRRI_NECK"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        }
+      },
+      "treatment_source_version": "source_backed_5_disease_treatment_enriched_v4",
+      "treatment_tier_mapping": "COMPOSED_TIER_MAPPING"
+    },
+    {
+      "class_id": 1,
+      "canonical_class_name": "水稻褐斑病",
+      "stable_key": "official_10class_20260917::rice_brown_spot",
+      "full_knowledge": {
+        "basic_info": {
+          "rows": [
+            {
+              "field": "中文名",
+              "value": "水稻褐斑病"
+            },
+            {
+              "field": "外文名",
+              "value": "Rice brown spot / Brown spot of rice"
+            },
+            {
+              "field": "作物",
+              "value": "水稻（Oryza sativa）"
+            },
+            {
+              "field": "病害类型",
+              "value": "真菌性病害"
+            },
+            {
+              "field": "主要病原",
+              "value": "Bipolaris oryzae"
+            },
+            {
+              "field": "主要受害部位",
+              "value": "幼苗、叶片、叶鞘、颖壳、穗部和籽粒"
+            },
+            {
+              "field": "主要识别点",
+              "value": "成株叶斑多为圆形至椭圆形，中央浅褐至灰色，边缘红褐；常可见黄褐色晕圈"
+            }
+          ],
+          "source_ids": [
+            "BROWN-IRRI-DIAG",
+            "BROWN-IRRI-FACT",
+            "BROWN-REVIEW-2025"
+          ]
+        },
+        "features": {
+          "paragraphs": [
+            "幼苗可出现小型圆形褐斑，严重时病斑可环绕胚芽鞘，使初生叶或次生叶发生畸形；根部也可能出现黑色变色。成株叶片上的典型病斑多呈圆形至椭圆形，中央浅褐或灰色，外缘红褐色，常伴黄色或黄褐色晕圈。",
+            "感病材料上的病斑可明显扩大；严重感染时多个病斑可以融合。病菌也可侵染颖壳和籽粒，受侵颖壳可出现深褐至黑色椭圆斑或广泛变色，籽粒可出现斑点和黑变。"
+          ],
+          "source_ids": [
+            "BROWN-IRRI-DIAG",
+            "BROWN-IRRI-FACT",
+            "BROWN-REVIEW-2025"
+          ]
+        },
+        "harm_symptoms": {
+          "paragraphs": [
+            "褐斑病可从幼苗期持续影响至成熟期。幼苗感染严重时会出现生长受抑、矮化甚至死亡；成株叶部大量病斑及其融合会造成较大面积叶组织坏死。颖壳、穗部和籽粒感染可影响籽粒充实、外观和质量；严重感染还可造成叶片枯萎和籽粒黑变。"
+          ],
+          "source_ids": [
+            "BROWN-IRRI-DIAG",
+            "BROWN-IRRI-FACT",
+            "BROWN-REVIEW-2025"
+          ]
+        }
+      },
+      "severity": {
+        "mild": {
+          "manifestation": {
+            "text": "对应 IRRI SES 1–3，受害叶面积小于 1% 至约 5%。",
+            "source_ids": [
+              "BROWN-SES"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES 1–3; <1%–5% leaf area",
+              "system_tier": "mild"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "优先纠正不良土壤水分和营养条件，使用健康种子，并减少感染病残体和替代寄主来源。",
+              "可优先考虑有合法登记/可靠来源的生防产品。综述记录了 Trichoderma harzianum、T. viride、Pseudomonas fluorescens 以及部分植物源处理对褐斑病的抑制证据。",
+              "轻度病情不应仅因分级而自动喷药；若当地风险、品种和生育期提示需要，可选择当地登记的褐斑病杀菌剂。"
+            ],
+            "source_ids": [
+              "BROWN-REVIEW-2025"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "优先纠正不良土壤水分和营养条件，使用健康种子，并减少感染病残体和替代寄主来源。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "可优先考虑有合法登记/可靠来源的生防产品。综述记录了 Trichoderma harzianum、T. viride、Pseudomonas fluorescens 以及部分植物源处理对褐斑病的抑制证据。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "note": "CHECK_LOCAL_PRODUCT_REGISTRATION",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "轻度病情不应仅因分级而自动喷药；若当地风险、品种和生育期提示需要，可选择当地登记的褐斑病杀菌剂。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "moderate": {
+          "manifestation": {
+            "text": "对应 IRRI SES 4–6，受害叶面积约 6%–25%。",
+            "source_ids": [
+              "BROWN-SES"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES 4–6; 6%–25% leaf area",
+              "system_tier": "moderate"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "继续保持适宜水分与营养平衡，并处理感染病残体、使用健康种子；避免把化学防治替代基础栽培管理。",
+              "可将有来源支持的 Trichoderma 或 Pseudomonas 类生防措施作为综合管理补充；文献也报道楝（neem）等植物源处理，但实际产品应以当地登记和标签为准。",
+              "病情持续扩展时，可按当地登记考虑叶面杀菌剂。丙环唑（propiconazole，DMI/三唑类）在多项褐斑病研究与综述中表现出较好效果；系统只展示为来源支持的有效成分示例，不提供跨地区固定剂量。"
+            ],
+            "source_ids": [
+              "BROWN-REVIEW-2025"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "继续保持适宜水分与营养平衡，并处理感染病残体、使用健康种子；避免把化学防治替代基础栽培管理。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "可将有来源支持的 Trichoderma 或 Pseudomonas 类生防措施作为综合管理补充；文献也报道楝（neem）等植物源处理，但实际产品应以当地登记和标签为准。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "病情持续扩展时，可按当地登记考虑叶面杀菌剂。丙环唑（propiconazole，DMI/三唑类）在多项褐斑病研究与综述中表现出较好效果；系统只展示为来源支持的有效成分示例，不提供跨地区固定剂量。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "severe": {
+          "manifestation": {
+            "text": "对应 IRRI SES 7–9，受害叶面积约 26%–100%。",
+            "source_ids": [
+              "BROWN-SES"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES 7–9; 26%–100% leaf area",
+              "system_tier": "severe"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "继续执行营养、水分、健康种子和病残体管理，并将严重发生田块作为下一季品种和种子处理决策的重要病史。",
+              "生防可作为综合方案组成，但不应把研究中的菌株/植物提取物直接等同为已登记商品。优先选择当地合法登记且标签覆盖水稻褐斑病的生物制剂。",
+              "若仍处于有防治价值的时期，可根据当地登记和标签使用对褐斑病有效的杀菌剂；丙环唑等三唑类有研究支持。不得因“重度”提高剂量或缩短标签规定的施药间隔。"
+            ],
+            "source_ids": [
+              "BROWN-REVIEW-2025"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "继续执行营养、水分、健康种子和病残体管理，并将严重发生田块作为下一季品种和种子处理决策的重要病史。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "生防可作为综合方案组成，但不应把研究中的菌株/植物提取物直接等同为已登记商品。优先选择当地合法登记且标签覆盖水稻褐斑病的生物制剂。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "若仍处于有防治价值的时期，可根据当地登记和标签使用对褐斑病有效的杀菌剂；丙环唑等三唑类有研究支持。不得因“重度”提高剂量或缩短标签规定的施药间隔。",
+                  "source_ids": [
+                    "BROWN-REVIEW-2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_REVIEW",
+                  "source_ids_original": [
+                    "BROWN_REVIEW_2025"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        }
+      },
+      "treatment_source_version": "source_backed_5_disease_treatment_enriched_v4",
+      "treatment_tier_mapping": "COMPOSED_TIER_MAPPING"
+    },
+    {
+      "class_id": 3,
+      "canonical_class_name": "水稻东格鲁病毒病",
+      "stable_key": "official_10class_20260917::rice_tungro",
+      "full_knowledge": {
+        "basic_info": {
+          "rows": [
+            {
+              "field": "中文名",
+              "value": "水稻东格鲁病毒病"
+            },
+            {
+              "field": "外文名",
+              "value": "Rice tungro disease"
+            },
+            {
+              "field": "作物",
+              "value": "水稻（Oryza sativa）"
+            },
+            {
+              "field": "病害类型",
+              "value": "病毒性病害"
+            },
+            {
+              "field": "主要病毒",
+              "value": "Rice tungro bacilliform virus（RTBV）与 Rice tungro spherical virus（RTSV）相关"
+            },
+            {
+              "field": "主要传播介体",
+              "value": "叶蝉，尤其是绿叶蝉类"
+            },
+            {
+              "field": "主要受害表现部位",
+              "value": "整株性表现，突出于叶片、株高、分蘖和穗部"
+            },
+            {
+              "field": "主要识别点",
+              "value": "叶片黄化或橙黄色、植株矮化、分蘖减少、抽穗或开花延迟、小穗或抽穗不全"
+            }
+          ],
+          "source_ids": [
+            "TUNGRO-IRRI",
+            "TUNGRO-MGMT"
+          ]
+        },
+        "features": {
+          "paragraphs": [
+            "受感染植株常出现黄色至橙黄色叶片，变色通常从叶尖开始并向叶片下部扩展。叶片还可出现花叶、条纹、锈色斑和叶脉间坏死。植株可表现为矮化、分蘖减少和开花或抽穗延迟。",
+            "穗部可能较小、不能完全抽出，并出现较高比例的空秕粒或部分充实籽粒。症状严重程度会受到水稻品种、病毒株系、感染时期和环境影响。东格鲁造成的黄化和矮化还可与氮、锌缺乏、水分胁迫以及其他病毒病混淆，因此单纯黄叶不能作为唯一诊断依据。"
+          ],
+          "source_ids": [
+            "TUNGRO-IRRI"
+          ]
+        },
+        "harm_symptoms": {
+          "paragraphs": [
+            "幼嫩植株受感染时，病害可快速扩展。感染会降低植株高度和分蘖数、推迟生育进程，并影响穗部正常抽出和籽粒充实。严重情况下可形成成片矮化、黄橙色植株、小穗、空秕粒和不完全充实籽粒；IRRI 指出感病品种在早期严重感染时潜在产量损失可非常高。"
+          ],
+          "source_ids": [
+            "TUNGRO-IRRI"
+          ]
+        }
+      },
+      "severity": {
+        "mild": {
+          "manifestation": {
+            "text": "对应研究中 IRRI SES score 3：株高降低约 1–10%，黄到橙的叶色改变不明显。",
+            "source_ids": [
+              "TUNGRO-SES"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES score 3; height loss 1%–10%",
+              "system_tier": "mild"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "在发生比例低、病株较少时，尽早拔除并妥善处理明显病株；同时调查邻田和绿叶蝉。采用抗东格鲁/抗叶蝉品种、同期种植，并在收获后及时翻压感染稻桩。",
+              "可采用生态工程思路保护和增加绿叶蝉天敌。多季田间研究显示，田埂开花植物配合含 Metarhizium anisopliae（绿僵菌）等生物防治措施可降低绿叶蝉和东格鲁发生；该措施针对媒介管理，不是治愈病毒。",
+              "不常规预防性反复喷杀虫剂。只有在当地植保建议、虫情和登记标签支持时，才考虑针对绿叶蝉使用登记杀虫剂；IRRI 明确指出单靠杀虫剂控制叶蝉往往不能有效阻止东格鲁传播。"
+            ],
+            "source_ids": [
+              "TUNGRO-IRRI",
+              "TUNGRO-PINOY",
+              "TUNGRO_EE_2025"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "DIRECT_SEVERITY_RELEVANT_SOURCE_PLUS_COMPOSED_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "在发生比例低、病株较少时，尽早拔除并妥善处理明显病株；同时调查邻田和绿叶蝉。采用抗东格鲁/抗叶蝉品种、同期种植，并在收获后及时翻压感染稻桩。",
+                  "source_ids": [
+                    "TUNGRO-IRRI",
+                    "TUNGRO-PINOY"
+                  ],
+                  "evidence_level": "IRRI_PHILRICE_DIRECT",
+                  "source_ids_original": [
+                    "TUNGRO_IRRI",
+                    "TUNGRO_PINOY"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "可采用生态工程思路保护和增加绿叶蝉天敌。多季田间研究显示，田埂开花植物配合含 Metarhizium anisopliae（绿僵菌）等生物防治措施可降低绿叶蝉和东格鲁发生；该措施针对媒介管理，不是治愈病毒。",
+                  "source_ids": [
+                    "TUNGRO_EE_2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_FIELD",
+                  "source_ids_original": [
+                    "TUNGRO_EE_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "不常规预防性反复喷杀虫剂。只有在当地植保建议、虫情和登记标签支持时，才考虑针对绿叶蝉使用登记杀虫剂；IRRI 明确指出单靠杀虫剂控制叶蝉往往不能有效阻止东格鲁传播。",
+                  "source_ids": [
+                    "TUNGRO-IRRI",
+                    "TUNGRO-PINOY"
+                  ],
+                  "evidence_level": "IRRI_PHILRICE_DIRECT",
+                  "source_ids_original": [
+                    "TUNGRO_IRRI",
+                    "TUNGRO_PINOY"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "moderate": {
+          "manifestation": {
+            "text": "对应研究中 IRRI SES score 5：株高降低约 11–30%，叶色变化仍可能不十分明显。",
+            "source_ids": [
+              "TUNGRO-SES"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES score 5; height loss 11%–30%",
+              "system_tier": "moderate"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "继续清除明显病株和病毒源，但应认识到随着发生范围扩大，拔除病株的边际效果下降。重点同步种植、抗病/抗叶蝉品种、清除再生稻和感染稻桩、减少跨季病毒源。",
+              "优先保护蜘蛛、寄生性天敌和捕食性甲虫等自然敌，并可采用有田间证据的田埂开花植物/生态工程方案；如使用微生物生物农药，必须确认当地合法登记和适用对象。",
+              "化学防治仅用于必要的媒介控制，不用于“治疗病毒”。避免长期反复使用广谱杀虫剂，以免破坏自然敌；具体药剂必须使用当地登记的叶蝉防治产品并严格按标签。"
+            ],
+            "source_ids": [
+              "TUNGRO-IRRI",
+              "TUNGRO-PINOY",
+              "TUNGRO_EE_2025"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "DIRECT_SEVERITY_RELEVANT_SOURCE_PLUS_COMPOSED_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "继续清除明显病株和病毒源，但应认识到随着发生范围扩大，拔除病株的边际效果下降。重点同步种植、抗病/抗叶蝉品种、清除再生稻和感染稻桩、减少跨季病毒源。",
+                  "source_ids": [
+                    "TUNGRO-IRRI",
+                    "TUNGRO-PINOY"
+                  ],
+                  "evidence_level": "IRRI_PHILRICE_DIRECT",
+                  "source_ids_original": [
+                    "TUNGRO_IRRI",
+                    "TUNGRO_PINOY"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "优先保护蜘蛛、寄生性天敌和捕食性甲虫等自然敌，并可采用有田间证据的田埂开花植物/生态工程方案；如使用微生物生物农药，必须确认当地合法登记和适用对象。",
+                  "source_ids": [
+                    "TUNGRO_EE_2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_FIELD",
+                  "source_ids_original": [
+                    "TUNGRO_EE_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "化学防治仅用于必要的媒介控制，不用于“治疗病毒”。避免长期反复使用广谱杀虫剂，以免破坏自然敌；具体药剂必须使用当地登记的叶蝉防治产品并严格按标签。",
+                  "source_ids": [
+                    "TUNGRO-IRRI",
+                    "TUNGRO-PINOY",
+                    "TUNGRO_EE_2025"
+                  ],
+                  "evidence_level": "DIRECT_PLUS_FIELD_EVIDENCE",
+                  "source_ids_original": [
+                    "TUNGRO_IRRI",
+                    "TUNGRO_PINOY",
+                    "TUNGRO_EE_2025"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "severe": {
+          "manifestation": {
+            "text": "对应研究中 IRRI SES score 7–9：株高降低约 31%–50% 或超过 50%，黄到橙黄色改变明显；严重感染可伴随分蘖减少、小穗、不完全抽穗及空秕。",
+            "source_ids": [
+              "TUNGRO-SES",
+              "TUNGRO-IRRI"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "IRRI SES scores 7–9; height loss 31%–>50%",
+              "system_tier": "severe"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "东格鲁重度感染植株不能治愈。重点转向减少当前田块和下一季的病毒/媒介来源：收获后及时翻压感染稻桩、清理再生稻，实施同期种植、适当休耕并使用抗病/抗叶蝉品种。高发生时单纯拔除病株效果有限。",
+              "生态工程和自然敌保护适合作为下一轮传播风险管理的重要组成，而不是对已严重感染植株进行“治疗”。",
+              "不要把增加杀虫剂强度作为重度东格鲁的默认处理。已感染植株无法通过杀虫剂治愈；如当地植保部门认为仍需控制绿叶蝉，只使用当地登记产品并按标签执行。"
+            ],
+            "source_ids": [
+              "TUNGRO-IRRI",
+              "TUNGRO-PINOY",
+              "TUNGRO_EE_2025"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "DIRECT_SEVERITY_RELEVANT_SOURCE_PLUS_COMPOSED_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "东格鲁重度感染植株不能治愈。重点转向减少当前田块和下一季的病毒/媒介来源：收获后及时翻压感染稻桩、清理再生稻，实施同期种植、适当休耕并使用抗病/抗叶蝉品种。高发生时单纯拔除病株效果有限。",
+                  "source_ids": [
+                    "TUNGRO-IRRI",
+                    "TUNGRO-PINOY"
+                  ],
+                  "evidence_level": "IRRI_PHILRICE_DIRECT",
+                  "source_ids_original": [
+                    "TUNGRO_IRRI",
+                    "TUNGRO_PINOY"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "生态工程和自然敌保护适合作为下一轮传播风险管理的重要组成，而不是对已严重感染植株进行“治疗”。",
+                  "source_ids": [
+                    "TUNGRO_EE_2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_FIELD",
+                  "source_ids_original": [
+                    "TUNGRO_EE_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "不要把增加杀虫剂强度作为重度东格鲁的默认处理。已感染植株无法通过杀虫剂治愈；如当地植保部门认为仍需控制绿叶蝉，只使用当地登记产品并按标签执行。",
+                  "source_ids": [
+                    "TUNGRO-IRRI",
+                    "TUNGRO-PINOY"
+                  ],
+                  "evidence_level": "IRRI_PHILRICE_DIRECT",
+                  "source_ids_original": [
+                    "TUNGRO_IRRI",
+                    "TUNGRO_PINOY"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        }
+      },
+      "treatment_source_version": "source_backed_5_disease_treatment_enriched_v4",
+      "treatment_tier_mapping": "DIRECT_SEVERITY_RELEVANT_SOURCE_PLUS_COMPOSED_MAPPING",
+      "treatment_special_contract": "感染植株不能被农药或杀菌剂治愈；所有化学措施仅针对传播媒介绿叶蝉风险。"
+    },
+    {
+      "class_id": 2,
+      "canonical_class_name": "玉米大斑病",
+      "stable_key": "official_10class_20260917::northern_corn_leaf_blight",
+      "full_knowledge": {
+        "basic_info": {
+          "rows": [
+            {
+              "field": "中文名",
+              "value": "玉米大斑病"
+            },
+            {
+              "field": "外文名",
+              "value": "Northern corn leaf blight（NCLB）"
+            },
+            {
+              "field": "作物",
+              "value": "玉米（Zea mays）"
+            },
+            {
+              "field": "病害类型",
+              "value": "真菌性叶部病害"
+            },
+            {
+              "field": "主要病原",
+              "value": "Exserohilum turcicum"
+            },
+            {
+              "field": "主要受害部位",
+              "value": "主要为叶片"
+            },
+            {
+              "field": "主要识别点",
+              "value": "长、窄、黄褐色病斑逐渐发展成长椭圆或典型“雪茄形”黄褐至灰色病斑"
+            }
+          ],
+          "source_ids": [
+            "NCLB-PURDUE"
+          ]
+        },
+        "features": {
+          "paragraphs": [
+            "早期症状是沿叶片方向形成长而窄的黄褐色病斑，随后发展为长椭圆或典型“雪茄形”的黄褐至灰色病斑。在高湿条件下，病斑内可产生橄榄绿色至黑色真菌孢子，使病斑外观变暗。",
+            "一个叶片上可同时形成多个病斑，病斑扩大后可融合成大片不规则坏死组织。与玉米灰斑病相比，大斑病更突出长椭圆或雪茄形病斑，而灰斑病典型病斑更规则、狭长矩形并受叶脉限制。"
+          ],
+          "source_ids": [
+            "NCLB-PURDUE"
+          ]
+        },
+        "harm_symptoms": {
+          "paragraphs": [
+            "病斑数量增加并融合会减少玉米有效光合叶面积。Purdue 指出，病害发生越早、病斑越多，潜在影响越大；如果在抽雄和吐丝前后关键时期病斑已经到达耳叶或耳叶以上，可能造成明显产量损失。严重叶部病害还可增加茎腐和倒伏风险。"
+          ],
+          "source_ids": [
+            "NCLB-PURDUE"
+          ]
+        }
+      },
+      "severity": {
+        "mild": {
+          "manifestation": {
+            "text": "采用 Purdue 的描述性映射：少量早期长窄病斑，尚未出现明显病斑融合，尚未在抽雄关键窗口威胁耳叶或耳叶以上功能叶。",
+            "source_ids": [
+              "NCLB-PURDUE"
+            ],
+            "support_type": "SOURCE_DESCRIPTION_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "Purdue early lesions / no coalescence / no ear-leaf threat",
+              "system_tier": "mild"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "加强田间调查，后续生产优先采用对大斑病不易感/具有适当抗性的杂交种；通过轮作和病残体管理减少田间初始菌源。",
+              "生物防治可作为研究支持的补充。Bacillus velezensis EM-A8 在温室与田间试验中显示抑制 Exserohilum turcicum 的潜力，但这不等于所有 Bacillus 产品均有效；仅在当地有合法登记/明确产品证据时作为实际措施。",
+              "轻度病情不设固定施药阈值。Purdue 明确指出 NCLB 没有统一固定的杀菌剂 severity threshold；应结合品种、天气、生育期和病害位置决定是否施药。"
+            ],
+            "source_ids": [
+              "NCLB-PURDUE",
+              "NCLB_CPN_2023",
+              "NCLB_BIO_BVELEZENSIS_2025"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING_NO_FIXED_SEVERITY_THRESHOLD",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "加强田间调查，后续生产优先采用对大斑病不易感/具有适当抗性的杂交种；通过轮作和病残体管理减少田间初始菌源。",
+                  "source_ids": [
+                    "NCLB-PURDUE",
+                    "NCLB_CPN_2023"
+                  ],
+                  "evidence_level": "EXTENSION_DIRECT",
+                  "source_ids_original": [
+                    "NCLB_PURDUE",
+                    "NCLB_CPN_2023"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "生物防治可作为研究支持的补充。Bacillus velezensis EM-A8 在温室与田间试验中显示抑制 Exserohilum turcicum 的潜力，但这不等于所有 Bacillus 产品均有效；仅在当地有合法登记/明确产品证据时作为实际措施。",
+                  "source_ids": [
+                    "NCLB_BIO_BVELEZENSIS_2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_FIELD",
+                  "note": "RESEARCH_OPTION_NOT_UNIVERSAL_STANDARD",
+                  "source_ids_original": [
+                    "NCLB_BIO_BVELEZENSIS_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "轻度病情不设固定施药阈值。Purdue 明确指出 NCLB 没有统一固定的杀菌剂 severity threshold；应结合品种、天气、生育期和病害位置决定是否施药。",
+                  "source_ids": [
+                    "NCLB-PURDUE"
+                  ],
+                  "evidence_level": "EXTENSION_DIRECT",
+                  "source_ids_original": [
+                    "NCLB_PURDUE"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "moderate": {
+          "manifestation": {
+            "text": "采用 Purdue 的描述性映射：多个典型雪茄形病斑，部分病斑开始融合，病害正向中上部冠层发展，但尚未形成耳叶以上大片死组织。",
+            "source_ids": [
+              "NCLB-PURDUE"
+            ],
+            "support_type": "SOURCE_DESCRIPTION_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "Purdue multiple lesions / beginning coalescence / canopy progression",
+              "system_tier": "moderate"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "继续轮作/病残体管理并加强 V14 至抽雄前调查；重点关注病斑是否向耳叶和耳叶以上发展。",
+              "如当地存在已登记且针对 NCLB 的微生物制剂，可作为综合方案补充；B. velezensis EM-A8 有田间研究支持，但应明确为研究证据而非全球通用标准产品。",
+              "若病害正在发展、天气继续有利且接近 VT-R1，Purdue/CPN 支持把叶面杀菌剂作为风险管理选项。2026 CPN 多地点田间数据中，吡唑醚菌酯（pyraclostrobin）对 NCLB 评级为 Very Good，嘧菌酯（azoxystrobin）和丙环唑（propiconazole）为 Good；仅作来源支持的有效成分示例，实际以当地登记和标签为准。"
+            ],
+            "source_ids": [
+              "NCLB-PURDUE",
+              "NCLB_BIO_BVELEZENSIS_2025",
+              "CORN_FUNGICIDE_CPN_2026"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING_NO_FIXED_SEVERITY_THRESHOLD",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "继续轮作/病残体管理并加强 V14 至抽雄前调查；重点关注病斑是否向耳叶和耳叶以上发展。",
+                  "source_ids": [
+                    "NCLB-PURDUE"
+                  ],
+                  "evidence_level": "EXTENSION_DIRECT",
+                  "source_ids_original": [
+                    "NCLB_PURDUE"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "如当地存在已登记且针对 NCLB 的微生物制剂，可作为综合方案补充；B. velezensis EM-A8 有田间研究支持，但应明确为研究证据而非全球通用标准产品。",
+                  "source_ids": [
+                    "NCLB_BIO_BVELEZENSIS_2025"
+                  ],
+                  "evidence_level": "PEER_REVIEWED_FIELD",
+                  "source_ids_original": [
+                    "NCLB_BIO_BVELEZENSIS_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "若病害正在发展、天气继续有利且接近 VT-R1，Purdue/CPN 支持把叶面杀菌剂作为风险管理选项。2026 CPN 多地点田间数据中，吡唑醚菌酯（pyraclostrobin）对 NCLB 评级为 Very Good，嘧菌酯（azoxystrobin）和丙环唑（propiconazole）为 Good；仅作来源支持的有效成分示例，实际以当地登记和标签为准。",
+                  "source_ids": [
+                    "NCLB-PURDUE",
+                    "CORN_FUNGICIDE_CPN_2026"
+                  ],
+                  "evidence_level": "CURRENT_MULTILOCATION_EXTENSION",
+                  "source_ids_original": [
+                    "NCLB_PURDUE",
+                    "CORN_FUNGICIDE_CPN_2026"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "severe": {
+          "manifestation": {
+            "text": "采用 Purdue 的描述性映射：病斑广泛融合形成大片死组织，或在抽雄前后关键窗口已经到达耳叶或耳叶以上，可伴随更明显的茎腐/倒伏风险。Purdue 明确没有固定的 NCLB fungicide severity threshold。",
+            "source_ids": [
+              "NCLB-PURDUE"
+            ],
+            "support_type": "SOURCE_DESCRIPTION_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "Purdue coalesced dead tissue or ear-leaf threat around tasseling",
+              "system_tier": "severe"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "若耳叶或上部功能叶已受明显威胁，应重点保护尚健康的叶面积，并将该田块列为下一季抗病杂交种、轮作和残体管理的高风险田。",
+              "严重发生时不把研究型生防制剂当作能够快速逆转大片叶枯的单独措施；可用于综合管理/下一季策略，但实际产品必须有当地登记。",
+              "如果仍处在具有经济保护价值的 VT-R1 等关键窗口且病害压力高，可根据当地登记选择对 NCLB 有可靠效力的叶面杀菌剂。CPN 2026 可作为有效成分筛选证据；不得因“重度”突破标签剂量、次数或间隔。"
+            ],
+            "source_ids": [
+              "NCLB-PURDUE",
+              "NCLB_CPN_2023",
+              "NCLB_BIO_BVELEZENSIS_2025",
+              "CORN_FUNGICIDE_CPN_2026"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING_NO_FIXED_SEVERITY_THRESHOLD",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "若耳叶或上部功能叶已受明显威胁，应重点保护尚健康的叶面积，并将该田块列为下一季抗病杂交种、轮作和残体管理的高风险田。",
+                  "source_ids": [
+                    "NCLB-PURDUE",
+                    "NCLB_CPN_2023"
+                  ],
+                  "evidence_level": "EXTENSION_DIRECT",
+                  "source_ids_original": [
+                    "NCLB_PURDUE",
+                    "NCLB_CPN_2023"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "严重发生时不把研究型生防制剂当作能够快速逆转大片叶枯的单独措施；可用于综合管理/下一季策略，但实际产品必须有当地登记。",
+                  "source_ids": [
+                    "NCLB_BIO_BVELEZENSIS_2025"
+                  ],
+                  "evidence_level": "SYSTEM_INTERPRETATION_FROM_FIELD_STUDY",
+                  "source_ids_original": [
+                    "NCLB_BIO_BVELEZENSIS_2025"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "如果仍处在具有经济保护价值的 VT-R1 等关键窗口且病害压力高，可根据当地登记选择对 NCLB 有可靠效力的叶面杀菌剂。CPN 2026 可作为有效成分筛选证据；不得因“重度”突破标签剂量、次数或间隔。",
+                  "source_ids": [
+                    "NCLB-PURDUE",
+                    "CORN_FUNGICIDE_CPN_2026"
+                  ],
+                  "evidence_level": "CURRENT_MULTILOCATION_EXTENSION",
+                  "source_ids_original": [
+                    "NCLB_PURDUE",
+                    "CORN_FUNGICIDE_CPN_2026"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        }
+      },
+      "treatment_source_version": "source_backed_5_disease_treatment_enriched_v4",
+      "treatment_tier_mapping": "COMPOSED_TIER_MAPPING_NO_FIXED_SEVERITY_THRESHOLD"
+    },
+    {
+      "class_id": 4,
+      "canonical_class_name": "玉米灰斑病",
+      "stable_key": "official_10class_20260917::gray_leaf_spot",
+      "full_knowledge": {
+        "basic_info": {
+          "rows": [
+            {
+              "field": "中文名",
+              "value": "玉米灰斑病"
+            },
+            {
+              "field": "外文名",
+              "value": "Gray leaf spot of corn（GLS）"
+            },
+            {
+              "field": "作物",
+              "value": "玉米（Zea mays）"
+            },
+            {
+              "field": "病害类型",
+              "value": "真菌性叶部病害"
+            },
+            {
+              "field": "主要病原",
+              "value": "Cercospora zeae-maydis"
+            },
+            {
+              "field": "主要受害部位",
+              "value": "主要为叶片；资料亦报道叶鞘和苞叶症状"
+            },
+            {
+              "field": "主要识别点",
+              "value": "成熟病斑狭长、近矩形、褐至灰色，两侧常受叶脉限制，边缘较平直"
+            }
+          ],
+          "source_ids": [
+            "GLS-PURDUE"
+          ]
+        },
+        "features": {
+          "paragraphs": [
+            "早期可出现小型点状病斑和黄色晕圈。随着病斑发展，典型病斑变成长、窄、近矩形的褐色至灰色病斑，两侧受到叶脉限制，因此边缘常较平直。",
+            "部分抗性较好的杂交种可能只形成较小、圆形或边缘不规则的病斑，而感病材料上更容易出现典型长矩形病斑。病害通常先在下部叶片出现，再逐渐向上部叶片发展；持续温暖、高湿、重露和阴湿天气有利于发病。"
+          ],
+          "source_ids": [
+            "GLS-PURDUE"
+          ]
+        },
+        "harm_symptoms": {
+          "paragraphs": [
+            "灰斑病会减少叶片有效光合面积。Purdue 指出，产量风险与病斑数量以及病害在冠层中的位置有关；如果在抽雄和授粉前后病斑已经达到耳叶或耳叶以上，产量损失风险会增加。病斑大量融合可形成大片坏死组织，严重的光合面积损失还可能促进茎腐和倒伏。"
+          ],
+          "source_ids": [
+            "GLS-PURDUE"
+          ]
+        }
+      },
+      "severity": {
+        "mild": {
+          "manifestation": {
+            "text": "参考 Purdue R5 耳叶受害面积不超过 5%（约 0–2% 产量损失估计），或表现为早期少量点状/窄矩形病斑，未明显融合。该映射不是 Purdue 原文的 mild 标签。",
+            "source_ids": [
+              "GLS-PURDUE"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "Purdue R5 ear-leaf area <=5%; early lesions",
+              "system_tier": "mild"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "优先采用耐病/抗病杂交种；通过轮作和适当病残体管理降低风险，并持续调查病斑是否向上部功能叶发展。",
+              "目前检索到的可靠 Extension 资料尚未给出可作为常规田间标准的 GLS 生物防治方案，因此本系统不为凑齐类别而推荐具体生防菌剂；可显示“暂无成熟常规生防推荐，优先采用抗病品种、轮作/残体管理和风险导向的化学防治”。",
+              "轻度阶段不自动喷药；当病害较早出现、品种易感且环境持续有利时，再依据风险和当地登记考虑叶面杀菌剂。"
+            ],
+            "source_ids": [
+              "GLS_CORNELL",
+              "GLS_UNL"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "优先采用耐病/抗病杂交种；通过轮作和适当病残体管理降低风险，并持续调查病斑是否向上部功能叶发展。",
+                  "source_ids": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ],
+                  "evidence_level": "EXTENSION_DIRECT",
+                  "source_ids_original": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "目前检索到的可靠 Extension 资料尚未给出可作为常规田间标准的 GLS 生物防治方案，因此本系统不为凑齐类别而推荐具体生防菌剂；可显示“暂无成熟常规生防推荐，优先采用抗病品种、轮作/残体管理和风险导向的化学防治”。",
+                  "source_ids": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ],
+                  "evidence_level": "EXTENSION_EVIDENCE_GAP",
+                  "source_ids_original": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "轻度阶段不自动喷药；当病害较早出现、品种易感且环境持续有利时，再依据风险和当地登记考虑叶面杀菌剂。",
+                  "source_ids": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ],
+                  "evidence_level": "EXTENSION_DIRECT",
+                  "source_ids_original": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "moderate": {
+          "manifestation": {
+            "text": "参考 Purdue R5 耳叶受害面积 6%–25%，多个矩形病斑增多但仍保留较多健康叶面积。该映射不是 Purdue 原文的 moderate 标签。",
+            "source_ids": [
+              "GLS-PURDUE"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "Purdue R5 ear-leaf area 6%–25%",
+              "system_tier": "moderate"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "继续轮作、残体管理和抗病杂交种策略；重点观察病斑是否在抽雄前后接近耳叶/上部冠层。",
+              "不将实验性微生物研究直接转成田间标准建议。若当地已有明确登记、并有 GLS 田间证据的生物制剂，可按当地标签补充；否则保持“证据不足”。",
+              "病情发展且风险较高时，可按当地登记使用叶面杀菌剂。2026 CPN 多地点田间数据中，嘧菌酯（azoxystrobin）和吡唑醚菌酯（pyraclostrobin）对 GLS 评级为 Excellent，丙环唑（propiconazole）为 Good，四氟醚唑（tetraconazole）为 Excellent；这些仅作为来源支持的有效成分示例，不替代当地登记。"
+            ],
+            "source_ids": [
+              "GLS_CORNELL",
+              "GLS_UNL",
+              "CORN_FUNGICIDE_CPN_2026"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "继续轮作、残体管理和抗病杂交种策略；重点观察病斑是否在抽雄前后接近耳叶/上部冠层。",
+                  "source_ids": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ],
+                  "evidence_level": "EXTENSION_DIRECT",
+                  "source_ids_original": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "不将实验性微生物研究直接转成田间标准建议。若当地已有明确登记、并有 GLS 田间证据的生物制剂，可按当地标签补充；否则保持“证据不足”。",
+                  "source_ids": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ],
+                  "evidence_level": "EXTENSION_EVIDENCE_GAP",
+                  "source_ids_original": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "病情发展且风险较高时，可按当地登记使用叶面杀菌剂。2026 CPN 多地点田间数据中，嘧菌酯（azoxystrobin）和吡唑醚菌酯（pyraclostrobin）对 GLS 评级为 Excellent，丙环唑（propiconazole）为 Good，四氟醚唑（tetraconazole）为 Excellent；这些仅作为来源支持的有效成分示例，不替代当地登记。",
+                  "source_ids": [
+                    "CORN_FUNGICIDE_CPN_2026"
+                  ],
+                  "evidence_level": "CURRENT_MULTILOCATION_EXTENSION",
+                  "source_ids_original": [
+                    "CORN_FUNGICIDE_CPN_2026"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        },
+        "severe": {
+          "manifestation": {
+            "text": "参考 Purdue R5 耳叶受害面积超过 25%；25%–75% 已对应更明显损失范围，75%–100% 可出现 leaf death，或病斑大量融合形成大片死组织。该映射将 Purdue 的四档表压缩为系统三档。",
+            "source_ids": [
+              "GLS-PURDUE"
+            ],
+            "support_type": "SOURCE_SCALE_TO_UI_TIER",
+            "source_scale_mapping": {
+              "original_scale": "Purdue R5 ear-leaf area >25%; 25%–75% and 75%–100% rows; coalesced dead tissue",
+              "system_tier": "severe"
+            }
+          },
+          "treatment": {
+            "paragraphs": [
+              "在高病压田继续保护尚健康的功能叶，并把该田块作为下一季高风险田，优先调整杂交种、轮作和病残体管理。",
+              "目前没有足够的 Extension 级证据支持把某一生防菌剂作为重度 GLS 的常规替代治疗；不得把实验性菌株包装成成熟田间产品。",
+              "高病压且仍处于可保护产量的时期，可根据当地登记和当前田间效力资料选择叶面杀菌剂；优先参考类似 CPN 2026 的多地点效力评价，并严格按标签用药。重度不等于提高剂量。"
+            ],
+            "source_ids": [
+              "GLS_CORNELL",
+              "GLS_UNL",
+              "CORN_FUNGICIDE_CPN_2026"
+            ],
+            "support_type": "COMPOSED_TIER_MAPPING",
+            "v4_support_type": "COMPOSED_TIER_MAPPING",
+            "source_backed_v4": true,
+            "sections": {
+              "agricultural_physical": [
+                {
+                  "text": "在高病压田继续保护尚健康的功能叶，并把该田块作为下一季高风险田，优先调整杂交种、轮作和病残体管理。",
+                  "source_ids": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ],
+                  "evidence_level": "EXTENSION_DIRECT",
+                  "source_ids_original": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ]
+                }
+              ],
+              "biological": [
+                {
+                  "text": "目前没有足够的 Extension 级证据支持把某一生防菌剂作为重度 GLS 的常规替代治疗；不得把实验性菌株包装成成熟田间产品。",
+                  "source_ids": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ],
+                  "evidence_level": "EXTENSION_EVIDENCE_GAP",
+                  "source_ids_original": [
+                    "GLS_CORNELL",
+                    "GLS_UNL"
+                  ]
+                }
+              ],
+              "chemical": [
+                {
+                  "text": "高病压且仍处于可保护产量的时期，可根据当地登记和当前田间效力资料选择叶面杀菌剂；优先参考类似 CPN 2026 的多地点效力评价，并严格按标签用药。重度不等于提高剂量。",
+                  "source_ids": [
+                    "CORN_FUNGICIDE_CPN_2026",
+                    "GLS_UNL"
+                  ],
+                  "evidence_level": "CURRENT_MULTILOCATION_EXTENSION",
+                  "source_ids_original": [
+                    "CORN_FUNGICIDE_CPN_2026",
+                    "GLS_UNL"
+                  ]
+                }
+              ]
+            },
+            "safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+            "safety_section": {
+              "text": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+              "source_ids": [],
+              "evidence_level": "GLOBAL_SAFETY_NOTICE"
+            },
+            "local_registration_required": true,
+            "no_dose_escalation_by_severity": true,
+            "research_strain_is_not_product": true
+          }
+        }
+      },
+      "treatment_source_version": "source_backed_5_disease_treatment_enriched_v4",
+      "treatment_tier_mapping": "COMPOSED_TIER_MAPPING"
+    }
+  ],
+  "treatment_integration": {
+    "schema_version": "treatment_source_backed_v4",
+    "source_artifact": "source_backed_5_disease_treatment_enriched_v4.json",
+    "display_sections": [
+      "农业/物理防治",
+      "生物防治",
+      "化学防治",
+      "安全提醒"
+    ],
+    "global_safety_notice": "农药登记、适用作物/病害、剂型和使用限制因国家/地区而异。实际使用前必须核对当地最新登记和产品标签，严格遵守标签规定的剂量、施用时期、施药次数、再进入间隔（REI）、安全间隔期（PHI）及个人防护要求；不得因病情加重擅自提高剂量或增加施药频次。涉及杀菌剂/杀虫剂抗性管理时，应依当地标签和植保部门建议轮换不同作用机制。",
+    "rules": {
+      "uncertain_has_treatment": false,
+      "dose_escalation_by_severity": false,
+      "local_registration_required": true,
+      "research_strain_is_not_product": true,
+      "empty_biological_section_policy": "若无成熟来源支持，明确显示证据不足，不得编造。",
+      "tier_mapping_note": "除来源明确给出严重度相关措施外，mild/moderate/severe 为系统 COMPOSED_TIER_MAPPING；措施本身均需有真实来源。"
+    },
+    "source_id_aliases": {
+      "BLAST_IRRI_LEAF": "BLAST-IRRI-LEAF",
+      "BLAST_IRRI_NECK": "BLAST-IRRI-NECK",
+      "BLAST_BIO_PF": "BLAST_BIO_PF",
+      "BLAST_BIO_BACILLUS": "BLAST_BIO_BACILLUS",
+      "BROWN_REVIEW_2025": "BROWN-REVIEW-2025",
+      "TUNGRO_IRRI": "TUNGRO-IRRI",
+      "TUNGRO_PINOY": "TUNGRO-PINOY",
+      "TUNGRO_EE_2025": "TUNGRO_EE_2025",
+      "NCLB_PURDUE": "NCLB-PURDUE",
+      "NCLB_CPN_2023": "NCLB_CPN_2023",
+      "CORN_FUNGICIDE_CPN_2026": "CORN_FUNGICIDE_CPN_2026",
+      "NCLB_BIO_BVELEZENSIS_2025": "NCLB_BIO_BVELEZENSIS_2025",
+      "GLS_CORNELL": "GLS_CORNELL",
+      "GLS_UNL": "GLS_UNL"
+    },
+    "integration_status": "candidate_only"
+  }
+}

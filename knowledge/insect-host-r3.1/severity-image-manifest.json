@@ -1,0 +1,4612 @@
+{
+  "schema_version": "1.0",
+  "project": "crop-pest-multimodel-system",
+  "scope": "R3.1 insect × host severity AI illustrations",
+  "knowledge_status": "PASS/CLOSED/FROZEN",
+  "expected_pair_count": 38,
+  "expected_severity_count": 3,
+  "expected_asset_count": 114,
+  "global_label": "AI示意图 · 非真实照片",
+  "rules": {
+    "knowledge_authority": "frozen local Knowledge only",
+    "generation_must_not_modify_knowledge": true,
+    "treatment_must_not_influence_visuals": true,
+    "unique_asset_per_pair_and_severity": true,
+    "cross_host_reuse_forbidden": true,
+    "cross_severity_reuse_forbidden": true,
+    "text_inside_image_forbidden": true,
+    "watermark_forbidden": true,
+    "uncertain_has_image": false
+  },
+  "entries": [
+    {
+      "pair_id": "01",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "大豆",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-01-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "早期或局部取食，叶片出现局部缺刻或有限脱叶，整体冠层仍连续。",
+        "observable_features": [
+          "叶片局部缺刻",
+          "有限脱叶",
+          "冠层仍连续"
+        ],
+        "source_ids": [
+          "R31-08-NCSU-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见叶片局部缺刻、有限脱叶、冠层仍连续，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/01/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/01/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "01",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "大豆",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-01-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "成虫出现群集，冠层脱叶已清楚可见，但尚未出现来源所述的快速失叶场景。",
+        "observable_features": [
+          "成虫群集",
+          "冠层脱叶清楚可见"
+        ],
+        "source_ids": [
+          "R31-08-ORDOS",
+          "R31-08-NCSU-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见成虫群集、冠层脱叶清楚可见，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/01/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/01/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "01",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "大豆",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-01-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "群集取食造成快速脱叶，冠层叶量明显下降。",
+        "observable_features": [
+          "群集取食",
+          "快速脱叶",
+          "冠层叶量明显下降"
+        ],
+        "source_ids": [
+          "R31-08-NCSU-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见群集取食、快速脱叶、冠层叶量明显下降，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/01/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/01/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "02",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "马铃薯",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-02-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "马铃薯叶片出现零散或局部取食孔洞，受害范围有限，尚未形成连续性大面积脱叶。",
+        "observable_features": [
+          "零散叶片孔洞",
+          "局部取食",
+          "尚无大面积脱叶"
+        ],
+        "source_ids": [
+          "R31-08-IFAS-BLISTER-GROUP",
+          "R31-08-MONTANA-BLISTER-POTATO"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见零散叶片孔洞、局部取食、尚无大面积脱叶，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/02/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/02/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "02",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "马铃薯",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-02-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "局部虫群扩大后，马铃薯叶片出现连续片区的明显缺刻和较大面积叶面损伤，但尚未达到来源所述广泛脱叶。",
+        "observable_features": [
+          "局部虫群扩大",
+          "连续片区缺刻",
+          "较大面积叶面损伤"
+        ],
+        "source_ids": [
+          "R31-08-IFAS-BLISTER-GROUP",
+          "R31-08-MONTANA-BLISTER-POTATO"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见局部虫群扩大、连续片区缺刻、较大面积叶面损伤，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/02/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/02/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "02",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "马铃薯",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-02-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "高密度群聚可在局部迅速造成广泛叶片损伤甚至近乎脱叶；全田经济性损害仍需结合田间分布判断。",
+        "observable_features": [
+          "高密度群聚",
+          "广泛叶片损伤",
+          "局部近乎脱叶",
+          "全田损害需结合分布判断"
+        ],
+        "source_ids": [
+          "R31-08-IFAS-BLISTER-GROUP",
+          "R31-08-MONTANA-BLISTER-POTATO"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见高密度群聚、广泛叶片损伤、局部近乎脱叶、全田损害需结合分布判断，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/02/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/02/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "03",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "花生",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-03-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "花生叶片或花器出现少量孔洞、缺刻，受害范围仍局部。",
+        "observable_features": [
+          "少量孔洞",
+          "叶片/花器缺刻",
+          "局部受害"
+        ],
+        "source_ids": [
+          "R31-08-DAZU-BLISTER-PEANUT"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见少量孔洞、叶片/花器缺刻、局部受害，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/03/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/03/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "03",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "花生",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-03-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "芫菁群聚取食扩大，花生叶面积损失明显并出现叶脉骨架化趋势。",
+        "observable_features": [
+          "群聚扩大",
+          "明显叶面积损失",
+          "叶脉骨架化趋势"
+        ],
+        "source_ids": [
+          "R31-08-DAZU-BLISTER-PEANUT"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见群聚扩大、明显叶面积损失、叶脉骨架化趋势，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/03/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/03/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "03",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "花生",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-03-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "暴发时可迅速吃光花生整株叶片，仅剩叶脉，形成明显冠层损失。",
+        "observable_features": [
+          "暴发",
+          "整株叶片迅速被吃光",
+          "仅剩叶脉",
+          "冠层损失"
+        ],
+        "source_ids": [
+          "R31-08-DAZU-BLISTER-PEANUT"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见暴发、整株叶片迅速被吃光、仅剩叶脉、冠层损失，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/03/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/03/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "04",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "甜菜",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-04-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "甜菜出现零散或局部芫菁取食，叶面损失有限，尚未形成群聚斑块。",
+        "observable_features": [
+          "零散/局部取食",
+          "叶面损失有限",
+          "尚无群聚斑块"
+        ],
+        "source_ids": [
+          "R31-08-IFAS-BLISTER-GROUP",
+          "R31-08-ORDOS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：甜菜植株上可见零散/局部取食、叶面损失有限、尚无群聚斑块，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/04/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/04/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "04",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "甜菜",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-04-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "群聚取食形成局部明显叶面积损失，受害斑块扩大但尚未达到局部灾难性脱叶。",
+        "observable_features": [
+          "群聚取食",
+          "局部明显叶面积损失",
+          "受害斑块扩大",
+          "尚未灾难性脱叶"
+        ],
+        "source_ids": [
+          "R31-08-IFAS-BLISTER-GROUP",
+          "R31-08-ORDOS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：甜菜植株上可见群聚取食、局部明显叶面积损失、受害斑块扩大、尚未灾难性脱叶，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/04/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/04/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "04",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "甜菜",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-04-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "群聚攻击可在甜菜局部造成灾难性脱叶，形成高强度局部冠层损失。",
+        "observable_features": [
+          "群聚攻击",
+          "局部灾难性脱叶",
+          "高强度冠层损失"
+        ],
+        "source_ids": [
+          "R31-08-IFAS-BLISTER-GROUP",
+          "R31-08-ORDOS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：甜菜植株上可见群聚攻击、局部灾难性脱叶、高强度冠层损失，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/04/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/04/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "05",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "苜蓿",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-05-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "低量或零散发生时，芫菁主要取食苜蓿花和嫩叶，广泛植株产量损失通常有限；但应注意发现虫群并防止其进入干草。",
+        "observable_features": [
+          "低量/零散发生",
+          "花和嫩叶取食",
+          "广泛产量损失有限",
+          "干草污染风险开始出现"
+        ],
+        "source_ids": [
+          "R31-08-TAMU-ALFALFA-BLISTER",
+          "R31-08-UCIPM-ALFALFA-BLISTER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见低量/零散发生、花和嫩叶取食、广泛产量损失有限、干草污染风险开始出现，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/05/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/05/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "05",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "苜蓿",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-05-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫群集中在田边或田内局部区域并形成聚集，可见局部明显取食；若这些区域被直接收割，活虫或被压碎虫体进入干草的风险明显增加。",
+        "observable_features": [
+          "局部聚集",
+          "局部明显取食",
+          "活虫进入干草风险",
+          "压碎虫体污染风险"
+        ],
+        "source_ids": [
+          "R31-08-TAMU-ALFALFA-BLISTER",
+          "R31-08-MU-ALFALFA-BLISTER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见局部聚集、局部明显取食、活虫进入干草风险、压碎虫体污染风险，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/05/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/05/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "05",
+      "class_id": 8,
+      "insect": "芫菁",
+      "host": "苜蓿",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-05-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "大群或 swarm 发生时可在局部快速造成明显脱叶，并显著增加大量甲虫随收割进入干草的风险；该严重度体现局部高密度聚集和干草污染风险。",
+        "observable_features": [
+          "大群或 swarm",
+          "快速局部脱叶",
+          "大量甲虫进入干草风险",
+          "高密度局部聚集"
+        ],
+        "source_ids": [
+          "R31-08-MU-ALFALFA-BLISTER",
+          "R31-08-TAMU-ALFALFA-BLISTER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见大群或 swarm、快速局部脱叶、大量甲虫进入干草风险、高密度局部聚集，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/05/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/05/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "06",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "玉米",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-06-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田间仅有低量蚜虫群落或局部植株带虫，尚未出现明显萎蔫、卷曲、黄化、广泛蜜露或煤污。",
+        "observable_features": [
+          "低量蚜虫群落",
+          "局部植株带虫",
+          "尚无明显萎蔫/卷曲/黄化",
+          "尚无广泛蜜露或煤污"
+        ],
+        "source_ids": [
+          "R31-09-ISU-CORN-APHIDS",
+          "R31-09-UNL-CORN-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见低量蚜虫群落、局部植株带虫、尚无明显萎蔫/卷曲/黄化、尚无广泛蜜露或煤污，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/06/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/06/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "06",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "玉米",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-06-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "授粉前虫量明显增加并造成萎蔫、卷曲、黄化、蜜露等受害；若授粉未过半且超过一半雄穗被蚜虫覆盖，已进入可能需要处理的风险水平。",
+        "observable_features": [
+          "授粉前虫量增加",
+          "萎蔫/卷曲/黄化",
+          "蜜露",
+          "授粉未过半",
+          ">50%雄穗被覆盖"
+        ],
+        "source_ids": [
+          "R31-09-UNL-CORN-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见授粉前虫量增加、萎蔫/卷曲/黄化、蜜露、授粉未过半、>50%雄穗被覆盖，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/06/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/06/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "06",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "玉米",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-06-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "授粉后若80%以上植株受害、虫量持续上升，并出现叶片或雄穗严重损伤、明显黑色煤污且天敌不足，可视为高风险重度发生情形。",
+        "observable_features": [
+          "授粉后",
+          ">=80%植株受害",
+          "虫量持续上升",
+          "叶片/雄穗严重损伤",
+          "明显煤污",
+          "天敌不足"
+        ],
+        "source_ids": [
+          "R31-09-UNL-CORN-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见授粉后、>=80%植株受害、虫量持续上升、叶片/雄穗严重损伤、明显煤污、天敌不足，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/06/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/06/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "07",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "大豆",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-07-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "顶叶、嫩叶或嫩茎出现局部蚜群和不规则黄斑，叶片尚未普遍卷曲变黄。",
+        "observable_features": [
+          "顶叶/嫩叶/嫩茎局部蚜群",
+          "不规则黄斑",
+          "未普遍卷曲变黄"
+        ],
+        "source_ids": [
+          "R31-09-HEILONGJIANG-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见顶叶/嫩叶/嫩茎局部蚜群、不规则黄斑、未普遍卷曲变黄，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/07/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/07/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "07",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "大豆",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-07-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "黄斑扩大并转褐，蜜露或煤污在受害部位可见，卷曲开始在多处出现。",
+        "observable_features": [
+          "黄斑扩大并转褐",
+          "蜜露/煤污",
+          "多处卷曲"
+        ],
+        "source_ids": [
+          "R31-09-HEILONGJIANG-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见黄斑扩大并转褐、蜜露/煤污、多处卷曲，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/07/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/07/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "07",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "大豆",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-07-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "叶片卷曲变黄，植株矮小，分枝和结荚数减少，或豆粒粒重受到影响。",
+        "observable_features": [
+          "叶片卷曲变黄",
+          "植株矮小",
+          "分枝/结荚数减少",
+          "豆粒粒重受影响"
+        ],
+        "source_ids": [
+          "R31-09-HEILONGJIANG-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见叶片卷曲变黄、植株矮小、分枝/结荚数减少、豆粒粒重受影响，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/07/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/07/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "08",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "小麦",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-08-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量低于当前小麦生育阶段的经济阈值，植株以少量蚜虫存在为主，尚未出现明显经济性危害表现。",
+        "observable_features": [
+          "低于生育阶段经济阈值",
+          "少量蚜虫",
+          "尚无明显经济性危害"
+        ],
+        "source_ids": [
+          "R31-09-UGA-WHEAT-APHIDS",
+          "R31-09-SDSU-WHEAT-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见低于生育阶段经济阈值、少量蚜虫、尚无明显经济性危害，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/08/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/08/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "08",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "小麦",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-08-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量达到当前生育阶段的处理阈值，需要从单纯监测转为防治决策；可伴随叶片开始黄化等吸汁危害表现。",
+        "observable_features": [
+          "达到生育阶段处理阈值",
+          "从监测转为防治决策",
+          "叶片开始黄化"
+        ],
+        "source_ids": [
+          "R31-09-UGA-WHEAT-APHIDS",
+          "R31-09-SDSU-WHEAT-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见达到生育阶段处理阈值、从监测转为防治决策、叶片开始黄化，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/08/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/08/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "08",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "小麦",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-08-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量明显超过阶段性阈值并出现较明显吸汁危害，可见叶片黄化甚至死亡；穗部受害时可导致籽粒变小。",
+        "observable_features": [
+          "明显超过阶段性阈值",
+          "叶片黄化或死亡",
+          "穗部受害",
+          "籽粒变小"
+        ],
+        "source_ids": [
+          "R31-09-UGA-WHEAT-APHIDS",
+          "R31-09-SDSU-WHEAT-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见明显超过阶段性阈值、叶片黄化或死亡、穗部受害、籽粒变小，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/08/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/08/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "09",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "棉花",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-09-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田间仅零星植株或较多植株出现低数量蚜虫，重度受害植株少见；蜜露仅偶见或尚未形成明显田间污染。",
+        "observable_features": [
+          "零星或低数量蚜虫",
+          "重度受害植株少见",
+          "蜜露偶见或尚不明显"
+        ],
+        "source_ids": [
+          "R31-09-NCSU-COTTON-APHID",
+          "R31-09-TAMU-COTTON-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：棉花植株上可见零星或低数量蚜虫、重度受害植株少见、蜜露偶见或尚不明显，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/09/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/09/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "09",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "棉花",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-09-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "多数植株可见蚜虫，局部植株开始重度聚集，田间多处可见蜜露；种群已接近或达到当前生育阶段的行动阈值，需要结合天敌数量快速复查。",
+        "observable_features": [
+          "多数植株可见蚜虫",
+          "局部重度聚集",
+          "多处蜜露",
+          "接近或达到生育阶段行动阈值"
+        ],
+        "source_ids": [
+          "R31-09-TAMU-COTTON-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：棉花植株上可见多数植株可见蚜虫、局部重度聚集、多处蜜露、接近或达到生育阶段行动阈值，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/09/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/09/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "09",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "棉花",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-09-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田间大量植株重度聚集蚜虫、蜜露广泛分布；持续高虫量可造成叶片下卷、黄化脱落、蕾铃脱落或小铃发育受抑，后期还可形成煤污或黏棉风险。",
+        "observable_features": [
+          "大量植株重度聚集",
+          "蜜露广泛分布",
+          "叶片下卷/黄化脱落",
+          "蕾铃脱落或小铃发育受抑",
+          "煤污或黏棉风险"
+        ],
+        "source_ids": [
+          "R31-09-NCSU-COTTON-APHID",
+          "R31-09-TAMU-COTTON-APHIDS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：棉花植株上可见大量植株重度聚集、蜜露广泛分布、叶片下卷/黄化脱落、蕾铃脱落或小铃发育受抑、煤污或黏棉风险，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/09/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/09/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "10",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "桃",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-10-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量低于桃树处理参考时，以少量蚜群、轻微卷叶或变形、少量蜜露为主，尚未出现明显落叶、幼树生长受抑或果实煤污。",
+        "observable_features": [
+          "低于桃树处理参考",
+          "少量蚜群",
+          "轻微卷叶/变形",
+          "少量蜜露",
+          "尚无明显落叶或煤污"
+        ],
+        "source_ids": [
+          "R31-09-USU-PEACH-APHID-GROW",
+          "R31-09-USU-PEACH-APHID-FRUIT"
+        ]
+      },
+      "prompt_basis": "农业田间示意：桃植株上可见低于桃树处理参考、少量蚜群、轻微卷叶/变形、少量蜜露、尚无明显落叶或煤污，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/10/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/10/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "10",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "桃",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-10-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "蚜群达到桃树处理参考水平后，卷叶、黄叶和黏性蜜露更明显，并开始出现落叶或果实表面污染风险。",
+        "observable_features": [
+          "达到桃树处理参考",
+          "卷叶/黄叶更明显",
+          "黏性蜜露",
+          "开始落叶",
+          "果实污染风险"
+        ],
+        "source_ids": [
+          "R31-09-USU-PEACH-APHID-FRUIT",
+          "R31-09-PSU-PEACH-GREEN-APHID"
+        ]
+      },
+      "prompt_basis": "农业田间示意：桃植株上可见达到桃树处理参考、卷叶/黄叶更明显、黏性蜜露、开始落叶、果实污染风险，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/10/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/10/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "10",
+      "class_id": 9,
+      "insect": "蚜虫",
+      "host": "桃",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-10-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "极高或持续种群可造成幼树生长受抑、明显叶片脱落，并因大量蜜露形成煤污污染果实；严重受害时树体生长和果实商品性均受影响。",
+        "observable_features": [
+          "持续高种群",
+          "幼树生长受抑",
+          "明显叶片脱落",
+          "大量蜜露和煤污",
+          "果实商品性受影响"
+        ],
+        "source_ids": [
+          "R31-09-USU-PEACH-APHID-FRUIT"
+        ]
+      },
+      "prompt_basis": "农业田间示意：桃植株上可见持续高种群、幼树生长受抑、明显叶片脱落、大量蜜露和煤污、果实商品性受影响，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/10/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/10/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "11",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "葡萄",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-11-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "未展开芽或刚展开的幼叶出现针头大小的红褐色斑点。",
+        "observable_features": [
+          "未展开芽/刚展开幼叶",
+          "针头大小红褐色斑点"
+        ],
+        "source_ids": [
+          "R31-10-XILINGOL"
+        ]
+      },
+      "prompt_basis": "农业田间示意：葡萄植株上可见未展开芽/刚展开幼叶、针头大小红褐色斑点，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/11/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/11/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "11",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "葡萄",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-11-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "危害扩展后幼叶出现不规则孔洞，多个刺伤孔使叶片皱缩或畸形。",
+        "observable_features": [
+          "不规则孔洞",
+          "多个刺伤孔",
+          "叶片皱缩/畸形"
+        ],
+        "source_ids": [
+          "R31-10-XILINGOL"
+        ]
+      },
+      "prompt_basis": "农业田间示意：葡萄植株上可见不规则孔洞、多个刺伤孔、叶片皱缩/畸形，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/11/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/11/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "11",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "葡萄",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-11-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "叶片出现撕裂状损伤并生长受阻，或幼果伤口形成小黑斑且外观损伤不可恢复。",
+        "observable_features": [
+          "撕裂状叶片损伤",
+          "生长受阻",
+          "幼果小黑斑",
+          "幼果外观损伤不可恢复"
+        ],
+        "source_ids": [
+          "R31-10-XILINGOL"
+        ]
+      },
+      "prompt_basis": "农业田间示意：葡萄植株上可见撕裂状叶片损伤、生长受阻、幼果小黑斑、幼果外观损伤不可恢复，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/11/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/11/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "12",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "棉花",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-12-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量和新受害率低于当地对应生育期防治指标时，以零星盲蝽和局部早期受害为主，尚未形成明显蕾铃损失。",
+        "observable_features": [
+          "低于当地生育期防治指标",
+          "零星盲蝽",
+          "局部早期受害",
+          "尚无明显蕾铃损失"
+        ],
+        "source_ids": [
+          "R31-10-NATEC-COTTON-MIRID-2025"
+        ]
+      },
+      "prompt_basis": "农业田间示意：棉花植株上可见低于当地生育期防治指标、零星盲蝽、局部早期受害、尚无明显蕾铃损失，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/12/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/12/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "12",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "棉花",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-12-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "达到当地棉区和生育期防治指标后，嫩头、幼蕾等受害增加，出现新被害株或蕾花受害，进入需要主动防治的经济风险水平。",
+        "observable_features": [
+          "达到当地棉区生育期指标",
+          "嫩头受害增加",
+          "幼蕾受害",
+          "新被害株或蕾花受害"
+        ],
+        "source_ids": [
+          "R31-10-NATEC-COTTON-MIRID-2025"
+        ]
+      },
+      "prompt_basis": "农业田间示意：棉花植株上可见达到当地棉区生育期指标、嫩头受害增加、幼蕾受害、新被害株或蕾花受害，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/12/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/12/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "12",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "棉花",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-12-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "高虫压时棉田盲蝽密度可显著超过约10头/百株的经济阈值，中国棉田调查峰值可达约50–200头/百株；高密度种群可造成严重蕾花损失并威胁产量。",
+        "observable_features": [
+          "显著高于约10头/百株经济阈值",
+          "峰值约50–200头/百株",
+          "高虫压",
+          "严重蕾花损失",
+          "产量风险"
+        ],
+        "source_ids": [
+          "R31-10-NATEC-COTTON-MIRID-2025",
+          "R31-10-AGRIS-MIRID-BTCOTTON-2008"
+        ]
+      },
+      "prompt_basis": "农业田间示意：棉花植株上可见显著高于约10头/百株经济阈值、峰值约50–200头/百株、高虫压、严重蕾花损失、产量风险，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/12/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/12/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "13",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "枣",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-13-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "早期受害时，新叶出现针头大小褐色枯死小点并形成少量不规则孔洞，尚未出现大范围花蕾或幼果损失。",
+        "observable_features": [
+          "新叶褐色枯死小点",
+          "少量不规则孔洞",
+          "尚无大范围花蕾损失",
+          "尚无明显幼果损失"
+        ],
+        "source_ids": [
+          "R31-10-ZHENGZHOU-JUJUBE-MIRID"
+        ]
+      },
+      "prompt_basis": "农业田间示意：枣植株上可见新叶褐色枯死小点、少量不规则孔洞、尚无大范围花蕾损失、尚无明显幼果损失，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/13/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/13/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "13",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "枣",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-13-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "危害加重后可见叶片孔洞、皱缩和枣吊弯曲，花蕾停止发育并干枯脱落，幼果可出现褐黑色坏死斑或隆起疤痕。",
+        "observable_features": [
+          "叶片孔洞和皱缩",
+          "枣吊弯曲",
+          "花蕾停止发育",
+          "花蕾干枯脱落",
+          "幼果坏死斑/疤痕"
+        ],
+        "source_ids": [
+          "R31-10-ZHENGZHOU-JUJUBE-MIRID"
+        ]
+      },
+      "prompt_basis": "农业田间示意：枣植株上可见叶片孔洞和皱缩、枣吊弯曲、花蕾停止发育、花蕾干枯脱落、幼果坏死斑/疤痕，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/13/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/13/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "13",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "枣",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-13-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "严重发生时花蕾大面积甚至近乎全部脱落、幼果大量脱落；代表性绿盲蝽研究还记录重发枣园叶片受害率约 80%–90%，并显著影响叶片生理功能和产量。",
+        "observable_features": [
+          "花蕾大面积/近乎全部脱落",
+          "幼果大量脱落",
+          "代表性绿盲蝽叶片受害率约80%–90%",
+          "叶片生理功能受损",
+          "产量风险"
+        ],
+        "source_ids": [
+          "R31-10-ZHENGZHOU-JUJUBE-MIRID",
+          "R31-10-FRONTIERS-JUJUBE-GREEN-MIRID"
+        ]
+      },
+      "prompt_basis": "农业田间示意：枣植株上可见花蕾大面积/近乎全部脱落、幼果大量脱落、代表性绿盲蝽叶片受害率约80%–90%、叶片生理功能受损、产量风险，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/13/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/13/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "14",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "核桃",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-14-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "在同一核桃园调查的低虫口档（10–19%）或局部发生阶段，叶片可见小而圆的凹陷刺吸斑；该档仅作研究场景下的轻度参考。",
+        "observable_features": [
+          "叶片小而圆的凹陷斑",
+          "低虫口/局部发生",
+          "10–19%研究种群类别"
+        ],
+        "source_ids": [
+          "R31-10-UOK-WALNUT-CAPSID"
+        ]
+      },
+      "prompt_basis": "农业田间示意：核桃植株上可见叶片小而圆的凹陷斑、低虫口/局部发生、10–19%研究种群类别，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/14/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/14/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "14",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "核桃",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-14-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "在同一核桃调查的中等虫口档（20–49%）时，成虫和若虫可持续在叶背、萌芽及果实取食，受害不再局限于少量叶斑；该档仅作同一研究内的中等发生参考。",
+        "observable_features": [
+          "叶背持续取食",
+          "萌芽和果实取食",
+          "中等虫口档20–49%"
+        ],
+        "source_ids": [
+          "R31-10-UOK-WALNUT-CAPSID"
+        ]
+      },
+      "prompt_basis": "农业田间示意：核桃植株上可见叶背持续取食、萌芽和果实取食、中等虫口档20–49%，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/14/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/14/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "14",
+      "class_id": 10,
+      "insect": "盲蝽科",
+      "host": "核桃",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-14-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "在同一核桃调查的最高虫口档（50–70%）或夏季高峰场景，叶、嫩芽和果实的取食范围明显扩大；原研究结论称核桃上可造成中到重度损害并降低年度总产量，因此作为重度参考。",
+        "observable_features": [
+          "最高虫口档50–70%",
+          "叶/嫩芽/果实多部位取食",
+          "中到重度损害",
+          "年度产量下降风险"
+        ],
+        "source_ids": [
+          "R31-10-UOK-WALNUT-CAPSID"
+        ]
+      },
+      "prompt_basis": "农业田间示意：核桃植株上可见最高虫口档50–70%、叶/嫩芽/果实多部位取食、中到重度损害、年度产量下降风险，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/14/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/14/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "15",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "玉米",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-15-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "未出苗种子或幼苗根茎出现咬食痕迹，尚未观察到成片缺苗。",
+        "observable_features": [
+          "未出苗种子/幼苗根茎咬食",
+          "尚无成片缺苗"
+        ],
+        "source_ids": [
+          "R31-11-CHENGDE"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见未出苗种子/幼苗根茎咬食、尚无成片缺苗，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/15/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/15/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "15",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "玉米",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-15-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "较大幼苗根茎部受害，根茎呈乱麻状，局部缺苗或断垄可见。",
+        "observable_features": [
+          "较大幼苗根茎受害",
+          "根茎呈乱麻状",
+          "局部缺苗/断垄"
+        ],
+        "source_ids": [
+          "R31-11-CHENGDE"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见较大幼苗根茎受害、根茎呈乱麻状、局部缺苗/断垄，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/15/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/15/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "15",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "玉米",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-15-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "幼苗枯死并出现缺苗断垄。",
+        "observable_features": [
+          "幼苗枯死",
+          "缺苗",
+          "断垄"
+        ],
+        "source_ids": [
+          "R31-11-CHENGDE"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见幼苗枯死、缺苗、断垄，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/15/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/15/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "16",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "小麦",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-16-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "蝼蛄取食小麦种子、幼芽或嫩茎，局部苗根受扰，但尚未形成连续缺苗。",
+        "observable_features": [
+          "种子/幼芽/嫩茎取食",
+          "局部苗根受扰",
+          "尚无连续缺苗"
+        ],
+        "source_ids": [
+          "R31-11-XJAU-WHEAT-MOLECRICKET"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见种子/幼芽/嫩茎取食、局部苗根受扰、尚无连续缺苗，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/16/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/16/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "16",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "小麦",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-16-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "幼苗被咬断，或隧道使根土分离、失水枯死，田间出现点片死苗。",
+        "observable_features": [
+          "幼苗咬断",
+          "根土分离",
+          "失水枯死",
+          "点片死苗"
+        ],
+        "source_ids": [
+          "R31-11-XJAU-WHEAT-MOLECRICKET"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见幼苗咬断、根土分离、失水枯死、点片死苗，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/16/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/16/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "16",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "小麦",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-16-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "持续重发形成明显缺苗断垄，严重田块可能需要评估毁种重播。",
+        "observable_features": [
+          "持续重发",
+          "明显缺苗断垄",
+          "毁种重播风险"
+        ],
+        "source_ids": [
+          "R31-11-XJAU-WHEAT-MOLECRICKET",
+          "R31-11-ZHENGZHOU-WHEAT-SOILPEST"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见持续重发、明显缺苗断垄、毁种重播风险，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/16/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/16/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "17",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "花生",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-17-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "花生田出现局部蝼蛄取食或浅表隧道，植株生长轻度受抑，尚无明显缺苗斑。",
+        "observable_features": [
+          "局部取食/浅表隧道",
+          "轻度生长受抑",
+          "尚无明显缺苗斑"
+        ],
+        "source_ids": [
+          "R31-11-UFL",
+          "R31-11-NYT2683-SOIL-PEST"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见局部取食/浅表隧道、轻度生长受抑、尚无明显缺苗斑，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/17/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/17/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "17",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "花生",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-17-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "取食和隧道增多后，花生植株出现成片衰弱或零星缺株，根系受害开始影响田间建株。",
+        "observable_features": [
+          "隧道增多",
+          "成片衰弱",
+          "零星缺株",
+          "根系受害影响建株"
+        ],
+        "source_ids": [
+          "R31-11-UFL",
+          "R31-11-LIANNAN-PEANUT"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见隧道增多、成片衰弱、零星缺株、根系受害影响建株，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/17/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/17/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "17",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "花生",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-17-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "严重隧道和根系取食可导致花生田出现明显死斑、根系很少或缺失，植株建株失败和产量风险显著增加。",
+        "observable_features": [
+          "明显死斑",
+          "根系很少或缺失",
+          "建株失败",
+          "产量风险增加"
+        ],
+        "source_ids": [
+          "R31-11-UFL",
+          "R31-11-LIANNAN-PEANUT"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见明显死斑、根系很少或缺失、建株失败、产量风险增加，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/17/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/17/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "18",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "马铃薯",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-18-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "蝼蛄隧道使马铃薯幼根与土壤分离、失水，幼苗生长受抑。",
+        "observable_features": [
+          "幼根与土壤分离",
+          "失水",
+          "苗生长受抑"
+        ],
+        "source_ids": [
+          "R31-11-CAAS-POTATO-MOLECRICKET"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见幼根与土壤分离、失水、苗生长受抑，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/18/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/18/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "18",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "马铃薯",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-18-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "地下茎或根明显受害并出现萎蔫，芽块受害造成局部缺苗。",
+        "observable_features": [
+          "地下茎/根受害",
+          "地上部萎蔫",
+          "芽块受害",
+          "局部缺苗"
+        ],
+        "source_ids": [
+          "R31-11-CAAS-POTATO-MOLECRICKET"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见地下茎/根受害、地上部萎蔫、芽块受害、局部缺苗，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/18/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/18/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "18",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "马铃薯",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-18-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "植株死亡，根和块茎严重受损，块茎出现孔洞并有继发腐烂风险。",
+        "observable_features": [
+          "植株死亡",
+          "根/块茎严重受损",
+          "块茎孔洞",
+          "继发腐烂风险"
+        ],
+        "source_ids": [
+          "R31-11-CAAS-POTATO-MOLECRICKET",
+          "R31-11-NCSU-POTATO-MOLECRICKET"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见植株死亡、根/块茎严重受损、块茎孔洞、继发腐烂风险，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/18/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/18/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "19",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "水稻",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-19-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "轻度或较耐受阶段可见少量根系或近地分蘖受咬和生长受抑；较老植株的局部咬食通常仍可耐受，尚未形成明显缺株斑。",
+        "observable_features": [
+          "少量根/近地分蘖受咬",
+          "生长受抑",
+          "较老植株可耐受",
+          "尚无明显缺株斑"
+        ],
+        "source_ids": [
+          "R31-11-PINOYRICE-RICE-MOLECRICKET",
+          "R31-11-TNAU-RICE-MOLECRICKET"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见少量根/近地分蘖受咬、生长受抑、较老植株可耐受、尚无明显缺株斑，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/19/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/19/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "19",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "水稻",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-19-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "幼苗至分蘖期受害加重时，种子和根被取食，幼苗从基部被切断，田间出现明显 missing plants 或 bare patches。",
+        "observable_features": [
+          "种子和根被取食",
+          "幼苗基部被切断",
+          "missing plants",
+          "bare patches"
+        ],
+        "source_ids": [
+          "R31-11-PINOYRICE-RICE-MOLECRICKET",
+          "R31-11-TNAU-RICE-MOLECRICKET"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见种子和根被取食、幼苗基部被切断、missing plants、bare patches，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/19/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/19/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "19",
+      "class_id": 11,
+      "insect": "蝼蛄",
+      "host": "水稻",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-19-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "严重发生时可出现大量幼苗死亡和显著 plant stand loss，局部地块形成明显缺苗斑块。",
+        "observable_features": [
+          "大量幼苗死亡",
+          "显著 plant stand loss",
+          "明显缺苗斑块"
+        ],
+        "source_ids": [
+          "R31-11-IRRI-RICE-MOLECRICKET",
+          "R31-11-TNAU-RICE-MOLECRICKET"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见大量幼苗死亡、显著 plant stand loss、明显缺苗斑块，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/19/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/19/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "20",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "茶",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-20-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "低发生阶段，调查可见少量茶小绿叶蝉，嫩梢和叶片开始出现失水、叶脉或叶缘变红等早期表现。",
+        "observable_features": [
+          "低发生",
+          "嫩梢/叶片失水",
+          "叶脉或叶缘开始变红"
+        ],
+        "source_ids": [
+          "R31-12-FUJIAN-TEA-LEAFHOPPER-2025",
+          "R31-12-CHONGQING-TEA-LEAFHOPPER-2024",
+          "R31-12-WEIHAI-TEA-DAMAGE"
+        ]
+      },
+      "prompt_basis": "农业田间示意：茶植株上可见低发生、嫩梢/叶片失水、叶脉或叶缘开始变红，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/20/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/20/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "20",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "茶",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-20-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "发生达到来源所述防控起始指标附近，嫩梢失水和生长迟缓更加明显，芽叶出现凋萎、节间短缩或质地变脆。",
+        "observable_features": [
+          "达到来源防控起始指标附近",
+          "嫩梢失水加重",
+          "芽叶凋萎",
+          "节间短缩/质地变脆"
+        ],
+        "source_ids": [
+          "R31-12-FUJIAN-TEA-LEAFHOPPER-2025",
+          "R31-12-CHONGQING-TEA-LEAFHOPPER-2024",
+          "R31-12-WEIHAI-TEA-DAMAGE",
+          "R31-12-JSTAGE-ONUKII-DENSITY-2021"
+        ]
+      },
+      "prompt_basis": "农业田间示意：茶植株上可见达到来源防控起始指标附近、嫩梢失水加重、芽叶凋萎、节间短缩/质地变脆，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/20/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/20/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "20",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "茶",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-20-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "发生达到来源所述高峰始期指标附近或更高，叶尖叶缘转为红褐并焦枯、萎缩，茶园可出现偏重或火烧状受害。",
+        "observable_features": [
+          "达到来源高峰始期指标附近",
+          "叶尖/叶缘红褐焦枯",
+          "叶片萎缩",
+          "偏重或火烧状景象"
+        ],
+        "source_ids": [
+          "R31-12-FUJIAN-TEA-LEAFHOPPER-2025",
+          "R31-12-CHONGQING-TEA-LEAFHOPPER-2024",
+          "R31-12-WEIHAI-TEA-DAMAGE",
+          "R31-12-ANKANG-TEA-DAMAGE",
+          "R31-12-JSTAGE-ONUKII-DENSITY-2021"
+        ]
+      },
+      "prompt_basis": "农业田间示意：茶植株上可见达到来源高峰始期指标附近、叶尖/叶缘红褐焦枯、叶片萎缩、偏重或火烧状景象，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/20/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/20/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "21",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "芒果",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-21-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "发生初期或低于处理水平时，新梢、叶片或花穗可见少量成若虫和早期刺吸，尚未出现大范围花穗枯萎、落花或严重煤污。",
+        "observable_features": [
+          "少量成若虫",
+          "新梢/叶片/花穗早期刺吸",
+          "尚无大范围花穗枯萎",
+          "尚无严重煤污"
+        ],
+        "source_ids": [
+          "R31-12-TAIWAN-MANGO-LEAFHOPPER",
+          "R31-12-TNAU-MANGO-HOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：芒果植株上可见少量成若虫、新梢/叶片/花穗早期刺吸、尚无大范围花穗枯萎、尚无严重煤污，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/21/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/21/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "21",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "芒果",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-21-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量达到需要防治的水平后，花穗和嫩组织吸汁明显，可见花穗萎蔫、落花、蜜露和煤烟病；部分来源以约10头/花穗作为主动防治参考。",
+        "observable_features": [
+          "达到处理水平",
+          "花穗萎蔫",
+          "落花",
+          "蜜露和煤烟病",
+          "约10头/花穗参考"
+        ],
+        "source_ids": [
+          "R31-12-TNAU-MANGO-HOPPER",
+          "R31-12-NMDB-MANGO-HOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：芒果植株上可见达到处理水平、花穗萎蔫、落花、蜜露和煤烟病、约10头/花穗参考，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/21/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/21/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "21",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "芒果",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-21-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "重度发生时芽、嫩枝和花可发黑、萎蔫并干枯，花果脱落和果实形成受阻；资料记载发生率可达25%–50%，严重时甚至可能造成近乎完全失收。",
+        "observable_features": [
+          "芽/嫩枝/花发黑",
+          "萎蔫干枯",
+          "花果脱落",
+          "发生率25%–50%",
+          "近乎完全失收"
+        ],
+        "source_ids": [
+          "R31-12-HP-MANGO-HOPPER-2022",
+          "R31-12-NMDB-MANGO-HOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：芒果植株上可见芽/嫩枝/花发黑、萎蔫干枯、花果脱落、发生率25%–50%、近乎完全失收，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/21/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/21/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "22",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "水稻",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-22-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "轻度发生时，叶蝉吸汁使水稻植株活力下降，有效分蘖减少或叶尖开始向下黄化，但尚未出现明显萎蔫和成片干枯。",
+        "observable_features": [
+          "植株活力下降",
+          "有效分蘖减少",
+          "叶尖向下黄化",
+          "尚无明显萎蔫或成片干枯"
+        ],
+        "source_ids": [
+          "R31-12-TNAU-RICE-LEAFHOPPER-NURSERY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见植株活力下降、有效分蘖减少、叶尖向下黄化、尚无明显萎蔫或成片干枯，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/22/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/22/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "22",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "水稻",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-22-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量达到当前生育期对应 ETL 后，黄化和生长受抑更加明显，需要从监测转入主动防治；营养生长、开花和病毒流行区条件分别解释。",
+        "observable_features": [
+          "达到生育期 ETL",
+          "黄化加重",
+          "生长受抑",
+          "需要主动防治",
+          "不同生育期/病害区语境"
+        ],
+        "source_ids": [
+          "R31-12-TNAU-RICE-LEAFHOPPER-CP"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见达到生育期 ETL、黄化加重、生长受抑、需要主动防治、不同生育期/病害区语境，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/22/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/22/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "22",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "水稻",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-22-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "重度发生时可出现明显萎蔫并导致植株完全干枯；嫩叶受害并开始干枯时，田间损失和后续处理风险进一步增加。",
+        "observable_features": [
+          "明显萎蔫",
+          "植株完全干枯",
+          "嫩叶受害",
+          "嫩叶开始干枯"
+        ],
+        "source_ids": [
+          "R31-12-TNAU-RICE-LEAFHOPPER-NURSERY",
+          "R31-12-UCIPM-RICE-LEAFHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见明显萎蔫、植株完全干枯、嫩叶受害、嫩叶开始干枯，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/22/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/22/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "23",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "苜蓿",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-23-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "苜蓿叶蝉（以多个 Empoasca 代表种为证据）早期造成轻度 hopperburn 或局部黄化，尚未明显矮化。",
+        "observable_features": [
+          "轻度 hopperburn",
+          "局部黄化",
+          "尚无明显矮化"
+        ],
+        "source_ids": [
+          "R31-12-UCIPM-ALFALFA-LEAFHOPPER",
+          "R31-12-CROPS-ALFALFA-LEAFHOPPER-2014"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见轻度 hopperburn、局部黄化、尚无明显矮化，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/23/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/23/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "23",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "苜蓿",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-23-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "黄化和 hopperburn 扩大，节间变短、植株生长受抑，再生质量开始下降。",
+        "observable_features": [
+          "黄化扩大",
+          "hopperburn",
+          "节间变短",
+          "生长受抑",
+          "再生质量下降"
+        ],
+        "source_ids": [
+          "R31-12-UCIPM-ALFALFA-LEAFHOPPER",
+          "R31-12-KSTATE-ALFALFA-LEAFHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见黄化扩大、hopperburn、节间变短、生长受抑、再生质量下降，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/23/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/23/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "23",
+      "class_id": 12,
+      "insect": "叶蝉科",
+      "host": "苜蓿",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-23-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "严重 hopperburn 和矮化导致再生不良，临近收获时可能需要先收割再处理茬口。",
+        "observable_features": [
+          "严重 hopperburn",
+          "明显矮化",
+          "再生不良",
+          "收割前后管理边界"
+        ],
+        "source_ids": [
+          "R31-12-UCIPM-ALFALFA-LEAFHOPPER",
+          "R31-12-KSTATE-ALFALFA-LEAFHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见严重 hopperburn、明显矮化、再生不良、收割前后管理边界，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/23/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/23/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "24",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "玉米",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-24-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田间平均约 3–7 头/平方码（来源 Light 区间）；通常先加强田边和发生区巡查，是否处置取决于作物状况。",
+        "observable_features": [
+          "3–7 头/平方码",
+          "田边或发生区优先观察",
+          "是否处置取决于作物状况"
+        ],
+        "source_ids": [
+          "R31-13-OKSTATE-ROWCROP"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见3–7 头/平方码、田边或发生区优先观察、是否处置取决于作物状况，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/24/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/24/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "24",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "玉米",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-24-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田间平均约 8–14 头/平方码（来源 Moderate 区间）；处置通常已具有必要性，应结合田间受害和当地指导复核。",
+        "observable_features": [
+          "8–14 头/平方码",
+          "田间受害扩大",
+          "处置通常已具有必要性"
+        ],
+        "source_ids": [
+          "R31-13-OKSTATE-ROWCROP"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见8–14 头/平方码、田间受害扩大、处置通常已具有必要性，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/24/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/24/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "24",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "玉米",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-24-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田间平均 ≥15 头/平方码（来源 Abundant 区间）；处置必要性明确，需扩大巡查并按当前作物登记与当地指导决定措施。",
+        "observable_features": [
+          "≥15 头/平方码",
+          "高密度发生",
+          "处置必要性明确"
+        ],
+        "source_ids": [
+          "R31-13-OKSTATE-ROWCROP"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见≥15 头/平方码、高密度发生、处置必要性明确，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/24/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/24/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "25",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "水稻",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-25-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田边约2–3头/平方码时可见少量叶片取食或轻度脱叶，但仍可能没有经济损失。",
+        "observable_features": [
+          "田边2–3头/平方码",
+          "少量叶片取食",
+          "轻度脱叶",
+          "可能没有经济损失"
+        ],
+        "source_ids": [
+          "R31-13-UCRICE-RICE-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见田边2–3头/平方码、少量叶片取食、轻度脱叶、可能没有经济损失，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/25/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/25/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "25",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "水稻",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-25-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量升高或达到约5头/扫网并出现可见危害时，可见幼苗和叶片不规则取食、叶缘缺刻，并可能在抽穗期出现茎秆或穗部受害。",
+        "observable_features": [
+          "约5头/扫网",
+          "幼苗和叶片不规则取食",
+          "叶缘缺刻",
+          "茎秆或穗部受害"
+        ],
+        "source_ids": [
+          "R31-13-TNAU-RICE-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见约5头/扫网、幼苗和叶片不规则取食、叶缘缺刻、茎秆或穗部受害，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/25/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/25/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "25",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "水稻",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-25-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "重度发生时可大面积取食叶片，甚至将叶片几乎完全吃光、仅留下中脉，并可在穗期造成明显茎秆或穗部损伤。",
+        "observable_features": [
+          "大面积叶片取食",
+          "叶片几乎吃光",
+          "仅留下中脉",
+          "茎秆或穗部明显损伤"
+        ],
+        "source_ids": [
+          "R31-13-TNAU-RICE-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：水稻植株上可见大面积叶片取食、叶片几乎吃光、仅留下中脉、茎秆或穗部明显损伤，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/25/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/25/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "26",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "小麦",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-26-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "小麦田平均约 3–7 头/平方码（来源 Light 区间）；通常先加强田边和发生区巡查，是否处置取决于作物状况。",
+        "observable_features": [
+          "小麦田 3–7 头/平方码",
+          "田边或发生区优先观察",
+          "是否处置取决于作物状况"
+        ],
+        "source_ids": [
+          "R31-13-OKSTATE-ROWCROP"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见小麦田 3–7 头/平方码、田边或发生区优先观察、是否处置取决于作物状况，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/26/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/26/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "26",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "小麦",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-26-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "小麦田平均约 8–14 头/平方码（来源 Moderate 区间）；处置通常已具有必要性，应结合田间受害和当地指导复核。",
+        "observable_features": [
+          "小麦田 8–14 头/平方码",
+          "田间受害扩大",
+          "处置通常已具有必要性"
+        ],
+        "source_ids": [
+          "R31-13-OKSTATE-ROWCROP"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见小麦田 8–14 头/平方码、田间受害扩大、处置通常已具有必要性，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/26/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/26/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "26",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "小麦",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-26-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "小麦田平均 ≥15 头/平方码（来源 Abundant 区间）；处置必要性明确，需扩大巡查并按当前作物登记与当地指导决定措施。",
+        "observable_features": [
+          "小麦田 ≥15 头/平方码",
+          "高密度发生",
+          "处置必要性明确"
+        ],
+        "source_ids": [
+          "R31-13-OKSTATE-ROWCROP"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见小麦田 ≥15 头/平方码、高密度发生、处置必要性明确，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/26/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/26/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "27",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "大豆",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-27-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田边或局部叶片出现蝗虫取食形成的锯齿状孔洞，尚未见豆荚或种子直接受害。",
+        "observable_features": [
+          "田边/局部叶片锯齿状孔洞",
+          "尚无豆荚/种子直接受害"
+        ],
+        "source_ids": [
+          "R31-13-UMN-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见田边/局部叶片锯齿状孔洞、尚无豆荚/种子直接受害，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/27/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/27/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "27",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "大豆",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-27-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "叶片取食扩展并出现明显脱叶，或蝗虫开始取食豆荚。",
+        "observable_features": [
+          "叶片取食扩展",
+          "明显脱叶",
+          "开始取食豆荚"
+        ],
+        "source_ids": [
+          "R31-13-UMN-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见叶片取食扩展、明显脱叶、开始取食豆荚，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/27/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/27/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "27",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "大豆",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-27-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "豆荚被咬穿并直接伤及种子，或出现来源明确的 Severe/Very severe 高密度取食场景；本条不复制阈值数字。",
+        "observable_features": [
+          "豆荚被咬穿",
+          "种子直接受害",
+          "来源 Severe/Very severe 场景"
+        ],
+        "source_ids": [
+          "R31-13-UMN-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见豆荚被咬穿、种子直接受害、来源 Severe/Very severe 场景，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/27/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/27/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "28",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "苜蓿",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-28-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田内成虫约3–7头/平方码（或田边约10–20头/平方码）时属于轻发生水平，以局部叶片取食为主，尚未达到 Threatening 等级。",
+        "observable_features": [
+          "田内3–7头/平方码",
+          "田边10–20头/平方码",
+          "局部叶片取食",
+          "尚未达到Threatening"
+        ],
+        "source_ids": [
+          "R31-13-UMN-ALFALFA-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见田内3–7头/平方码、田边10–20头/平方码、局部叶片取食、尚未达到Threatening，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/28/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/28/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "28",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "苜蓿",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-28-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田内约8–14头/平方码（或田边约21–40头/平方码）时进入 Threatening 水平，经济危害风险明显上升，田边或局部区域可出现较明显取食。",
+        "observable_features": [
+          "田内8–14头/平方码",
+          "田边21–40头/平方码",
+          "Threatening",
+          "田边或局部明显取食"
+        ],
+        "source_ids": [
+          "R31-13-UMN-ALFALFA-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见田内8–14头/平方码、田边21–40头/平方码、Threatening、田边或局部明显取食，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/28/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/28/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "28",
+      "class_id": 13,
+      "insect": "蝗总科",
+      "host": "苜蓿",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-28-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "田内约15–28头/平方码（或田边约41–80头/平方码）时达到 Severe 水平；高虫量可造成严重脱叶，幼苗或刈割后再生植株风险更高。",
+        "observable_features": [
+          "田内15–28头/平方码",
+          "田边41–80头/平方码",
+          "Severe",
+          "严重脱叶",
+          "幼苗或刈割后再生植株风险"
+        ],
+        "source_ids": [
+          "R31-13-UMN-ALFALFA-GRASSHOPPER",
+          "R31-13-UCIPM-ALFALFA-GRASSHOPPER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见田内15–28头/平方码、田边41–80头/平方码、Severe、严重脱叶、幼苗或刈割后再生植株风险，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/28/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/28/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "29",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "玉米",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-29-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "根毛减少或侧根被修剪，地上部尚未出现明显持续萎蔫。",
+        "observable_features": [
+          "根毛减少",
+          "侧根被修剪",
+          "尚无明显持续萎蔫"
+        ],
+        "source_ids": [
+          "R31-14-UMN-WHITE-GRUBS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见根毛减少、侧根被修剪、尚无明显持续萎蔫，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/29/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/29/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "29",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "玉米",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-29-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "根系修剪加重，植株出现类似干旱或缺素的萎蔫，或长势受到抑制。",
+        "observable_features": [
+          "根系修剪加重",
+          "类似干旱/缺素的萎蔫",
+          "长势受抑"
+        ],
+        "source_ids": [
+          "R31-14-UMN-WHITE-GRUBS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见根系修剪加重、类似干旱/缺素的萎蔫、长势受抑，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/29/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/29/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "29",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "玉米",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-29-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "中胚轴被破坏导致植株死亡，或根系损伤已造成明显缺苗。",
+        "observable_features": [
+          "中胚轴破坏",
+          "植株死亡",
+          "明显缺苗"
+        ],
+        "source_ids": [
+          "R31-14-UMN-WHITE-GRUBS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见中胚轴破坏、植株死亡、明显缺苗，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/29/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/29/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "30",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "大豆",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-30-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "低龄或低密度白蛴螬可取食大豆根系，但通常尚不造成经济性危害，田间缺株和明显萎蔫很少或尚未出现。",
+        "observable_features": [
+          "低龄或低密度幼虫",
+          "根系取食",
+          "尚无明显经济危害",
+          "缺株/萎蔫很少"
+        ],
+        "source_ids": [
+          "R31-14-JIPM-SOY-WHITEGRUB"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见低龄或低密度幼虫、根系取食、尚无明显经济危害、缺株/萎蔫很少，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/30/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/30/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "30",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "大豆",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-30-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "二、三龄幼虫或较高虫量可造成根系受害、萎蔫或变色，并出现零星死苗和行内缺口；stand loss 风险开始出现。",
+        "observable_features": [
+          "二/三龄幼虫",
+          "根系受害",
+          "萎蔫或变色",
+          "零星死苗",
+          "行内缺口",
+          "stand loss 风险"
+        ],
+        "source_ids": [
+          "R31-14-JIPM-SOY-WHITEGRUB"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见二/三龄幼虫、根系受害、萎蔫或变色、零星死苗、行内缺口、stand loss 风险，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/30/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/30/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "30",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "大豆",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-30-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "高虫量可明显修剪根系、降低水分和养分吸收，出现明显萎蔫、茎叶发紫，并形成大面积缺苗或严重 stand loss。",
+        "observable_features": [
+          "根系明显修剪",
+          "水分/养分吸收下降",
+          "明显萎蔫",
+          "茎叶发紫",
+          "大面积缺苗",
+          "严重 stand loss"
+        ],
+        "source_ids": [
+          "R31-14-ISU-SOY-WHITEGRUB",
+          "R31-14-PURDUE-SOY-WHITEGRUB"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见根系明显修剪、水分/养分吸收下降、明显萎蔫、茎叶发紫、大面积缺苗、严重 stand loss，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/30/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/30/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "31",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "马铃薯",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-31-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "马铃薯块茎可见浅而不规则蛴螬刻痕，通常尚未造成广泛植株损失。",
+        "observable_features": [
+          "浅而不规则块茎刻痕",
+          "尚无广泛植株损失"
+        ],
+        "source_ids": [
+          "R31-14-ISU-POTATO-WHITEGRUB"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见浅而不规则块茎刻痕、尚无广泛植株损失，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/31/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/31/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "31",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "马铃薯",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-31-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "马铃薯根或地下茎可被切断，块茎出现较大的浅圆洞，植株生长和商品性开始明显受影响。",
+        "observable_features": [
+          "根/地下茎被切断",
+          "较大浅圆洞",
+          "生长或商品性受影响"
+        ],
+        "source_ids": [
+          "R31-11-NCSU-POTATO-MOLECRICKET",
+          "R31-14-NB-POTATO-WHITEGRUB"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见根/地下茎被切断、较大浅圆洞、生长或商品性受影响，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/31/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/31/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "31",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "马铃薯",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-31-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "严重取食可造成植株矮化或萎蔫、块茎形成深腔并失去商品性；>4头/平方英尺仅为严重经济损失背景。",
+        "observable_features": [
+          "植株矮化",
+          "萎蔫",
+          "块茎深腔",
+          "失去商品性"
+        ],
+        "source_ids": [
+          "R31-14-ONTARIO-POTATO-WHITE-GRUBS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见植株矮化、萎蔫、块茎深腔、失去商品性，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/31/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/31/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "32",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "花生",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-32-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "低于特定研究的经济危害参考时，可有少量根系取食但尚未形成明显成片萎蔫或荚果损伤；该档不设蛴螬宽类群固定数值阈值。",
+        "observable_features": [
+          "少量根系取食",
+          "低于特定研究经济危害参考",
+          "尚无成片萎蔫",
+          "尚无明显荚果损伤"
+        ],
+        "source_ids": [
+          "R31-14-ICRISAT-PEANUT-WHITEGRUB",
+          "R31-14-TF-PEANUT-WHITEGRUB-DAMAGE"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见少量根系取食、低于特定研究经济危害参考、尚无成片萎蔫、尚无明显荚果损伤，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/32/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/32/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "32",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "花生",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-32-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "虫量升高后，细根和主根受食，可见植株发白、萎蔫，田间开始出现局部成片衰弱或死亡，并可出现荚果受害。",
+        "observable_features": [
+          "细根和主根受食",
+          "植株发白",
+          "萎蔫",
+          "局部成片衰弱/死亡",
+          "荚果受害"
+        ],
+        "source_ids": [
+          "R31-14-TNAU-PEANUT-WHITEGRUB"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见细根和主根受食、植株发白、萎蔫、局部成片衰弱/死亡、荚果受害，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/32/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/32/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "32",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "花生",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-32-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "重发时根系和荚果受害明显扩大，萎蔫和死亡斑块增多，并可能造成显著产量损失；高虫压研究和区域资料支持达到经济损失水平。",
+        "observable_features": [
+          "根系和荚果广泛受害",
+          "萎蔫斑块扩大",
+          "死亡斑块增多",
+          "显著产量损失",
+          "达到经济损失水平"
+        ],
+        "source_ids": [
+          "R31-14-TNAU-PEANUT-WHITEGRUB",
+          "R31-14-ICRISAT-PEANUT-WHITEGRUB",
+          "R31-14-TF-PEANUT-WHITEGRUB-DAMAGE"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见根系和荚果广泛受害、萎蔫斑块扩大、死亡斑块增多、显著产量损失、达到经济损失水平，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/32/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/32/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "33",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "小麦",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-33-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "低虫量且尚未出现明显缺株时，以轻微根系取食为主；应结合挖土取样确认蛴螬存在并持续观察。",
+        "observable_features": [
+          "低虫量",
+          "轻微根系取食",
+          "尚无明显缺株",
+          "需挖土取样确认"
+        ],
+        "source_ids": [
+          "R31-14-KSTATE-WHEAT-WHITEGRUB"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见低虫量、轻微根系取食、尚无明显缺株、需挖土取样确认，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/33/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/33/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "33",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "小麦",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-33-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "根系受食加重后可出现植株矮化、建株变差和局部缺株；约4–5头/平方英尺时损失可能变得显著。",
+        "observable_features": [
+          "根系受食加重",
+          "植株矮化",
+          "建株变差",
+          "局部缺株",
+          "约4–5头/平方英尺显著损失参考"
+        ],
+        "source_ids": [
+          "R31-14-KSTATE-WHEAT-WHITEGRUB"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见根系受食加重、植株矮化、建株变差、局部缺株、约4–5头/平方英尺显著损失参考，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/33/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/33/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "33",
+      "class_id": 14,
+      "insect": "蛴螬",
+      "host": "小麦",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-33-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "根系被严重修剪时，可出现明显稀疏苗、矮化并更易遭受干旱胁迫；小苗还可能被直接杀死，形成严重缺苗。",
+        "observable_features": [
+          "严重根系修剪",
+          "明显稀疏苗",
+          "矮化",
+          "干旱敏感",
+          "小苗死亡",
+          "严重缺苗"
+        ],
+        "source_ids": [
+          "R31-14-TAMU-WHEAT-SOIL-PESTS"
+        ]
+      },
+      "prompt_basis": "农业田间示意：小麦植株上可见严重根系修剪、明显稀疏苗、矮化、干旱敏感、小苗死亡、严重缺苗，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/33/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/33/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "34",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "大豆",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-34-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "零散豆芫菁成虫在叶片上取食，只有局部缺刻；营养生长阶段的叶量损失仍可能被植株耐受。",
+        "observable_features": [
+          "零散成虫取食",
+          "局部缺刻",
+          "营养生长阶段仍可能耐受"
+        ],
+        "source_ids": [
+          "R31-15-NCSU-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见零散成虫取食、局部缺刻、营养生长阶段仍可能耐受，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/34/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/34/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "34",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "大豆",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-34-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "成虫群集在多个点位，脱叶从局部扩展到冠层可见范围；需按来源生育期行动参考复核。",
+        "observable_features": [
+          "多个点位成虫群集",
+          "冠层可见脱叶",
+          "按生育期复核"
+        ],
+        "source_ids": [
+          "R31-15-DACHUAN",
+          "R31-15-NCSU-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见多个点位成虫群集、冠层可见脱叶、按生育期复核，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/34/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/34/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "34",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "大豆",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-34-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "群集取食导致植株快速失叶或冠层显著变薄。",
+        "observable_features": [
+          "群集取食",
+          "快速失叶",
+          "冠层显著变薄"
+        ],
+        "source_ids": [
+          "R31-15-DACHUAN",
+          "R31-15-NCSU-SOY"
+        ]
+      },
+      "prompt_basis": "农业田间示意：大豆植株上可见群集取食、快速失叶、冠层显著变薄，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/34/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/34/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "35",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "玉米",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-35-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "豆芫菁在玉米田零散出现，叶片只有点状或局部缺刻，尚未形成成片聚集。",
+        "observable_features": [
+          "零散发生",
+          "点状/局部缺刻",
+          "尚无成片聚集"
+        ],
+        "source_ids": [
+          "R31-15-DACHUAN"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见零散发生、点状/局部缺刻、尚无成片聚集，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/35/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/35/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "35",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "玉米",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-35-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "成虫在玉米田形成点状或片状聚集，叶片缺刻和取食面积明显增加，但尚未出现重发时的叶脉残留。",
+        "observable_features": [
+          "点状/片状聚集",
+          "叶片缺刻增加",
+          "取食面积增加",
+          "尚无叶脉残留"
+        ],
+        "source_ids": [
+          "R31-15-DACHUAN"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见点状/片状聚集、叶片缺刻增加、取食面积增加、尚无叶脉残留，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/35/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/35/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "35",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "玉米",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-35-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "重发时豆芫菁可将玉米叶片大量吃光，仅留叶脉，形成快速脱叶和明显冠层损失。",
+        "observable_features": [
+          "重发",
+          "叶片大量吃光",
+          "仅留叶脉",
+          "快速脱叶",
+          "冠层损失"
+        ],
+        "source_ids": [
+          "R31-15-DACHUAN"
+        ]
+      },
+      "prompt_basis": "农业田间示意：玉米植株上可见重发、叶片大量吃光、仅留叶脉、快速脱叶、冠层损失，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/35/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/35/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "36",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "花生",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-36-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "Epicauta gorhami 在花生上零散取食，叶片出现少量缺刻或孔洞。",
+        "observable_features": [
+          "零散取食",
+          "少量缺刻/孔洞"
+        ],
+        "source_ids": [
+          "R31-15-PWSANNONG-BEANBLISTER-HOSTS",
+          "R31-15-HENAN-BEANBLISTER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见零散取食、少量缺刻/孔洞，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/36/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/36/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "36",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "花生",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-36-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "成虫群集和点片发生扩大，花生叶面积损失明显并出现网状叶脉趋势。",
+        "observable_features": [
+          "成虫群集",
+          "点片发生扩大",
+          "明显叶面积损失",
+          "网状叶脉趋势"
+        ],
+        "source_ids": [
+          "R31-15-PWSANNONG-BEANBLISTER-HOSTS",
+          "R31-15-HENAN-BEANBLISTER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见成虫群集、点片发生扩大、明显叶面积损失、网状叶脉趋势，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/36/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/36/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "36",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "花生",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-36-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "高密度局部成灾时可造成大量叶片被取食，仅留网状叶脉并显著削弱冠层。",
+        "observable_features": [
+          "高密度局部成灾",
+          "叶片大量取食",
+          "仅留网状叶脉",
+          "冠层削弱"
+        ],
+        "source_ids": [
+          "R31-15-HENAN-BEANBLISTER"
+        ]
+      },
+      "prompt_basis": "农业田间示意：花生植株上可见高密度局部成灾、叶片大量取食、仅留网状叶脉、冠层削弱，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/36/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/36/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "37",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "马铃薯",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-37-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "马铃薯叶片出现零散缺刻或孔洞，豆芫菁尚未形成明显局部群聚。",
+        "observable_features": [
+          "零散缺刻/孔洞",
+          "尚无明显群聚"
+        ],
+        "source_ids": [
+          "R31-15-HANDBOOK-BEANBLISTER-POTATO",
+          "R31-15-ENCYC-BEANBLISTER-POTATO"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见零散缺刻/孔洞、尚无明显群聚，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/37/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/37/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "37",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "马铃薯",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-37-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "局部成虫群聚后，马铃薯叶片缺刻和孔洞扩大，出现明显片区取食，需进行局部复查和处置。",
+        "observable_features": [
+          "局部群聚",
+          "缺刻/孔洞扩大",
+          "片区取食",
+          "需局部复查"
+        ],
+        "source_ids": [
+          "R31-15-HANDBOOK-BEANBLISTER-POTATO",
+          "R31-15-GOV-BEANBLISTER-POTATO"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见局部群聚、缺刻/孔洞扩大、片区取食、需局部复查，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/37/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/37/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "37",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "马铃薯",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-37-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "严重群聚取食可使马铃薯叶片大部甚至近乎全部被食尽，仅留叶脉，造成明显冠层损失。",
+        "observable_features": [
+          "严重群聚",
+          "叶片大部/近乎全部被食尽",
+          "仅留叶脉",
+          "冠层损失"
+        ],
+        "source_ids": [
+          "R31-15-ENCYC-BEANBLISTER-POTATO",
+          "R31-15-HANDBOOK-BEANBLISTER-POTATO"
+        ]
+      },
+      "prompt_basis": "农业田间示意：马铃薯植株上可见严重群聚、叶片大部/近乎全部被食尽、仅留叶脉、冠层损失，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/37/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/37/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "38",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "苜蓿",
+      "severity": "mild",
+      "severity_cn": "轻度",
+      "asset_id": "r31-38-mild",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "苜蓿叶片出现少量豆芫菁缺刻，局部取食尚未明显影响开花。",
+        "observable_features": [
+          "少量缺刻",
+          "局部取食",
+          "开花影响尚不明显"
+        ],
+        "source_ids": [
+          "R31-15-NARO-BEANBLISTER-ALFALFA",
+          "R31-15-YUANLIN-BEANBLISTER-ALFALFA"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见少量缺刻、局部取食、开花影响尚不明显，呈现轻度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/38/mild.png",
+        "web_derivative": "web/public/assets/severity/r31/38/mild.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "38",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "苜蓿",
+      "severity": "moderate",
+      "severity_cn": "中度",
+      "asset_id": "r31-38-moderate",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "苜蓿叶片缺刻扩大，部分区域仅剩叶脉，开花和产量开始受到明显影响。",
+        "observable_features": [
+          "缺刻扩大",
+          "部分叶片仅剩叶脉",
+          "开花受影响",
+          "产量开始受影响"
+        ],
+        "source_ids": [
+          "R31-15-NARO-BEANBLISTER-ALFALFA",
+          "R31-15-YUANLIN-BEANBLISTER-ALFALFA"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见缺刻扩大、部分叶片仅剩叶脉、开花受影响、产量开始受影响，呈现中度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/38/moderate.png",
+        "web_derivative": "web/public/assets/severity/r31/38/moderate.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    },
+    {
+      "pair_id": "38",
+      "class_id": 15,
+      "insect": "豆芫菁",
+      "host": "苜蓿",
+      "severity": "severe",
+      "severity_cn": "重度",
+      "asset_id": "r31-38-severe",
+      "knowledge_basis": {
+        "source": "FROZEN_R31_KNOWLEDGE",
+        "manifestation_text": "猖獗发生时可吃光苜蓿全株叶片，不能正常开花并严重影响产量。",
+        "observable_features": [
+          "猖獗发生",
+          "全株叶片吃光",
+          "不能开花",
+          "产量严重受影响"
+        ],
+        "source_ids": [
+          "R31-15-NARO-BEANBLISTER-ALFALFA",
+          "R31-15-YUANLIN-BEANBLISTER-ALFALFA"
+        ]
+      },
+      "prompt_basis": "农业田间示意：苜蓿植株上可见猖獗发生、全株叶片吃光、不能开花、产量严重受影响，呈现重度程度；仅表现冻结知识中的受害特征。",
+      "asset": {
+        "original_png": "web/public/assets/severity/r31/38/severe.png",
+        "web_derivative": "web/public/assets/severity/r31/38/severe.webp",
+        "status": "PENDING"
+      },
+      "display_label": "AI示意图 · 非真实照片",
+      "qa": {
+        "host_identity": "PENDING",
+        "insect_identity": "PENDING",
+        "severity_match": "PENDING",
+        "manifestation_match": "PENDING",
+        "no_text_in_image": "PENDING",
+        "no_watermark": "PENDING",
+        "no_wrong_host_reuse": "PENDING",
+        "no_cross_severity_reuse": "PENDING",
+        "approved": false
+      }
+    }
+  ]
+}

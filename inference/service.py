@@ -1,0 +1,983 @@
+from __future__ import annotations
+
+import hashlib
+import io
+import math
+import os
+import secrets
+import threading
+import time
+from contextlib import asynccontextmanager
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Annotated, Any, Literal
+
+from fastapi import FastAPI, File, Form, Header, HTTPException, UploadFile
+from PIL import Image, ImageEnhance, ImageFilter, ImageOps, ImageStat, UnidentifiedImageError
+
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+
+def first_existing(*paths: Path) -> Path:
+    """Choose the production candidate while retaining local backup fallbacks."""
+    for path in paths:
+        if path.is_file():
+            return path
+    return paths[0]
+
+
+DEFAULT_MODEL_PATH = first_existing(
+    PROJECT_ROOT / "runs" / "detect" / "official-plus-public-weak-v1-e120-b64" / "weights" / "best.pt",
+    PROJECT_ROOT
+    / "artifacts"
+    / "server"
+    / "remote-runs"
+    / "official-plus-public-weak-v1-e120-b64"
+    / "weights"
+    / "best.pt",
+    PROJECT_ROOT / "runs" / "detect" / "official-baseline-yolo26n-e120-b64" / "weights" / "best.pt",
+    PROJECT_ROOT
+    / "artifacts"
+    / "server"
+    / "official-baseline-yolo26n-e120-b64"
+    / "weights"
+    / "best.pt",
+)
+DEFAULT_CLASS10_EXPERT_PATH = first_existing(
+    PROJECT_ROOT
+    / "runs"
+    / "detect"
+    / "weak-expert-v2-full-public10-ft-freeze10-lr1e4-e18-b64"
+    / "weights"
+    / "best.pt",
+    PROJECT_ROOT
+    / "artifacts"
+    / "server"
+    / "experiments"
+    / "weak-expert-v2-full-public10-ft-freeze10-lr1e4-e18-b64"
+    / "best.pt",
+)
+DEFAULT_CROP_EXPERT_PATH = first_existing(
+    PROJECT_ROOT
+    / "runs"
+    / "detect"
+    / "pairwise-crop-cls-10-13-v5-e30-b128"
+    / "weights"
+    / "best.pt",
+    PROJECT_ROOT
+    / "artifacts"
+    / "server"
+    / "experiments"
+    / "pairwise-crop-cls-10-13-v5-e30-b128"
+    / "best.pt",
+)
+MAX_IMAGE_BYTES = 15 * 1024 * 1024
+AUTHORITATIVE_CONFIDENCE_THRESHOLD = 0.50
+LOW_QUALITY_VARIANT_NAMES = (
+    "auto_orient_rgb",
+    "moderate_local_contrast",
+    "mild_unsharp",
+    "brightness_normalized",
+)
+ROUTING_TARGETS = {10, 13}
+CLASSIFIER_TO_OFFICIAL = {0: 10, 1: 13, 2: 99}
+CLASS10_EXPERT_TO_OFFICIAL = {0: 8, 1: 10}
+E2_MODEL_ID = "E2_P1_seed_20260919"
+E2_MODEL_SHA256 = "ef2fa27183aee6ea6296a669a408cf47ecd6094705218cb8dac90a7309d49567"
+FROZEN_MODEL_ID = "FROZEN_YOLO10"
+FROZEN_MODEL_SHA256 = "e233fc1971f88288fabed8d37af32047f6d1cb643213d9de0ee61385666479ba"
+E2_CLASS_NAMES = ("水稻稻瘟病", "水稻褐斑病", "玉米大斑病", "水稻东格鲁病毒病", "玉米灰斑病")
+FROZEN_CLASS_NAMES = (*E2_CLASS_NAMES, "芫菁", "蚜虫", "盲蝽科", "蝼蛄", "蛴螬")
+
+
+def configured_path(name: str, default: Path | None) -> Path | None:
+    value = os.getenv(name)
+    if value is None:
+        return default
+    value = value.strip()
+    if not value:
+        return None
+    path = Path(value)
+    return path if path.is_absolute() else (PROJECT_ROOT / path).resolve()
+
+
+def float_env(name: str, default: float, minimum: float, maximum: float) -> float:
+    try:
+        value = float(os.getenv(name, str(default)))
+    except ValueError:
+        value = default
+    return min(max(value, minimum), maximum)
+
+
+def int_env(name: str, default: int, minimum: int, maximum: int) -> int:
+    try:
+        value = int(os.getenv(name, str(default)))
+    except ValueError:
+        value = default
+    return min(max(value, minimum), maximum)
+
+
+def text_env(name: str, default: str) -> str:
+    value = os.getenv(name, default).strip().lower()
+    return value or default
+
+
+def exif_orientation(image: Image.Image) -> int:
+    try:
+        value = int(image.getexif().get(274, 1))
+    except (AttributeError, TypeError, ValueError):
+        return 1
+    return value if value in range(1, 9) else 1
+
+
+def remap_bbox_to_source(
+    bbox: list[float], *, source_width: int, source_height: int, orientation: int
+) -> list[float]:
+    """Map a normalized bbox from an EXIF-oriented image back to source pixels."""
+    if orientation == 1:
+        return bbox
+    oriented_width, oriented_height = (
+        (source_height, source_width) if orientation in {5, 6, 7, 8} else (source_width, source_height)
+    )
+    x, y, width, height = bbox
+    left, top = x * oriented_width, y * oriented_height
+    right, bottom = (x + width) * oriented_width, (y + height) * oriented_height
+    corners = ((left, top), (right, top), (left, bottom), (right, bottom))
+
+    def inverse(point: tuple[float, float]) -> tuple[float, float]:
+        oriented_x, oriented_y = point
+        if orientation == 2:
+            return source_width - oriented_x, oriented_y
+        if orientation == 3:
+            return source_width - oriented_x, source_height - oriented_y
+        if orientation == 4:
+            return oriented_x, source_height - oriented_y
+        if orientation == 5:
+            return oriented_y, oriented_x
+        if orientation == 6:
+            return oriented_y, source_height - oriented_x
+        if orientation == 7:
+            return source_width - oriented_y, source_height - oriented_x
+        if orientation == 8:
+            return source_width - oriented_y, oriented_x
+        return oriented_x, oriented_y
+
+    mapped = [inverse(point) for point in corners]
+    mapped_left = min(point[0] for point in mapped)
+    mapped_top = min(point[1] for point in mapped)
+    mapped_right = max(point[0] for point in mapped)
+    mapped_bottom = max(point[1] for point in mapped)
+    x = min(1.0, max(0.0, mapped_left / source_width))
+    y = min(1.0, max(0.0, mapped_top / source_height))
+    right = min(1.0, max(0.0, mapped_right / source_width))
+    bottom = min(1.0, max(0.0, mapped_bottom / source_height))
+    return [round(x, 7), round(y, 7), round(max(0.0, right - x), 7), round(max(0.0, bottom - y), 7)]
+
+
+def low_quality_variants(image: Image.Image) -> list[tuple[str, Image.Image, int]]:
+    """Build a bounded, conservative set of non-generative recovery inputs."""
+    orientation = exif_orientation(image)
+    oriented = ImageOps.exif_transpose(image).convert("RGB")
+    brightness = float(ImageStat.Stat(oriented.convert("L")).mean[0])
+    if brightness < 96:
+        brightness_factor = 1.12
+    elif brightness > 176:
+        brightness_factor = 0.92
+    else:
+        brightness_factor = 1.0
+    return [
+        (LOW_QUALITY_VARIANT_NAMES[0], oriented, orientation),
+        (
+            LOW_QUALITY_VARIANT_NAMES[1],
+            ImageEnhance.Contrast(oriented).enhance(1.20),
+            orientation,
+        ),
+        (
+            LOW_QUALITY_VARIANT_NAMES[2],
+            oriented.filter(ImageFilter.UnsharpMask(radius=1.0, percent=110, threshold=3)),
+            orientation,
+        ),
+        (
+            LOW_QUALITY_VARIANT_NAMES[3],
+            ImageEnhance.Brightness(oriented).enhance(brightness_factor),
+            orientation,
+        ),
+    ]
+
+
+def max_detection_confidence(detections: list[dict[str, Any]]) -> float:
+    return max((float(item["confidence"]) for item in detections), default=0.0)
+
+
+@dataclass(frozen=True)
+class Settings:
+    model_path: Path
+    class10_expert_path: Path | None
+    crop_expert_path: Path | None
+    device: str
+    image_size: int
+    classifier_image_size: int
+    default_confidence: float
+    expert_candidate_confidence: float
+    crop_expand: float
+    max_candidates: int
+    routing_mode: str
+    reclassify: bool
+    background_threshold: float
+    background_margin: float
+    target_threshold: float
+    target_margin: float
+    threshold10: float
+    threshold13: float
+    score_mode: str
+    temperature10: float
+    temperature13: float
+    class10_expert_threshold: float
+    api_key: str | None
+    warmup: bool
+    direct_experts_enabled: bool
+
+
+def load_settings() -> Settings:
+    routing_mode = text_env("CROP_INFERENCE_ROUTING_MODE", "shadow")
+    if routing_mode not in {"off", "shadow", "active"}:
+        routing_mode = "shadow"
+    score_mode = text_env("CROP_INFERENCE_SCORE_MODE", "keep")
+    if score_mode not in {"keep", "product", "geometric"}:
+        score_mode = "keep"
+    return Settings(
+        model_path=configured_path("CROP_INFERENCE_MODEL_PATH", DEFAULT_MODEL_PATH) or DEFAULT_MODEL_PATH,
+        class10_expert_path=configured_path(
+            "CROP_INFERENCE_CLASS10_EXPERT_PATH", DEFAULT_CLASS10_EXPERT_PATH
+        ),
+        crop_expert_path=configured_path("CROP_INFERENCE_CROP_EXPERT_PATH", DEFAULT_CROP_EXPERT_PATH),
+        device=os.getenv("CROP_INFERENCE_DEVICE", "0").strip() or "0",
+        image_size=int_env("CROP_INFERENCE_IMAGE_SIZE", 640, 32, 4096),
+        classifier_image_size=int_env("CROP_INFERENCE_CLASSIFIER_IMAGE_SIZE", 320, 32, 2048),
+        default_confidence=float_env("CROP_INFERENCE_CONFIDENCE", 0.25, 0.01, 1.0),
+        expert_candidate_confidence=float_env(
+            "CROP_INFERENCE_EXPERT_CANDIDATE_CONFIDENCE", 0.05, 0.001, 1.0
+        ),
+        crop_expand=float_env("CROP_INFERENCE_CROP_EXPAND", 0.5, 0.0, 2.0),
+        max_candidates=int_env("CROP_INFERENCE_MAX_CANDIDATES", 64, 1, 300),
+        routing_mode=routing_mode,
+        reclassify=os.getenv("CROP_INFERENCE_RECLASSIFY", "0").strip().lower() in {"1", "true", "yes"},
+        background_threshold=float_env("CROP_INFERENCE_BACKGROUND_THRESHOLD", 0.90, 0.0, 1.0),
+        background_margin=float_env("CROP_INFERENCE_BACKGROUND_MARGIN", 0.0, 0.0, 1.0),
+        target_threshold=float_env("CROP_INFERENCE_TARGET_THRESHOLD", 0.15, 0.0, 1.0),
+        target_margin=float_env("CROP_INFERENCE_TARGET_MARGIN", 0.0, 0.0, 1.0),
+        threshold10=float_env("CROP_INFERENCE_THRESHOLD10", 0.15, 0.0, 1.0),
+        threshold13=float_env("CROP_INFERENCE_THRESHOLD13", 0.15, 0.0, 1.0),
+        score_mode=score_mode,
+        temperature10=float_env("CROP_INFERENCE_TEMPERATURE10", 1.25, 0.05, 10.0),
+        temperature13=float_env("CROP_INFERENCE_TEMPERATURE13", 0.75, 0.05, 10.0),
+        class10_expert_threshold=float_env("CROP_INFERENCE_CLASS10_EXPERT_THRESHOLD", 0.0, 0.0, 1.0),
+        api_key=os.getenv("CROP_INFERENCE_API_KEY") or None,
+        warmup=os.getenv("CROP_INFERENCE_WARMUP", "1").strip().lower() not in {"0", "false", "no"},
+        direct_experts_enabled=os.getenv("CROP_INFERENCE_DIRECT_EXPERTS", "0").strip().lower() in {"1", "true", "yes"},
+    )
+
+
+settings = load_settings()
+
+
+def sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def ordered_class_names(model: Any) -> tuple[str, ...]:
+    names = getattr(model, "names", None)
+    if isinstance(names, dict):
+        if any(type(class_id) is not int for class_id in names):
+            raise RuntimeError("Model class IDs must be integers")
+        ids = sorted(names)
+        if ids != list(range(len(ids))):
+            raise RuntimeError("Model class IDs must be contiguous and zero-based")
+        values = tuple(names[class_id] for class_id in ids)
+    elif isinstance(names, (list, tuple)):
+        values = tuple(names)
+    else:
+        raise RuntimeError("Model checkpoint has no ordered class-name table")
+    if any(type(name) is not str or not name for name in values):
+        raise RuntimeError("Model class names are invalid")
+    return values
+
+
+def normalized_detections(result: Any, width: int, height: int) -> list[dict[str, Any]]:
+    boxes = result.boxes
+    if boxes is None:
+        return []
+    detections: list[dict[str, Any]] = []
+    for xyxy, confidence, class_id_value in zip(
+        boxes.xyxy.cpu().tolist(),
+        boxes.conf.cpu().tolist(),
+        boxes.cls.cpu().tolist(),
+    ):
+        left, top, right, bottom = map(float, xyxy)
+        x = min(1.0, max(0.0, left / width))
+        y = min(1.0, max(0.0, top / height))
+        normalized_right = min(1.0, max(0.0, right / width))
+        normalized_bottom = min(1.0, max(0.0, bottom / height))
+        detections.append(
+            {
+                "class_id": int(class_id_value),
+                "confidence": round(float(confidence), 6),
+                "bbox": [
+                    round(x, 7),
+                    round(y, 7),
+                    round(max(0.0, normalized_right - x), 7),
+                    round(max(0.0, normalized_bottom - y), 7),
+                ],
+            }
+        )
+    return detections
+
+
+def mode_filtered_detections(result: Any, width: int, height: int, target_mode: str) -> list[dict[str, Any]]:
+    if target_mode == "plant_disease":
+        allowed_ids = range(5)
+    elif target_mode == "insect_pest":
+        allowed_ids = range(5, 10)
+    else:
+        raise ValueError("必须明确选择植物病害或昆虫虫害识别模式")
+    return [
+        item
+        for item in normalized_detections(result, width, height)
+        if item["class_id"] in allowed_ids
+    ]
+
+
+def crop_box(image: Image.Image, bbox: list[float], expand: float) -> Image.Image:
+    x, y, width, height = bbox
+    left = max(0, math.floor((x - width * expand) * image.width))
+    top = max(0, math.floor((y - height * expand) * image.height))
+    right = min(image.width, math.ceil((x + width + width * expand) * image.width))
+    bottom = min(image.height, math.ceil((y + height + height * expand) * image.height))
+    right = max(left + 1, right)
+    bottom = max(top + 1, bottom)
+    return image.crop((left, top, right, bottom)).convert("RGB")
+
+
+def probabilities(result: Any) -> dict[int, float]:
+    probs = getattr(result, "probs", None)
+    if probs is None:
+        return {}
+    values: Any = getattr(probs, "data", probs)
+    if hasattr(values, "detach"):
+        values = values.detach().cpu().tolist()
+    elif hasattr(values, "tolist"):
+        values = values.tolist()
+    if not isinstance(values, (list, tuple)):
+        return {}
+    return {
+        CLASSIFIER_TO_OFFICIAL[index]: float(value)
+        for index, value in enumerate(values)
+        if index in CLASSIFIER_TO_OFFICIAL
+    }
+
+
+def class10_support(result: Any) -> dict[int, float]:
+    support = {8: 0.0, 10: 0.0}
+    boxes = getattr(result, "boxes", None)
+    if boxes is None:
+        return support
+    for confidence, class_id_value in zip(boxes.conf.cpu().tolist(), boxes.cls.cpu().tolist()):
+        official_class = CLASS10_EXPERT_TO_OFFICIAL.get(int(class_id_value))
+        if official_class is not None:
+            support[official_class] = max(support[official_class], float(confidence))
+    return support
+
+
+def logit(value: float) -> float:
+    value = min(max(value, 1e-6), 1.0 - 1e-6)
+    return math.log(value / (1.0 - value))
+
+
+def sigmoid(value: float) -> float:
+    return 1.0 / (1.0 + math.exp(-value))
+
+
+def calibrated_confidence(confidence: float, class_id: int, temperature10: float, temperature13: float) -> float:
+    temperature = {10: temperature10, 13: temperature13}.get(class_id)
+    if temperature is None:
+        return confidence
+    return sigmoid(logit(confidence) / temperature)
+
+
+def apply_active_routing(
+    detections: list[dict[str, Any]],
+    crop_support: dict[int, dict[int, float]],
+    class10_support_by_candidate: dict[int, dict[int, float]],
+    *,
+    reclassify: bool,
+    background_threshold: float,
+    background_margin: float,
+    target_threshold: float,
+    target_margin: float,
+    score_mode: str,
+    temperature10: float,
+    temperature13: float,
+    threshold10: float,
+    threshold13: float,
+    class10_expert_threshold: float,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    routed: list[dict[str, Any]] = []
+    decisions: list[dict[str, Any]] = []
+    for index, detection in enumerate(detections):
+        original_class = int(detection["class_id"])
+        support = crop_support.get(index)
+        if original_class not in ROUTING_TARGETS or not support:
+            routed.append(detection)
+            continue
+        target_scores = {class_id: support.get(class_id, 0.0) for class_id in ROUTING_TARGETS}
+        best_target, best_target_score = max(target_scores.items(), key=lambda item: item[1])
+        background_score = support.get(99, 0.0)
+        decision: dict[str, Any] = {
+            "candidate_index": index,
+            "original_class_id": original_class,
+            "target_scores": {str(key): round(value, 6) for key, value in target_scores.items()},
+            "background_score": round(background_score, 6),
+            "action": "keep",
+        }
+        class10_score = class10_support_by_candidate.get(index, {}).get(10, 0.0)
+        if original_class == 10 and class10_expert_threshold > 0 and class10_score < class10_expert_threshold:
+            decision.update(action="drop", reason="class10_expert_below_threshold")
+            decisions.append(decision)
+            continue
+        if background_score >= background_threshold and background_score >= best_target_score + background_margin:
+            decision.update(action="drop", reason="crop_expert_background")
+            decisions.append(decision)
+            continue
+        final_class = original_class
+        if (
+            reclassify
+            and best_target != original_class
+            and best_target_score >= target_threshold
+            and best_target_score >= target_scores[original_class] + target_margin
+        ):
+            final_class = best_target
+            decision["action"] = "reclassify"
+        confidence = float(detection["confidence"])
+        if score_mode == "product":
+            confidence *= target_scores.get(final_class, 0.0)
+        elif score_mode == "geometric":
+            confidence = math.sqrt(confidence * target_scores.get(final_class, 0.0))
+        confidence = calibrated_confidence(confidence, final_class, temperature10, temperature13)
+        threshold = {10: threshold10, 13: threshold13}.get(final_class, 0.0)
+        if confidence < threshold:
+            decision.update(action="drop", reason="calibrated_target_below_threshold")
+            decisions.append(decision)
+            continue
+        updated = dict(detection)
+        updated["class_id"] = final_class
+        updated["confidence"] = round(confidence, 6)
+        routed.append(updated)
+        decision.update(final_class_id=final_class, confidence=round(confidence, 6))
+        decisions.append(decision)
+    return routed, decisions
+
+
+class DetectorRuntime:
+    def __init__(self) -> None:
+        self.model: Any | None = None
+        self.class10_expert: Any | None = None
+        self.crop_classifier: Any | None = None
+        self.model_hash: str | None = None
+        self.class10_expert_hash: str | None = None
+        self.crop_expert_hash: str | None = None
+        self.class_count = 0
+        self.expert_status: dict[str, dict[str, Any]] = {}
+        self.lock = threading.Lock()
+
+    def _load_optional(self, name: str, path: Path | None, task: str) -> Any | None:
+        if path is None:
+            self.expert_status[name] = {"configured": False, "loaded": False, "reason": "disabled"}
+            return None
+        if not path.is_file():
+            self.expert_status[name] = {
+                "configured": True,
+                "loaded": False,
+                "model": path.name,
+                "reason": "weights_missing",
+            }
+            return None
+        try:
+            from ultralytics import YOLO
+
+            model = YOLO(str(path), task=task)
+            model_hash = sha256(path)
+            self.expert_status[name] = {
+                "configured": True,
+                "loaded": True,
+                "model": path.name,
+                "sha256": model_hash,
+            }
+            if name == "class10_detector":
+                self.class10_expert_hash = model_hash
+            else:
+                self.crop_expert_hash = model_hash
+            return model
+        except Exception as exc:  # expert failure must not take down the main detector
+            self.expert_status[name] = {
+                "configured": True,
+                "loaded": False,
+                "model": path.name,
+                "reason": f"load_failed: {exc}",
+            }
+            return None
+
+    def load(self) -> None:
+        if self.model is not None:
+            return
+        if not settings.model_path.is_file():
+            raise RuntimeError(f"Model weights do not exist: {settings.model_path}")
+        from ultralytics import YOLO
+
+        self.model = YOLO(str(settings.model_path), task="detect")
+        self.model_hash = sha256(settings.model_path)
+        self.class_count = len(self.model.names)
+        self.class10_expert = self._load_optional("class10_detector", settings.class10_expert_path, "detect")
+        if settings.direct_experts_enabled:
+            self.crop_classifier = None
+            self.expert_status["crop_classifier"] = {
+                "configured": False,
+                "loaded": False,
+                "reason": "disabled_for_direct_expert_routing",
+            }
+            if self.model_hash != E2_MODEL_SHA256 or self.class_count != 5:
+                raise RuntimeError("E2 checkpoint SHA256/class-space does not match the frozen Plant5 contract")
+            if ordered_class_names(self.model) != E2_CLASS_NAMES:
+                raise RuntimeError("E2 checkpoint class names/order do not match the frozen Plant5 contract")
+            if self.class10_expert is None or self.class10_expert_hash != FROZEN_MODEL_SHA256:
+                raise RuntimeError("Frozen checkpoint SHA256 does not match the frozen official-10 contract")
+            if ordered_class_names(self.class10_expert) != FROZEN_CLASS_NAMES:
+                raise RuntimeError("Frozen checkpoint class names/order do not match the official-10 contract")
+        else:
+            self.crop_classifier = self._load_optional("crop_classifier", settings.crop_expert_path, "classify")
+        if settings.warmup:
+            warmup_image = Image.new("RGB", (settings.image_size, settings.image_size), (128, 128, 128))
+            self.model.predict(
+                source=warmup_image,
+                imgsz=settings.image_size,
+                conf=settings.default_confidence,
+                device=settings.device,
+                verbose=False,
+            )
+            if self.class10_expert is not None:
+                self.class10_expert.predict(
+                    source=warmup_image,
+                    imgsz=settings.image_size,
+                    conf=settings.expert_candidate_confidence,
+                    device=settings.device,
+                    verbose=False,
+                )
+            if self.crop_classifier is not None:
+                self.crop_classifier.predict(
+                    source=warmup_image,
+                    imgsz=settings.classifier_image_size,
+                    device=settings.device,
+                    verbose=False,
+                )
+
+    def _recover_low_quality(
+        self,
+        image: Image.Image,
+        model_confidence: float,
+        original_detections: list[dict[str, Any]],
+        model: Any,
+        target_mode: str,
+    ) -> tuple[list[dict[str, Any]], dict[str, Any], float]:
+        trigger = "no_detection" if not original_detections else "low_confidence"
+        recovery: dict[str, Any] = {
+            "status": "rejected",
+            "trigger": trigger,
+            "threshold": AUTHORITATIVE_CONFIDENCE_THRESHOLD,
+            "variant_count": len(LOW_QUALITY_VARIANT_NAMES),
+            "variants": [],
+        }
+        variant_results: list[tuple[str, list[dict[str, Any]], int]] = []
+        started = time.perf_counter()
+        for name, variant, orientation in low_quality_variants(image):
+            entry: dict[str, Any] = {"name": name, "status": "rejected"}
+            try:
+                results = model.predict(
+                    source=variant,
+                    imgsz=settings.image_size,
+                    conf=model_confidence,
+                    device=settings.device,
+                    verbose=False,
+                )
+                detections = mode_filtered_detections(
+                    results[0], variant.width, variant.height, target_mode
+                ) if results else []
+                primary = max(detections, key=lambda item: item["confidence"], default=None)
+                entry.update(
+                    {
+                        "detection_count": len(detections),
+                        "top_class_id": primary["class_id"] if primary else None,
+                        "top_confidence": round(float(primary["confidence"]), 6) if primary else None,
+                    }
+                )
+                variant_results.append((name, detections, orientation))
+            except Exception as exc:
+                entry.update({"detection_count": 0, "error": str(exc)})
+            recovery["variants"].append(entry)
+
+        top_rows = [
+            (name, detections, orientation, max(detections, key=lambda item: item["confidence"]))
+            for name, detections, orientation in variant_results
+            if detections
+        ]
+        top_class_ids = {int(row[3]["class_id"]) for row in top_rows}
+        if len(top_class_ids) > 1:
+            recovery["reason"] = "class_conflict"
+        elif len(top_rows) < 2:
+            recovery["reason"] = "insufficient_consistency"
+        else:
+            shared_class_id = next(iter(top_class_ids))
+            shared_rows = [row for row in top_rows if int(row[3]["class_id"]) == shared_class_id]
+            recovery["support_count"] = len(shared_rows)
+            best = max(shared_rows, key=lambda row: float(row[3]["confidence"]))
+            best_confidence = float(best[3]["confidence"])
+            if best_confidence < AUTHORITATIVE_CONFIDENCE_THRESHOLD:
+                recovery["reason"] = "below_authoritative_threshold"
+            else:
+                _, best_detections, orientation, _ = best
+                recovered = [
+                    {
+                        **detection,
+                        "bbox": remap_bbox_to_source(
+                            detection["bbox"],
+                            source_width=image.width,
+                            source_height=image.height,
+                            orientation=orientation,
+                        ),
+                    }
+                    for detection in best_detections
+                ]
+                recovery.update(
+                    {
+                        "status": "success",
+                        "class_id": shared_class_id,
+                        "selected_variant": best[0],
+                        "selected_confidence": round(best_confidence, 6),
+                    }
+                )
+                return recovered, recovery, (time.perf_counter() - started) * 1000
+        return original_detections, recovery, (time.perf_counter() - started) * 1000
+
+    def _expert_route(
+        self,
+        image: Image.Image,
+        detections: list[dict[str, Any]],
+        requested_confidence: float,
+    ) -> tuple[list[dict[str, Any]], dict[str, Any], dict[str, float]]:
+        route: dict[str, Any] = {
+            "mode": settings.routing_mode,
+            "configuration": {
+                "candidate_confidence": settings.expert_candidate_confidence,
+                "crop_expand": settings.crop_expand,
+                "background_threshold": settings.background_threshold,
+                "background_margin": settings.background_margin,
+                "target_threshold": settings.target_threshold,
+                "target_margin": settings.target_margin,
+                "threshold10": settings.threshold10,
+                "threshold13": settings.threshold13,
+                "score_mode": settings.score_mode,
+                "temperature10": settings.temperature10,
+                "temperature13": settings.temperature13,
+                "class10_expert_threshold": settings.class10_expert_threshold,
+            },
+            "candidate_count": 0,
+            "routed_candidate_count": 0,
+            "decisions": [],
+            "errors": [],
+        }
+        timings: dict[str, float] = {}
+        if settings.routing_mode == "off" or (self.crop_classifier is None and self.class10_expert is None):
+            route["reason"] = "routing_disabled_or_no_expert"
+            return [item for item in detections if item["confidence"] >= requested_confidence], route, timings
+
+        candidate_indexes = [
+            index
+            for index, detection in enumerate(detections)
+            if detection["class_id"] in ROUTING_TARGETS
+            and detection["confidence"] >= settings.expert_candidate_confidence
+        ]
+        candidate_indexes.sort(key=lambda index: detections[index]["confidence"], reverse=True)
+        selected_indexes = candidate_indexes[: settings.max_candidates]
+        route["candidate_count"] = len(candidate_indexes)
+        route["selected_candidate_count"] = len(selected_indexes)
+        if not selected_indexes:
+            route["reason"] = "no_class10_or_class13_candidates"
+            return [item for item in detections if item["confidence"] >= requested_confidence], route, timings
+
+        crops = [crop_box(image, detections[index]["bbox"], settings.crop_expand) for index in selected_indexes]
+        crop_support: dict[int, dict[int, float]] = {}
+        if self.crop_classifier is not None:
+            started = time.perf_counter()
+            try:
+                results = self.crop_classifier.predict(
+                    source=crops,
+                    imgsz=settings.classifier_image_size,
+                    batch=len(crops),
+                    device=settings.device,
+                    verbose=False,
+                    save=False,
+                )
+                crop_support = {
+                    candidate_index: probabilities(result)
+                    for candidate_index, result in zip(selected_indexes, results)
+                }
+            except Exception as exc:
+                route["errors"].append(f"crop_classifier: {exc}")
+            timings["crop_classifier_ms"] = round((time.perf_counter() - started) * 1000, 3)
+
+        detector_support: dict[int, dict[int, float]] = {}
+        detector_indexes = [
+            position for position, candidate_index in enumerate(selected_indexes) if detections[candidate_index]["class_id"] == 10
+        ]
+        if self.class10_expert is not None and detector_indexes:
+            started = time.perf_counter()
+            try:
+                detector_results = self.class10_expert.predict(
+                    source=[crops[position] for position in detector_indexes],
+                    imgsz=settings.image_size,
+                    batch=len(detector_indexes),
+                    device=settings.device,
+                    conf=settings.expert_candidate_confidence,
+                    iou=0.7,
+                    max_det=20,
+                    verbose=False,
+                    save=False,
+                )
+                detector_support = {
+                    selected_indexes[position]: class10_support(result)
+                    for position, result in zip(detector_indexes, detector_results)
+                }
+            except Exception as exc:
+                route["errors"].append(f"class10_detector: {exc}")
+            timings["class10_detector_ms"] = round((time.perf_counter() - started) * 1000, 3)
+
+        if settings.routing_mode == "active" and crop_support:
+            routed, decisions = apply_active_routing(
+                detections,
+                crop_support,
+                detector_support,
+                reclassify=settings.reclassify,
+                background_threshold=settings.background_threshold,
+                background_margin=settings.background_margin,
+                target_threshold=settings.target_threshold,
+                target_margin=settings.target_margin,
+                score_mode=settings.score_mode,
+                temperature10=settings.temperature10,
+                temperature13=settings.temperature13,
+                threshold10=settings.threshold10,
+                threshold13=settings.threshold13,
+                class10_expert_threshold=settings.class10_expert_threshold,
+            )
+            route["routed_candidate_count"] = sum(
+                1 for decision in decisions if decision.get("action") in {"keep", "reclassify"}
+            )
+            route["decisions"] = decisions
+            return [item for item in routed if item["confidence"] >= requested_confidence], route, timings
+
+        route["reason"] = "shadow_only" if settings.routing_mode == "shadow" else "expert_support_unavailable"
+        route["routed_candidate_count"] = len(selected_indexes)
+        route["decisions"] = [
+            {
+                "candidate_index": index,
+                "original_class_id": detections[index]["class_id"],
+                "action": "shadow_keep",
+                "crop_support": {str(key): round(value, 6) for key, value in crop_support.get(index, {}).items()},
+                "class10_support": {
+                    str(key): round(value, 6) for key, value in detector_support.get(index, {}).items()
+                },
+            }
+            for index in selected_indexes
+        ]
+        return [item for item in detections if item["confidence"] >= requested_confidence], route, timings
+
+    def predict(
+        self, image: Image.Image, confidence: float, target_mode: str
+    ) -> tuple[list[dict[str, Any]], dict[str, float], dict[str, Any]]:
+        if target_mode not in {"plant_disease", "insect_pest"}:
+            raise ValueError("必须明确选择植物病害或昆虫虫害识别模式")
+        if not settings.direct_experts_enabled:
+            raise RuntimeError("Direct expert routing is disabled; refusing automatic model routing")
+        if self.model is None or self.class10_expert is None:
+            raise RuntimeError("Both frozen direct experts must be loaded before inference")
+        selected_model = self.model if target_mode == "plant_disease" else self.class10_expert
+        selected_hash = self.model_hash if target_mode == "plant_disease" else self.class10_expert_hash
+        selected_model_id = E2_MODEL_ID if target_mode == "plant_disease" else FROZEN_MODEL_ID
+        class_space = "plant5_local" if target_mode == "plant_disease" else "official10"
+        allowed_class_ids = [0, 1, 2, 3, 4] if target_mode == "plant_disease" else [5, 6, 7, 8, 9]
+        if not selected_hash:
+            raise RuntimeError("Selected expert has no verified checkpoint SHA256")
+        started = time.perf_counter()
+        with self.lock:
+            model_confidence = confidence
+            results = selected_model.predict(
+                source=image,
+                imgsz=settings.image_size,
+                conf=model_confidence,
+                device=settings.device,
+                verbose=False,
+            )
+            result = results[0] if results else None
+            detections = mode_filtered_detections(result, image.width, image.height, target_mode) if result else []
+            low_quality_recovery: dict[str, Any] = {
+                "status": "not_triggered",
+                "trigger": "none",
+                "threshold": AUTHORITATIVE_CONFIDENCE_THRESHOLD,
+            }
+            fallback_model_ms = 0.0
+            if max_detection_confidence(detections) < AUTHORITATIVE_CONFIDENCE_THRESHOLD:
+                detections, low_quality_recovery, fallback_model_ms = self._recover_low_quality(
+                    image,
+                    model_confidence,
+                    detections,
+                    selected_model,
+                    target_mode,
+                )
+        elapsed_ms = (time.perf_counter() - started) * 1000
+        speed = {key: round(float(value), 3) for key, value in ((result.speed if result else {}) or {}).items()}
+        speed["request_model_ms"] = round(elapsed_ms, 3)
+        if low_quality_recovery["status"] != "not_triggered":
+            speed["low_quality_fallback_ms"] = round(fallback_model_ms, 3)
+        speed["routing_ms"] = 0.0
+        routing: dict[str, Any] = {
+            "mode": "direct_expert",
+            "target_mode": target_mode,
+            "model_id": selected_model_id,
+            "model_sha256": selected_hash,
+            "model_class_space": class_space,
+            "allowed_class_ids": allowed_class_ids,
+            "auto_mode_routing": False,
+            "dual_expert_final_arbitration": False,
+            "decisions": [],
+        }
+        routing["low_quality_fallback"] = low_quality_recovery
+        return detections, speed, routing
+
+
+runtime = DetectorRuntime()
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    runtime.load()
+    yield
+
+
+app = FastAPI(
+    title="农作物病虫害 GPU 推理服务",
+    version="0.2.0",
+    lifespan=lifespan,
+)
+
+
+def require_api_key(authorization: str | None) -> None:
+    if not settings.api_key:
+        return
+    expected = f"Bearer {settings.api_key}"
+    if authorization is None or not secrets.compare_digest(authorization, expected):
+        raise HTTPException(status_code=401, detail="Invalid inference API key")
+
+
+def health_model(path: Path | None, loaded: bool, model_hash: str | None) -> dict[str, Any]:
+    return {
+        "configured": path is not None,
+        "loaded": loaded,
+        "model": path.name if path is not None else None,
+        "sha256": model_hash,
+    }
+
+
+@app.get("/health")
+def health() -> dict[str, Any]:
+    direct_ready = runtime.model is not None and runtime.class10_expert is not None
+    return {
+        "status": "ok" if (direct_ready if settings.direct_experts_enabled else runtime.model is not None) else "loading",
+        "model": settings.model_path.name,
+        "model_sha256": runtime.model_hash,
+        "direct_experts_enabled": settings.direct_experts_enabled,
+        "direct_expert_modes": {
+            "plant_disease": {"model_id": E2_MODEL_ID, "sha256": runtime.model_hash},
+            "insect_pest": {"model_id": FROZEN_MODEL_ID, "sha256": runtime.class10_expert_hash},
+        },
+        "device": settings.device,
+        "image_size": settings.image_size,
+        "class_count": runtime.class_count,
+        "routing": {
+            "mode": settings.routing_mode,
+            "reclassify": settings.reclassify,
+            "score_mode": settings.score_mode,
+            "candidate_confidence": settings.expert_candidate_confidence,
+            "background_threshold": settings.background_threshold,
+            "target_threshold": settings.target_threshold,
+            "threshold10": settings.threshold10,
+            "threshold13": settings.threshold13,
+            "temperature10": settings.temperature10,
+            "temperature13": settings.temperature13,
+            "class10_expert_threshold": settings.class10_expert_threshold,
+            "models": {
+                "main": health_model(settings.model_path, runtime.model is not None, runtime.model_hash),
+                "class10_detector": runtime.expert_status.get(
+                    "class10_detector",
+                    health_model(settings.class10_expert_path, runtime.class10_expert is not None, runtime.class10_expert_hash),
+                ),
+                "crop_classifier": runtime.expert_status.get(
+                    "crop_classifier",
+                    health_model(settings.crop_expert_path, runtime.crop_classifier is not None, runtime.crop_expert_hash),
+                ),
+            },
+        },
+    }
+
+
+@app.post("/v1/detect")
+async def detect(
+    image: Annotated[UploadFile, File(...)],
+    target_mode: Annotated[Literal["plant_disease", "insect_pest"], Form()],
+    confidence: Annotated[float | None, Form(ge=0.01, le=1.0)] = None,
+    authorization: Annotated[str | None, Header()] = None,
+) -> dict[str, Any]:
+    require_api_key(authorization)
+    if not settings.direct_experts_enabled:
+        raise HTTPException(status_code=503, detail="Direct expert inference is not configured")
+    payload = bytearray()
+    while chunk := await image.read(1024 * 1024):
+        payload.extend(chunk)
+        if len(payload) > MAX_IMAGE_BYTES:
+            raise HTTPException(status_code=413, detail="Image exceeds the 15 MiB limit")
+    try:
+        with Image.open(io.BytesIO(payload)) as source:
+            source.verify()
+        with Image.open(io.BytesIO(payload)) as source:
+            decoded = source.convert("RGB")
+    except (UnidentifiedImageError, OSError) as exc:
+        raise HTTPException(status_code=422, detail="Uploaded content is not a valid image") from exc
+
+    used_confidence = confidence if confidence is not None else settings.default_confidence
+    prediction = runtime.predict(decoded, used_confidence, target_mode)
+    if len(prediction) == 2:  # backwards-compatible test doubles and older callers
+        detections, speed = prediction  # type: ignore[misc]
+        routing = {"mode": "legacy", "decisions": []}
+    else:
+        detections, speed, routing = prediction
+    return {
+        "detections": detections,
+        "image": {"width": decoded.width, "height": decoded.height},
+        "target_mode": target_mode,
+        "model_id": routing.get("model_id"),
+        "model_sha256": routing.get("model_sha256"),
+        "confidence": used_confidence,
+        "speed_ms": speed,
+        "routing": routing,
+    }

@@ -1,0 +1,542 @@
+{
+  "registry_version": "phase3a-source-registry-v1",
+  "accessed_at": "2026-09-19",
+  "verification_method": "direct HTTP fetch where available plus browser-readable official/peer-reviewed source content; no search snippet used as sole content evidence",
+  "sources": [
+    {
+      "source_id": "BLAST-IRRI-LEAF",
+      "title": "Blast (leaf and collar)",
+      "organization": "International Rice Research Institute",
+      "url": "https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/blast-leaf-collar",
+      "verified_url": "https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/blast-leaf-collar",
+      "supported_entity": "水稻稻瘟病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms",
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Official IRRI page content directly describes Magnaporthe oryzae, above-ground organs, leaf lesions, yield impact, resistant varieties, split nitrogen, flooding and judicious fungicide use."
+    },
+    {
+      "source_id": "BLAST-IRRI-NECK",
+      "title": "Blast (node and neck)",
+      "organization": "International Rice Research Institute",
+      "url": "https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/blast-node-neck",
+      "verified_url": "https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/blast-node-neck",
+      "supported_entity": "水稻稻瘟病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms",
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Official IRRI page directly describes node/neck symptoms, broken culms, white panicles, grain effects and management."
+    },
+    {
+      "source_id": "BLAST-IRRI-DIAG",
+      "title": "Diagnosis of Common Diseases of Rice",
+      "organization": "International Rice Research Institute",
+      "url": "https://www.knowledgebank.irri.org/images/docs/diagnostic-of-common-diseases-of-rice.pdf",
+      "verified_url": "https://www.knowledgebank.irri.org/images/docs/diagnostic-of-common-diseases-of-rice.pdf",
+      "supported_entity": "水稻稻瘟病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Publicly indexed PDF text directly distinguishes leaf, collar, node and neck blast and describes lesion morphology and panicle effects."
+    },
+    {
+      "source_id": "BLAST-SES",
+      "title": "Standard Evaluation System for Rice (2013)",
+      "organization": "International Rice Research Institute / INGER",
+      "url": "https://www.knowledgebank.irri.org/images/docs/rice-standard-evaluation-system.pdf",
+      "verified_url": "https://file-rajshahi.portal.gov.bd/uploads/c5d33739-fea7-4dd8-92d0-f7bf2a82b032/68a/54e/6ba/68a54e6ba60aa943354433.pdf",
+      "supported_entity": "水稻稻瘟病",
+      "supported_sections": [
+        "severity_manifestation"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Official IRRI SES identity is corroborated by the IRRI library record and an accessible public PDF mirror; the candidate records the mirror only as verification_url, not as a substitute organization."
+    },
+    {
+      "source_id": "BLAST-SES-RESEARCH",
+      "title": "IRRI SES blast scoring evidence in peer-reviewed research",
+      "organization": "Peer-reviewed open-access research",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8707660/",
+      "verified_url": "https://www.researchgate.net/publication/361609087_Screening_Identification_and_Cataloguing_of_Rice_Genotypes_for_Resistance_to_Major_Pests_and_Diseases",
+      "supported_entity": "水稻稻瘟病",
+      "supported_sections": [
+        "severity_manifestation"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Accessible research text reproduces the IRRI 0-9 blast scale used for the UI mapping."
+    },
+    {
+      "source_id": "BROWN-IRRI-DIAG",
+      "title": "Diagnosis of Common Diseases of Rice",
+      "organization": "International Rice Research Institute",
+      "url": "https://www.knowledgebank.irri.org/images/docs/diagnostic-of-common-diseases-of-rice.pdf",
+      "verified_url": "https://www.knowledgebank.irri.org/images/docs/diagnostic-of-common-diseases-of-rice.pdf",
+      "supported_entity": "水稻褐斑病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Same IRRI diagnosis PDF has a distinct brown spot section and is not reused as a blast-only source."
+    },
+    {
+      "source_id": "BROWN-IRRI-FACT",
+      "title": "Rice Fact Sheet - Brown Spot",
+      "organization": "IRRI Rice Knowledge Bank (archived mirror)",
+      "url": "https://www.yumpu.com/en/document/view/8171469/rice-fact-sheet-brown-spot-rice-knowledge-bank-irri",
+      "verified_url": "https://www.yumpu.com/en/document/view/8171469/rice-fact-sheet-brown-spot-rice-knowledge-bank-irri",
+      "supported_entity": "水稻褐斑病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Direct HTTP fetch returned the archived document; its body contains the Rice Knowledge Bank title and brown spot symptoms/quality effects. It is retained as an archived mirror, not treated as a new institution."
+    },
+    {
+      "source_id": "BROWN-REVIEW-2025",
+      "title": "Brown Spot of Rice: Worldwide Disease Impact, Phenotypic and Genetic Diversity of the Causal Pathogen Bipolaris oryzae, and Management of the Disease",
+      "organization": "Plant Pathology / Wiley",
+      "url": "https://bsppjournals.onlinelibrary.wiley.com/doi/full/10.1111/ppa.14075",
+      "verified_url": "https://bsppjournals.onlinelibrary.wiley.com/doi/full/10.1111/ppa.14075",
+      "supported_entity": "水稻褐斑病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms",
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Open-access article body identifies Bipolaris oryzae, symptoms, yield/seed impacts and integrated management based on healthy seed, resistant/tolerant varieties, balanced nitrogen and water."
+    },
+    {
+      "source_id": "BROWN-SES",
+      "title": "IRRI SES brown spot 0-9 scale",
+      "organization": "International Rice Research Institute / cited agronomy research",
+      "url": "https://www.sabraojournal.org/wp-content/uploads/2018/06/SABRAO-J-Breed-Genet-50-2-85-100-PERDANI.pdf",
+      "verified_url": "https://www.sabraojournal.org/wp-content/uploads/2018/06/SABRAO-J-Breed-Genet-50-2-85-100-PERDANI.pdf",
+      "supported_entity": "水稻褐斑病",
+      "supported_sections": [
+        "severity_manifestation"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Direct PDF fetch succeeded; the cited agronomy material identifies brown spot and reproduces IRRI disease-scale use. Mapping remains explicitly a system mapping."
+    },
+    {
+      "source_id": "BROWN-MGMT",
+      "title": "Rice brown leaf spot fact sheet",
+      "organization": "Plantwise / Lucidcentral",
+      "url": "https://apps.lucidcentral.org/pppw_v13/text/web_full/entities/rice_brown_leaf_spot_427.htm",
+      "verified_url": "https://apps.lucidcentral.org/pppw_v13/text/web_full/entities/rice_brown_leaf_spot_427.htm",
+      "supported_entity": "水稻褐斑病",
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Direct HTTP fetch succeeded; body supports nutrition correction, resistant varieties, healthy seed, residue management, seed treatment and stage-limited foliar treatment with label safeguards."
+    },
+    {
+      "source_id": "TUNGRO-IRRI",
+      "title": "Tungro",
+      "organization": "International Rice Research Institute",
+      "url": "https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/tungro",
+      "verified_url": "https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/tungro",
+      "supported_entity": "水稻东格鲁病毒病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms",
+        "severity_manifestation",
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Official IRRI page directly describes RTBV/RTSV, green leafhopper transmission, yellow/orange leaves, stunting, tillering/panicles, inability to cure infected plants and prevention."
+    },
+    {
+      "source_id": "TUNGRO-MGMT",
+      "title": "Rice Tungro Disease Management",
+      "organization": "International Rice Research Institute",
+      "url": "https://books.irri.org/9712200310_content.pdf",
+      "verified_url": "https://books.irri.org/9712200310_content.pdf",
+      "supported_entity": "水稻东格鲁病毒病",
+      "supported_sections": [
+        "basic_info",
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "IRRI PDF search/open content identifies rice tungro disease, green leafhopper spread and IPM based on timing and resistant varieties."
+    },
+    {
+      "source_id": "TUNGRO-SES",
+      "title": "IRRI SES tungro severity scale in field research",
+      "organization": "Peer-reviewed agricultural research",
+      "url": "https://journal.ipb.ac.id/jfiti/article/download/8465/6618/23795",
+      "verified_url": "https://www.researchgate.net/publication/372064308_Hubungan_Skor_Penyakit_Tungro_terhadap_Kehilangan_Komponen_Hasil_Padi",
+      "supported_entity": "水稻东格鲁病毒病",
+      "supported_sections": [
+        "severity_manifestation"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Full article text is readable on the author-uploaded open version and directly lists scores 1/3/5/7/9 with height-loss and yellow-orange discoloration descriptions."
+    },
+    {
+      "source_id": "TUNGRO-PINOY",
+      "title": "Tungro",
+      "organization": "Philippine Rice Research Institute / Pinoy Rice Knowledge Bank",
+      "url": "https://www.pinoyrice.com/tungro/",
+      "verified_url": "https://www.pinoyrice.com/tungro/",
+      "supported_entity": "水稻东格鲁病毒病",
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Direct page body supports synchronous planting, stubble destruction, roguing limits, resistant varieties, inspection, limited insecticide use and removal/disposal of infected plants."
+    },
+    {
+      "source_id": "NCLB-PURDUE",
+      "title": "Northern Corn Leaf Blight (BP-84-W)",
+      "organization": "Purdue Extension",
+      "url": "https://www.extension.purdue.edu/extmedia/BP/BP-84-W.pdf",
+      "verified_url": "https://www.extension.purdue.edu/extmedia/BP/BP-84-W.pdf",
+      "supported_entity": "玉米大斑病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms",
+        "severity_manifestation",
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Direct PDF fetch and text extraction succeeded; it covers identity, lesions, yield impact, ear-leaf timing, resistance, residue, rotation, scouting and label-directed fungicide decisions."
+    },
+    {
+      "source_id": "GLS-PURDUE",
+      "title": "Gray Leaf Spot (BP-56-W)",
+      "organization": "Purdue Extension",
+      "url": "https://www.extension.purdue.edu/extmedia/bp/BP-56-W.pdf",
+      "verified_url": "https://www.extension.purdue.edu/extmedia/bp/BP-56-W.pdf",
+      "supported_entity": "玉米灰斑病",
+      "supported_sections": [
+        "basic_info",
+        "features",
+        "harm_symptoms",
+        "severity_manifestation",
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_note": "Direct PDF fetch and text extraction succeeded; it covers lesion identity, canopy/yield impact, R5 ear-leaf table, residue/rotation/resistance, scouting and VT-R1 decisions."
+    },
+    {
+      "source_id": "BLAST_BIO_PF",
+      "title": "Biological Control of Rice Blast by Pseudomonas fluorescens Strain Pf7-14",
+      "organization": "Biological Control (peer-reviewed)",
+      "url": "https://www.sciencedirect.com/science/article/abs/pii/S1049964498906545",
+      "verified_url": "https://www.sciencedirect.com/science/article/abs/pii/S1049964498906545",
+      "supported_entity": "水稻稻瘟病",
+      "supported_entities": [
+        "水稻稻瘟病"
+      ],
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_basis": "user_reviewed_source_backed_treatment_enriched_v4",
+      "verification_note": "Imported from the user-reviewed v4 treatment input; treatment text is preserved verbatim and only source identity is normalized.",
+      "evidence_levels": [
+        "PEER_REVIEWED_FIELD",
+        "SYSTEM_INTERPRETATION_FROM_FIELD_BIOCONTROL"
+      ],
+      "supports": [
+        "Pseudomonas fluorescens 田间生防研究"
+      ]
+    },
+    {
+      "source_id": "BLAST_BIO_BACILLUS",
+      "title": "Antagonistic Bacillus spp. reduce blast incidence on rice and increase grain yield under field conditions",
+      "organization": "Microbiological Research (peer-reviewed)",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0944501317310777",
+      "verified_url": "https://www.sciencedirect.com/science/article/pii/S0944501317310777",
+      "supported_entity": "水稻稻瘟病",
+      "supported_entities": [
+        "水稻稻瘟病"
+      ],
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_basis": "user_reviewed_source_backed_treatment_enriched_v4",
+      "verification_note": "Imported from the user-reviewed v4 treatment input; treatment text is preserved verbatim and only source identity is normalized.",
+      "evidence_levels": [
+        "PEER_REVIEWED_FIELD",
+        "SYSTEM_INTERPRETATION_FROM_FIELD_BIOCONTROL"
+      ],
+      "supports": [
+        "Bacillus spp. 田间生防研究"
+      ]
+    },
+    {
+      "source_id": "TUNGRO_EE_2025",
+      "title": "Harnessing Flowering Bund Plants Through Ecological Engineering to Improve Biological Control of Tungro Virus Vectors",
+      "organization": "Peer-reviewed field study (PMC)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12343172/",
+      "verified_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12343172/",
+      "supported_entity": "水稻东格鲁病毒病",
+      "supported_entities": [
+        "水稻东格鲁病毒病"
+      ],
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_basis": "user_reviewed_source_backed_treatment_enriched_v4",
+      "verification_note": "Imported from the user-reviewed v4 treatment input; treatment text is preserved verbatim and only source identity is normalized.",
+      "evidence_levels": [
+        "PEER_REVIEWED_FIELD",
+        "DIRECT_PLUS_FIELD_EVIDENCE"
+      ],
+      "supports": [
+        "田埂开花植物",
+        "保护蜘蛛/寄生蜂/捕食性甲虫",
+        "Metarhizium anisopliae + Andrographis paniculata 生物农药组合",
+        "降低绿叶蝉与东格鲁发生"
+      ]
+    },
+    {
+      "source_id": "NCLB_CPN_2023",
+      "title": "An Overview of Northern Corn Leaf Blight",
+      "organization": "Crop Protection Network",
+      "url": "https://cropprotectionnetwork.org/publications/an-overview-of-northern-corn-leaf-blight",
+      "verified_url": "https://cropprotectionnetwork.org/publications/an-overview-of-northern-corn-leaf-blight",
+      "supported_entity": "玉米大斑病",
+      "supported_entities": [
+        "玉米大斑病"
+      ],
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_basis": "user_reviewed_source_backed_treatment_enriched_v4",
+      "verification_note": "Imported from the user-reviewed v4 treatment input; treatment text is preserved verbatim and only source identity is normalized.",
+      "evidence_levels": [
+        "EXTENSION_DIRECT"
+      ],
+      "supports": [
+        "抗病杂交种",
+        "轮作/残体管理",
+        "VT/R1 杀菌剂时机",
+        "预防性应用更有效"
+      ]
+    },
+    {
+      "source_id": "CORN_FUNGICIDE_CPN_2026",
+      "title": "Fungicide Efficacy for Control of Corn Foliar Diseases (2026)",
+      "organization": "Crop Protection Network / Corn Disease Working Group",
+      "url": "https://cropprotectionnetwork.org/publications/fungicide-efficacy-for-control-of-corn-diseases",
+      "verified_url": "https://cropprotectionnetwork.org/publications/fungicide-efficacy-for-control-of-corn-diseases",
+      "supported_entity": [
+        "玉米大斑病",
+        "玉米灰斑病"
+      ],
+      "supported_entities": [
+        "玉米大斑病",
+        "玉米灰斑病"
+      ],
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_basis": "user_reviewed_source_backed_treatment_enriched_v4",
+      "verification_note": "Imported from the user-reviewed v4 treatment input; treatment text is preserved verbatim and only source identity is normalized.",
+      "evidence_levels": [
+        "CURRENT_MULTILOCATION_EXTENSION"
+      ],
+      "supports": [
+        "GLS/NCLB 多地点田间杀菌剂效力",
+        "QoI(11)/DMI(3)/SDHI(7)及复配",
+        "标签与使用限制"
+      ]
+    },
+    {
+      "source_id": "NCLB_BIO_BVELEZENSIS_2025",
+      "title": "Dual Role of Bacillus velezensis EM-A8 in Maize: Biocontrol of Exserohilum turcicum and Enhancement of Plant Growth",
+      "organization": "Peer-reviewed field/greenhouse study (PMC)",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12655810/",
+      "verified_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12655810/",
+      "supported_entity": "玉米大斑病",
+      "supported_entities": [
+        "玉米大斑病"
+      ],
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_basis": "user_reviewed_source_backed_treatment_enriched_v4",
+      "verification_note": "Imported from the user-reviewed v4 treatment input; treatment text is preserved verbatim and only source identity is normalized.",
+      "evidence_levels": [
+        "PEER_REVIEWED_FIELD",
+        "SYSTEM_INTERPRETATION_FROM_FIELD_STUDY"
+      ],
+      "supports": [
+        "Bacillus velezensis EM-A8 田间/温室生防研究，降低 NCLB 症状叶并提高产量"
+      ]
+    },
+    {
+      "source_id": "GLS_CORNELL",
+      "title": "Gray Leaf Spot",
+      "organization": "Cornell University CALS",
+      "url": "https://cals.cornell.edu/field-crops/corn/diseases-of-corn/gray-leaf-spot",
+      "verified_url": "https://cals.cornell.edu/field-crops/corn/diseases-of-corn/gray-leaf-spot",
+      "supported_entity": "玉米灰斑病",
+      "supported_entities": [
+        "玉米灰斑病"
+      ],
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_basis": "user_reviewed_source_backed_treatment_enriched_v4",
+      "verification_note": "Imported from the user-reviewed v4 treatment input; treatment text is preserved verbatim and only source identity is normalized.",
+      "evidence_levels": [
+        "EXTENSION_DIRECT",
+        "EXTENSION_EVIDENCE_GAP"
+      ],
+      "supports": [
+        "抗病杂交种",
+        "耕作",
+        "轮作",
+        "早期感染且环境有利时杀菌剂"
+      ]
+    },
+    {
+      "source_id": "GLS_UNL",
+      "title": "Gray Leaf Spot — CropWatch",
+      "organization": "University of Nebraska–Lincoln Extension",
+      "url": "https://cropwatch.unl.edu/plant-disease/corn/gray-leaf-spot/",
+      "verified_url": "https://cropwatch.unl.edu/plant-disease/corn/gray-leaf-spot/",
+      "supported_entity": "玉米灰斑病",
+      "supported_entities": [
+        "玉米灰斑病"
+      ],
+      "supported_sections": [
+        "treatment"
+      ],
+      "source_url_reachable": true,
+      "source_title_match": true,
+      "source_entity_match": true,
+      "source_content_support": true,
+      "verification_basis": "user_reviewed_source_backed_treatment_enriched_v4",
+      "verification_note": "Imported from the user-reviewed v4 treatment input; treatment text is preserved verbatim and only source identity is normalized.",
+      "evidence_levels": [
+        "EXTENSION_DIRECT",
+        "EXTENSION_EVIDENCE_GAP",
+        "CURRENT_MULTILOCATION_EXTENSION"
+      ],
+      "supports": [
+        "抗病/耐病杂交种",
+        "残体管理",
+        "轮作",
+        "高病压时及时杀菌剂"
+      ]
+    }
+  ],
+  "source_id_aliases": {
+    "BLAST_IRRI_LEAF": "BLAST-IRRI-LEAF",
+    "BLAST_IRRI_NECK": "BLAST-IRRI-NECK",
+    "BLAST_BIO_PF": "BLAST_BIO_PF",
+    "BLAST_BIO_BACILLUS": "BLAST_BIO_BACILLUS",
+    "BROWN_REVIEW_2025": "BROWN-REVIEW-2025",
+    "TUNGRO_IRRI": "TUNGRO-IRRI",
+    "TUNGRO_PINOY": "TUNGRO-PINOY",
+    "TUNGRO_EE_2025": "TUNGRO_EE_2025",
+    "NCLB_PURDUE": "NCLB-PURDUE",
+    "NCLB_CPN_2023": "NCLB_CPN_2023",
+    "CORN_FUNGICIDE_CPN_2026": "CORN_FUNGICIDE_CPN_2026",
+    "NCLB_BIO_BVELEZENSIS_2025": "NCLB_BIO_BVELEZENSIS_2025",
+    "GLS_CORNELL": "GLS_CORNELL",
+    "GLS_UNL": "GLS_UNL"
+  },
+  "integration_version": "phase3c1-treatment-v4",
+  "integration_note": "Canonicalized v4 source IDs by URL; existing registry identities were reused and only previously absent sources were added."
+}

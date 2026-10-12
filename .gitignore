@@ -1,0 +1,19 @@
+# Credentials and private runtime files
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*-wal
+*-shm
+secrets/
+# Local dependencies and generated build/cache files
+node_modules/
+.venv/
+venv/
+__pycache__/
+.next/
+web/dist/
+*.tsbuildinfo
+*.egg-info/
